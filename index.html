@@ -1,0 +1,2469 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#11141a">
+<title>Trainer de Xadrez</title>
+<meta name="description" content="Trainer de xadrez gratuito: jogue contra o computador, aprenda por fases, resolva desafios táticos e veja a análise dos seus erros.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2311141a'/%3E%3Cpath d='M34 80c0-14 12-20 10-32-4 4-10 10-16 10-4 2-9-1-10-6-1-4 2-7 4-10l12-16c1-4 1-8 2-12l8 6c16-2 34 12 34 38v22z' fill='%23f0b441'/%3E%3C/svg%3E">
+<style>
+/* ============================ TEMA E BASE ============================ */
+:root{
+  --fundo:#11141a; --sup:#1a1f28; --sup2:#232a36; --linha:#303848;
+  --txt:#e9ecf2; --txt2:#9aa4b6; --dest:#f0b441; --dest-tinta:#1b1404;
+  --ok:#5ecb8a; --ruim:#ef6a6a; --alerta:#f29f4b; --info:#62a8f5;
+  --casa-clara:#ebe6d6; --casa-escura:#6b8f71;
+  --raio:14px; --tab:min(calc(100vw - 56px), calc(100dvh - 250px), 600px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{background:var(--fundo);color:var(--txt);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;overscroll-behavior-y:contain}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+h1,h2,h3,p{margin:0}
+.oculto{display:none!important}
+#app{min-height:100%;display:flex;flex-direction:column}
+
+/* ---------- barra superior ---------- */
+#topo{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:8px;height:56px;padding:0 10px;
+  background:rgba(17,20,26,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--linha)}
+#topo h1{flex:1;font-size:1.05rem;font-weight:650;letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#voltar{width:44px;height:44px;border-radius:12px;font-size:1.4rem;display:grid;place-items:center;color:var(--txt2)}
+#voltar:hover{background:var(--sup2);color:var(--txt)}
+#topo .lado{font-size:.82rem;color:var(--txt2);padding-right:6px;white-space:nowrap}
+#tela{flex:1;width:100%;max-width:1080px;margin:0 auto;padding:16px 12px 40px}
+
+/* ---------- botões ---------- */
+.bt{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 18px;border-radius:12px;
+  background:var(--sup2);border:1px solid var(--linha);font-weight:600;font-size:.98rem;transition:background .15s,transform .05s,border-color .15s;user-select:none}
+.bt:hover{background:#2b3342}
+.bt:active{transform:translateY(1px)}
+.bt.pri{background:var(--dest);color:var(--dest-tinta);border-color:transparent}
+.bt.pri:hover{background:#f6c25c}
+.bt.perigo{color:var(--ruim);border-color:#5a2f33}
+.bt.peq{min-height:40px;padding:6px 12px;font-size:.9rem}
+.bt[disabled]{opacity:.45;pointer-events:none}
+.bt.cheio{width:100%}
+.fila{display:flex;flex-wrap:wrap;gap:8px}
+.fila.centro{justify-content:center}
+
+/* ---------- cartões ---------- */
+.cartao{background:var(--sup);border:1px solid var(--linha);border-radius:var(--raio);padding:16px}
+.cartao h2{font-size:1.05rem;margin-bottom:8px}
+.cartao h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--txt2);margin-bottom:10px;font-weight:650}
+.sub{color:var(--txt2);font-size:.92rem}
+.pilha{display:grid;gap:12px}
+
+/* ============================ MENU ============================ */
+.capa{text-align:center;padding:18px 0 8px}
+.capa .logo{width:72px;height:72px;margin:0 auto 6px;display:block}
+.capa h2{font-size:1.7rem;letter-spacing:-.01em}
+.capa p{color:var(--txt2)}
+.menu{display:grid;gap:12px;grid-template-columns:1fr;max-width:720px;margin:18px auto 0}
+@media(min-width:640px){.menu{grid-template-columns:1fr 1fr}}
+.item-menu{display:flex;align-items:center;gap:14px;text-align:left;padding:18px;border-radius:var(--raio);background:var(--sup);
+  border:1px solid var(--linha);min-height:92px;transition:border-color .15s,background .15s,transform .08s}
+.item-menu:hover{border-color:var(--dest);background:#1e2430}
+.item-menu:active{transform:scale(.99)}
+.item-menu .ic{flex:none;width:54px;height:54px;border-radius:14px;background:var(--sup2);display:grid;place-items:center}
+.item-menu .ic svg{width:46px;height:46px}
+.item-menu b{display:block;font-size:1.08rem;color:var(--txt)}
+.item-menu span{color:var(--txt2);font-size:.88rem}
+.rodape{margin-top:22px;text-align:center;color:var(--txt2);font-size:.8rem}
+.ponto{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--alerta);margin-right:6px;vertical-align:middle}
+.ponto.ok{background:var(--ok)}
+
+/* ============================ TABULEIRO ============================ */
+.tab-linha{display:flex;gap:8px;justify-content:center;align-items:stretch}
+.tabuleiro{position:relative;width:var(--tab);height:var(--tab);flex:none;border-radius:8px;overflow:hidden;touch-action:none;user-select:none;
+  -webkit-user-select:none;box-shadow:0 10px 30px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.06)}
+.tabuleiro.estatico{touch-action:auto;pointer-events:none}
+.tabuleiro .casas{position:absolute;inset:0;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr)}
+.casa{position:relative;background:var(--casa-clara)}
+.casa.e{background:var(--casa-escura)}
+.casa .co{position:absolute;font-size:clamp(8px,calc(var(--tab) / 46),12px);font-weight:700;line-height:1;opacity:.75;pointer-events:none;color:var(--casa-escura)}
+.casa.e .co{color:var(--casa-clara)}
+.casa .co.n{left:3px;top:3px}
+.casa .co.l{right:3px;bottom:2px}
+.casa.ult{box-shadow:inset 0 0 0 100px rgba(244,205,80,.42)}
+.casa.sel{box-shadow:inset 0 0 0 100px rgba(240,180,65,.62)}
+.casa.xq{background-image:radial-gradient(circle at 50% 50%,rgba(239,68,68,.95) 0,rgba(239,68,68,.55) 45%,rgba(239,68,68,0) 78%)}
+.casa.mal{box-shadow:inset 0 0 0 100px rgba(239,90,90,.6)}
+.casa.pt::after{content:"";position:absolute;left:50%;top:50%;width:30%;height:30%;margin:-15% 0 0 -15%;border-radius:50%;background:rgba(17,24,20,.3)}
+.casa.cap::after{content:"";position:absolute;inset:5%;border-radius:50%;border:calc(var(--tab) / 110) solid rgba(17,24,20,.32)}
+.casa.estrela::before{content:"★";position:absolute;inset:0;display:grid;place-items:center;font-size:calc(var(--tab) / 12);color:#f5b82e;
+  text-shadow:0 2px 0 rgba(0,0,0,.35);animation:pulsa 1.4s ease-in-out infinite}
+.casa.bloco{box-shadow:inset 0 0 0 100px rgba(0,0,0,.25)}
+@keyframes pulsa{50%{transform:scale(1.14)}}
+.tabuleiro .pecas{position:absolute;inset:0;pointer-events:none}
+.pc{position:absolute;left:0;top:0;width:12.5%;height:12.5%;transition:transform .2s cubic-bezier(.2,.7,.3,1),opacity .2s;will-change:transform}
+.pc svg{width:100%;height:100%;display:block;stroke-linejoin:round;stroke-linecap:round;fill:var(--pf);stroke:var(--ps);stroke-width:3.4;
+  filter:drop-shadow(0 2px 1.5px rgba(0,0,0,.28))}
+.pc.w,.pcw{--pf:#fbfaf4;--ps:#33363d;--pd:#33363d}
+.pc.b,.pcb{--pf:#3a3e47;--ps:#121418;--pd:#c7cdd8}
+.pc.arr{transition:none;z-index:5}
+.pc.nova{opacity:0}
+.sem-anim .pc{transition:none}
+.det{fill:none;stroke:var(--pd);stroke-width:2.6}
+.detf{fill:var(--pd);stroke:none}
+.tabuleiro svg.setas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.promo{position:absolute;inset:0;background:rgba(10,12,16,.55);display:grid;place-items:center;z-index:8}
+.promo .cx{background:var(--sup);border:1px solid var(--linha);border-radius:14px;padding:10px;display:flex;gap:6px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.promo button{width:calc(var(--tab) / 6.2);max-width:76px;aspect-ratio:1;border-radius:10px;background:var(--sup2);padding:4px}
+.promo button:hover{background:var(--dest)}
+.promo button svg{width:100%;height:100%;stroke-linejoin:round;fill:var(--pf);stroke:var(--ps);stroke-width:3.4}
+.treme{animation:treme .3s}
+@keyframes treme{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+/* barra de avaliação */
+.barra-av{position:relative;width:22px;flex:none;border-radius:6px;overflow:hidden;background:#2d3139;border:1px solid var(--linha)}
+.barra-av i{position:absolute;left:0;right:0;bottom:0;background:#f1efe8;height:50%;transition:height .5s ease}
+.barra-av.inv i{bottom:auto;top:0}
+.barra-av span{position:absolute;left:0;right:0;text-align:center;font-size:8.5px;font-weight:700;color:#8a93a3;bottom:3px;mix-blend-mode:difference;letter-spacing:-.03em}
+
+/* ============================ PARTIDA ============================ */
+.jogo{display:grid;gap:14px;grid-template-columns:1fr;justify-items:center}
+.jogo .col-tab{display:grid;gap:8px;justify-items:stretch;width:calc(var(--tab) + 30px)}
+.jogo .lateral{width:100%;max-width:calc(var(--tab) + 30px);display:grid;gap:12px;align-content:start}
+@media(min-width:960px){
+  .jogo{grid-template-columns:auto minmax(280px,360px);align-items:start;justify-content:center}
+  .jogo .lateral{max-width:none}
+}
+.jogador{display:flex;align-items:center;gap:10px;padding:2px 2px 2px 30px;min-height:34px}
+.jogador .nome{flex:1;font-weight:600;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jogador .nome small{color:var(--txt2);font-weight:500;margin-left:6px}
+.relogio{font-variant-numeric:tabular-nums;font-weight:700;font-size:1.05rem;padding:3px 10px;border-radius:8px;background:var(--sup2);border:1px solid var(--linha);min-width:70px;text-align:center}
+.relogio.ativo{background:#f1efe8;color:#14171c;border-color:transparent}
+.relogio.baixo.ativo{background:var(--ruim);color:#fff}
+.pensando{display:inline-flex;gap:3px;margin-left:8px;vertical-align:middle}
+.pensando i{width:5px;height:5px;border-radius:50%;background:var(--dest);animation:pisca 1s infinite}
+.pensando i:nth-child(2){animation-delay:.15s}.pensando i:nth-child(3){animation-delay:.3s}
+@keyframes pisca{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.controles{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.controles .bt{flex-direction:column;gap:2px;padding:6px 2px;font-size:.72rem;min-height:56px;font-weight:600}
+.controles .bt svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lances{max-height:220px;overflow:auto;display:grid;grid-template-columns:38px 1fr 1fr;gap:2px 4px;font-variant-numeric:tabular-nums;font-size:.95rem;align-content:start}
+@media(min-width:960px){.lances{max-height:380px}}
+.lances .n{color:var(--txt2);text-align:right;padding:3px 6px 3px 0}
+.lances .l{padding:3px 8px;border-radius:6px;font-weight:600}
+.lances button.l{text-align:left}
+.lances button.l:hover{background:var(--sup2)}
+.lances .l.atual{background:var(--dest);color:var(--dest-tinta)}
+.lances .vazio{grid-column:1/-1;color:var(--txt2);font-size:.9rem;padding:6px 0}
+.status{font-size:.95rem;min-height:1.5em}
+
+/* opções (configuração da partida) */
+.opcoes{display:grid;gap:8px}
+.opcoes.c3{grid-template-columns:repeat(3,1fr)}
+.opcoes.c2{grid-template-columns:repeat(2,1fr)}
+@media(min-width:560px){.opcoes.c6{grid-template-columns:repeat(3,1fr)}}
+.opcoes.c6{grid-template-columns:repeat(2,1fr)}
+.op{min-height:54px;border-radius:12px;background:var(--sup2);border:2px solid transparent;padding:8px 10px;font-weight:600;text-align:center;line-height:1.25}
+.op small{display:block;font-weight:500;color:var(--txt2);font-size:.76rem}
+.op.on{border-color:var(--dest);background:#2c2a22}
+.estreito{max-width:640px;margin:0 auto}
+
+/* ============================ RESUMO / ANÁLISE ============================ */
+.placar{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.roda{--p:0;width:104px;height:104px;border-radius:50%;flex:none;display:grid;place-items:center;
+  background:conic-gradient(var(--dest) calc(var(--p)*1%),var(--sup2) 0)}
+.roda div{width:82px;height:82px;border-radius:50%;background:var(--sup);display:grid;place-items:center;text-align:center;line-height:1.1}
+.roda b{font-size:1.5rem}
+.roda small{display:block;color:var(--txt2);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:var(--sup2);font-size:.85rem;font-weight:600}
+.chip i{width:9px;height:9px;border-radius:50%;background:var(--c,#888)}
+.c-exc{--c:#4cc2a0}.c-bom{--c:#8fc46a}.c-imp{--c:#e8c04a}.c-err{--c:#f0914a}.c-gra{--c:#ef5a5a}
+.erro-item{display:block;width:100%;text-align:left;padding:12px 14px;border-radius:12px;background:var(--sup2);border:1px solid transparent;border-left:4px solid var(--c)}
+.erro-item:hover,.erro-item.on{border-color:var(--c)}
+.erro-item .cab{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.erro-item .cab b{font-size:1rem}
+.erro-item .cab span{font-size:.78rem;font-weight:700;color:var(--c);text-transform:uppercase;letter-spacing:.05em}
+.erro-item p{font-size:.92rem;color:#cfd5df;margin-top:4px}
+.erro-item .melhor{color:var(--ok);font-weight:600;font-size:.9rem;margin-top:4px}
+.dica-item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--linha)}
+.dica-item:first-of-type{border-top:0}
+.dica-item .num{flex:none;width:28px;height:28px;border-radius:50%;background:var(--dest);color:var(--dest-tinta);display:grid;place-items:center;font-weight:800;font-size:.9rem}
+.nav-rev{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.nav-rev .bt{font-size:1.15rem;padding:6px}
+.info-rev{min-height:3.2em;font-size:.93rem}
+.info-rev b.tag{color:var(--c)}
+.progresso{height:10px;border-radius:999px;background:var(--sup2);overflow:hidden}
+.progresso i{display:block;height:100%;width:0;background:var(--dest);border-radius:999px;transition:width .25s}
+
+/* ============================ APRENDER ============================ */
+.modulo{margin-top:18px}
+.modulo>header{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.modulo>header h2{font-size:1.02rem}
+.modulo>header span{color:var(--txt2);font-size:.85rem}
+.trilha{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.fase{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 8px 12px;border-radius:var(--raio);background:var(--sup);
+  border:1px solid var(--linha);text-align:center;min-height:128px;transition:border-color .15s,transform .08s}
+.fase:hover{border-color:var(--dest)}
+.fase .pcf{width:46px;height:46px}
+.fase .pcf svg{width:100%;height:100%;fill:var(--pf);stroke:var(--ps);stroke-width:3.4;stroke-linejoin:round}
+.fase b{font-size:.92rem;line-height:1.2}
+.fase .est{font-size:1rem;letter-spacing:2px;color:#4a5263}
+.fase .est .on{color:var(--dest)}
+.fase.trancada{opacity:.45;pointer-events:none}
+.fase.trancada::after{content:"🔒";position:absolute;top:8px;right:10px;font-size:.9rem}
+.fase.feita{border-color:#3d5a48}
+.fase .num{position:absolute;top:8px;left:10px;font-size:.72rem;color:var(--txt2);font-weight:700}
+.exercicio{display:grid;gap:12px;justify-items:center}
+.exercicio>*{width:100%;max-width:calc(var(--tab) + 0px)}
+.exercicio .tab-linha{max-width:none}
+.passos{display:flex;gap:5px}
+.passos i{flex:1;height:6px;border-radius:999px;background:var(--sup2)}
+.passos i.ok{background:var(--ok)}
+.passos i.at{background:var(--dest)}
+.enunciado{font-size:1.02rem;font-weight:600;line-height:1.4}
+.enunciado small{display:block;color:var(--txt2);font-weight:500;font-size:.82rem;margin-bottom:2px;text-transform:uppercase;letter-spacing:.06em}
+.retorno{padding:12px 14px;border-radius:12px;font-size:.95rem;background:var(--sup2);border-left:4px solid var(--txt2);min-height:48px}
+.retorno.ok{border-color:var(--ok);background:#1c2a23}
+.retorno.err{border-color:var(--ruim);background:#2b1e21}
+.retorno.info{border-color:var(--info)}
+.quiz{display:grid;gap:8px}
+.quiz .bt{justify-content:flex-start;text-align:left;font-weight:500;line-height:1.35}
+.quiz .bt.certa{background:#1f3a2b;border-color:var(--ok)}
+.quiz .bt.errada{background:#3a2226;border-color:var(--ruim)}
+.intro{font-size:1rem;line-height:1.6}
+.intro b{color:var(--dest)}
+.final{text-align:center;padding:26px 16px}
+.final .est-g{font-size:2.6rem;letter-spacing:6px;color:#4a5263;margin:6px 0}
+.final .est-g .on{color:var(--dest)}
+
+/* ============================ DESAFIOS ============================ */
+.grade-des{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px}
+.des{position:relative;aspect-ratio:1;border-radius:12px;background:var(--sup2);border:1px solid var(--linha);display:grid;place-items:center;font-weight:700;line-height:1.1;text-align:center}
+.des small{display:block;font-size:.62rem;color:var(--txt2);font-weight:600;letter-spacing:.04em}
+.des:hover{border-color:var(--dest)}
+.des.ok1{background:#1f3a2b;border-color:#3d6b50}
+.des.ok2{background:#33301f;border-color:#6b6238}
+.des.ok1::after,.des.ok2::after{content:"✓";position:absolute;top:3px;right:6px;font-size:.72rem;color:var(--ok)}
+.pontos{font-size:2rem;font-weight:800;color:var(--dest);line-height:1}
+.delta{font-weight:700}.delta.mais{color:var(--ok)}.delta.menos{color:var(--ruim)}
+
+/* ============================ ESTATÍSTICAS ============================ */
+.numeros{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:640px){.numeros{grid-template-columns:repeat(4,1fr)}}
+.numero{background:var(--sup);border:1px solid var(--linha);border-radius:var(--raio);padding:14px;text-align:center}
+.numero b{display:block;font-size:1.7rem;line-height:1.1}
+.numero span{color:var(--txt2);font-size:.82rem}
+table.tb{width:100%;border-collapse:collapse;font-size:.93rem}
+.tb th{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--txt2);text-align:right;padding:6px 8px;font-weight:650}
+.tb th:first-child,.tb td:first-child{text-align:left}
+.tb td{padding:8px;border-top:1px solid var(--linha);text-align:right;font-variant-numeric:tabular-nums}
+.barra-h{display:grid;grid-template-columns:minmax(120px,1fr) 2fr 34px;gap:10px;align-items:center;font-size:.9rem;padding:5px 0}
+.barra-h .tr{height:10px;border-radius:999px;background:var(--sup2);overflow:hidden}
+.barra-h .tr i{display:block;height:100%;background:var(--alerta);border-radius:999px}
+.barra-h b{text-align:right;font-variant-numeric:tabular-nums}
+.grafico{width:100%;height:auto;display:block}
+.duas{display:grid;gap:12px}
+@media(min-width:800px){.duas{grid-template-columns:1fr 1fr}}
+
+/* ============================ MODAL / AVISO ============================ */
+#modal{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.66);display:grid;place-items:center;padding:16px}
+#modal .cx{width:100%;max-width:420px;background:var(--sup);border:1px solid var(--linha);border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.6);text-align:center}
+#modal h2{font-size:1.25rem;margin-bottom:6px}
+#modal p{color:#cfd5df;margin-bottom:16px}
+#modal .fila{justify-content:center}
+#modal .fila .bt{flex:1;min-width:120px}
+#aviso{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:60;background:#f1efe8;color:#14171c;font-weight:600;padding:10px 16px;border-radius:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);max-width:calc(100vw - 32px);text-align:center;transition:opacity .25s;font-size:.93rem}
+#aviso.oculto{display:block!important;opacity:0;pointer-events:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* evita rolagem lateral em telas estreitas */
+.pilha>*,.duas>*,.numeros>*{min-width:0}
+.cartao{overflow-wrap:anywhere}
+.cartao:has(>table.tb){overflow-x:auto}
+@media(max-width:480px){.tb th{font-size:.62rem;padding:6px 4px;letter-spacing:.02em}.tb td{padding:8px 4px}}
+
+</style>
+</head>
+<body>
+<!-- Peças desenhadas em SVG (sem imagens externas) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="pc-p" viewBox="0 0 100 100">
+      <path d="M50 41C42 41 37 45 40 49C42 52 44 55 42 58C35 64 31 70 30 79H70C69 70 65 64 58 58C56 55 58 52 60 49C63 45 58 41 50 41Z"/>
+      <circle cx="50" cy="31" r="13"/>
+      <path d="M22 89Q22 78 33 78H67Q78 78 78 89Z"/>
+    </symbol>
+    <symbol id="pc-r" viewBox="0 0 100 100">
+      <path d="M27 17H38V25H45V17H55V25H62V17H73V36L66 43V67L73 78H27L34 67V43L27 36Z"/>
+      <path class="det" d="M34 43H66M34 67H66"/>
+      <path d="M20 89Q20 78 31 78H69Q80 78 80 89Z"/>
+    </symbol>
+    <symbol id="pc-b" viewBox="0 0 100 100">
+      <path d="M50 19C61 27 68 37 68 47C68 55 62 61 57 63L62 78H38L43 63C38 61 32 55 32 47C32 37 39 27 50 19Z"/>
+      <circle cx="50" cy="14" r="5.5"/>
+      <path class="det" d="M56 31L47 45M42 63H58"/>
+      <path d="M22 89Q22 78 33 78H67Q78 78 78 89Z"/>
+    </symbol>
+    <symbol id="pc-n" viewBox="0 0 100 100">
+      <path d="M33 78C33 64 46 58 44 46C40 50 34 56 28 56C24 58 19 55 18 50C17 46 20 43 22 40L34 24C35 20 35 16 36 11L45 18C62 16 79 31 79 57V78Z"/>
+      <circle class="detf" cx="37" cy="33" r="3"/>
+      <path class="det" d="M53 25C63 31 69 43 69 57"/>
+      <path d="M20 89Q20 78 31 78H81Q86 78 86 89Z"/>
+    </symbol>
+    <symbol id="pc-q" viewBox="0 0 100 100">
+      <path d="M15 38L29 74H71L85 38L70 57L66 28L57 55L50 24L43 55L34 28L30 57Z"/>
+      <circle cx="15" cy="34" r="5.5"/><circle cx="34" cy="24" r="5.5"/><circle cx="50" cy="19" r="5.5"/><circle cx="66" cy="24" r="5.5"/><circle cx="85" cy="34" r="5.5"/>
+      <path class="det" d="M31 66H69"/>
+      <path d="M21 89Q21 76 32 76H68Q79 76 79 89Z"/>
+    </symbol>
+    <symbol id="pc-k" viewBox="0 0 100 100">
+      <path d="M46 7H54V14H61V22H54V32H46V22H39V14H46Z"/>
+      <path d="M50 33C34 28 21 40 23 54C24 62 30 68 32 78H68C70 68 76 62 77 54C79 40 66 28 50 33Z"/>
+      <path class="det" d="M50 35V60M33 68H67"/>
+      <path d="M21 89Q21 78 32 78H68Q79 78 79 89Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div id="app">
+  <header id="topo">
+    <button id="voltar" aria-label="Voltar" class="oculto">←</button>
+    <h1 id="titulo">Trainer de Xadrez</h1>
+    <span class="lado" id="topo-lado"></span>
+  </header>
+  <main id="tela"></main>
+</div>
+<div id="modal" class="oculto"></div>
+<div id="aviso" class="oculto" role="status"></div>
+
+<script>
+/* ==========================================================================
+   TRAINER DE XADREZ — núcleo: utilidades, armazenamento, notação,
+   funções auxiliares de xadrez e motores (Stockfish + motor reserva)
+   ========================================================================== */
+'use strict';
+
+/* ---------- utilidades de página ---------- */
+const $ = (s, raiz = document) => raiz.querySelector(s);
+const $$ = (s, raiz = document) => Array.from(raiz.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const espera = ms => new Promise(r => setTimeout(r, ms));
+const limita = (x, a, b) => Math.max(a, Math.min(b, x));
+const pecaSvg = (tipo, cor) => `<svg viewBox="0 0 100 100" class="pc${cor}"><use href="#pc-${tipo}"/></svg>`;
+
+/* aviso rápido na parte de baixo da tela */
+let avisoTimer = null;
+function aviso(texto, ms = 2600) {
+  const a = $('#aviso'); a.textContent = texto; a.classList.remove('oculto');
+  clearTimeout(avisoTimer); avisoTimer = setTimeout(() => a.classList.add('oculto'), ms);
+}
+
+/* janela de confirmação / mensagem. botoes: [{txt, cls, val}] -> Promise(val) */
+function modal(titulo, texto, botoes) {
+  return new Promise(res => {
+    const m = $('#modal');
+    m.innerHTML = `<div class="cx" role="dialog" aria-modal="true"><h2>${titulo}</h2><p>${texto}</p>
+      <div class="fila">${botoes.map((b, i) => `<button class="bt ${b.cls || ''}" data-i="${i}">${b.txt}</button>`).join('')}</div></div>`;
+    m.classList.remove('oculto');
+    m.onclick = e => {
+      const b = e.target.closest('button[data-i]'); if (!b) return;
+      m.classList.add('oculto'); m.innerHTML = ''; m.onclick = null; res(botoes[+b.dataset.i].val);
+    };
+  });
+}
+function fecharModal() { const m = $('#modal'); m.classList.add('oculto'); m.innerHTML = ''; m.onclick = null; }
+
+/* ---------- armazenamento local (sempre com try/catch) ---------- */
+const Dados = {
+  CHAVE: 'trainer-xadrez-v1',
+  d: null,
+  padrao() {
+    return {
+      v: 1,
+      fases: {},                                   // id da fase -> estrelas (1 a 3)
+      desafios: { pontos: 800, feitos: {}, hist: [800] }, // feitos: id -> 1 (de primeira) ou 2 (com erro/dica)
+      partidas: [],                                // histórico (até 60)
+      porNivel: [0, 1, 2, 3, 4, 5].map(() => ({ v: 0, e: 0, d: 0 })),
+      tags: {},                                    // tipo de erro -> quantidade
+      cfg: { nivel: 1, cor: 'w', relogio: 0 }
+    };
+  },
+  carregar() {
+    const p = this.padrao();
+    try {
+      const bruto = localStorage.getItem(this.CHAVE);
+      if (bruto) {
+        const o = JSON.parse(bruto);
+        if (o && typeof o === 'object') {
+          Object.assign(p, o);
+          p.desafios = Object.assign(this.padrao().desafios, o.desafios || {});
+          p.cfg = Object.assign(this.padrao().cfg, o.cfg || {});
+          if (!Array.isArray(p.porNivel) || p.porNivel.length !== 6) p.porNivel = this.padrao().porNivel;
+          if (!Array.isArray(p.partidas)) p.partidas = [];
+        }
+      }
+    } catch (e) { /* armazenamento indisponível ou dado corrompido: segue com o padrão */ }
+    this.d = p;
+  },
+  salvar() {
+    try { localStorage.setItem(this.CHAVE, JSON.stringify(this.d)); } catch (e) { /* modo privado etc.: o app continua funcionando sem salvar */ }
+  },
+  zerar() {
+    this.d = this.padrao();
+    try { localStorage.removeItem(this.CHAVE); } catch (e) { /* ignora */ }
+  }
+};
+
+/* ---------- notação e nomes em português ---------- */
+const VALOR = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 100 };
+const NOME = { p: 'peão', n: 'cavalo', b: 'bispo', r: 'torre', q: 'dama', k: 'rei' };
+const FEM = { r: true, q: true };
+const oPeca = t => (FEM[t] ? 'a ' : 'o ') + NOME[t];           // "a torre"
+const umPeca = t => (FEM[t] ? 'uma ' : 'um ') + NOME[t];        // "uma torre"
+const suaPeca = t => (FEM[t] ? 'sua ' : 'seu ') + NOME[t];      // "sua torre"
+const LETRA_PT = { K: 'R', Q: 'D', R: 'T', B: 'B', N: 'C' };
+/* converte a notação inglesa do chess.js (K,Q,R,B,N) para a brasileira (R,D,T,B,C) */
+const sanPt = san => san.replace(/[KQRBN]/g, c => LETRA_PT[c]);
+const semSinal = san => san.replace(/[+#]/g, '');
+const uciDe = m => m.from + m.to + (m.promotion || '');
+
+/* ---------- funções auxiliares de xadrez ---------- */
+const nomeCasa = (x, y) => String.fromCharCode(97 + x) + (y + 1);
+const SALTOS = [[1, 2], [2, 1], [2, -1], [1, -2], [-1, -2], [-2, -1], [-2, 1], [-1, 2]];
+const RETAS = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+const DIAGS = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
+
+/* posição do chess.js -> mapa {casa: 'wK'} usado pelo tabuleiro */
+function mapaDoJogo(g) {
+  const m = {}; const b = g.board();
+  for (let r = 0; r < 8; r++) for (let f = 0; f < 8; f++) { const c = b[r][f]; if (c) m[nomeCasa(f, 7 - r)] = c.color + c.type.toUpperCase(); }
+  return m;
+}
+/* casas que a peça em "sq" alcança/ataca (inclui a primeira peça encontrada em cada linha) */
+function alcance(g, sq) {
+  const p = g.get(sq); if (!p) return [];
+  const f = sq.charCodeAt(0) - 97, r = +sq[1] - 1, out = [];
+  const visita = (x, y) => { if (x < 0 || x > 7 || y < 0 || y > 7) return false; const s = nomeCasa(x, y); out.push(s); return !g.get(s); };
+  const raio = d => { let x = f + d[0], y = r + d[1]; while (visita(x, y)) { x += d[0]; y += d[1]; } };
+  if (p.type === 'n') SALTOS.forEach(d => visita(f + d[0], r + d[1]));
+  else if (p.type === 'k') { RETAS.concat(DIAGS).forEach(d => visita(f + d[0], r + d[1])); }
+  else if (p.type === 'p') { const dir = p.color === 'w' ? 1 : -1; visita(f - 1, r + dir); visita(f + 1, r + dir); }
+  else { if (p.type !== 'b') RETAS.forEach(raio); if (p.type !== 'r') DIAGS.forEach(raio); }
+  return out;
+}
+/* casas com peças da cor "cor" que atacam/defendem a casa "sq" */
+function atacantes(g, sq, cor) {
+  const out = [];
+  for (let x = 0; x < 8; x++) for (let y = 0; y < 8; y++) {
+    const s = nomeCasa(x, y), p = g.get(s);
+    if (p && p.color === cor && s !== sq && alcance(g, s).includes(sq)) out.push(s);
+  }
+  return out;
+}
+/* avaliação estática de trocas: quanto o lado da vez ganha capturando em "sq" (>= 0) */
+function ganhoNaCasa(g, sq) {
+  const caps = g.moves({ verbose: true }).filter(m => m.to === sq && m.captured && m.flags.indexOf('e') < 0);
+  if (!caps.length) return 0;
+  caps.sort((a, b) => VALOR[a.piece] - VALOR[b.piece]);
+  const m = caps[0];
+  const v = VALOR[m.captured] + (m.promotion ? VALOR[m.promotion] - 1 : 0);
+  g.move(m); const r = Math.max(0, v - ganhoNaCasa(g, sq)); g.undo();
+  return r;
+}
+/* ganho líquido de fazer a captura "m" (objeto de lance do chess.js) */
+function ganhoDaCaptura(g, m) {
+  if (!m.captured) return 0;
+  const v = VALOR[m.captured] + (m.promotion ? VALOR[m.promotion] - 1 : 0);
+  if (!g.move(m)) return 0;
+  const r = v - ganhoNaCasa(g, m.to); g.undo();
+  return r;
+}
+/* depois de um lance para "sq": a peça ali ataca duas ou mais peças valiosas? (garfo) */
+function detectarGarfo(g, sq) {
+  const p = g.get(sq); if (!p || p.type === 'k') return null;
+  const ini = p.color === 'w' ? 'b' : 'w';
+  const alvos = alcance(g, sq).filter(s => { const q = g.get(s); return q && q.color === ini; })
+    .filter(s => { const q = g.get(s); return q.type === 'k' || VALOR[q.type] > VALOR[p.type] || (q.type !== 'p' && atacantes(g, s, ini).length === 0); });
+  if (alvos.length < 2) return null;
+  // a peça que dá o garfo não pode ser capturada com lucro
+  if (g.turn() === ini && !g.in_check() && ganhoNaCasa(g, sq) > 0) return null;
+  if (g.turn() === ini && g.in_check()) { const caps = g.moves({ verbose: true }).filter(m => m.to === sq); if (caps.length) return null; }
+  return { peca: p.type, alvos: alvos.map(s => ({ sq: s, type: g.get(s).type })) };
+}
+function materialDe(g, cor) {
+  let s = 0; const b = g.board();
+  for (const linha of b) for (const c of linha) if (c && c.type !== 'k') s += (c.color === cor ? 1 : -1) * VALOR[c.type];
+  return s;
+}
+/* devolve o lance (objeto do chess.js) correspondente a um texto UCI, sem alterar o jogo */
+function lanceDeUci(g, uci) {
+  if (!uci) return null;
+  const m = g.move({ from: uci.slice(0, 2), to: uci.slice(2, 4), promotion: uci[4] || undefined });
+  if (m) g.undo();
+  return m;
+}
+/* o lado da vez consegue dar mate em até k lances? (busca completa, usada nos exercícios de mate) */
+function existeMate(g, k) {
+  const ls = g.moves();
+  if (k === 1) return ls.some(s => s.endsWith('#'));
+  for (const s of ls) {
+    if (s.endsWith('#')) return true;
+    g.move(s); const ok = todasLevamAMate(g, k - 1); g.undo();
+    if (ok) return true;
+  }
+  return false;
+}
+/* para qualquer resposta do lado da vez, o adversário ainda dá mate em até k lances? */
+function todasLevamAMate(g, k) {
+  const rs = g.moves(); if (!rs.length) return false;
+  for (const r of rs) { g.move(r); const ok = existeMate(g, k); g.undo(); if (!ok) return false; }
+  return true;
+}
+/* chance de vitória (0 a 100) a partir da avaliação em centipeões */
+const chanceVitoria = cp => 50 + 50 * (2 / (1 + Math.exp(-0.00368208 * cp)) - 1);
+/* junta cp e mate num número só */
+const notaUnica = av => av.mate != null ? (av.mate > 0 ? 10000 - av.mate * 10 : -10000 - av.mate * 10) : (av.cp || 0);
+
+/* ==========================================================================
+   MOTORES
+   1) Stockfish (WebAssembly ou JS) dentro de um Web Worker criado por Blob
+   2) Motor reserva próprio (minimax com poda alfa-beta) — usado enquanto o
+      Stockfish carrega ou se ele não puder ser carregado. O jogo nunca trava.
+   ========================================================================== */
+const CDN_SF = [
+  { js: 'https://cdn.jsdelivr.net/npm/stockfish@10.0.2/src/stockfish.js', wasm: 'https://cdn.jsdelivr.net/npm/stockfish@10.0.2/src/stockfish.wasm', ms: 12000 },
+  { js: 'https://cdn.jsdelivr.net/npm/stockfish@10.0.2/src/stockfish.asm.js', ms: 25000 },
+  { js: 'https://unpkg.com/stockfish@10.0.2/src/stockfish.js', wasm: 'https://unpkg.com/stockfish@10.0.2/src/stockfish.wasm', ms: 12000 },
+  { js: 'https://unpkg.com/stockfish@10.0.2/src/stockfish.asm.js', ms: 25000 }
+];
+
+/* cria o Worker a partir de um Blob que faz importScripts do CDN (evita o erro de origem cruzada) */
+function criarWorkerSF(fonte) {
+  const codigo = 'try{importScripts(' + JSON.stringify(fonte.js) + ');}catch(e){postMessage("__falha__ "+e);}';
+  const url = URL.createObjectURL(new Blob([codigo], { type: 'application/javascript' }));
+  // o stockfish.js lê o endereço do arquivo .wasm a partir do "hash" do endereço do worker
+  return new Worker(url + (fonte.wasm ? '#' + fonte.wasm : ''));
+}
+function testarWorkerSF(fonte) {
+  return new Promise(res => {
+    let w, fim = false;
+    const acabar = ok => { if (fim) return; fim = true; clearTimeout(t); if (!ok && w) { try { w.terminate(); } catch (e) { /* ignora */ } } res(ok ? w : null); };
+    const t = setTimeout(() => acabar(false), fonte.ms);
+    try {
+      w = criarWorkerSF(fonte);
+      w.onerror = () => acabar(false);
+      w.onmessage = e => {
+        const l = typeof e.data === 'string' ? e.data : '';
+        if (l.startsWith('__falha__')) acabar(false);
+        else if (l === 'uciok') acabar(true);
+      };
+      w.postMessage('uci');
+    } catch (e) { acabar(false); }
+  });
+}
+
+/* conversa com o Stockfish pelo protocolo UCI, uma análise de cada vez */
+class MotorSF {
+  constructor(worker) {
+    this.w = worker; this.fila = []; this.atual = null;
+    worker.onmessage = e => this.receber(e.data);
+    worker.onerror = () => { /* tratado pelo limite de tempo em Motor.analisar */ };
+  }
+  enviar(c) { this.w.postMessage(c); }
+  receber(l) {
+    if (typeof l !== 'string') return;
+    const a = this.atual; if (!a) return;
+    if (l.startsWith('info') && l.indexOf(' pv ') > 0 && l.indexOf('bound') < 0) {
+      const mp = / multipv (\d+)/.exec(l); if (mp && mp[1] !== '1') return;
+      const cp = /score cp (-?\d+)/.exec(l), mt = /score mate (-?\d+)/.exec(l);
+      if (cp) { a.cp = +cp[1]; a.mate = null; } else if (mt) { a.mate = +mt[1]; a.cp = null; }
+      a.pv = l.split(' pv ')[1].trim().split(/\s+/);
+    } else if (l.startsWith('bestmove')) {
+      this.atual = null;
+      const best = l.split(' ')[1];
+      a.res(a.cancelado ? null : { best: best && best !== '(none)' ? best : null, cp: a.cp, mate: a.mate, pv: a.pv || [] });
+      this.proximo();
+    }
+  }
+  analisar(fen, op) { return new Promise(res => { this.fila.push({ fen, op, res, cp: 0, mate: null }); this.proximo(); }); }
+  proximo() {
+    if (this.atual || !this.fila.length) return;
+    const t = this.atual = this.fila.shift();
+    this.enviar('setoption name Skill Level value ' + (t.op.skill == null ? 20 : t.op.skill));
+    this.enviar('position fen ' + t.fen);
+    this.enviar('go' + (t.op.depth ? ' depth ' + t.op.depth : '') + (t.op.movetime ? ' movetime ' + t.op.movetime : (t.op.depth ? '' : ' movetime 500')));
+  }
+  cancelar() {
+    this.fila.forEach(t => t.res(null)); this.fila = [];
+    if (this.atual) { this.atual.cancelado = true; this.enviar('stop'); }
+  }
+  matar() { try { this.w.terminate(); } catch (e) { /* ignora */ } if (this.atual) this.atual.res(null); this.fila.forEach(t => t.res(null)); this.fila = []; this.atual = null; }
+}
+
+/* ---------- motor reserva: minimax com poda alfa-beta ---------- */
+const MATE = 100000;
+function avaliarPosicao(g) {
+  // material + posição simples, do ponto de vista de quem joga
+  let s = 0, total = 0; const b = g.board(); const lista = [];
+  for (let r = 0; r < 8; r++) for (let f = 0; f < 8; f++) { const c = b[r][f]; if (c) { lista.push([c, f, 7 - r]); if (c.type !== 'k' && c.type !== 'p') total += VALOR[c.type]; } }
+  for (const [c, f, y] of lista) {
+    const centro = 3.5 - Math.max(Math.abs(f - 3.5), Math.abs(y - 3.5));   // 0 (borda) a 3 (centro)
+    let v = 0;
+    if (c.type === 'p') { const av = c.color === 'w' ? y - 1 : 6 - y; v = 100 + av * 6 + ((f === 3 || f === 4) ? centro * 8 : 0); }
+    else if (c.type === 'n') v = 320 + centro * 12;
+    else if (c.type === 'b') v = 330 + centro * 6;
+    else if (c.type === 'r') v = 500 + (((c.color === 'w' ? y : 7 - y) === 6) ? 15 : 0);
+    else if (c.type === 'q') v = 900 + centro * 3;
+    else v = total > 26 ? -centro * 14 : centro * 10;                        // rei: escondido no meio-jogo, ativo no final
+    s += c.color === 'w' ? v : -v;
+  }
+  return g.turn() === 'w' ? s : -s;
+}
+function buscaSimples(fen, op) {
+  const g = new Chess(fen);
+  const fim = Date.now() + (op.movetime || 600);
+  const maxProf = limita(op.profSimples || 2, 1, 4);
+  let estourou = false, melhor = null, nota = 0;
+  const peso = m => (m.captured ? 10 * VALOR[m.captured] - VALOR[m.piece] : 0) + (m.promotion ? 8 : 0) + (m.san.indexOf('+') > 0 ? 1 : 0);
+  const ordenar = ms => ms.sort((a, b) => peso(b) - peso(a));
+  function quieta(a, b, prof) {
+    const parada = avaliarPosicao(g);
+    if (prof === 0 || parada >= b) return parada;
+    if (parada > a) a = parada;
+    const ms = ordenar(g.moves({ verbose: true }).filter(m => m.captured || m.promotion));
+    for (const m of ms) { g.move(m); const v = -quieta(-b, -a, prof - 1); g.undo(); if (v >= b) return b; if (v > a) a = v; }
+    return a;
+  }
+  function nega(prof, a, b, ply) {
+    if (Date.now() > fim) { estourou = true; return 0; }
+    const ms = g.moves({ verbose: true });
+    if (!ms.length) return g.in_check() ? -MATE + ply : 0;
+    if (g.insufficient_material()) return 0;
+    if (prof === 0) return quieta(a, b, 2);
+    ordenar(ms);
+    for (const m of ms) {
+      g.move(m); const v = -nega(prof - 1, -b, -a, ply + 1); g.undo();
+      if (estourou) return 0;
+      if (v >= b) return b;
+      if (v > a) a = v;
+    }
+    return a;
+  }
+  for (let d = 1; d <= maxProf; d++) {
+    const ms = ordenar(g.moves({ verbose: true })); if (!ms.length) break;
+    if (melhor) { const i = ms.findIndex(m => m.san === melhor.san); if (i > 0) ms.unshift(ms.splice(i, 1)[0]); }
+    let a = -MATE * 2, bm = null;
+    for (const m of ms) {
+      g.move(m); const v = -nega(d - 1, -MATE * 2, -a, 1); g.undo();
+      if (estourou) break;
+      if (v > a) { a = v; bm = m; }
+    }
+    if (estourou && melhor) break;
+    if (bm) { melhor = bm; nota = a; }
+    if (estourou || Math.abs(nota) > MATE - 1000) break;
+  }
+  if (!melhor) return { best: null, cp: 0, mate: null, pv: [] };
+  let cp = Math.round(nota), mate = null;
+  if (Math.abs(nota) > MATE - 1000) { mate = Math.ceil((MATE - Math.abs(nota)) / 2) * (nota > 0 ? 1 : -1); cp = null; }
+  return { best: uciDe(melhor), cp, mate, pv: [uciDe(melhor)] };
+}
+
+/* ---------- fachada única usada pelo resto do app ---------- */
+const Motor = {
+  sf: null,
+  estado: 'carregando',          // 'carregando' | 'stockfish' | 'basico'
+  geracao: 0,
+  aoMudar: null,
+  async iniciar() {
+    if (typeof Worker === 'undefined') { this.estado = 'basico'; if (this.aoMudar) this.aoMudar(); return; }
+    for (const fonte of CDN_SF) {
+      const w = await testarWorkerSF(fonte);
+      if (w) { this.sf = new MotorSF(w); this.estado = 'stockfish'; if (this.aoMudar) this.aoMudar(); return; }
+    }
+    this.estado = 'basico'; if (this.aoMudar) this.aoMudar();
+  },
+  rotulo() {
+    return this.estado === 'stockfish' ? '<i class="ponto ok"></i>Motor: Stockfish'
+      : this.estado === 'carregando' ? '<i class="ponto"></i>Carregando o Stockfish… (motor básico em uso)'
+        : '<i class="ponto"></i>Motor básico (Stockfish indisponível)';
+  },
+  /* analisa uma posição. Resultado do ponto de vista de quem joga: {best, cp, mate, pv} ou null se cancelado */
+  analisar(fen, op = {}) {
+    if (this.sf) {
+      const sf = this.sf;
+      const limite = (op.movetime || 3000) + 15000;
+      return new Promise(res => {
+        let feito = false;
+        const t = setTimeout(() => {           // Stockfish parou de responder: troca para o motor reserva
+          if (feito) return; feito = true;
+          if (this.sf === sf) { sf.matar(); this.sf = null; this.estado = 'basico'; if (this.aoMudar) this.aoMudar(); }
+          this.simples(fen, op).then(res);
+        }, limite);
+        sf.analisar(fen, op).then(r => { if (feito) return; feito = true; clearTimeout(t); res(r); });
+      });
+    }
+    return this.simples(fen, op);
+  },
+  simples(fen, op) {
+    const ger = this.geracao;
+    return new Promise(res => setTimeout(() => {
+      if (ger !== this.geracao) return res(null);
+      let r = null;
+      try { r = buscaSimples(fen, { movetime: Math.min(op.movetime || 700, 1200), profSimples: op.profSimples || 2 }); } catch (e) { r = null; }
+      res(r);
+    }, 30));
+  },
+  cancelar() { this.geracao++; if (this.sf) this.sf.cancelar(); }
+};
+
+/* carrega um script externo (usado para o chess.js via CDN, com endereços alternativos) */
+const CDN_CHESS = [
+  'https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js',
+  'https://cdn.jsdelivr.net/npm/chess.js@0.10.3/chess.min.js',
+  'https://unpkg.com/chess.js@0.10.3/chess.js'
+];
+function carregarScript(url) {
+  return new Promise((ok, falha) => {
+    const s = document.createElement('script'); s.src = url; s.async = true;
+    s.onload = () => ok(); s.onerror = () => { s.remove(); falha(new Error('falha ao carregar ' + url)); };
+    document.head.appendChild(s);
+  });
+}
+async function carregarChess() {
+  for (const url of CDN_CHESS) {
+    try { await carregarScript(url); if (typeof Chess === 'function') return true; } catch (e) { /* tenta o próximo endereço */ }
+  }
+  return typeof Chess === 'function';
+}
+
+/* ==========================================================================
+   TABULEIRO — desenhado com CSS Grid; peças em SVG; toque, clique e arrastar
+   opcoes:
+     alvos(casa)            -> lista de casas de destino se a peça pode ser pega, ou null
+     promocao(de, para)     -> true se o lance é uma promoção (abre o seletor)
+     mover(de, para, promo) -> chamado quando o jogador faz um lance
+   ========================================================================== */
+class Tabuleiro {
+  constructor(hospedeiro, opcoes = {}) {
+    this.op = opcoes; this.ori = 'w'; this.pos = {}; this.els = {}; this.casas = {};
+    this.sel = null; this.alvosSel = []; this.ativo = true; this.arrasto = null;
+    this.marcas = { ult: [], xq: null, estrelas: [], blocos: [] }; this.listaSetas = [];
+    this.el = document.createElement('div');
+    this.el.className = 'tabuleiro' + (opcoes.estatico ? ' estatico' : '');
+    this.el.innerHTML = '<div class="casas"></div><div class="pecas"></div><svg class="setas" viewBox="0 0 8 8"></svg>';
+    this.elCasas = this.el.children[0]; this.elPecas = this.el.children[1]; this.elSetas = this.el.children[2];
+    hospedeiro.appendChild(this.el);
+    this.montarCasas();
+    if (!opcoes.estatico) {
+      this.el.addEventListener('pointerdown', e => this.aoBaixar(e));
+      this.el.addEventListener('pointermove', e => this.aoMoverPonteiro(e));
+      this.el.addEventListener('pointerup', e => this.aoSoltar(e));
+      this.el.addEventListener('pointercancel', e => this.aoSoltar(e, true));
+      this.el.addEventListener('contextmenu', e => e.preventDefault());
+    }
+  }
+  /* coluna/linha na tela (0..7) de uma casa, conforme a orientação */
+  xy(casa) { const f = casa.charCodeAt(0) - 97, r = +casa[1] - 1; return this.ori === 'w' ? [f, 7 - r] : [7 - f, r]; }
+  casaEm(cx, cy) {
+    const r = this.el.getBoundingClientRect();
+    const x = Math.floor((cx - r.left) / r.width * 8), y = Math.floor((cy - r.top) / r.height * 8);
+    if (x < 0 || x > 7 || y < 0 || y > 7) return null;
+    return this.ori === 'w' ? nomeCasa(x, 7 - y) : nomeCasa(7 - x, y);
+  }
+  montarCasas() {
+    let h = '';
+    for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) {
+      const casa = this.ori === 'w' ? nomeCasa(x, 7 - y) : nomeCasa(7 - x, y);
+      const escura = (casa.charCodeAt(0) - 97 + (+casa[1] - 1)) % 2 === 0;
+      h += `<div class="casa${escura ? ' e' : ''}" data-c="${casa}">${x === 0 ? `<span class="co n">${casa[1]}</span>` : ''}${y === 7 ? `<span class="co l">${casa[0]}</span>` : ''}</div>`;
+    }
+    this.elCasas.innerHTML = h;
+    this.casas = {}; $$('.casa', this.elCasas).forEach(c => { this.casas[c.dataset.c] = c; });
+  }
+  orientar(cor) {
+    if (cor === this.ori) return;
+    this.ori = cor; this.montarCasas();
+    this.elPecas.classList.add('sem-anim');
+    for (const c in this.els) this.colocar(this.els[c], c);
+    void this.elPecas.offsetWidth; this.elPecas.classList.remove('sem-anim');
+    this.pintarMarcas(); this.desenharSetas(); this.pintarSelecao();
+  }
+  colocar(el, casa) { const [x, y] = this.xy(casa); el.style.transform = `translate(${x * 100}%,${y * 100}%)`; }
+  criarPeca(cod) {
+    const el = document.createElement('div');
+    el.className = 'pc ' + cod[0];
+    el.innerHTML = `<svg viewBox="0 0 100 100"><use href="#pc-${cod[1].toLowerCase()}"/></svg>`;
+    return el;
+  }
+  /* atualiza as peças para o novo mapa {casa:'wK'}, reaproveitando elementos para animar os lances */
+  posicionar(mapa, animar = true) {
+    if (!animar) this.elPecas.classList.add('sem-anim');
+    const livres = [], novos = {};
+    for (const c in this.pos) { if (mapa[c] === this.pos[c]) novos[c] = this.els[c]; else livres.push({ c, cod: this.pos[c], el: this.els[c] }); }
+    for (const c in mapa) {
+      if (novos[c]) continue;
+      const [x, y] = this.xy(c);
+      let melhor = -1, dist = 99;
+      livres.forEach((l, i) => { if (l.cod !== mapa[c]) return; const [a, b] = this.xy(l.c); const d = Math.abs(a - x) + Math.abs(b - y); if (d < dist) { dist = d; melhor = i; } });
+      let el;
+      if (melhor >= 0) { el = livres.splice(melhor, 1)[0].el; this.elPecas.appendChild(el); this.colocar(el, c); }
+      else {
+        el = this.criarPeca(mapa[c]); el.classList.add('nova'); this.colocar(el, c); this.elPecas.appendChild(el);
+        requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove('nova')));
+      }
+      novos[c] = el;
+    }
+    livres.forEach(l => l.el.remove());
+    this.pos = Object.assign({}, mapa); this.els = novos;
+    for (const c in this.els) this.els[c].classList.remove('arr');
+    if (!animar) { void this.elPecas.offsetWidth; this.elPecas.classList.remove('sem-anim'); }
+  }
+  redesenhar() { for (const c in this.els) { this.els[c].classList.remove('arr'); this.colocar(this.els[c], c); } }
+  /* destaques: último lance, rei em xeque, estrelas e casas bloqueadas */
+  marcar(m) { Object.assign(this.marcas, m); this.pintarMarcas(); }
+  pintarMarcas() {
+    for (const c in this.casas) this.casas[c].classList.remove('ult', 'xq', 'estrela', 'bloco');
+    (this.marcas.ult || []).forEach(c => this.casas[c] && this.casas[c].classList.add('ult'));
+    if (this.marcas.xq && this.casas[this.marcas.xq]) this.casas[this.marcas.xq].classList.add('xq');
+    (this.marcas.estrelas || []).forEach(c => this.casas[c] && this.casas[c].classList.add('estrela'));
+    (this.marcas.blocos || []).forEach(c => this.casas[c] && this.casas[c].classList.add('bloco'));
+  }
+  piscarErro(casa) { const c = this.casas[casa]; if (!c) return; c.classList.add('mal'); setTimeout(() => c.classList.remove('mal'), 650); this.el.classList.add('treme'); setTimeout(() => this.el.classList.remove('treme'), 320); }
+  /* setas: [{de, para, cor}] */
+  setas(lista) { this.listaSetas = lista || []; this.desenharSetas(); }
+  desenharSetas() {
+    const CORES = { verde: '#35c27a', vermelho: '#ef5a5a', azul: '#4f9df7', amarelo: '#f0b441' };
+    let h = '';
+    for (const s of this.listaSetas) {
+      const [x1, y1] = this.xy(s.de).map(v => v + .5), [x2, y2] = this.xy(s.para).map(v => v + .5);
+      const dx = x2 - x1, dy = y2 - y1, len = Math.hypot(dx, dy); if (!len) continue;
+      const ux = dx / len, uy = dy / len, cab = .42;
+      const bx = x2 - ux * cab, by = y2 - uy * cab;       // base da ponta
+      const px = -uy, py = ux, cor = CORES[s.cor] || s.cor;
+      h += `<g opacity=".88"><line x1="${x1 + ux * .22}" y1="${y1 + uy * .22}" x2="${bx}" y2="${by}" stroke="${cor}" stroke-width=".17" stroke-linecap="round"/>` +
+        `<polygon points="${x2 - ux * .06},${y2 - uy * .06} ${bx + px * .24},${by + py * .24} ${bx - px * .24},${by - py * .24}" fill="${cor}"/></g>`;
+    }
+    this.elSetas.innerHTML = h;
+  }
+  /* ---------- seleção ---------- */
+  selecionar(casa, alvos) { this.sel = casa; this.alvosSel = alvos || []; this.pintarSelecao(); }
+  limparSelecao() { this.sel = null; this.alvosSel = []; this.pintarSelecao(); }
+  pintarSelecao() {
+    for (const c in this.casas) this.casas[c].classList.remove('sel', 'pt', 'cap');
+    if (!this.sel) return;
+    if (this.casas[this.sel]) this.casas[this.sel].classList.add('sel');
+    this.alvosSel.forEach(c => { if (this.casas[c]) this.casas[c].classList.add(this.pos[c] ? 'cap' : 'pt'); });
+  }
+  /* ---------- toque / mouse ---------- */
+  aoBaixar(e) {
+    if (!this.ativo || this.elPromo || (e.button && e.button > 0)) return;
+    const casa = this.casaEm(e.clientX, e.clientY); if (!casa) return;
+    e.preventDefault();
+    if (this.sel && this.alvosSel.includes(casa)) { const de = this.sel; this.limparSelecao(); this.tentar(de, casa); return; }
+    const alvos = this.op.alvos ? this.op.alvos(casa) : null;
+    if (alvos && this.els[casa]) {
+      const jaSel = this.sel === casa;
+      this.selecionar(casa, alvos);
+      this.arrasto = { casa, id: e.pointerId, x0: e.clientX, y0: e.clientY, ativo: false, el: this.els[casa], jaSel };
+      try { this.el.setPointerCapture(e.pointerId); } catch (err) { /* navegador antigo */ }
+    } else this.limparSelecao();
+  }
+  aoMoverPonteiro(e) {
+    const d = this.arrasto; if (!d || e.pointerId !== d.id) return;
+    if (!d.ativo) { if (Math.hypot(e.clientX - d.x0, e.clientY - d.y0) < 8) return; d.ativo = true; d.el.classList.add('arr'); this.elPecas.appendChild(d.el); }
+    const r = this.el.getBoundingClientRect(), t = r.width / 8;
+    const x = limita(e.clientX - r.left, 0, r.width) - t / 2, y = limita(e.clientY - r.top, 0, r.height) - t / 2;
+    d.el.style.transform = `translate(${x}px,${y}px) scale(1.12)`;
+  }
+  aoSoltar(e, cancelado) {
+    const d = this.arrasto; if (!d || e.pointerId !== d.id) return;
+    this.arrasto = null;
+    try { this.el.releasePointerCapture(e.pointerId); } catch (err) { /* ignora */ }
+    if (d.ativo) {
+      d.el.classList.remove('arr');
+      const casa = cancelado ? null : this.casaEm(e.clientX, e.clientY);
+      if (casa && this.alvosSel.includes(casa)) { this.limparSelecao(); this.tentar(d.casa, casa); }
+      else this.colocar(d.el, d.casa);
+    } else if (d.jaSel) this.limparSelecao();
+  }
+  tentar(de, para) {
+    const cor = this.pos[de] ? this.pos[de][0] : 'w';
+    if (this.op.promocao && this.op.promocao(de, para)) {
+      this.pedirPromocao(cor).then(p => { if (p) this.op.mover(de, para, p); else this.redesenhar(); });
+    } else if (this.op.mover) this.op.mover(de, para);
+  }
+  pedirPromocao(cor) {
+    return new Promise(res => {
+      const d = document.createElement('div'); d.className = 'promo'; this.elPromo = d;
+      d.innerHTML = '<div class="cx">' + ['q', 'r', 'b', 'n'].map(t => `<button data-t="${t}" aria-label="${NOME[t]}" title="${NOME[t]}">${pecaSvg(t, cor)}</button>`).join('') + '</div>';
+      d.addEventListener('pointerdown', ev => ev.stopPropagation());
+      d.addEventListener('click', ev => {
+        const b = ev.target.closest('button'); d.remove(); this.elPromo = null; res(b ? b.dataset.t : null);
+      });
+      this.el.appendChild(d);
+    });
+  }
+}
+
+/* ==========================================================================
+   CONTEÚDO DAS FASES (módulo Aprender)
+   Tipos de exercício:
+     seq   -> sequência de lances (line). O jogador faz os lances pares (0,2,4...)
+              e o computador responde com os ímpares. Um item pode ser uma lista
+              de alternativas aceitas. "pre" = lance do adversário feito antes.
+     mate  -> dar xeque-mate em até n lances (qualquer caminho forçado vale).
+     stars -> coletar as estrelas com uma peça no menor número de lances.
+     quiz  -> pergunta de múltipla escolha (a = índice da resposta certa).
+   Todas as posições e soluções foram verificadas com o chess.js.
+   ========================================================================== */
+const INICIO = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+
+const MODULOS = [
+/* ------------------------------------------------------------------ */
+{ id:'m1', nome:'Movimentos', desc:'Como cada peça anda e captura', fases:[
+  { id:'peao', nome:'O peão', icone:'p',
+    intro:'O <b>peão</b> anda só para frente, uma casa por vez. No primeiro lance de cada peão ele pode andar <b>duas casas</b>. Ele captura de um jeito diferente de como anda: <b>uma casa na diagonal</b>, para frente. Peão nunca anda para trás. Vale 1 ponto.',
+    ex:[
+      {t:'seq', fen:'4k3/8/8/8/8/8/4P3/4K3 w - - 0 1', p:'Este peão ainda não se moveu. Avance-o duas casas de uma vez.', line:['e4'],
+        ok:'Isso! No primeiro lance o peão pode andar duas casas.', err:'Leve o peão de e2 direto para e4 (duas casas).'},
+      {t:'seq', fen:'4k3/8/8/3p4/4P3/8/8/4K3 w - - 0 1', p:'O peão captura na diagonal. Capture o peão preto.', line:['exd5'],
+        ok:'Perfeito: o peão captura uma casa na diagonal, para frente.', err:'Capture o peão de d5 com o seu peão de e4 (na diagonal).'},
+      {t:'seq', fen:'4k3/8/8/8/2n1p3/3P4/8/4K3 w - - 0 1', p:'Seu peão pode capturar o cavalo ou o peão. Capture a peça mais valiosa.', line:['dxc4'],
+        ok:'Boa escolha! O cavalo vale 3 pontos e o peão só 1.', err:'O cavalo vale mais que o peão. Capture o cavalo em c4.'},
+      {t:'quiz', fen:'4k3/8/8/4p3/4P3/8/8/4K3 w - - 0 1', q:'O peão branco de e4 pode capturar o peão preto que está bem na frente dele, em e5?',
+        opts:['Sim, peão captura para frente','Não: peão só captura na diagonal, ele está bloqueado','Sim, mas só no primeiro lance'], a:1,
+        ok:'Exato. Um peão com uma peça na frente fica bloqueado.', err:'Lembre: o peão anda para frente, mas só captura na diagonal.'},
+      {t:'quiz', q:'O peão pode andar para trás?', opts:['Sim, uma casa','Não, nunca','Só quando captura'], a:1,
+        ok:'Isso mesmo. Por isso, pense bem antes de avançar um peão!', err:'O peão é a única peça que nunca volta.'}
+    ]},
+  { id:'torre', nome:'A torre', icone:'r',
+    intro:'A <b>torre</b> anda em linha reta: para frente, para trás e para os lados, quantas casas quiser. Ela não pula outras peças. Vale 5 pontos.',
+    ex:[
+      {t:'stars', piece:'r', from:'a1', stars:['a6','f6','f2'], p:'Colete todas as estrelas com a torre no menor número de lances.'},
+      {t:'stars', piece:'r', from:'d4', stars:['d8','h8','h1','a1'], p:'Mais um: colete as quatro estrelas com a torre.'},
+      {t:'seq', fen:'4k3/8/8/8/R6n/8/8/4K3 w - - 0 1', p:'Capture o cavalo com a torre.', line:['Rxh4'],
+        ok:'Isso! A torre atravessa a fileira inteira.', err:'A torre anda em linha reta: leve-a de a4 até h4.'},
+      {t:'seq', fen:'6k1/8/8/8/8/8/5PPP/3R2K1 w - - 0 1', p:'Dê xeque no rei preto com a torre.', line:['Rd8+'],
+        ok:'Xeque! A torre ataca o rei pela última fileira.', err:'Leve a torre até a fileira do rei preto (d8).'}
+    ]},
+  { id:'bispo', nome:'O bispo', icone:'b',
+    intro:'O <b>bispo</b> anda na diagonal, quantas casas quiser, sem pular peças. Cada bispo passa a partida inteira em casas da mesma cor. Vale 3 pontos.',
+    ex:[
+      {t:'stars', piece:'b', from:'c1', stars:['e3','g5','d8'], p:'Colete todas as estrelas com o bispo no menor número de lances.'},
+      {t:'stars', piece:'b', from:'f1', stars:['a6','c8','h3'], p:'Agora com o outro bispo: colete as três estrelas.'},
+      {t:'seq', fen:'4k3/8/8/6r1/8/8/3B4/4K3 w - - 0 1', p:'Capture a torre com o bispo.', line:['Bxg5'],
+        ok:'Ótimo! Um bispo (3) capturando uma torre (5) é lucro.', err:'Siga a diagonal do bispo: d2, e3, f4, g5.'},
+      {t:'quiz', q:'Um bispo que começa numa casa clara consegue chegar a uma casa escura?',
+        opts:['Sim, depois de alguns lances','Não, ele fica sempre na mesma cor','Só se capturar uma peça'], a:1,
+        ok:'Isso. Por isso ter os dois bispos é valioso: juntos eles cobrem todas as casas.', err:'Andando só na diagonal, o bispo nunca troca de cor.'}
+    ]},
+  { id:'cavalo', nome:'O cavalo', icone:'n',
+    intro:'O <b>cavalo</b> anda em “L”: duas casas numa direção e uma para o lado. É a única peça que <b>pula</b> por cima das outras. Vale 3 pontos.',
+    ex:[
+      {t:'stars', piece:'n', from:'b1', stars:['c3','e4','g5'], p:'Capture todas as estrelas com o cavalo no menor número de lances.'},
+      {t:'stars', piece:'n', from:'e4', stars:['c5','d7','f6','g4'], p:'Quatro estrelas agora. Planeje o caminho em “L”.'},
+      {t:'stars', piece:'n', from:'a1', stars:['c2','e1','g2'], p:'Saindo do canto: colete as três estrelas.'},
+      {t:'seq', fen:'4k3/8/8/8/8/2p5/PPP5/1N2K3 w - - 0 1', p:'O cavalo pula por cima dos seus peões. Capture o peão preto de c3 com o cavalo.', line:['Nxc3'],
+        ok:'Isso! Nenhuma outra peça conseguiria pular os peões.', err:'Use o cavalo de b1 para capturar em c3.'}
+    ]},
+  { id:'dama', nome:'A dama', icone:'q',
+    intro:'A <b>dama</b> é a peça mais forte: anda como a torre e o bispo juntos — em linha reta e na diagonal, quantas casas quiser. Vale 9 pontos, então cuide bem dela.',
+    ex:[
+      {t:'stars', piece:'q', from:'d1', stars:['d5','h5','e8','a4'], p:'Colete todas as estrelas com a dama no menor número de lances.'},
+      {t:'stars', piece:'q', from:'a1', stars:['h8','h1','a8'], p:'De canto a canto: colete as três estrelas.'},
+      {t:'seq', fen:'4k3/8/8/7r/n7/8/8/3QK3 w - - 0 1', p:'A dama pode capturar o cavalo ou a torre. Capture a mais valiosa.', line:['Qxh5+'],
+        ok:'Boa! A torre vale 5 e o cavalo 3. E ainda foi com xeque.', err:'A torre (5 pontos) vale mais que o cavalo (3). Capture em h5.'},
+      {t:'quiz', q:'A dama se move como quais duas peças juntas?', opts:['Cavalo e bispo','Torre e bispo','Torre e cavalo'], a:1,
+        ok:'Isso: linhas retas da torre + diagonais do bispo.', err:'A dama não pula como o cavalo. Ela junta torre e bispo.'}
+    ]},
+  { id:'rei', nome:'O rei', icone:'k',
+    intro:'O <b>rei</b> anda uma casa em qualquer direção. É a peça mais importante: ele nunca pode ir para uma casa atacada e, se for atacado (<b>xeque</b>), precisa escapar imediatamente.',
+    ex:[
+      {t:'stars', piece:'k', from:'e1', stars:['e2','f3','g4'], p:'Leve o rei até as estrelas, uma casa de cada vez.'},
+      {t:'seq', fen:'4r2k/8/8/8/8/8/8/4K3 w - - 0 1', any:true, p:'Seu rei está em xeque da torre! Mova-o para uma casa segura.', line:['Kd2'],
+        ok:'Ufa! Fora da coluna da torre o rei está seguro.', err:'O rei precisa sair da coluna “e”.'},
+      {t:'seq', fen:'7k/8/8/8/8/8/3n4/4K3 w - - 0 1', p:'O rei também captura. Capture o cavalo.', line:['Kxd2'],
+        ok:'Isso! O cavalo estava sem defesa, então o rei pôde capturar.', err:'O cavalo está ao lado do rei, em d2.'},
+      {t:'quiz', fen:'7k/8/8/8/8/2b5/3n4/4K3 w - - 0 1', q:'Agora o cavalo de d2 está defendido pelo bispo. O rei branco pode capturá-lo?',
+        opts:['Sim, o rei captura qualquer peça vizinha','Não: o rei ficaria em xeque do bispo','Sim, mas depois perde o rei'], a:1,
+        ok:'Exato. O rei nunca pode entrar numa casa atacada.', err:'O rei nunca pode ir para uma casa atacada por uma peça adversária.'}
+    ]}
+]},
+/* ------------------------------------------------------------------ */
+{ id:'m2', nome:'Regras especiais', desc:'Roque, en passant, promoção, xeque, mate e empate', fases:[
+  { id:'roque', nome:'Roque', icone:'k',
+    intro:'O <b>roque</b> é um lance especial: o rei anda <b>duas casas</b> em direção a uma torre e a torre pula para o outro lado dele. Serve para proteger o rei e ativar a torre. Só vale se: rei e torre ainda não se moveram, não há peças entre eles, o rei não está em xeque e não passa por casa atacada. <b>Para rocar, mova o rei duas casas.</b>',
+    ex:[
+      {t:'seq', fen:'r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1', p:'Faça o roque pequeno: mova o rei duas casas para a direita (de e1 para g1).', line:['O-O'],
+        ok:'Roque pequeno feito! O rei ficou protegido atrás dos peões.', err:'Toque no rei e depois na casa g1.'},
+      {t:'seq', fen:'r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1', p:'Agora o roque grande: mova o rei duas casas para a esquerda (de e1 para c1).', line:['O-O-O'],
+        ok:'Roque grande! A torre já saiu ativa em d1.', err:'Toque no rei e depois na casa c1.'},
+      {t:'seq', fen:'5rk1/8/8/8/8/8/8/R3K2R w KQ - 0 1', p:'A torre preta ataca a casa f1, por onde o rei passaria. Faça o roque para o lado que ainda é permitido.', line:['O-O-O'],
+        ok:'Isso! O rei não pode passar por casa atacada, então só o roque grande era possível.', err:'O roque pequeno é proibido aqui (o rei passaria por f1, que está atacada). Faça o roque grande.'},
+      {t:'quiz', q:'Você pode fazer roque se o seu rei já tiver se movido antes na partida?', opts:['Sim, se ele voltou para a casa inicial','Não, nunca mais','Sim, mas só o roque grande'], a:1,
+        ok:'Certo. Rei que se moveu perde o direito ao roque para sempre.', err:'Depois que o rei se move, o roque não é mais permitido, mesmo que ele volte.'}
+    ]},
+  { id:'enpassant', nome:'En passant', icone:'p',
+    intro:'<b>En passant</b> (“de passagem”) é uma captura especial de peão. Quando um peão adversário anda duas casas e para bem ao lado do seu peão, você pode capturá-lo como se ele tivesse andado só uma casa. Mas atenção: só vale <b>no lance imediatamente seguinte</b>.',
+    ex:[
+      {t:'seq', fen:'4k3/8/8/3pP3/8/8/8/4K3 w - d6 0 1', p:'O peão preto acabou de andar duas casas e parou ao lado do seu. Capture en passant!', line:['exd6'],
+        ok:'Isso! Seu peão foi para d6 e o peão preto saiu do tabuleiro.', err:'Mova seu peão de e5 para d6 (a casa por onde o peão preto “passou”).'},
+      {t:'seq', fen:'4k3/2p5/8/3P4/8/8/8/4K3 b - - 0 1', pre:'c5', p:'Observe o lance das pretas... e capture en passant.', line:['dxc6'],
+        ok:'Perfeito, você pegou o peão “de passagem”.', err:'O peão preto andou duas casas e parou ao lado do seu. Capture indo para c6.'},
+      {t:'seq', fen:'4k3/8/8/pP6/8/8/8/4K3 w - a6 0 1', p:'Mais uma vez, agora pelo outro lado. Capture en passant.', line:['bxa6'],
+        ok:'Muito bem!', err:'Leve o peão de b5 para a6.'},
+      {t:'quiz', q:'Você pode guardar o en passant para fazer alguns lances depois?', opts:['Sim, quando quiser','Não: só no lance imediatamente seguinte','Sim, até o peão se mover de novo'], a:1,
+        ok:'Isso. É agora ou nunca.', err:'O en passant só vale logo depois do avanço duplo do peão adversário.'}
+    ]},
+  { id:'promocao', nome:'Promoção', icone:'q',
+    intro:'Quando um peão chega à <b>última fileira</b>, ele é promovido: troca-se por dama, torre, bispo ou cavalo (você escolhe). Quase sempre a dama é a melhor escolha — mas nem sempre!',
+    ex:[
+      {t:'seq', fen:'8/4P1k1/8/8/8/8/8/4K3 w - - 0 1', p:'Leve o peão até a última casa e escolha a dama.', line:['e8=Q'],
+        ok:'Uma nova dama no tabuleiro!', err:'Avance o peão para e8 e escolha a dama.'},
+      {t:'seq', fen:'3r2k1/4P3/8/8/8/8/8/4K3 w - - 0 1', p:'Capture a torre e promova a dama ao mesmo tempo.', line:['exd8=Q+'],
+        ok:'Dois em um: ganhou a torre e ainda fez uma dama.', err:'O peão captura na diagonal: tome a torre em d8 e escolha a dama.'},
+      {t:'quiz', q:'Em quais peças um peão pode ser promovido?', opts:['Somente em dama','Dama, torre, bispo ou cavalo','Em qualquer peça, até em rei'], a:1,
+        ok:'Certo! E você pode ter mais de uma dama.', err:'Pode ser dama, torre, bispo ou cavalo — nunca rei, e não pode continuar peão.'},
+      {t:'seq', fen:'8/3q1P1k/8/8/8/8/5PPP/6K1 w - - 0 1', p:'As pretas ameaçam mate com a dama em d1. Promova a uma peça que dê xeque e ataque a dama ao mesmo tempo!', line:['f8=N+','Kg7','Nxd7'],
+        ok:'Genial! Promover a cavalo deu um garfo no rei e na dama.', err:'Uma dama em f8 não dá xeque, e as pretas dariam mate. Que peça em f8 atacaria o rei em h7 e a dama em d7?',
+        wrong:{'f8=Q':'A dama nova não dá xeque e as pretas jogam Dd1 mate! Tente promover a outra peça.'}}
+    ]},
+  { id:'xeque', nome:'Xeque', icone:'k',
+    intro:'<b>Xeque</b> é quando o rei está atacado. Quem está em xeque é obrigado a sair dele, e existem três jeitos: <b>mover o rei</b>, <b>bloquear</b> o ataque com outra peça ou <b>capturar</b> a peça que dá xeque.',
+    ex:[
+      {t:'seq', fen:'4k3/8/8/8/8/8/3q4/3RK3 w - - 0 1', p:'Seu rei está em xeque. Capture a peça que dá o xeque.', line:[['Rxd2','Kxd2']],
+        ok:'Isso! Capturar o atacante é o melhor jeito quando é possível.', err:'A dama preta em d2 está dando xeque e está sem defesa. Capture-a.'},
+      {t:'seq', fen:'6k1/8/8/8/8/5R2/6PP/r6K w - - 0 1', p:'Xeque da torre! O rei não tem para onde ir. Bloqueie o xeque.', line:['Rf1'],
+        ok:'Boa! Sua torre entrou na frente e protegeu o rei.', err:'Coloque sua torre entre a torre preta e o seu rei (em f1).'},
+      {t:'seq', fen:'4k3/8/8/1b6/8/8/8/5K2 w - - 0 1', any:true, p:'Xeque do bispo! Mova o rei para uma casa segura.', line:['Kg1'],
+        ok:'Pronto, fora da diagonal do bispo.', err:'O rei precisa sair da diagonal do bispo.'},
+      {t:'seq', fen:'4k3/8/8/8/8/8/8/3QK3 w - - 0 1', p:'Agora é sua vez: dê um xeque seguro no rei preto com a dama.', line:[['Qa4+','Qh5+','Qe2+']],
+        ok:'Xeque! E a dama ficou longe do rei adversário, em segurança.', err:'Procure uma casa de onde a dama ataque o rei sem poder ser capturada.',
+        wrong:{'Qd7':'É xeque, mas o rei captura sua dama! Dê xeque de longe.','Qd8':'É xeque, mas o rei captura sua dama! Dê xeque de longe.'}}
+    ]},
+  { id:'mate', nome:'Xeque-mate', icone:'k',
+    intro:'<b>Xeque-mate</b> é o objetivo do jogo: o rei está em xeque e não existe nenhum jeito de escapar — não dá para mover, bloquear nem capturar. Quem dá mate vence a partida.',
+    ex:[
+      {t:'mate', n:1, fen:'6k1/5ppp/8/8/8/8/8/R3K3 w - - 0 1', p:'Dê xeque-mate em 1 lance.', sol:['Ra8#'],
+        ok:'Mate! O rei ficou preso atrás dos próprios peões.', err:'Ainda não é mate. Ataque o rei pela última fileira.'},
+      {t:'mate', n:1, fen:'7k/8/5K2/8/8/8/8/6Q1 w - - 0 1', p:'Dê xeque-mate em 1 lance com a dama, apoiada pelo rei.', sol:['Qg7#'],
+        ok:'Mate! A dama colada no rei, protegida pelo seu rei.', err:'A dama precisa dar xeque numa casa protegida pelo seu rei.'},
+      {t:'mate', n:1, fen:'r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w KQkq - 4 4', p:'Dama e bispo miram a mesma casa. Dê mate em 1.', sol:['Qxf7#'],
+        ok:'Mate! O bispo protege a dama, então o rei não pode capturá-la.', err:'Qual casa ao lado do rei preto é atacada pela dama e pelo bispo ao mesmo tempo?'},
+      {t:'mate', n:1, fen:'7k/R7/8/8/8/8/1R6/4K3 w - - 0 1', p:'Duas torres: uma prende, a outra dá mate. Mate em 1.', sol:['Rb8#'],
+        ok:'Mate da escada! Uma torre fecha a 7ª fileira e a outra ataca na 8ª.', err:'A torre de a7 já impede o rei de sair da última fileira. Use a outra torre.'},
+      {t:'quiz', q:'Qual é a diferença entre xeque e xeque-mate?', opts:['Nenhuma, são a mesma coisa','No xeque o rei consegue escapar; no mate não há saída','No mate o rei é capturado'], a:1,
+        ok:'Exato. E o rei nunca é capturado de verdade: a partida termina no mate.', err:'Xeque é só um ataque ao rei. Mate é um xeque sem nenhuma defesa.'}
+    ]},
+  { id:'empate', nome:'Empate e afogamento', icone:'k',
+    intro:'Nem toda partida tem vencedor. O empate mais traiçoeiro é o <b>afogamento</b>: o jogador da vez <b>não está em xeque</b>, mas <b>não tem nenhum lance legal</b>. Também é empate: repetir a mesma posição três vezes, 50 lances sem captura nem lance de peão, material insuficiente (por exemplo, rei contra rei) ou acordo entre os jogadores.',
+    ex:[
+      {t:'quiz', fen:'7k/5Q2/6K1/8/8/8/8/8 b - - 0 1', q:'É a vez das pretas. O rei preto não está em xeque, mas todas as casas vizinhas estão atacadas. Qual é o resultado?',
+        opts:['Vitória das brancas','Empate por afogamento','As pretas passam a vez'], a:1,
+        ok:'Isso. As brancas tinham dama a mais e deixaram escapar a vitória!', err:'Sem xeque e sem lances legais = afogamento = empate.'},
+      {t:'mate', n:1, fen:'7k/8/6K1/8/8/8/8/5Q2 w - - 0 1', p:'Cuidado para não afogar o rei! Dê xeque-mate em 1 lance.', sol:['Qf8#'],
+        ok:'Mate! Você atacou o rei em vez de só tirar as casas dele.', err:'Não é mate. Lembre: se o rei preto ficar sem lances e sem xeque, é empate.'},
+      {t:'quiz', q:'Qual destas situações NÃO é empate?', opts:['Afogamento','Rei contra rei','A mesma posição repetida três vezes','Perder a dama'], a:3,
+        ok:'Certo. Perder a dama é ruim, mas a partida continua.', err:'Afogamento, rei contra rei e repetição tripla são empates.'},
+      {t:'seq', fen:'7k/2Q3p1/8/8/8/7p/5q2/7K w - - 0 1', p:'As pretas ameaçam mate em g2 e seu rei não tem lances. Use o afogamento a seu favor: entregue a dama com xeque!', line:['Qxg7+','Kxg7'], stalemate:true,
+        ok:'Empate por afogamento! Sem a dama, você não tem nenhum lance legal — e salvou meio ponto.', err:'Seu rei já não tem lances. Se a sua dama sumir do tabuleiro, é afogamento. Onde ela pode se sacrificar com xeque?'}
+    ]}
+]},
+/* ------------------------------------------------------------------ */
+{ id:'m3', nome:'Valor das peças e trocas', desc:'Quanto vale cada peça e quando trocar', fases:[
+  { id:'valor', nome:'Valor das peças', icone:'q',
+    intro:'Cada peça tem um valor aproximado em “pontos de peão”: <b>Peão 1 · Cavalo 3 · Bispo 3 · Torre 5 · Dama 9</b>. O rei não tem preço. Use esses números para decidir se uma troca vale a pena: ganhar mais pontos do que perde é bom negócio.',
+    ex:[
+      {t:'quiz', q:'Quantos pontos vale a dama?', opts:['5','7','9','12'], a:2, ok:'Isso: 9 pontos, quase duas torres.', err:'A dama vale 9 pontos.'},
+      {t:'quiz', q:'O que vale mais: uma torre ou um bispo?', opts:['O bispo','A torre','Valem o mesmo'], a:1, ok:'Certo: torre 5, bispo 3.', err:'A torre vale 5 e o bispo vale 3.'},
+      {t:'quiz', q:'Trocar o seu bispo por uma torre do adversário é um bom negócio?', opts:['Sim: dou 3 pontos e ganho 5','Não, o bispo vale mais','Tanto faz'], a:0,
+        ok:'Isso! Essa vantagem se chama “ganhar a qualidade”.', err:'Bispo = 3, torre = 5. Você sai ganhando 2 pontos.'},
+      {t:'seq', fen:'4k3/8/8/1q3r2/3N4/8/8/4K3 w - - 0 1', p:'Seu cavalo ataca a dama e a torre. Capture a peça que vale mais.', line:['Nxb5'],
+        ok:'Claro: a dama (9) vale bem mais que a torre (5).', err:'A dama vale 9 e a torre vale 5. Capture a dama em b5.'},
+      {t:'quiz', q:'Você tem 1 torre e 2 peões. O adversário tem 1 bispo e 1 cavalo. Quem tem mais pontos?', opts:['Você: 7 contra 6','O adversário: 6 contra 5','Está igual'], a:0,
+        ok:'Isso: 5+1+1 = 7 contra 3+3 = 6.', err:'Torre 5 + dois peões 2 = 7. Bispo 3 + cavalo 3 = 6.'}
+    ]},
+  { id:'trocas', nome:'Trocas boas e ruins', icone:'r',
+    intro:'Antes de capturar, pergunte: <b>“a peça está defendida?”</b> Se não estiver, capture de graça. Se estiver, compare os valores: só capture se o que você ganha vale mais (ou igual) do que o que vai perder. E quando várias peças podem capturar, comece pela de <b>menor valor</b>.',
+    ex:[
+      {t:'seq', fen:'r3k3/8/8/3n4/8/8/3R4/4K3 w - - 0 1', p:'Há uma peça preta sem defesa. Capture-a.', line:['Rxd5'],
+        ok:'Peça de graça! Sempre procure peças sem defesa.', err:'O cavalo em d5 não está defendido por ninguém.'},
+      {t:'quiz', fen:'4k3/8/4p3/3p4/8/8/3Q4/4K3 w - - 0 1', q:'A dama branca deve capturar o peão em d5?',
+        opts:['Sim, peão de graça','Não: o peão de e6 recaptura e eu perco a dama por um peão','Sim, porque dá xeque'], a:1,
+        ok:'Exato. O peão está defendido: trocar 9 pontos por 1 é péssimo.', err:'Olhe o peão em e6: ele defende d5 e capturaria a sua dama.'},
+      {t:'seq', fen:'4k3/2p5/3r4/8/8/B7/8/4K3 w - - 0 1', p:'A torre está defendida por um peão. Mesmo assim, vale a pena capturá-la com o bispo?', line:['Bxd6','cxd6'],
+        ok:'Vale! Você deu um bispo (3) e levou uma torre (5): ganhou a qualidade.', err:'Bispo (3) por torre (5) é lucro, mesmo sendo recapturado. Capture em d6.'},
+      {t:'seq', fen:'4k3/8/3p4/4n3/3P4/5N2/8/3QK3 w - - 0 1', p:'O cavalo preto está defendido. Capture-o com a sua peça de MENOR valor.', line:['dxe5'],
+        ok:'Isso! Peão por cavalo: se recapturarem, você perdeu só 1 ponto e ganhou 3.', err:'Tanto o peão quanto o cavalo podem capturar. Use o peão, que vale menos.',
+        wrong:{'Nxe5':'Funciona, mas você troca cavalo por cavalo. Com o peão você ganha uma peça!'}}
+    ]},
+  { id:'contar', nome:'Atacantes e defensores', icone:'n',
+    intro:'Para saber se dá para ganhar uma peça defendida, <b>conte</b>: quantas peças suas atacam a casa e quantas do adversário a defendem. Se você tem <b>mais atacantes do que defensores</b>, normalmente ganha material. Se o número é igual, quem captura primeiro costuma sair perdendo.',
+    ex:[
+      {t:'quiz', fen:'4k3/pp6/5n2/3p4/8/2N5/PP4B1/4K3 w - - 0 1', q:'O peão de d5 é atacado pelo cavalo e pelo bispo (2 atacantes) e defendido só pelo cavalo preto (1 defensor). Dá para ganhar o peão?',
+        opts:['Sim: tenho mais atacantes que defensores','Não, está igual','Não, peão defendido nunca se captura'], a:0,
+        ok:'Isso mesmo: 2 contra 1.', err:'Conte: 2 atacantes contra 1 defensor. A última captura será sua.'},
+      {t:'seq', fen:'4k3/pp6/5n2/3p4/8/2N5/PP4B1/4K3 w - - 0 1', p:'Então faça as contas no tabuleiro: capture o peão e recapture depois.', line:[['Nxd5','Bxd5'],'Nxd5',['Bxd5','Nxd5']],
+        ok:'Pronto: trocaram-se os cavalos e você ficou com um peão a mais.', err:'Capture em d5 com o cavalo ou o bispo.'},
+      {t:'quiz', fen:'4k3/8/2np4/4p3/8/5N2/8/4RK2 w - - 0 1', q:'O peão de e5 é atacado por cavalo e torre (2) e defendido por cavalo e peão (2). Vale a pena capturar?',
+        opts:['Sim, 2 atacantes bastam','Não: com números iguais, a última captura é do defensor','Sim, porque a torre é forte'], a:1,
+        ok:'Certo. Você perderia cavalo e torre por dois peões.', err:'2 contra 2: o defensor dá a última captura e você sai perdendo.'},
+      {t:'seq', fen:'r3k2r/ppp2ppp/2n5/3q4/8/2N5/PPP2PPP/R2QK2R w KQkq - 0 1', p:'Uma peça preta muito valiosa está atacada e sem nenhuma defesa. Encontre e capture.', line:[['Nxd5','Qxd5']],
+        ok:'A dama estava pendurada! Sempre confira o que está sem defesa.', err:'Olhe para a dama preta em d5: quem a defende?'}
+    ]}
+]},
+/* ------------------------------------------------------------------ */
+{ id:'m4', nome:'Táticas', desc:'Os golpes que ganham material', fases:[
+  { id:'garfo', nome:'Garfo', icone:'n',
+    intro:'<b>Garfo</b> é quando uma peça ataca <b>duas (ou mais) peças ao mesmo tempo</b>. O adversário só consegue salvar uma. O cavalo é o rei dos garfos, mas peões, dama e até o rei também fazem.',
+    ex:[
+      {t:'seq', fen:'r3k3/8/8/3N4/8/8/8/4K3 w - - 0 1', p:'Dê um garfo de cavalo no rei e na torre.', line:['Nc7+','Kd7','Nxa8'],
+        ok:'Garfo! O rei teve que sair do xeque e a torre caiu.', err:'Procure uma casa de onde o cavalo ataque o rei (e8) e a torre (a8) ao mesmo tempo.'},
+      {t:'seq', fen:'4k3/8/8/2n1n3/8/3P4/8/7K w - - 0 1', p:'Até o peão dá garfo! Ataque os dois cavalos de uma vez.', line:['d4','Ne6','dxe5'],
+        ok:'Um peãozinho ganhou um cavalo inteiro.', err:'Avance o peão para a casa de onde ele ataca os dois cavalos na diagonal.'},
+      {t:'seq', fen:'r5k1/8/8/8/8/8/8/3QK3 w - - 0 1', p:'Dê um xeque com a dama que também ataque a torre.', line:['Qd5+','Kg7','Qxa8'],
+        ok:'Garfo de dama! Xeque na diagonal e a torre no fim da outra diagonal.', err:'Qual casa central coloca a dama nas diagonais do rei (g8) e da torre (a8)?'},
+      {t:'seq', fen:'6k1/3q4/8/8/4N3/8/8/4K3 w - - 0 1', p:'O garfo mais desejado: cavalo atacando rei e dama. Encontre-o!', line:['Nf6+','Kg7','Nxd7'],
+        ok:'Garfo real! Rei em xeque e a dama perdida.', err:'De qual casa o cavalo dá xeque em g8 e ataca d7?'}
+    ]},
+  { id:'cravada', nome:'Cravada', icone:'b',
+    intro:'<b>Cravada</b> é quando uma peça não pode (ou não deve) sair do lugar, porque atrás dela, na mesma linha, há uma peça mais valiosa. Se a peça de trás for o rei, a peça cravada simplesmente <b>não pode se mover</b>. Bispos, torres e damas cravam.',
+    ex:[
+      {t:'seq', fen:'4k3/8/2n5/8/8/8/8/4KB2 w - - 0 1', p:'Crave o cavalo contra o rei usando o bispo.', line:['Bb5'],
+        ok:'Cravado! O cavalo não pode sair, senão o rei ficaria em xeque.', err:'Coloque o bispo na diagonal que passa pelo cavalo (c6) e chega ao rei (e8).'},
+      {t:'seq', fen:'4k3/8/8/4q3/8/8/8/R4K2 w - - 0 1', p:'A dama e o rei pretos estão na mesma coluna. Crave a dama com a torre!', line:['Re1','Qxe1+','Kxe1'],
+        ok:'A dama cravada não pôde fugir: você trocou uma torre (5) por uma dama (9).', err:'Leve a torre para a coluna “e”, na frente da dama.'},
+      {t:'seq', fen:'4k3/8/2n5/1B6/3P4/8/8/4K3 w - - 0 1', p:'O cavalo está cravado e não pode fugir. Ataque-o com o peão!', line:['d5','Ke7',['dxc6','Bxc6']],
+        ok:'Regra de ouro: ataque a peça cravada. Ela não consegue escapar.', err:'Avance o peão para atacar o cavalo cravado.'},
+      {t:'quiz', q:'Uma peça cravada contra o próprio REI pode sair da cravada?', opts:['Sim, se capturar algo','Não: o lance seria ilegal, pois deixaria o rei em xeque','Sim, mas perde a vez'], a:1,
+        ok:'Isso. Por isso a cravada contra o rei é tão forte.', err:'Nenhum lance pode deixar o próprio rei em xeque.'}
+    ]},
+  { id:'espeto', nome:'Espeto', icone:'r',
+    intro:'O <b>espeto</b> é o contrário da cravada: você ataca uma peça <b>valiosa</b> que é obrigada a sair da linha, e aí captura a peça que estava <b>atrás</b> dela. O espeto mais comum começa com um xeque.',
+    ex:[
+      {t:'seq', fen:'8/8/8/3k3q/8/8/8/R3K3 w - - 0 1', p:'Rei e dama pretos estão na mesma fileira. Dê xeque com a torre e ganhe a dama!', line:['Ra5+','Kd6','Rxh5'],
+        ok:'Espeto! O rei saiu e a dama ficou sem proteção atrás dele.', err:'Dê xeque na 5ª fileira: o rei sai e a dama fica na mira.'},
+      {t:'seq', fen:'6r1/8/8/3k4/8/8/2B5/4K3 w - - 0 1', p:'Agora na diagonal: dê xeque com o bispo e ganhe a torre.', line:['Bb3+','Kd6','Bxg8'],
+        ok:'Espeto de bispo: xeque na diagonal e a torre cai.', err:'Rei (d5) e torre (g8) estão na mesma diagonal. Dê xeque nela com o bispo.'},
+      {t:'seq', fen:'4q3/8/8/4k3/8/8/8/R5K1 w - - 0 1', p:'Rei na frente, dama atrás, na mesma coluna. Você sabe o que fazer.', line:['Re1+','Kd6','Rxe8'],
+        ok:'Mais um espeto. Fique de olho em rei e dama alinhados!', err:'Dê xeque na coluna “e” com a torre.'},
+      {t:'quiz', q:'Qual é a diferença entre cravada e espeto?', opts:['Na cravada a peça da frente vale menos; no espeto a da frente vale mais e precisa sair','Não há diferença','A cravada é só com cavalos'], a:0,
+        ok:'Perfeito.', err:'Cravada: peça menos valiosa na frente. Espeto: peça mais valiosa na frente.'}
+    ]},
+  { id:'descoberto', nome:'Ataque descoberto', icone:'b',
+    intro:'No <b>ataque descoberto</b> você move uma peça e, ao sair do caminho, ela <b>abre a linha</b> de outra peça sua que estava atrás. São duas ameaças num lance só: a da peça que se moveu e a da que foi “descoberta”. Se a peça descoberta dá xeque, é um <b>xeque descoberto</b>.',
+    ex:[
+      {t:'seq', fen:'4k3/8/8/8/4B3/8/q7/4R1K1 w - - 0 1', p:'Mova o bispo para atacar a dama. A torre atrás dele dará xeque descoberto!', line:[['Bd5+','Bb1+'],'Kd8','Bxa2'],
+        ok:'O rei teve de cuidar do xeque da torre e o bispo capturou a dama.', err:'O bispo deve sair da coluna “e” indo para uma casa que ataque a dama em a2.'},
+      {t:'seq', fen:'6k1/3q1pp1/8/8/8/3B4/8/3R2K1 w - - 0 1', p:'A torre está atrás do bispo, mirando a dama. Saia com o bispo dando xeque!', line:['Bh7+','Kxh7','Rxd7'],
+        ok:'O bispo se sacrificou com xeque e a torre ganhou a dama.', err:'Mova o bispo com xeque para abrir a coluna da torre até a dama.'},
+      {t:'quiz', q:'No ataque descoberto, de onde vem a ameaça “surpresa”?', opts:['Da peça que se moveu','Da peça que estava atrás e teve a linha aberta','Do rei'], a:1,
+        ok:'Isso. E a peça que se moveu ainda pode criar uma segunda ameaça.', err:'A peça da frente sai e revela o ataque da peça de trás.'}
+    ]},
+  { id:'duplo', nome:'Xeque duplo', icone:'n',
+    intro:'O <b>xeque duplo</b> é um xeque descoberto em que a peça que se move <b>também dá xeque</b>. O rei é atacado por duas peças de uma vez — não dá para bloquear nem capturar as duas, então a única defesa é <b>mover o rei</b>.',
+    ex:[
+      {t:'seq', fen:'4k3/8/8/8/4N3/8/8/4R1K1 w - - 0 1', p:'Mova o cavalo de modo que ele E a torre deem xeque ao mesmo tempo.', line:[['Nf6+','Nd6+']],
+        ok:'Xeque duplo! Cavalo e torre atacam o rei juntos.', err:'O cavalo precisa sair da coluna “e” indo para uma casa que também ataque o rei.'},
+      {t:'seq', fen:'3k4/8/8/8/3B4/8/8/3R2K1 w - - 0 1', p:'Agora com o bispo: dê xeque duplo.', line:[['Bb6+','Bf6+']],
+        ok:'Isso! Bispo e torre atacam o rei ao mesmo tempo.', err:'Leve o bispo para uma diagonal que chegue ao rei em d8, abrindo a coluna da torre.'},
+      {t:'seq', fen:'rnb1kb1r/pp3ppp/2p5/4q3/4n3/3Q4/PPPB1PPP/2KR1BNR w kq - 0 9', p:'Uma combinação famosa (Réti, 1910): sacrifique a dama em d8, dê xeque duplo e termine em mate!',
+        steps:['Comece entregando a dama com xeque em d8.','Agora o xeque duplo: mova o bispo para g5.','O rei fugiu para c7. Dê o mate com o bispo.'],
+        line:['Qd8+','Kxd8','Bg5+','Kc7','Bd8#'],
+        ok:'Brilhante! O xeque duplo não deu tempo para as pretas respirarem.', err:'Siga a ideia: dama em d8 com xeque, depois o bispo sai dando xeque duplo.'},
+      {t:'quiz', q:'Como se escapa de um xeque duplo?', opts:['Bloqueando com uma peça','Capturando uma das peças','Somente movendo o rei'], a:2,
+        ok:'Exato. Por isso o xeque duplo é tão perigoso.', err:'Bloquear ou capturar só resolve um dos dois xeques. O rei tem que andar.'}
+    ]},
+  { id:'defensor', nome:'Remoção do defensor', icone:'q',
+    intro:'Muitas vezes uma peça ou uma casa importante está protegida por <b>um único defensor</b>. Se você <b>capturar, trocar ou afastar</b> esse defensor, o que ele protegia cai. Sempre pergunte: “o que está segurando a posição do adversário?”',
+    ex:[
+      {t:'seq', fen:'r4rk1/ppp1qppp/5n2/6B1/8/3Q4/PPB2PPP/R4RK1 w - - 0 1', p:'O cavalo de f6 é o único que impede Dxh7 mate. Elimine o defensor!', line:['Bxf6','Qxf6','Qxh7#'],
+        ok:'Sem o cavalo, ninguém mais defendia h7.', err:'Capture o cavalo de f6 com o bispo; depois a dama entra em h7.'},
+      {t:'seq', fen:'r4rk1/ppp2ppp/2n5/1B2b3/8/5N2/PPP2PPP/R4RK1 w - - 0 1', p:'O bispo preto de e5 só é defendido pelo cavalo de c6. Tire o defensor e ganhe o bispo.', line:['Bxc6','bxc6','Nxe5'],
+        ok:'Primeiro o defensor, depois a peça. Você ganhou um bispo limpo.', err:'Se capturar o bispo direto, o cavalo recaptura. Elimine o cavalo de c6 primeiro.',
+        wrong:{'Nxe5':'Assim o cavalo de c6 recaptura e fica tudo igual. Elimine o defensor antes!'}},
+      {t:'seq', fen:'r2r2k1/5ppp/8/8/8/8/3Q1PPP/3R2K1 w - - 0 1', p:'A torre de d8 guarda a última fileira. Troque-a e aproveite!', line:['Qxd8+','Rxd8','Rxd8#'],
+        ok:'A dama se sacrificou para remover o defensor e a torre deu mate.', err:'Capture a torre de d8 com a dama: depois da recaptura, a sua torre entra com mate.'},
+      {t:'quiz', q:'O que significa “remover o defensor”?', opts:['Tirar o próprio rei do perigo','Capturar ou afastar a peça que protege outra peça ou casa importante','Trocar as damas'], a:1,
+        ok:'Isso mesmo.', err:'É eliminar a peça que faz o trabalho de defesa.'}
+    ]}
+]},
+/* ------------------------------------------------------------------ */
+{ id:'m5', nome:'Mates básicos', desc:'Os xeque-mates que todo jogador precisa saber', fases:[
+  { id:'corredor', nome:'Mate do corredor', icone:'r',
+    intro:'No <b>mate do corredor</b> o rei fica preso na última fileira atrás dos <b>próprios peões</b>, e uma torre ou dama dá xeque nessa fileira. É o mate mais comum entre iniciantes. Para se proteger, abra uma “janelinha” avançando um peão do roque (h3 ou g3).',
+    ex:[
+      {t:'mate', n:1, fen:'6k1/5ppp/8/8/8/8/5PPP/3R2K1 w - - 0 1', p:'O rei preto está preso atrás dos peões. Mate em 1.', sol:['Rd8#'],
+        ok:'Mate do corredor!', err:'Entre com a torre na última fileira.'},
+      {t:'mate', n:1, fen:'6k1/5ppp/8/8/8/8/Q4PPP/6K1 w - - 0 1', p:'A dama também faz esse mate. Mate em 1.', sol:['Qa8#'],
+        ok:'Isso! A dama chegou à última fileira.', err:'Leve a dama até a 8ª fileira.'},
+      {t:'seq', fen:'3r2k1/5ppp/8/8/8/8/R4PPP/6K1 w - - 0 1', p:'Agora é você quem está ameaçado: as pretas querem Td1 mate! Faça um lance que evite o mate do corredor.',
+        line:[['h3','g3','h4','g4','Ra1','Kf1','f3','f4']],
+        ok:'Boa defesa! Agora o rei tem por onde escapar (ou a fileira está protegida).', err:'Esse lance não resolve: Td1 seria mate. Abra uma casa de fuga para o rei ou proteja a primeira fileira.'},
+      {t:'mate', n:2, fen:'r2r2k1/5ppp/8/8/8/3R4/3R1PPP/6K1 w - - 0 1', p:'Mate em 2: suas torres dobradas vencem a defesa da última fileira.', sol:['Rxd8+','Rxd8','Rxd8#'],
+        ok:'Troca na última fileira e mate do corredor.', err:'Capture em d8: depois da recaptura, a outra torre dá mate.'}
+    ]},
+  { id:'damarei', nome:'Dama e rei contra rei', icone:'q',
+    intro:'Com <b>dama e rei contra rei</b> você sempre ganha. O plano: 1) use a dama para <b>empurrar o rei adversário para a borda</b>; 2) traga o <b>seu rei</b> para perto; 3) dê mate com a dama protegida pelo rei (ou na borda, com seu rei tirando as casas de fuga). Cuidado com o <b>afogamento</b>: sempre deixe um lance para o rei adversário até a hora do mate.',
+    ex:[
+      {t:'mate', n:1, fen:'7k/8/6K1/8/8/8/8/1Q6 w - - 0 1', p:'Seu rei já tira as casas de fuga. Mate em 1.', sol:['Qb8#'],
+        ok:'Mate na borda!', err:'Dê xeque na última fileira: o seu rei cobre as casas da frente.'},
+      {t:'mate', n:2, fen:'7k/8/5K2/8/8/8/8/1Q6 w - - 0 1', p:'Mate em 2. Cuidado: há um lance que afoga o rei preto!', sol:['Kg6','Kg8','Qb8#'],
+        ok:'Perfeito: primeiro o rei chegou perto, depois a dama deu o mate.', err:'Esse lance não leva ao mate em 2. Aproxime o rei sem tirar TODAS as casas do rei preto.'},
+      {t:'mate', n:2, fen:'k7/8/2K5/8/8/8/8/6Q1 w - - 0 1', p:'Mesma ideia no outro canto. Mate em 2.', sol:['Kb6','Kb8','Qg8#'],
+        ok:'Isso! Rei perto + dama na borda = mate.', err:'Traga o rei para mais perto, deixando um lance para as pretas.'},
+      {t:'quiz', q:'Qual é o maior perigo quando você tem dama e rei contra rei?', opts:['Perder a dama','Afogar o rei adversário e empatar','Ficar sem tempo'], a:1,
+        ok:'Exato. Antes de cada lance, confira se o rei adversário ainda tem um lance (ou se é mate).', err:'O erro clássico é deixar o rei sem lances e sem xeque: afogamento.'}
+    ]},
+  { id:'torrerei', nome:'Torre e rei contra rei', icone:'r',
+    intro:'Com <b>torre e rei contra rei</b> o mate é sempre na <b>borda</b>. A torre funciona como uma parede que corta o rei adversário; o seu rei fica <b>de frente para o rei adversário</b> (oposição) e então a torre dá xeque na borda: mate.',
+    ex:[
+      {t:'mate', n:1, fen:'7k/8/6K1/8/8/8/8/R7 w - - 0 1', p:'Os reis já estão frente a frente. Mate em 1.', sol:['Ra8#'],
+        ok:'Mate! O rei tira as casas da frente e a torre ataca na borda.', err:'Dê xeque com a torre na última fileira.'},
+      {t:'mate', n:2, fen:'7k/8/5K2/8/8/8/8/R7 w - - 0 1', p:'Mate em 2. Primeiro coloque o seu rei no lugar certo.', sol:['Kg6','Kg8','Ra8#'],
+        ok:'Isso: rei na frente do rei, torre na borda.', err:'Esse lance não força mate em 2. Aproxime o seu rei.'},
+      {t:'mate', n:2, fen:'8/8/8/8/k7/2K5/8/7R w - - 0 1', p:'Mate em 2. Use a torre como “parede” para cortar a fuga do rei.', sol:['Rh5','Ka3','Ra5#'],
+        ok:'A torre cortou a fileira, o rei ficou sem opção e veio o mate.', err:'Feche a 5ª fileira com a torre: o rei preto só poderá ir para a3.'},
+      {t:'quiz', q:'No mate de torre, onde deve estar o seu rei na hora do xeque final?', opts:['Longe, para não atrapalhar','De frente para o rei adversário, tirando as casas de fuga','Atrás da torre'], a:1,
+        ok:'Certo: é a “oposição”.', err:'O rei precisa ajudar: ele tira as três casas da frente do rei adversário.'}
+    ]},
+  { id:'pastor', nome:'Mate pastor', icone:'q',
+    intro:'O <b>mate pastor</b> é o truque mais famoso contra iniciantes: dama e bispo atacam juntos a casa <b>f7</b> (protegida só pelo rei) e dão mate em 4 lances. Aprenda a fazer — e, na próxima fase, a nunca cair nele.',
+    ex:[
+      {t:'seq', fen:INICIO, p:'Jogue o mate pastor completo.',
+        steps:['Comece com o peão do rei: e4.','Saia com a dama para h5 (ela ataca e5 e mira f7).','Traga o bispo para c4: agora dama e bispo atacam f7.','As pretas não defenderam f7. Dê o mate!'],
+        line:['e4','e5','Qh5','Nc6','Bc4','Nf6','Qxf7#'],
+        ok:'Mate pastor! Dama em f7, protegida pelo bispo.', err:'Siga a instrução do passo atual.'},
+      {t:'mate', n:1, fen:'r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 4 4', p:'Outra versão: aqui a dama está em f3. Mate em 1.', sol:['Qxf7#'],
+        ok:'O mesmo padrão: dama + bispo em f7.', err:'A casa fraca é f7.'},
+      {t:'quiz', q:'Qual é a casa fraca das pretas que o mate pastor ataca?', opts:['e5','f7','h7','d8'], a:1,
+        ok:'Isso. No começo, f7 só é defendida pelo rei.', err:'É f7 — a única casa defendida apenas pelo rei no início.'}
+    ]},
+  { id:'antipastor', nome:'Defesa contra o mate pastor', icone:'n',
+    intro:'Defender-se do mate pastor é fácil se você souber o que procurar: <b>proteja e5</b> com o cavalo, <b>feche a diagonal</b> ou <b>defenda f7</b>, e depois ganhe tempo atacando a dama adversária com seus lances de desenvolvimento.',
+    ex:[
+      {t:'seq', fen:'rnbqkbnr/pppp1ppp/8/4p2Q/4P3/8/PPPP1PPP/RNB1KBNR b KQkq - 1 2', p:'Você joga com as pretas. A dama branca ataca o peão de e5. Defenda-o desenvolvendo o cavalo da dama.', line:['Nc6'],
+        ok:'Bom! Defendeu o peão e desenvolveu uma peça.', err:'Desenvolva o cavalo de b8 para c6: ele protege e5.'},
+      {t:'seq', fen:'r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3', p:'Atenção: as brancas ameaçam Dxf7 mate! Defenda.', line:[['g6','Qe7','Qf6']],
+        ok:'Ameaça neutralizada. Com g6 você ainda ataca a dama!', err:'Esse lance não impede Dxf7 mate. Feche o caminho da dama (g6) ou defenda f7 com a dama.',
+        wrong:{'Nh6':'Defende f7, mas o cavalo fica mal colocado na borda. Prefira g6 ou De7.'}},
+      {t:'seq', fen:'r1bqkbnr/pppp1p1p/2n3p1/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR b KQkq - 1 4', p:'A dama recuou para f3 e ameaça mate em f7 de novo. Defenda desenvolvendo uma peça.', line:[['Nf6','Qe7','Qf6']],
+        ok:'Pronto! As brancas perderam tempo com a dama e você está bem desenvolvido.', err:'Bloqueie a coluna “f” com o cavalo (Cf6) ou defenda f7.'},
+      {t:'quiz', q:'Por que sair muito cedo com a dama costuma ser ruim?', opts:['Porque é proibido','Porque ela vira alvo e o adversário ganha tempo desenvolvendo peças','Porque a dama é fraca no começo'], a:1,
+        ok:'Exato: cada ataque à dama é um lance de desenvolvimento grátis para o adversário.', err:'A dama exposta é atacada por peças menores, e você perde tempo fugindo.'}
+    ]}
+]},
+/* ------------------------------------------------------------------ */
+{ id:'m6', nome:'Estratégia e aberturas', desc:'Como começar bem uma partida', fases:[
+  { id:'centro', nome:'Controle do centro', icone:'p',
+    intro:'As quatro casas centrais (<b>e4, d4, e5, d5</b>) são as mais importantes do tabuleiro: do centro as peças alcançam os dois lados rapidamente. Na abertura, <b>ocupe o centro com peões</b> e controle-o com cavalos e bispos.',
+    ex:[
+      {t:'quiz', q:'Quais são as quatro casas centrais?', opts:['a1, a8, h1, h8','e4, d4, e5, d5','c3, f3, c6, f6'], a:1, ok:'Isso!', err:'O centro é formado por e4, d4, e5 e d5.'},
+      {t:'seq', fen:INICIO, p:'Comece a partida ocupando o centro com um peão.', line:[['e4','d4']],
+        ok:'Ótimo começo: o peão ocupa o centro e abre caminho para o bispo e a dama.', err:'Avance o peão do rei (e4) ou o da dama (d4) duas casas.'},
+      {t:'seq', fen:'rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2', p:'Desenvolva um cavalo atacando o peão central das pretas.', line:['Nf3'],
+        ok:'Cf3: desenvolve, controla o centro e ataca e5.', err:'O cavalo de g1 vai para f3, de onde ataca e5.'},
+      {t:'quiz', q:'Quantas casas um cavalo controla quando está no centro (e4) e quando está no canto (a1)?', opts:['8 no centro e 2 no canto','4 e 4','2 no centro e 8 no canto'], a:0,
+        ok:'Por isso dizem: “cavalo na borda, cavalo que se afoga”.', err:'No centro o cavalo tem 8 saltos; no canto, apenas 2.'}
+    ]},
+  { id:'desenv', nome:'Desenvolvimento', icone:'n',
+    intro:'<b>Desenvolver</b> é tirar as peças da casa inicial e colocá-las em jogo. Regras práticas: saia primeiro com <b>cavalos e bispos</b>; não mova a mesma peça duas vezes sem necessidade; não saia cedo com a dama; e faça o roque logo.',
+    ex:[
+      {t:'seq', fen:'r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3', p:'Desenvolva o bispo do rei para uma casa ativa.', line:[['Bc4','Bb5']],
+        ok:'Bispo ativo e o caminho livre para o roque.', err:'Leve o bispo de f1 para c4 ou b5.'},
+      {t:'quiz', q:'Na abertura, qual é o melhor plano?', opts:['Avançar todos os peões da borda','Desenvolver cavalos e bispos e fazer o roque','Atacar sozinho com a dama'], a:1,
+        ok:'Isso. Um exército inteiro em jogo vence uma peça sozinha.', err:'Peças desenvolvidas + rei rocado é a receita básica.'},
+      {t:'seq', fen:'r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4', p:'Falta desenvolver o cavalo da dama. Leve-o para a melhor casa.', line:['Nc3'],
+        ok:'Cc3: mais uma peça em jogo, de olho no centro.', err:'O cavalo de b1 fica melhor em c3.'},
+      {t:'quiz', q:'Quantas vezes você deve mover a mesma peça na abertura?', opts:['Quantas quiser','De preferência uma só, até desenvolver as outras','Sempre duas'], a:1,
+        ok:'Certo. Cada lance repetido é uma peça a menos em jogo.', err:'Mover a mesma peça de novo atrasa o desenvolvimento das outras.'}
+    ]},
+  { id:'seguranca', nome:'Segurança do rei', icone:'k',
+    intro:'Um rei no centro, com colunas abertas, é um alvo. Por isso: <b>faça o roque cedo</b>, <b>não avance sem motivo os peões da frente do rei rocado</b> (eles são o escudo) e fique atento a peças inimigas se aproximando.',
+    ex:[
+      {t:'seq', fen:'r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4', p:'Cavalo e bispo do lado do rei já saíram. Coloque o rei em segurança.', line:['O-O'],
+        ok:'Rei protegido e torre pronta para entrar no jogo.', err:'Faça o roque pequeno: mova o rei de e1 para g1.'},
+      {t:'quiz', q:'Depois do roque pequeno, quais peões formam o “escudo” do rei e não devem avançar sem necessidade?', opts:['a, b e c','d e e','f, g e h'], a:2,
+        ok:'Isso. Cada avanço desses peões abre buracos perto do rei.', err:'São os peões de f, g e h, na frente do rei rocado.'},
+      {t:'seq', fen:'r3k2r/ppp1q1pp/2n2p2/8/8/2Q2N2/PPP2PPP/R4RK1 w kq - 0 1', p:'O rei preto ficou no centro, com a dama na frente dele na coluna aberta. Castigue!', line:[['Rfe1','Rae1'],'Qxe1+',['Rxe1+','Nxe1']],
+        ok:'A dama estava cravada contra o rei no centro. Você ganhou dama por torre.', err:'Coloque uma torre na coluna “e”: a dama fica cravada contra o rei.'},
+      {t:'quiz', q:'Seu rei está no centro e o adversário já abriu colunas. O que fazer?', opts:['Atacar com os peões','Rocar o quanto antes','Trocar os cavalos'], a:1,
+        ok:'Sim: segurança primeiro.', err:'Tire o rei do centro o mais rápido possível com o roque.'}
+    ]},
+  { id:'peoes', nome:'Estrutura de peões', icone:'p',
+    intro:'Os peões são o “esqueleto” da posição. Três conceitos básicos: <b>peões dobrados</b> (dois na mesma coluna — atrapalham um ao outro), <b>peão isolado</b> (sem peões amigos nas colunas vizinhas — difícil de defender) e <b>peão passado</b> (sem peões inimigos na frente nem nas colunas vizinhas — pode correr para a promoção).',
+    ex:[
+      {t:'quiz', fen:'4k3/8/8/8/8/2P5/2P5/4K3 w - - 0 1', q:'Dois peões brancos estão na mesma coluna. Como eles se chamam?', opts:['Peões passados','Peões dobrados','Peões isolados'], a:1,
+        ok:'Dobrados: o de trás não consegue avançar enquanto o da frente não sair.', err:'Dois peões da mesma cor na mesma coluna são “dobrados”.'},
+      {t:'quiz', fen:'4k3/pp6/8/3P4/8/8/PP6/4K3 w - - 0 1', q:'O peão de d5 não tem peões pretos na frente nem nas colunas vizinhas. Como ele se chama?', opts:['Peão passado','Peão dobrado','Peão atrasado'], a:0,
+        ok:'Peão passado! Nenhum peão pode pará-lo — só as peças.', err:'Sem peões inimigos no caminho: é um peão passado.'},
+      {t:'quiz', fen:'4k3/5ppp/8/8/3P4/8/5PPP/4K3 w - - 0 1', q:'O peão de d4 não tem peões brancos nas colunas c e e. Qual é o problema dele?', opts:['Nenhum','É isolado: nenhum peão amigo pode defendê-lo','Não pode mais andar'], a:1,
+        ok:'Isso. Peão isolado precisa ser defendido por peças.', err:'Sem vizinhos, ele é um peão isolado.'},
+      {t:'seq', fen:'8/8/3P4/8/8/k7/8/4K3 w - - 0 1', p:'Peão passado deve avançar! O rei preto está longe: corra para a promoção.', line:['d7','Kb4','d8=Q'],
+        ok:'Dama nova. O rei preto não chegou a tempo.', err:'Avance o peão: ninguém consegue alcançá-lo.'}
+    ]},
+  { id:'italiana', nome:'Abertura Italiana', icone:'b',
+    intro:'A <b>Italiana</b> (1.e4 e5 2.Cf3 Cc6 3.Bc4) é uma das aberturas mais antigas e ótima para aprender. Ideias: ocupar o centro, desenvolver rápido, apontar o bispo para a casa fraca <b>f7</b>, rocar cedo e depois preparar o avanço <b>d4</b> com c3.',
+    ex:[
+      {t:'seq', fen:INICIO, p:'Jogue os primeiros lances da Abertura Italiana.',
+        steps:['1º lance: peão do rei duas casas (e4).','2º lance: cavalo para f3, atacando e5.','3º lance: bispo para c4, mirando f7.','Agora continue o plano: roque, d3 ou c3.'],
+        line:['e4','e5','Nf3','Nc6','Bc4','Bc5',['O-O','c3','d3','Nc3']],
+        ok:'Essa é a Italiana! Peças desenvolvidas e rei quase em segurança.', err:'Siga a instrução do passo atual.'},
+      {t:'seq', fen:'r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4', p:'O plano clássico: prepare e jogue o avanço central d4.',
+        steps:['Jogue c3 para apoiar o avanço do peão da dama.','Agora sim: d4, ocupando o centro e atacando o bispo.'],
+        line:['c3','Nf6','d4'],
+        ok:'Centro forte com apoio do peão de c3.', err:'Primeiro c3, depois d4.'},
+      {t:'quiz', q:'Qual é a ideia principal da Abertura Italiana?', opts:['Trocar as damas rápido','Desenvolver rápido, mirar f7 com o bispo e rocar cedo','Avançar os peões da ala da dama'], a:1,
+        ok:'Isso mesmo.', err:'Desenvolvimento rápido, bispo em c4 de olho em f7 e roque.'}
+    ]},
+  { id:'siciliana', nome:'Defesa Siciliana', icone:'p',
+    intro:'A <b>Siciliana</b> (1.e4 c5) é a resposta mais popular contra 1.e4. Em vez de copiar com e5, as pretas atacam a casa d4 pelo lado. Quando as brancas jogam d4, as pretas trocam o peão <b>c</b> (lateral) pelo peão <b>d</b> (central) e ficam com mais peões no centro e a coluna “c” aberta para a torre. Gera partidas desequilibradas e cheias de luta.',
+    ex:[
+      {t:'seq', fen:'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1', p:'Você joga com as pretas. Jogue a linha principal da Siciliana.',
+        steps:['Responda a e4 com o peão c: c5.','Jogue d6, abrindo o bispo e controlando e5.','As brancas avançaram d4. Troque: capture com o peão c.','Desenvolva o cavalo para f6, atacando o peão de e4.'],
+        line:['c5','Nf3','d6','d4','cxd4','Nxd4','Nf6'],
+        ok:'Essa é a Siciliana Aberta. As pretas têm um peão central a mais e jogo ativo.', err:'Siga a instrução do passo atual.'},
+      {t:'seq', fen:'rnbqkbnr/pp2pppp/3p4/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 3', p:'Agora de brancas: abra o jogo no centro e recapture com o cavalo.',
+        steps:['Avance o peão da dama: d4.','Recapture em d4 com o cavalo.'],
+        line:['d4','cxd4','Nxd4'],
+        ok:'O cavalo ficou forte no centro e as brancas têm mais espaço.', err:'Jogue d4 e depois recapture com o cavalo de f3.'},
+      {t:'quiz', q:'Qual é a troca típica que as pretas fazem na Siciliana?', opts:['O peão lateral “c” pelo peão central “d” das brancas','A dama pela torre','Os dois bispos pelos cavalos'], a:0,
+        ok:'Isso: assim as pretas ficam com maioria de peões no centro.', err:'As pretas trocam o peão c pelo peão d das brancas.'}
+    ]},
+  { id:'gambito', nome:'Gambito da Dama', icone:'q',
+    intro:'O <b>Gambito da Dama</b> (1.d4 d5 2.c4) oferece o peão de c4 para <b>desviar o peão de d5</b> e dominar o centro. Não é um sacrifício de verdade: se as pretas aceitam (dxc4), as brancas quase sempre recuperam o peão. Se recusam (e6), o jogo fica sólido e estratégico.',
+    ex:[
+      {t:'seq', fen:INICIO, p:'Jogue os primeiros lances do Gambito da Dama Recusado.',
+        steps:['1º lance: peão da dama duas casas (d4).','Ofereça o gambito: c4.','Desenvolva o cavalo para c3, pressionando d5.','Desenvolva o bispo para g5, cravando o cavalo.'],
+        line:['d4','d5','c4','e6','Nc3','Nf6','Bg5'],
+        ok:'Posição clássica do Gambito da Dama Recusado.', err:'Siga a instrução do passo atual.'},
+      {t:'seq', fen:'rnbqkb1r/ppp1pppp/5n2/8/2pP4/4P3/PP3PPP/RNBQKBNR w KQkq - 1 4', p:'As pretas aceitaram o gambito. Recupere o peão desenvolvendo uma peça.', line:['Bxc4'],
+        ok:'Peão recuperado e bispo desenvolvido. Por isso não é um sacrifício de verdade.', err:'O bispo de f1 captura o peão em c4.'},
+      {t:'quiz', q:'Por que as brancas oferecem o peão de c4?', opts:['Para desviar o peão de d5 e dominar o centro','Porque o peão não serve para nada','Para trocar as damas'], a:0,
+        ok:'Exato: é tudo pela luta do centro.', err:'A ideia é tirar o peão preto de d5 e ficar com o centro.'}
+    ]}
+]}
+];
+
+/* DESAFIOS TÁTICOS — posições tiradas de partidas e verificadas com o Stockfish e o chess.js.
+   k: m1 = mate em 1, m2 = mate em 2, w = ganho de material · r = dificuldade · line = solução */
+const PUZZLES = [
+  {"id":1,"k":"m1","r":600,"fen":"3N4/3R4/1k6/1B6/PP1K4/2P2P2/6P1/8 w - - 1 55","line":["Rb7#"]},
+  {"id":2,"k":"m1","r":620,"fen":"8/8/4Q3/8/pP5k/P1NP4/5P2/2K3R1 w - - 3 45","line":["Qh6#"]},
+  {"id":3,"k":"m1","r":650,"fen":"5r2/5pk1/8/5Q1R/P2P4/5P2/1P2BK2/8 w - - 4 46","line":["Qg5#"]},
+  {"id":4,"k":"m1","r":670,"fen":"1k6/2R5/p3N3/K1p1P3/8/P4P1P/1P6/3R4 w - - 0 45","line":["Rd8#"]},
+  {"id":5,"k":"m1","r":700,"fen":"R7/1r2k3/1p2P3/2R1PP1B/7P/1P3K2/1N6/8 w - - 3 46","line":["Re8#"]},
+  {"id":6,"k":"m1","r":720,"fen":"4bk2/7Q/P5P1/4n2B/5N2/3p2P1/P7/6KR w - - 3 51","line":["Ne6#"]},
+  {"id":7,"k":"m1","r":740,"fen":"1Q6/3k1p2/p3p3/3P4/5P1p/B1R5/P6P/5KN1 w - - 4 43","line":["Rc7#"]},
+  {"id":8,"k":"w","r":760,"fen":"r2r2k1/pp1b1pp1/1n2p2p/q6N/P1pP1P2/2P1n3/1BPQB1PP/R3R1K1 w - - 1 17","line":["Qxe3"],"cont":["Qxe3","Kh8","Bf3","Bxa4","Qe4"],"g":2},
+  {"id":9,"k":"m1","r":770,"fen":"2R5/R7/5k1p/4pPpP/1p2P3/5B2/1P1K2P1/8 w - - 2 41","line":["Rc6#"]},
+  {"id":10,"k":"m1","r":790,"fen":"4kr2/2Pb1p2/2Q5/3N4/p2P4/8/P4PPP/6KR w - - 2 44","line":["c8=Q#"]},
+  {"id":11,"k":"w","r":810,"fen":"r1bqk2r/ppp2ppp/2n5/3np3/N7/b5PP/PP1PPP2/R1BQKBNR w KQkq - 1 7","line":["bxa3"],"cont":["bxa3","f5","Bb2","Qd6","Bg2"],"g":3},
+  {"id":12,"k":"m1","r":820,"fen":"k3B3/5Q2/8/p1p1B2p/PpP5/1P1P2P1/8/2KR4 w - - 8 48","line":["Bc6#"]},
+  {"id":13,"k":"m1","r":840,"fen":"4r3/3Q4/1k2pb2/pN1pN3/P7/5BQ1/1PP5/R1K5 w - - 1 34","line":["Qc6#"]},
+  {"id":14,"k":"w","r":850,"fen":"r1b2rk1/1ppq1pb1/7p/4p3/Pp2Q1p1/2P1P3/1B2PPPP/3RKB1R w K - 1 18","line":["Rxd7"],"cont":["Rxd7","Bxd7","cxb4","Rxa4","Qxb7"],"g":5},
+  {"id":15,"k":"m1","r":860,"fen":"k5r1/3R2b1/2N1P1P1/2P2pP1/4BB2/P4P2/1P5p/5K1R w - - 0 43","line":["Ra7#"]},
+  {"id":16,"k":"m1","r":890,"fen":"1n5k/p2n1R2/1r4PN/2ppp3/2P1P3/Pp1P4/1P1K1P2/8 w - - 2 40","line":["Rh7#"]},
+  {"id":17,"k":"w","r":900,"fen":"1r1qr1k1/pp3ppp/4p3/BpPP2bb/4p2N/PP2P2P/5PP1/RQ3RK1 w - - 1 21","line":["Bxd8"],"cont":["Bxd8","Rbxd8","Qxe4","f5","Qb4"],"g":7},
+  {"id":18,"k":"m1","r":910,"fen":"r1bR4/3p4/1pp1k3/3N4/1pP2Qp1/P2BP3/1B3KP1/R7 w - - 2 26","line":["Re8#"]},
+  {"id":19,"k":"m1","r":940,"fen":"r4b1r/p5p1/1pk4p/n3Q3/5B2/2N2N2/PP3PPP/3RK2R w K - 1 21","line":["Qc7#"]},
+  {"id":20,"k":"w","r":940,"fen":"r3kb1r/pp3pp1/n2p3p/1Np4P/2PpP1b1/1P2qN2/P1R2PP1/3QKB1R w Kkq - 2 14","line":["fxe3"],"cont":["fxe3","O-O-O","exd4","Nb4","Re2"],"g":10},
+  {"id":21,"k":"m1","r":960,"fen":"rn2k2r/pbppqp1p/1p1P1p2/2b5/8/2N2P2/PPP1QPPP/R3KB1R w KQkq - 1 10","line":["Qxe7#"]},
+  {"id":22,"k":"m2","r":1040,"fen":"8/8/4Q3/6k1/pP6/P1NP4/5P2/2KR4 w - - 1 44","line":["Rg1+","Kh4","Qg4#"]},
+  {"id":23,"k":"m2","r":1060,"fen":"R7/7k/4N3/p7/P1B5/5P2/1PPK2P1/8 w - - 3 38","line":["Bd3+","Kh6","Rh8#"]},
+  {"id":24,"k":"w","r":1060,"fen":"rn2kb1r/pp2ppp1/2q2n2/7p/3Pp3/2N1B3/P1Q2PPP/R3KB1R w KQkq - 5 12","line":["Bb5"],"cont":["Bb5","e6","Rb1","a5","Bxc6+"],"g":9},
+  {"id":25,"k":"m2","r":1090,"fen":"5r2/3Q1p2/6k1/7R/P2P4/5P2/1P2BK2/8 w - - 0 44","line":["Qf5+","Kg7","Qg5#"]},
+  {"id":26,"k":"m2","r":1110,"fen":"6k1/2R2n2/5p2/8/5P2/PQ6/1P3KPP/8 w - - 7 52","line":["Qxf7+","Kh8","Rc8#"]},
+  {"id":27,"k":"m2","r":1130,"fen":"2k5/p5R1/2p1N3/K3P3/8/P4n1P/1P4P1/5R2 w - - 11 42","line":["Rxf3","a6","Rf8#"]},
+  {"id":28,"k":"m2","r":1150,"fen":"Q7/8/pkBp4/2p5/1pP1p3/BP6/3K1Pp1/8 w - - 6 55","line":["Qb7+","Ka5","Qc7#"]},
+  {"id":29,"k":"m2","r":1180,"fen":"r2q4/2p1k3/2p5/p4Q2/P3p2N/2P5/2P4P/3R2K1 w - - 3 28","line":["Ng6+","Ke8","Qf8#"]},
+  {"id":30,"k":"m2","r":1200,"fen":"2b1kr2/p4p2/2PQ4/3p4/3P4/2N5/P4PPP/6KR w - - 1 41","line":["Nxd5","a6","Qe7#"]},
+  {"id":31,"k":"m2","r":1220,"fen":"r1bR4/3p1k2/1pp5/3N4/1pP3p1/P2BP1Q1/1B3KP1/R7 w - - 0 25","line":["Qf4+","Ke6","Qf6#"]},
+  {"id":32,"k":"m2","r":1240,"fen":"7q/1b2k1nB/1Np1pp2/p3P3/P2P3Q/2P3P1/5P2/R3K3 w Q - 0 33","line":["Qxf6+","Ke8","Bg6#"]},
+  {"id":33,"k":"m2","r":1270,"fen":"r1k2b1r/p2R2p1/1p5p/nQ6/5B2/2N2N2/PP3PPP/4K2R w K - 5 23","line":["Rc7+","Kd8","Qd7#"]},
+  {"id":34,"k":"m2","r":1290,"fen":"2Q1qbkr/R4npp/2p1Q3/6N1/3p4/3P2P1/1PP2P1P/1NB1K1R1 w - - 1 20","line":["Qcxe8","c5","Q8xf7#"]},
+  {"id":35,"k":"w","r":1310,"fen":"r1bq1k2/2p2p1p/2p3p1/p2p4/P3n2N/2P1QP2/2P4P/R4RK1 w - - 1 20","line":["Qh6+","Kg8","fxe4"],"cont":["Qh6+","Kg8","fxe4","Qe7","exd5"],"g":4},
+  {"id":36,"k":"m2","r":1330,"fen":"k5r1/6b1/2N1P1P1/2P2pP1/4BB2/P4P1p/1P6/3R1K1R w - - 0 42","line":["Rd7","h2","Ra7#"]},
+  {"id":37,"k":"w","r":1360,"fen":"r4rk1/pb2n1pp/1p2pp2/2p5/3qP1N1/6P1/P2Q1PBP/3R1RK1 w - - 0 24","line":["Qc2","Qb4","Rd7"],"cont":["Qc2","Qb4","Rd7","Bc6","Rxe7"],"g":3},
+  {"id":38,"k":"m2","r":1410,"fen":"4B1Q1/1k6/8/p1p1B2p/PpP5/1P1P2P1/8/2KR4 w - - 2 45","line":["Bb5","h4","Qb8#"]},
+  {"id":39,"k":"w","r":1420,"fen":"r4rk1/1p1bpp2/3p3b/p3np1R/2PBPP2/1P4P1/1R1QN1B1/q3K3 w - - 1 27","line":["Nc1","Qxc1+","Qxc1"],"cont":["Nc1","Qxc1+","Qxc1","Nd3+","Kd2"],"g":6},
+  {"id":40,"k":"w","r":1470,"fen":"rnb1kbnr/1ppq1ppp/p7/3Np3/5B2/3Q4/PPP2PPP/R3KBNR w KQkq e6 0 7","line":["Bxe5","Nc6","Nxc7+"],"cont":["Bxe5","Nc6","Nxc7+","Kd8","Nxa8"],"g":7},
+  {"id":41,"k":"m2","r":1480,"fen":"7k/5Qp1/1p2p2p/5p2/1B6/1P2P1P1/5KBP/8 w - - 1 31","line":["Bf8","g6","Qg7#"]},
+  {"id":42,"k":"w","r":1520,"fen":"5r2/8/6Np/p2R1npP/2Pp4/2kP1K1P/Pr6/3B4 w - - 0 49","line":["Nxf8","Nh4+","Ke4"],"cont":["Nxf8","Nh4+","Ke4","Rb1","Rxa5"],"g":6},
+  {"id":43,"k":"w","r":1570,"fen":"7r/pbN1kppp/3p3q/1pQ1p3/4P1n1/3PPNP1/PP2K2P/n4B1R w - - 0 15","line":["Qxa7","Qxe3+","Qxe3"],"cont":["Qxa7","Qxe3+","Qxe3","Nxe3","Kxe3"],"g":3},
+  {"id":44,"k":"w","r":1630,"fen":"r2q1rk1/pb3ppp/2n2n2/b7/4p3/1QN1P3/PP1PNPPP/R1B1KB1R w KQ - 4 10","line":["Qxb7","Nb4","Nd4"],"cont":["Qxb7","Nb4","Nd4","Rb8","Qxa7"],"g":4},
+  {"id":45,"k":"w","r":1680,"fen":"1r2k2r/1R3p2/3p2p1/p7/3pp3/3P2P1/3P1PKP/R7 w k - 2 31","line":["Rxb8+","Ke7","Rxh8"],"cont":["Rxb8+","Ke7","Rxh8","exd3","Rh4"],"g":9}
+];
+
+/* ==========================================================================
+   JOGAR CONTRA O COMPUTADOR
+   ========================================================================== */
+const NIVEIS = [
+  { nome: 'Iniciante',     desc: 'erra bastante',   skill: 0,  depth: 1,  tempo: 150,  erro: 0.40, ps: 1 },
+  { nome: 'Aprendiz',      desc: 'ainda distraído', skill: 1,  depth: 2,  tempo: 250,  erro: 0.18, ps: 1 },
+  { nome: 'Intermediário', desc: 'joga direitinho', skill: 5,  depth: 5,  tempo: 450,  erro: 0.04, ps: 2 },
+  { nome: 'Avançado',      desc: 'pune descuidos',  skill: 10, depth: 8,  tempo: 800,  erro: 0,    ps: 2 },
+  { nome: 'Expert',        desc: 'muito forte',     skill: 15, depth: 12, tempo: 1200, erro: 0,    ps: 3 },
+  { nome: 'Mestre',        desc: 'força máxima',    skill: 20, depth: 18, tempo: 2000, erro: 0,    ps: 3 }
+];
+const ICONES = {
+  desfazer: '<svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>',
+  dica: '<svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg>',
+  virar: '<svg viewBox="0 0 24 24"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"/></svg>',
+  desistir: '<svg viewBox="0 0 24 24"><path d="M5 21V4M5 4h12l-2.5 4L17 12H5"/></svg>',
+  nova: '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'
+};
+const casaDoRei = (g, cor) => { for (let x = 0; x < 8; x++) for (let y = 0; y < 8; y++) { const s = nomeCasa(x, y), p = g.get(s); if (p && p.type === 'k' && p.color === cor) return s; } return null; };
+const fmtTempo = s => { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+const sorteia = a => a[Math.floor(Math.random() * a.length)];
+
+/* monta a lista de lances em notação algébrica (em português). clicavel -> botões */
+function htmlLances(hist, atual, clicavel) {
+  if (!hist.length) return '<div class="vazio">Os lances aparecem aqui.</div>';
+  let h = '';
+  for (let i = 0; i < hist.length; i += 2) {
+    h += `<span class="n">${i / 2 + 1}.</span>`;
+    for (let k = i; k < i + 2; k++) {
+      if (k >= hist.length) { h += '<span></span>'; continue; }
+      const cls = 'l' + (k === atual ? ' atual' : '');
+      h += clicavel ? `<button class="${cls}" data-ply="${k}">${sanPt(hist[k])}</button>` : `<span class="${cls}">${sanPt(hist[k])}</span>`;
+    }
+  }
+  return h;
+}
+/* atualiza a barra de avaliação. av = {cp, mate} do ponto de vista das brancas */
+function pintarBarra(el, av, ori) {
+  if (!el) return;
+  const nota = notaUnica(av);
+  el.classList.toggle('inv', ori === 'b');
+  el.firstElementChild.style.height = limita(chanceVitoria(nota), 3, 97) + '%';
+  el.lastElementChild.textContent = av.mate != null ? 'M' + Math.abs(av.mate) : (Math.abs(nota) >= 9000 ? '#' : (nota >= 0 ? '+' : '−') + Math.abs(nota / 100).toFixed(1));
+  el.title = 'Avaliação: ' + (nota > 30 ? 'brancas melhor' : nota < -30 ? 'pretas melhor' : 'equilibrado');
+}
+
+const Partida = {
+  g: null, cor: 'w', nivel: 1, relogio: 0, tempos: null, tab: null, fim: true, ficha: 0, pensando: false,
+  av: { cp: 20, mate: null }, timer: null, ultTick: 0,
+
+  /* ---------- tela de configuração ---------- */
+  telaConfig() {
+    const c = Dados.d.cfg;
+    App.cabecalho('Jogar contra o computador', 'menu');
+    $('#tela').innerHTML = `<div class="estreito pilha">
+      <div class="cartao"><h3>Dificuldade</h3><div class="opcoes c6" id="op-nivel">
+        ${NIVEIS.map((n, i) => `<button class="op${i === c.nivel ? ' on' : ''}" data-v="${i}">${n.nome}<small>${n.desc}</small></button>`).join('')}</div></div>
+      <div class="cartao"><h3>Suas peças</h3><div class="opcoes c3" id="op-cor">
+        <button class="op${c.cor === 'w' ? ' on' : ''}" data-v="w">Brancas<small>você começa</small></button>
+        <button class="op${c.cor === 'b' ? ' on' : ''}" data-v="b">Pretas<small>computador começa</small></button>
+        <button class="op${c.cor === 'a' ? ' on' : ''}" data-v="a">Aleatório<small>sorteio</small></button></div></div>
+      <div class="cartao"><h3>Relógio</h3><div class="opcoes c3" id="op-rel">
+        <button class="op${c.relogio === 0 ? ' on' : ''}" data-v="0">Sem tempo<small>jogue com calma</small></button>
+        <button class="op${c.relogio === 600 ? ' on' : ''}" data-v="600">10 min<small>para cada lado</small></button>
+        <button class="op${c.relogio === 300 ? ' on' : ''}" data-v="300">5 min<small>para cada lado</small></button></div></div>
+      <button class="bt pri cheio" id="comecar">Começar partida</button>
+      <p class="sub" style="text-align:center">${Motor.rotulo()}</p></div>`;
+    const grupo = (id, chave, conv) => $(id).addEventListener('click', e => {
+      const b = e.target.closest('.op'); if (!b) return;
+      $$('.op', $(id)).forEach(x => x.classList.toggle('on', x === b));
+      c[chave] = conv(b.dataset.v); Dados.salvar();
+    });
+    grupo('#op-nivel', 'nivel', Number); grupo('#op-cor', 'cor', String); grupo('#op-rel', 'relogio', Number);
+    $('#comecar').onclick = () => App.ir('jogo');
+  },
+
+  /* ---------- início da partida ---------- */
+  iniciar() {
+    const c = Dados.d.cfg;
+    this.g = new Chess(); this.nivel = c.nivel; this.relogio = c.relogio;
+    this.cor = c.cor === 'a' ? (Math.random() < 0.5 ? 'w' : 'b') : c.cor;
+    this.tempos = { w: this.relogio, b: this.relogio };
+    this.fim = false; this.pensando = false; this.ficha++; this.av = { cp: 20, mate: null }; this.textoFim = '';
+    App.cabecalho('Partida · ' + NIVEIS[this.nivel].nome, () => this.sair());
+    $('#tela').innerHTML = `<div class="jogo">
+      <div class="col-tab">
+        <div class="jogador" id="j-cima"><span class="nome"></span><span class="relogio${this.relogio ? '' : ' oculto'}"></span></div>
+        <div class="tab-linha" id="tab-linha"><div class="barra-av" id="barra"><i></i><span></span></div></div>
+        <div class="jogador" id="j-baixo"><span class="nome"></span><span class="relogio${this.relogio ? '' : ' oculto'}"></span></div>
+        <div class="controles">
+          <button class="bt" id="b-desfazer">${ICONES.desfazer}Desfazer</button>
+          <button class="bt" id="b-dica">${ICONES.dica}Dica</button>
+          <button class="bt" id="b-virar">${ICONES.virar}Virar</button>
+          <button class="bt" id="b-desistir">${ICONES.desistir}Desistir</button>
+          <button class="bt" id="b-nova">${ICONES.nova}Nova</button>
+        </div>
+      </div>
+      <div class="lateral">
+        <div class="cartao"><div class="status" id="status"></div><div class="sub" id="motor-rot" style="margin-top:4px;font-size:.8rem"></div></div>
+        <div class="cartao"><h3>Lances</h3><div class="lances" id="lances"></div></div>
+      </div></div>`;
+    this.tab = new Tabuleiro($('#tab-linha'), {
+      alvos: casa => this.alvos(casa),
+      promocao: (de, para) => { const p = this.g.get(de); return !!p && p.type === 'p' && (para[1] === '8' || para[1] === '1'); },
+      mover: (de, para, promo) => this.lanceJogador(de, para, promo)
+    });
+    this.tab.orientar(this.cor);
+    this.tab.posicionar(mapaDoJogo(this.g), false);
+    $('#b-desfazer').onclick = () => this.desfazer();
+    $('#b-dica').onclick = () => this.dica();
+    $('#b-virar').onclick = () => { this.tab.orientar(this.tab.ori === 'w' ? 'b' : 'w'); this.pintar(); };
+    $('#b-desistir').onclick = () => this.desistir();
+    $('#b-nova').onclick = () => this.nova();
+    Motor.aoMudar = () => { const r = $('#motor-rot'); if (r) r.innerHTML = Motor.rotulo(); };
+    Motor.aoMudar();
+    App.aoSair = () => this.encerrar();
+    this.pintar();
+    if (this.relogio) { this.ultTick = performance.now(); this.timer = setInterval(() => this.tique(), 200); }
+    if (this.cor === 'b') this.lanceComputador();
+  },
+  encerrar() { this.fim = true; this.ficha++; Motor.cancelar(); clearInterval(this.timer); this.timer = null; Motor.aoMudar = null; },
+
+  /* ---------- desenho ---------- */
+  pintar() {
+    const g = this.g, hist = g.history();
+    $('#lances').innerHTML = htmlLances(hist, hist.length - 1, false);
+    const at = $('#lances .atual'); if (at) at.scrollIntoView({ block: 'nearest' });
+    const euEmbaixo = this.tab.ori === this.cor;
+    const nomeEu = 'Você <small>' + (this.cor === 'w' ? 'brancas' : 'pretas') + '</small>';
+    const nomePc = 'Computador <small>' + NIVEIS[this.nivel].nome + '</small>' + (this.pensando ? '<span class="pensando"><i></i><i></i><i></i></span>' : '');
+    $('#j-cima .nome').innerHTML = euEmbaixo ? nomePc : nomeEu;
+    $('#j-baixo .nome').innerHTML = euEmbaixo ? nomeEu : nomePc;
+    this.pintarRelogios();
+    pintarBarra($('#barra'), this.av, this.tab.ori);
+    let s;
+    if (this.fim) s = this.textoFim || 'Partida encerrada.';
+    else if (g.turn() === this.cor) s = (g.in_check() ? '<b style="color:var(--ruim)">Xeque!</b> ' : '') + 'Sua vez de jogar.';
+    else s = 'O computador está pensando…';
+    $('#status').innerHTML = s;
+  },
+  pintarRelogios() {
+    if (!this.relogio) return;
+    const euEmbaixo = this.tab.ori === this.cor, corCima = euEmbaixo ? (this.cor === 'w' ? 'b' : 'w') : this.cor, corBaixo = corCima === 'w' ? 'b' : 'w';
+    const pinta = (el, cor) => { el.textContent = fmtTempo(this.tempos[cor]); el.classList.toggle('ativo', !this.fim && this.g.turn() === cor); el.classList.toggle('baixo', this.tempos[cor] < 30); };
+    pinta($('#j-cima .relogio'), corCima); pinta($('#j-baixo .relogio'), corBaixo);
+  },
+  tique() {
+    const agora = performance.now(), dt = (agora - this.ultTick) / 1000; this.ultTick = agora;
+    if (this.fim) return;
+    const vez = this.g.turn(); this.tempos[vez] -= dt;
+    if (this.tempos[vez] <= 0) { this.tempos[vez] = 0; this.finalizar(vez === this.cor ? 'd' : 'v', 'tempo esgotado'); return; }
+    this.pintarRelogios();
+  },
+  marcarUltimo(m) { this.tab.marcar({ ult: m ? [m.from, m.to] : [], xq: this.g.in_check() ? casaDoRei(this.g, this.g.turn()) : null }); },
+
+  /* ---------- lances ---------- */
+  alvos(casa) {
+    if (this.fim || this.pensando || this.g.turn() !== this.cor) return null;
+    const p = this.g.get(casa); if (!p || p.color !== this.cor) return null;
+    return Array.from(new Set(this.g.moves({ square: casa, verbose: true }).map(m => m.to)));
+  },
+  lanceJogador(de, para, promo) {
+    if (this.fim) return;
+    const m = this.g.move({ from: de, to: para, promotion: promo || 'q' });
+    if (!m) { this.tab.redesenhar(); return; }
+    this.ficha++; Motor.cancelar(); this.tab.setas([]);
+    this.aposLance(m);
+    if (!this.fim) this.lanceComputador();
+  },
+  aposLance(m) {
+    this.tab.posicionar(mapaDoJogo(this.g));
+    this.marcarUltimo(m);
+    const g = this.g;
+    if (g.game_over()) {
+      if (g.in_checkmate()) this.finalizar(m.color === this.cor ? 'v' : 'd', 'xeque-mate');
+      else if (g.in_stalemate()) this.finalizar('e', 'afogamento');
+      else if (g.insufficient_material()) this.finalizar('e', 'material insuficiente');
+      else if (g.in_threefold_repetition()) this.finalizar('e', 'repetição de posição');
+      else this.finalizar('e', 'regra dos 50 lances');
+      return;
+    }
+    this.pintar();
+  },
+  async lanceComputador() {
+    const ficha = this.ficha, g = this.g, n = NIVEIS[this.nivel], t0 = performance.now();
+    this.pensando = true; this.pintar();
+    const legais = g.moves({ verbose: true });
+    let uci = null;
+    const ply = g.history().length;
+    // pequena variação na abertura, para as partidas não serem sempre iguais
+    if (ply === 0) uci = uciDe(lanceDeSan(g, sorteia(['e4', 'e4', 'd4', 'd4', 'c4', 'Nf3'])));
+    else if (ply === 1) {
+      const p = g.history()[0];
+      const opc = p === 'e4' ? ['e5', 'e5', 'c5', 'e6', 'c6'] : p === 'd4' ? ['d5', 'd5', 'Nf6', 'Nf6'] : null;
+      if (opc) uci = uciDe(lanceDeSan(g, sorteia(opc)));
+    }
+    if (!uci && legais.length > 1 && Math.random() < n.erro) uci = uciDe(sorteia(legais));   // níveis fracos erram de propósito
+    if (!uci) {
+      const r = await Motor.analisar(g.fen(), { skill: n.skill, depth: n.depth, movetime: n.tempo, profSimples: n.ps });
+      if (ficha !== this.ficha || this.fim) return;
+      if (r && r.best) uci = r.best;
+    }
+    const resto = 500 - (performance.now() - t0);
+    if (resto > 0) { await espera(resto); if (ficha !== this.ficha || this.fim) return; }
+    let m = uci ? g.move({ from: uci.slice(0, 2), to: uci.slice(2, 4), promotion: uci[4] || undefined }) : null;
+    if (!m) m = g.move(sorteia(legais));               // segurança: nunca fica sem lance
+    this.pensando = false; this.ficha++;
+    this.aposLance(m);
+    if (!this.fim) this.pedirAvaliacao();
+  },
+  async pedirAvaliacao() {
+    const ficha = this.ficha, vez = this.g.turn();
+    const r = await Motor.analisar(this.g.fen(), { depth: 11, movetime: 350, profSimples: 2 });
+    if (!r || ficha !== this.ficha) return;
+    this.definirAv(r, vez);
+  },
+  definirAv(r, vez) {
+    const s = vez === 'w' ? 1 : -1;
+    this.av = { cp: r.cp != null ? r.cp * s : null, mate: r.mate != null ? r.mate * s : null };
+    pintarBarra($('#barra'), this.av, this.tab.ori);
+  },
+
+  /* ---------- botões ---------- */
+  desfazer() {
+    if (this.fim) return;
+    const g = this.g, n = g.history().length;
+    const qtd = g.turn() === this.cor ? 2 : 1;
+    if (n < qtd || (qtd === 2 && n < 2)) { aviso('Não há lance seu para desfazer.'); return; }
+    this.ficha++; Motor.cancelar(); this.pensando = false;
+    for (let i = 0; i < qtd; i++) g.undo();
+    this.tab.limparSelecao(); this.tab.setas([]);
+    this.tab.posicionar(mapaDoJogo(g));
+    const h = g.history({ verbose: true }); this.marcarUltimo(h[h.length - 1]);
+    this.pintar();
+    if (g.turn() !== this.cor) this.lanceComputador(); else this.pedirAvaliacao();
+  },
+  async dica() {
+    if (this.fim) return;
+    if (this.g.turn() !== this.cor || this.pensando) { aviso('Espere a sua vez para pedir uma dica.'); return; }
+    const ficha = ++this.ficha; Motor.cancelar();
+    $('#status').textContent = 'Procurando a melhor jogada…';
+    const r = await Motor.analisar(this.g.fen(), { depth: 14, movetime: 900, profSimples: 3 });
+    if (ficha !== this.ficha || this.fim) return;
+    if (!r || !r.best) { this.pintar(); aviso('Não consegui calcular a dica agora.'); return; }
+    this.definirAv(r, this.g.turn());
+    const m = lanceDeUci(this.g, r.best);
+    this.tab.setas([{ de: r.best.slice(0, 2), para: r.best.slice(2, 4), cor: 'azul' }]);
+    $('#status').innerHTML = 'Dica: a melhor jogada é <b>' + (m ? sanPt(m.san) : r.best) + '</b> (seta azul).';
+  },
+  async desistir() {
+    if (this.fim) return;
+    const ok = await modal('Desistir da partida?', 'A partida conta como derrota e você verá a análise dos seus lances.', [{ txt: 'Continuar jogando', val: false }, { txt: 'Desistir', cls: 'perigo', val: true }]);
+    if (ok && !this.fim) this.finalizar('d', 'desistência');
+  },
+  async sair() {
+    if (!this.fim && this.g.history().length > 0) {
+      const ok = await modal('Sair da partida?', 'A partida atual será abandonada e não entra nas estatísticas.', [{ txt: 'Continuar jogando', val: false }, { txt: 'Sair', cls: 'perigo', val: true }]);
+      if (!ok) return;
+    }
+    App.ir('menu');
+  },
+  async nova() {
+    if (!this.fim && this.g.history().length > 0) {
+      const ok = await modal('Começar outra partida?', 'A partida atual será abandonada e não entra nas estatísticas.', [{ txt: 'Voltar', val: false }, { txt: 'Nova partida', cls: 'pri', val: true }]);
+      if (!ok) return;
+    }
+    App.ir('config');
+  },
+
+  /* ---------- fim de jogo: registra e abre a análise ---------- */
+  finalizar(res, motivo) {
+    if (this.fim) return;
+    this.fim = true; this.ficha++; this.pensando = false; Motor.cancelar(); clearInterval(this.timer); this.timer = null;
+    const titulo = res === 'v' ? 'Você venceu!' : res === 'd' ? 'Você perdeu' : 'Empate';
+    this.textoFim = `<b>${titulo}</b> — ${motivo}.`;
+    this.tab.limparSelecao(); this.pintar();
+    Analise.iniciar({ lances: this.g.history({ verbose: true }), cor: this.cor, nivel: this.nivel, res, motivo, titulo });
+  }
+};
+function lanceDeSan(g, san) { const m = g.move(san); if (m) g.undo(); return m || g.moves({ verbose: true })[0]; }
+
+/* ==========================================================================
+   ANÁLISE DA PARTIDA — classifica cada lance do jogador e explica os erros
+   ========================================================================== */
+const CLASSES = {
+  exc: { nome: 'Excelente', cls: 'c-exc' }, bom: { nome: 'Bom', cls: 'c-bom' }, imp: { nome: 'Imprecisão', cls: 'c-imp' },
+  err: { nome: 'Erro', cls: 'c-err' }, gra: { nome: 'Erro grave', cls: 'c-gra' }
+};
+const ROTULO_TAG = {
+  pendurada: 'Peças penduradas (sem defesa)', mate_perdido: 'Xeque-mates perdidos', permitiu_mate: 'Permitiu xeque-mate',
+  troca_ruim: 'Trocas ruins', garfo: 'Garfos permitidos', nao_capturou: 'Peças grátis não capturadas',
+  tatica_perdida: 'Táticas não vistas', rei_exposto: 'Rei exposto', material: 'Perda de material em trocas', posicional: 'Lances passivos'
+};
+const DICA_TAG = {
+  pendurada: 'Você costuma deixar peças desprotegidas. Antes de cada lance, pergunte: “o que o meu adversário ameaça? Todas as minhas peças estão defendidas?”',
+  mate_perdido: 'Você deixou passar xeque-mate. Em toda posição, olhe primeiro os xeques que você pode dar: o mate quase sempre começa com um xeque.',
+  permitiu_mate: 'Seu rei ficou em perigo. Antes de jogar, confira todos os xeques que o adversário pode dar no lance seguinte e deixe uma casa de fuga para o rei.',
+  troca_ruim: 'Cuidado com as trocas: compare os valores (peão 1, cavalo e bispo 3, torre 5, dama 9) e só capture uma peça defendida se o que você ganha vale mais do que o que perde.',
+  garfo: 'Você caiu em garfos. Evite deixar duas peças valiosas (principalmente rei, dama e torres) ao alcance do mesmo cavalo ou peão adversário.',
+  nao_capturou: 'Você deixou de capturar peças grátis. A cada lance, procure peças adversárias sem defesa: capturar de graça é o jeito mais simples de ganhar.',
+  tatica_perdida: 'Você deixou passar golpes táticos. Antes de jogar, examine xeques, capturas e ameaças, nessa ordem. Treine na seção Desafios táticos.',
+  rei_exposto: 'Seu rei ficou exposto. Faça o roque cedo e evite avançar os peões que ficam na frente do rei.',
+  material: 'Você perdeu material em sequências de trocas. Conte atacantes e defensores de cada casa antes de começar ou permitir uma troca.',
+  posicional: 'Alguns lances foram passivos. Na dúvida, melhore a sua pior peça: desenvolva, ocupe o centro e coloque as torres em colunas abertas.'
+};
+const DICAS_GERAIS = [
+  'Antes de cada lance, faça a checagem de segurança: xeques, capturas e ameaças — as suas e as do adversário.',
+  'Na abertura: ocupe o centro, desenvolva cavalos e bispos e faça o roque antes de atacar.',
+  'Resolva alguns desafios táticos por dia: reconhecer padrões é o que mais aumenta a força de jogo.'
+];
+const gen = (t, masc, fem) => FEM[t] ? fem : masc;
+
+/* gera a explicação em português de um lance ruim, por regras de detecção */
+function explicarErro(c) {
+  const R = (tag, texto) => ({ tag, texto });
+  const g0 = new Chess(c.fenAntes), eu = g0.turn(), ele = eu === 'w' ? 'b' : 'w', m = c.lance;
+  const melhor = lanceDeUci(g0, c.melhorUci), mTxt = melhor ? sanPt(melhor.san) : null;
+  const g1 = new Chess(c.fenAntes); g1.move(m.san);
+  const resp = c.respUci ? lanceDeUci(g1, c.respUci) : null, rTxt = resp ? sanPt(resp.san) : null;
+  const pm = m.promotion || m.piece;          // peça que ficou na casa de destino
+  const fimMelhor = mTxt ? ` O melhor era ${mTxt}.` : '';
+
+  // 1) deixou passar um xeque-mate
+  if (c.mateAntes > 0 && c.notaDepois < 9000 && mTxt)
+    return R('mate_perdido', c.mateAntes === 1 ? `Você deixou passar um xeque-mate em 1 lance: ${mTxt}.` : `Você deixou passar um xeque-mate em ${c.mateAntes} lances. A sequência começava com ${mTxt}.`);
+  // 2) permitiu xeque-mate
+  if (c.notaDepois < -9000 && c.notaAntes > -9000) {
+    const n = c.mateDepois ? Math.abs(c.mateDepois) : 0;
+    return R('permitiu_mate', `Esse lance permite xeque-mate${n ? ' em ' + n + (n === 1 ? ' lance' : ' lances') : ''}${rTxt ? ': o adversário joga ' + rTxt : ''}. Antes de jogar, confira os xeques e as ameaças contra o seu rei.` + fimMelhor);
+  }
+  // 3) a resposta do adversário captura algo com lucro
+  if (resp && resp.captured) {
+    const g2 = new Chess(g1.fen()); g2.move(resp.san);
+    const lucro = VALOR[resp.captured] - ganhoNaCasa(g2, resp.to);
+    if (lucro > 0) {
+      if (resp.to === m.to) {
+        if (m.captured && VALOR[m.piece] > VALOR[m.captured])
+          return R('troca_ruim', `Você capturou ${umPeca(m.captured)} (${VALOR[m.captured]}) com ${oPeca(m.piece)} (${VALOR[m.piece]}), mas a casa estava defendida: depois de ${rTxt} você troca uma peça de maior valor por uma de menor.` + fimMelhor);
+        const defendida = atacantes(g1, m.to, eu).length > 0;
+        return R('pendurada', (defendida
+          ? `Você colocou ${oPeca(pm)} em ${m.to}, onde ${gen(pm, 'ele', 'ela')} pode ser capturad${gen(pm, 'o', 'a')} por uma peça de menor valor: ${rTxt} ganha material.`
+          : `Você deixou ${oPeca(pm)} sem defesa em ${m.to}: o adversário captura de graça com ${rTxt}.`) + fimMelhor);
+      }
+      const alvo = resp.captured; let jaEstava = false;
+      if (!g0.in_check()) {
+        const p = c.fenAntes.split(' '); p[1] = ele; p[3] = '-';
+        const gs = new Chess();
+        if (gs.load(p.join(' '))) jaEstava = gs.moves({ verbose: true }).some(x => x.to === resp.to && x.captured && ganhoDaCaptura(gs, x) > 0);
+      }
+      return R('pendurada', (jaEstava
+        ? `${suaPeca(alvo).replace(/^s/, 'S')} em ${resp.to} já estava atacad${gen(alvo, 'o', 'a')} e continuou sem proteção: o adversário captura com ${rTxt}.`
+        : `Ao jogar ${sanPt(m.san)}, você deixou ${suaPeca(alvo)} em ${resp.to} sem defesa suficiente: o adversário captura com ${rTxt}.`) + fimMelhor);
+    }
+  }
+  // 4) permitiu um garfo
+  if (resp) {
+    const g2 = new Chess(g1.fen()); g2.move(resp.san);
+    const gf = detectarGarfo(g2, resp.to);
+    if (gf) return R('garfo', `Você permitiu um garfo: depois de ${rTxt}, ${oPeca(gf.peca)} adversári${gen(gf.peca, 'o', 'a')} ataca ${gf.alvos.map(a => suaPeca(a.type)).join(' e ')} ao mesmo tempo.` + fimMelhor);
+  }
+  // 5) não capturou uma peça que estava de graça
+  if (melhor && melhor.captured) {
+    const gc = ganhoDaCaptura(g0, melhor);
+    const meu = m.captured ? ganhoDaCaptura(g0, lanceDeUci(g0, uciDe(m))) : 0;
+    if (gc > 0 && meu < gc) {
+      const def = melhor.flags.indexOf('e') < 0 && atacantes(g0, melhor.to, ele).length > 0;
+      return R('nao_capturou', `Você não aproveitou ${oPeca(melhor.captured)} adversári${gen(melhor.captured, 'o', 'a')} em ${melhor.to}, que estava ${def ? 'mal defendid' + gen(melhor.captured, 'o', 'a') : 'sem defesa'}: ${mTxt} ganhava material.`);
+    }
+  }
+  // 6) deixou passar um garfo
+  if (melhor) {
+    const gb = new Chess(c.fenAntes); gb.move(melhor.san);
+    const gf = detectarGarfo(gb, melhor.to);
+    if (gf) return R('tatica_perdida', `Você deixou passar um garfo: ${mTxt} atacava ${gf.alvos.map(a => oPeca(a.type)).join(' e ')} ao mesmo tempo.`);
+  }
+  // 7) rei exposto
+  const direitos = c.fenAntes.split(' ')[2], meusDireitos = eu === 'w' ? /[KQ]/ : /[kq]/;
+  if (m.piece === 'k' && !/[kq]/.test(m.flags) && meusDireitos.test(direitos))
+    return R('rei_exposto', 'Você moveu o rei e perdeu o direito ao roque. No centro, o rei fica exposto aos ataques.' + fimMelhor);
+  if (m.piece === 'p' && !m.captured) {
+    const rei = casaDoRei(g0, eu);
+    if (rei && rei[1] === (eu === 'w' ? '1' : '8') && (rei[0] >= 'f' || rei[0] <= 'c') && m.from[1] === (eu === 'w' ? '2' : '7') && Math.abs(rei.charCodeAt(0) - m.from.charCodeAt(0)) <= 1)
+      return R('rei_exposto', 'Você avançou um peão do escudo do seu rei. Isso abre casas e linhas para o ataque adversário.' + fimMelhor);
+  }
+  if (resp && resp.san.indexOf('+') > 0 && c.perda >= 10)
+    return R('rei_exposto', `Depois desse lance o seu rei ficou exposto: o adversário tem ${rTxt}, com xeque, e ganha vantagem.` + fimMelhor);
+  // 8) perde material na sequência
+  if (c.pvDepois && c.pvDepois.length) {
+    const gp = new Chess(g1.fen()), m0 = materialDe(g1, eu);
+    for (const u of c.pvDepois.slice(0, 4)) { if (!gp.move({ from: u.slice(0, 2), to: u.slice(2, 4), promotion: u[4] || undefined })) break; }
+    const dif = m0 - materialDe(gp, eu);
+    if (dif >= 1) return R('material', `Esse lance perde material: depois de ${rTxt || 'a melhor resposta'}, o adversário ganha ${dif === 1 ? 'um peão' : 'cerca de ' + dif + ' pontos'} na sequência.` + fimMelhor);
+  }
+  // 9) caso geral: descreve o que o melhor lance fazia
+  if (m.piece === 'q' && +c.fenAntes.split(' ')[5] <= 7 && !m.captured)
+    return R('posicional', 'Você saiu cedo demais com a dama. Ela vira alvo das peças adversárias, que se desenvolvem ganhando tempo enquanto você foge.' + fimMelhor);
+  let desc = '';
+  if (melhor) {
+    if (/[kq]/.test(melhor.flags)) desc = `${mTxt} (roque) colocava o seu rei em segurança.`;
+    else if (melhor.captured) desc = `${mTxt} capturava ${umPeca(melhor.captured)} em boas condições.`;
+    else if (melhor.san.indexOf('+') > 0) desc = `${mTxt} dava xeque e mantinha a iniciativa.`;
+    else if ((melhor.piece === 'n' || melhor.piece === 'b') && melhor.from[1] === (eu === 'w' ? '1' : '8')) desc = `${mTxt} desenvolvia mais uma peça.`;
+    else if (melhor.piece === 'p' && /^[de][45]$/.test(melhor.to)) desc = `${mTxt} ocupava o centro.`;
+    else desc = `${mTxt} deixava suas peças mais ativas.`;
+  }
+  return R('posicional', 'Havia um lance mais forte. ' + desc);
+}
+
+const Analise = {
+  /* mostra o resultado, analisa todos os lances do jogador e abre o resumo */
+  async iniciar(p) {
+    const m = $('#modal');
+    m.innerHTML = `<div class="cx"><h2>${p.titulo}</h2><p>${p.motivo.charAt(0).toUpperCase() + p.motivo.slice(1)}.</p>
+      <div class="sub" id="an-txt" style="margin-bottom:8px">Analisando os seus lances…</div><div class="progresso"><i id="an-barra"></i></div></div>`;
+    m.classList.remove('oculto');
+    let r;
+    try { r = await this.analisar(p, f => { const b = $('#an-barra'); if (b) b.style.width = Math.round(f * 100) + '%'; }); }
+    catch (e) { r = { precisao: null, cont: { exc: 0, bom: 0, imp: 0, err: 0, gra: 0 }, itens: [], tags: {}, dicas: DICAS_GERAIS.slice(), fens: [], av: [], classe: {}, falhou: true }; }
+    r.p = p;
+    // grava nas estatísticas
+    const d = Dados.d;
+    d.partidas.push({ t: Date.now(), nivel: p.nivel, cor: p.cor, res: p.res, prec: r.precisao == null ? null : Math.round(r.precisao), cont: r.cont, lances: p.lances.length });
+    if (d.partidas.length > 60) d.partidas = d.partidas.slice(-60);
+    d.porNivel[p.nivel][p.res]++;
+    for (const t in r.tags) d.tags[t] = (d.tags[t] || 0) + r.tags[t];
+    Dados.salvar();
+    fecharModal();
+    App.ir('resumo', r);
+  },
+  async analisar(p, progresso) {
+    const g = new Chess(), fens = [g.fen()];
+    for (const m of p.lances) { g.move(m.san); fens.push(g.fen()); }
+    const N = p.lances.length, precisa = new Set();
+    p.lances.forEach((m, i) => { if (m.color === p.cor) { precisa.add(i); precisa.add(i + 1); } });
+    const lista = Array.from(precisa).sort((a, b) => a - b), av = new Array(N + 1).fill(null);
+    let feitos = 0;
+    for (const i of lista) {
+      const gi = new Chess(fens[i]), vez = gi.turn(), s = vez === 'w' ? 1 : -1;
+      if (gi.in_checkmate()) av[i] = { nota: -10000 * s, mate: null, best: null, pv: [] };
+      else if (gi.game_over()) av[i] = { nota: 0, mate: null, best: null, pv: [] };
+      else {
+        const r = await Motor.analisar(fens[i], { depth: 12, movetime: 450, profSimples: 2 }) || { best: null, cp: 0, mate: null, pv: [] };
+        av[i] = { nota: notaUnica(r) * s, mate: r.mate != null ? r.mate * s : null, best: r.best, pv: r.pv || [] };
+      }
+      progresso(++feitos / lista.length);
+    }
+    const itens = [], cont = { exc: 0, bom: 0, imp: 0, err: 0, gra: 0 }, tags = {}, classe = {};
+    let soma = 0, n = 0;
+    const s = p.cor === 'w' ? 1 : -1;
+    p.lances.forEach((m, i) => {
+      if (m.color !== p.cor) return;
+      const a = av[i], d = av[i + 1];
+      const notaA = a.nota * s, notaD = d.nota * s;
+      const mateA = a.mate != null ? a.mate * s : null, mateD = d.mate != null ? d.mate * s : null;
+      const jogouMelhor = !!a.best && uciDe(m) === a.best;
+      const perda = jogouMelhor ? 0 : Math.max(0, chanceVitoria(notaA) - chanceVitoria(notaD));
+      let cl = perda < 2 ? 'exc' : perda < 5 ? 'bom' : perda < 10 ? 'imp' : perda < 20 ? 'err' : 'gra';
+      if (!jogouMelhor && mateA > 0 && mateA <= 3 && notaD < 9000 && (cl === 'exc' || cl === 'bom')) cl = 'imp';   // mate curto perdido
+      if (!jogouMelhor && notaD < -9000 && notaA > -9000) cl = chanceVitoria(notaA) >= 20 ? 'gra' : (cl === 'gra' ? 'gra' : 'err'); // permitiu mate
+      cont[cl]++; classe[i] = cl; n++;
+      soma += jogouMelhor ? 100 : limita(103.1668 * Math.exp(-0.04354 * perda) - 3.1669, 0, 100);
+      if (cl === 'imp' || cl === 'err' || cl === 'gra') {
+        let ex;
+        try { ex = explicarErro({ fenAntes: fens[i], lance: m, melhorUci: a.best, mateAntes: mateA, mateDepois: mateD, notaAntes: notaA, notaDepois: notaD, respUci: d.best, pvDepois: d.pv, perda }); }
+        catch (e) { ex = { tag: 'posicional', texto: 'Havia um lance mais forte nesta posição.' }; }
+        const gm = new Chess(fens[i]), mm = lanceDeUci(gm, a.best);
+        itens.push({ i, num: Math.floor(i / 2) + 1, cor: m.color, san: m.san, de: m.from, para: m.to, classe: cl, melhor: mm ? mm.san : null, melhorUci: a.best, texto: ex.texto, tag: ex.tag });
+        tags[ex.tag] = (tags[ex.tag] || 0) + 1;
+      }
+    });
+    // 3 dicas personalizadas: as dos erros mais frequentes, completadas com dicas gerais
+    const ordem = Object.keys(tags).sort((x, y) => tags[y] - tags[x]);
+    const dicas = ordem.slice(0, 3).map(t => DICA_TAG[t]);
+    for (const dg of DICAS_GERAIS) if (dicas.length < 3) dicas.push(dg);
+    return { precisao: n ? soma / n : null, cont, itens, tags, dicas, fens, av, classe };
+  },
+
+  /* ---------- tela de resumo + revisão lance a lance ---------- */
+  telaResumo(r) {
+    const p = r.p, N = p.lances.length;
+    App.cabecalho('Resumo da partida', 'menu');
+    const prec = r.precisao == null ? null : Math.round(r.precisao);
+    const total = r.cont.imp + r.cont.err + r.cont.gra;
+    $('#tela').innerHTML = `<div class="pilha">
+      <div class="cartao placar">
+        <div class="roda" style="--p:${prec == null ? 0 : prec}"><div><span><b>${prec == null ? '–' : prec + '%'}</b><small>precisão</small></span></div></div>
+        <div style="flex:1;min-width:200px"><h2>${p.titulo} <span class="sub" style="font-weight:500">· ${p.motivo}</span></h2>
+          <p class="sub" style="margin-bottom:8px">Nível ${NIVEIS[p.nivel].nome} · você jogou de ${p.cor === 'w' ? 'brancas' : 'pretas'} · ${Math.ceil(N / 2)} lances</p>
+          <div class="chips">${Object.keys(CLASSES).map(k => `<span class="chip ${CLASSES[k].cls}"><i></i>${CLASSES[k].nome}: ${r.cont[k]}</span>`).join('')}</div></div>
+      </div>
+      <div class="jogo">
+        <div class="col-tab">
+          <div class="tab-linha" id="tab-linha"><div class="barra-av" id="barra"><i></i><span></span></div></div>
+          <div class="nav-rev"><button class="bt" id="r-ini" aria-label="Início">⏮</button><button class="bt" id="r-ant" aria-label="Lance anterior">◀</button><button class="bt" id="r-prox" aria-label="Próximo lance">▶</button><button class="bt" id="r-fim" aria-label="Fim">⏭</button></div>
+          <div class="cartao info-rev" id="info-rev"></div>
+        </div>
+        <div class="lateral">
+          <div class="cartao"><h3>Seus erros ${total ? '· toque para ver no tabuleiro' : ''}</h3><div class="pilha" id="lista-erros" style="gap:8px">
+            ${r.falhou ? '<p class="sub">Não foi possível analisar esta partida.</p>' : (!N || prec == null) ? '<p class="sub">A partida terminou antes do seu primeiro lance: não há o que analisar.</p>'
+        : total ? r.itens.map((it, j) => `<button class="erro-item ${CLASSES[it.classe].cls}" data-j="${j}">
+              <div class="cab"><b>${it.num}${it.cor === 'w' ? '.' : '...'} ${sanPt(it.san)}</b><span>${CLASSES[it.classe].nome}</span></div>
+              <p>${esc(it.texto)}</p>${it.melhor ? `<div class="melhor">Melhor jogada: ${sanPt(it.melhor)}</div>` : ''}</button>`).join('')
+          : '<p class="sub">Nenhuma imprecisão ou erro encontrado. Partida muito bem jogada!</p>'}</div></div>
+          <div class="cartao"><h3>3 dicas para a próxima partida</h3>${r.dicas.map((d, i) => `<div class="dica-item"><span class="num">${i + 1}</span><span>${esc(d)}</span></div>`).join('')}</div>
+          <div class="cartao"><h3>Lances da partida</h3><div class="lances" id="lances"></div></div>
+          <div class="fila"><button class="bt" id="r-rever" style="flex:1">Rever lance a lance</button><button class="bt pri" id="r-nova" style="flex:1">Nova partida</button></div>
+        </div>
+      </div></div>`;
+    const tab = new Tabuleiro($('#tab-linha'), { estatico: true });
+    tab.orientar(p.cor);
+    const sans = p.lances.map(m => m.san);
+    let idx = N, avAtual = { cp: 0, mate: null };
+    const mostra = (i, erro) => {
+      idx = limita(i, 0, N);
+      const g = new Chess(r.fens[idx] || undefined);
+      tab.posicionar(mapaDoJogo(g));
+      const ult = idx > 0 ? p.lances[idx - 1] : null;
+      tab.marcar({ ult: erro ? [] : (ult ? [ult.from, ult.to] : []), xq: g.in_check() ? casaDoRei(g, g.turn()) : null });
+      const a = r.av[idx]; if (a) avAtual = { cp: a.mate != null ? null : a.nota, mate: a.mate };
+      pintarBarra($('#barra'), avAtual, tab.ori);
+      $$('.erro-item').forEach(b => b.classList.toggle('on', !!erro && +b.dataset.j === erro.j));
+      if (erro) {
+        const it = erro.it, setas = [{ de: it.de, para: it.para, cor: 'vermelho' }];
+        if (it.melhorUci && it.melhorUci !== it.de + it.para + (p.lances[it.i].promotion || '')) setas.push({ de: it.melhorUci.slice(0, 2), para: it.melhorUci.slice(2, 4), cor: 'verde' });
+        tab.setas(setas);
+        $('#info-rev').innerHTML = `<b class="tag ${CLASSES[it.classe].cls}">${CLASSES[it.classe].nome}</b> · lance ${it.num}: você jogou <b style="color:var(--ruim)">${sanPt(it.san)}</b> (seta vermelha)${it.melhor ? `; o melhor era <b style="color:var(--ok)">${sanPt(it.melhor)}</b> (seta verde)` : ''}.<br>${esc(it.texto)}`;
+        $('#lances').innerHTML = htmlLances(sans, it.i, true);
+      } else {
+        tab.setas([]);
+        let h = idx === 0 ? 'Posição inicial. Use as setas ◀ ▶ (ou o teclado) para avançar.' : `Lance ${Math.floor((idx - 1) / 2) + 1}${ult.color === 'w' ? '.' : '...'} <b>${sanPt(ult.san)}</b>`;
+        if (idx > 0 && ult.color === p.cor && r.classe[idx - 1]) {
+          const cl = r.classe[idx - 1], it = r.itens.find(x => x.i === idx - 1);
+          h += ` — <b class="tag ${CLASSES[cl].cls}">${CLASSES[cl].nome}</b>` + (it ? `<br>${esc(it.texto)}` : '');
+        } else if (idx > 0 && ult.color !== p.cor) h += ' <span class="sub">(computador)</span>';
+        $('#info-rev').innerHTML = h;
+        $('#lances').innerHTML = htmlLances(sans, idx - 1, true);
+      }
+      const at = $('#lances .atual'); if (at && at.offsetParent) { const cx = $('#lances'); cx.scrollTop = at.offsetTop - cx.offsetTop - cx.clientHeight / 2; }
+    };
+    const irTopo = () => { if (window.innerWidth < 960) $('#tab-linha').scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+    $('#r-ini').onclick = () => mostra(0); $('#r-ant').onclick = () => mostra(idx - 1);
+    $('#r-prox').onclick = () => mostra(idx + 1); $('#r-fim').onclick = () => mostra(N);
+    $('#r-rever').onclick = () => { mostra(0); irTopo(); };
+    $('#r-nova').onclick = () => App.ir('config');
+    $('#lista-erros').onclick = e => { const b = e.target.closest('.erro-item'); if (!b) return; const j = +b.dataset.j, it = r.itens[j]; mostra(it.i, { j, it }); irTopo(); };
+    $('#lances').onclick = e => { const b = e.target.closest('button[data-ply]'); if (b) mostra(+b.dataset.ply + 1); };
+    const tecla = e => { if (e.key === 'ArrowLeft') mostra(idx - 1); else if (e.key === 'ArrowRight') mostra(idx + 1); };
+    document.addEventListener('keydown', tecla);
+    App.aoSair = () => document.removeEventListener('keydown', tecla);
+    mostra(N);
+  }
+};
+
+/* ==========================================================================
+   EXERCÍCIOS INTERATIVOS (usados nas fases e nos desafios táticos)
+   criarExercicio(ex, host, cb) -> { dica(), solucao(), destruir(), temDica }
+   cb: { msg(tipo, texto), passo(texto), erro(), resolvido() }
+   ========================================================================== */
+
+/* casas que uma peça sozinha alcança (exercícios de estrelas) */
+function alvosPeca(tipo, casa, blocos) {
+  const f = casa.charCodeAt(0) - 97, r = +casa[1] - 1, out = [];
+  const add = (x, y) => { if (x < 0 || x > 7 || y < 0 || y > 7) return false; const s = nomeCasa(x, y); if (blocos.includes(s)) return false; out.push(s); return true; };
+  const raio = d => { let x = f + d[0], y = r + d[1]; while (add(x, y)) { x += d[0]; y += d[1]; } };
+  if (tipo === 'n') SALTOS.forEach(d => add(f + d[0], r + d[1]));
+  else if (tipo === 'k') RETAS.concat(DIAGS).forEach(d => add(f + d[0], r + d[1]));
+  else { if (tipo !== 'b') RETAS.forEach(raio); if (tipo !== 'r') DIAGS.forEach(raio); }
+  return out;
+}
+/* caminho mais curto para coletar as estrelas que faltam (busca em largura). Devolve {n, primeiro} */
+function caminhoEstrelas(tipo, de, estrelas, blocos) {
+  const cheio = (1 << estrelas.length) - 1;
+  if (!estrelas.length) return { n: 0, primeiro: null };
+  const fila = [[de, 0, 0, null]], visto = new Set([de + '|0']);
+  while (fila.length) {
+    const [c, mask, d, prim] = fila.shift();
+    if (mask === cheio) return { n: d, primeiro: prim };
+    for (const t of alvosPeca(tipo, c, blocos)) {
+      const i = estrelas.indexOf(t), m2 = i >= 0 ? mask | (1 << i) : mask, k = t + '|' + m2;
+      if (!visto.has(k)) { visto.add(k); fila.push([t, m2, d + 1, prim || t]); }
+    }
+  }
+  return { n: -1, primeiro: null };
+}
+
+function criarExercicio(ex, host, cb) {
+  host.innerHTML = '';
+  if (ex.t === 'quiz') return exQuiz(ex, host, cb);
+  const linha = document.createElement('div'); linha.className = 'tab-linha'; host.appendChild(linha);
+  return ex.t === 'stars' ? exEstrelas(ex, linha, cb) : exLances(ex, linha, cb);
+}
+
+/* ---------- pergunta de múltipla escolha ---------- */
+function exQuiz(ex, host, cb) {
+  if (ex.fen) {
+    const linha = document.createElement('div'); linha.className = 'tab-linha'; linha.style.marginBottom = '12px'; host.appendChild(linha);
+    const tab = new Tabuleiro(linha, { estatico: true }), g = new Chess(ex.fen);
+    tab.orientar('w'); tab.posicionar(mapaDoJogo(g), false);
+  }
+  const cx = document.createElement('div'); cx.className = 'quiz';
+  cx.innerHTML = ex.opts.map((o, i) => `<button class="bt" data-i="${i}">${esc(o)}</button>`).join('');
+  host.appendChild(cx);
+  let acabou = false;
+  cx.onclick = e => {
+    const b = e.target.closest('button'); if (!b || acabou || b.disabled) return;
+    if (+b.dataset.i === ex.a) {
+      acabou = true; b.classList.add('certa'); $$('button', cx).forEach(x => { if (x !== b) x.disabled = true; });
+      cb.msg('ok', ex.ok); cb.resolvido();
+    } else { b.classList.add('errada'); b.disabled = true; cb.msg('err', ex.err); cb.erro(); }
+  };
+  return { temDica: false, dica: () => false, solucao: () => { const b = $$('button', cx)[ex.a]; if (b && !acabou) b.click(); }, destruir() { acabou = true; } };
+}
+
+/* ---------- coletar estrelas com uma peça ---------- */
+function exEstrelas(ex, linha, cb) {
+  const blocos = ex.blocks || [], cod = 'w' + ex.piece.toUpperCase();
+  let casa = ex.from, faltam = ex.stars.slice(), lances = 0, acabou = false;
+  const par = caminhoEstrelas(ex.piece, ex.from, ex.stars, blocos).n;
+  const tab = new Tabuleiro(linha, {
+    alvos: c => (!acabou && c === casa) ? alvosPeca(ex.piece, casa, blocos) : null,
+    mover: (de, para) => {
+      casa = para; lances++; tab.setas([]);
+      faltam = faltam.filter(s => s !== para);
+      tab.posicionar({ [casa]: cod }); tab.marcar({ estrelas: faltam, ult: [de, para] });
+      if (!faltam.length) {
+        acabou = true;
+        if (lances <= par) cb.msg('ok', `Perfeito! Você usou ${lances} lances, o mínimo possível.`);
+        else { cb.erro(); cb.msg('ok', `Todas as estrelas coletadas em ${lances} lances. Dá para fazer em ${par} — tente de novo depois para ganhar 3 estrelas!`); }
+        cb.resolvido();
+      } else cb.msg('info', `Lances usados: ${lances} · mínimo possível: ${par} · estrelas restantes: ${faltam.length}`);
+    }
+  });
+  tab.orientar('w'); tab.posicionar({ [casa]: cod }, false); tab.marcar({ estrelas: faltam, blocos });
+  return {
+    temDica: true,
+    dica() { if (acabou) return false; const p = caminhoEstrelas(ex.piece, casa, faltam, blocos).primeiro; if (!p) return false; tab.setas([{ de: casa, para: p, cor: 'azul' }]); return true; },
+    solucao() { }, destruir() { acabou = true; }
+  };
+}
+
+/* ---------- sequência de lances (seq) e xeque-mate em n (mate) ---------- */
+function exLances(ex, linha, cb) {
+  const g = new Chess(ex.fen), ehMate = ex.t === 'mate', sol = ehMate ? ex.sol : ex.line;
+  let travado = false, acabou = false, morto = false, idx = 0, restante = ex.n || 0, naLinha = true, jogador = g.turn();
+  const item = i => Array.isArray(sol[i]) ? sol[i] : [sol[i]];
+  const legal = san => { const m = g.move(san); if (m) g.undo(); return m; };
+  const tab = new Tabuleiro(linha, {
+    alvos: c => {
+      if (travado || acabou || g.turn() !== jogador) return null;
+      const p = g.get(c); if (!p || p.color !== jogador) return null;
+      return Array.from(new Set(g.moves({ square: c, verbose: true }).map(m => m.to)));
+    },
+    promocao: (de, para) => { const p = g.get(de); return !!p && p.type === 'p' && (para[1] === '8' || para[1] === '1'); },
+    mover
+  });
+  const atualizar = (m, animar = true) => { tab.posicionar(mapaDoJogo(g), animar); tab.marcar({ ult: m ? [m.from, m.to] : [], xq: g.in_check() ? casaDoRei(g, g.turn()) : null }); };
+  const passo = () => { if (ex.steps && cb.passo) cb.passo(ex.steps[Math.floor(idx / 2)] || ''); };
+  const concluir = () => { acabou = true; if (cb.passo) cb.passo(''); cb.msg('ok', ex.ok); cb.resolvido(); };
+  async function responder(san) {
+    travado = true; await espera(520); if (morto) return;
+    const m = g.move(san); if (m) atualizar(m); travado = false;
+  }
+  function mover(de, para, promo) {
+    if (travado || acabou) { tab.redesenhar(); return; }
+    const m = g.move({ from: de, to: para, promotion: promo || 'q' });
+    if (!m) { tab.redesenhar(); return; }
+    tab.setas([]);
+    const s = semSinal(m.san);
+    let aceito = false, resposta = null;
+    if (ehMate) {
+      if (g.in_checkmate()) aceito = true;
+      else if (!g.game_over() && restante > 1 && todasLevamAMate(g, restante - 1)) {
+        aceito = true;
+        if (naLinha && s === semSinal(sol[idx]) && legal(sol[idx + 1])) resposta = sol[idx + 1];
+        else { naLinha = false; resposta = g.moves()[0]; }
+      }
+    } else aceito = ex.any || item(idx).some(a => semSinal(a) === s);
+    if (!aceito) {
+      const afogou = g.in_stalemate();
+      g.undo(); tab.posicionar(mapaDoJogo(g), false); tab.redesenhar(); tab.piscarErro(para);
+      cb.msg('err', (ex.wrong && ex.wrong[s]) || (afogou ? 'Afogamento! O rei adversário ficaria sem lances e sem estar em xeque: a partida empataria.' : ex.err));
+      cb.erro(); return;
+    }
+    atualizar(m);
+    if (ehMate) {
+      if (g.in_checkmate()) return concluir();
+      restante--; idx += 2;
+      cb.msg('info', restante === 1 ? 'Muito bem! Agora dê o xeque-mate.' : 'Muito bem! Continue.');
+      responder(resposta);
+    } else {
+      idx++;
+      if (idx >= sol.length) return concluir();
+      const r = item(idx).find(a => legal(a));
+      cb.msg('info', 'Isso! Veja a resposta e continue.');
+      responder(r).then(() => { if (morto) return; idx++; if (idx >= sol.length) concluir(); else passo(); });
+    }
+  }
+  tab.orientar(ex.pre ? (jogador === 'w' ? 'b' : 'w') : jogador);
+  atualizar(null, false);
+  if (ex.pre) {            // lance do adversário antes de começar
+    jogador = jogador === 'w' ? 'b' : 'w';
+    responder(ex.pre);
+  }
+  passo();
+  return {
+    temDica: true,
+    dica() {
+      if (acabou || travado) return false;
+      let san = null;
+      if (ehMate) {
+        if (naLinha) san = sol[idx];
+        else san = g.moves().find(x => { if (x.endsWith('#')) return true; if (restante <= 1) return false; g.move(x); const ok = !g.game_over() && todasLevamAMate(g, restante - 1); g.undo(); return ok; });
+      } else san = item(idx).find(a => legal(a));
+      const m = san && legal(san); if (!m) return false;
+      tab.setas([{ de: m.from, para: m.to, cor: 'azul' }]); return true;
+    },
+    async solucao() {       // mostra a solução completa, lance a lance
+      acabou = true; travado = true; tab.limparSelecao(); tab.setas([]);
+      g.load(ex.fen); if (ex.pre) g.move(ex.pre);
+      atualizar(null, false);
+      for (const it of sol) {
+        await espera(750); if (morto) return;
+        const m = g.move(Array.isArray(it) ? it[0] : it); if (!m) break;
+        atualizar(m);
+      }
+    },
+    destruir() { morto = true; acabou = true; }
+  };
+}
+
+/* ==========================================================================
+   APRENDER — caminho de fases com estrelas
+   ========================================================================== */
+const Aprender = {
+  lista: null,
+  todas() {
+    if (!this.lista) { this.lista = []; MODULOS.forEach(m => m.fases.forEach(f => this.lista.push({ mod: m, fase: f }))); }
+    return this.lista;
+  },
+  liberada(i) { return i === 0 || (Dados.d.fases[this.todas()[i - 1].fase.id] || 0) >= 1; },
+  resumo() {
+    const t = this.todas(); let feitas = 0, estrelas = 0;
+    t.forEach(x => { const e = Dados.d.fases[x.fase.id] || 0; if (e) feitas++; estrelas += e; });
+    return { feitas, total: t.length, estrelas, maxEstrelas: t.length * 3 };
+  },
+  htmlEstrelas(n) { return [1, 2, 3].map(i => `<span class="${i <= n ? 'on' : ''}">★</span>`).join(''); },
+
+  telaLista() {
+    const r = this.resumo();
+    App.cabecalho('Aprender', 'menu', `${r.estrelas}/${r.maxEstrelas} ★`);
+    let i = 0, h = `<div class="cartao"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px"><b>${r.feitas} de ${r.total} fases concluídas</b><span class="sub">Complete uma fase para liberar a próxima</span></div>
+      <div class="progresso"><i style="width:${Math.round(r.feitas / r.total * 100)}%"></i></div></div>`;
+    MODULOS.forEach((m, mi) => {
+      h += `<section class="modulo"><header><h2>Módulo ${mi + 1} · ${m.nome}</h2><span>${m.desc}</span></header><div class="trilha">`;
+      m.fases.forEach(f => {
+        const e = Dados.d.fases[f.id] || 0, lib = this.liberada(i);
+        h += `<button class="fase${lib ? '' : ' trancada'}${e ? ' feita' : ''}" data-id="${f.id}" ${lib ? '' : 'disabled aria-disabled="true"'}>
+          <span class="num">${i + 1}</span><span class="pcf pcw">${pecaSvg(f.icone, 'w')}</span><b>${f.nome}</b><span class="est">${this.htmlEstrelas(e)}</span></button>`;
+        i++;
+      });
+      h += '</div></section>';
+    });
+    $('#tela').innerHTML = h;
+    $('#tela').onclick = e => { const b = e.target.closest('.fase'); if (b && !b.disabled) App.ir('fase', b.dataset.id); };
+    App.aoSair = () => { $('#tela').onclick = null; };
+  },
+
+  telaFase(id) {
+    const t = this.todas(), pos = t.findIndex(x => x.fase.id === id), fase = t[pos].fase, n = fase.ex.length;
+    let i = -1, erros = 0, exAtual = null, penalizouDica = false;
+    App.cabecalho(fase.nome, 'aprender', `Fase ${pos + 1}/${t.length}`);
+    App.aoSair = () => { if (exAtual) exAtual.destruir(); };
+    const intro = () => {
+      $('#tela').innerHTML = `<div class="estreito pilha"><div class="cartao">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><span class="pcf pcw" style="width:52px;height:52px;flex:none">${pecaSvg(fase.icone, 'w')}</span>
+        <div><h2 style="margin:0">${fase.nome}</h2><span class="sub">Módulo: ${t[pos].mod.nome}</span></div></div>
+        <p class="intro">${fase.intro}</p></div>
+        <button class="bt pri cheio" id="f-ini">Começar os exercícios (${n})</button></div>`;
+      $('.pcf svg').style.cssText = 'width:100%;height:100%;fill:var(--pf);stroke:var(--ps);stroke-width:3.4;stroke-linejoin:round';
+      $('#f-ini').onclick = () => proximo();
+    };
+    const proximo = () => {
+      if (exAtual) { exAtual.destruir(); exAtual = null; }
+      i++; penalizouDica = false;
+      if (i >= n) return fim();
+      const ex = fase.ex[i];
+      $('#tela').innerHTML = `<div class="exercicio">
+        <div class="passos">${fase.ex.map((_, k) => `<i class="${k < i ? 'ok' : k === i ? 'at' : ''}"></i>`).join('')}</div>
+        <div class="enunciado"><small>Exercício ${i + 1} de ${n}</small><span>${esc(ex.t === 'quiz' ? ex.q : ex.p)}</span><div class="sub" id="passo-txt" style="font-weight:600;color:var(--dest);margin-top:4px"></div></div>
+        <div id="ex-host"></div>
+        <div class="retorno info" id="retorno">${ex.t === 'quiz' ? 'Escolha uma resposta.' : 'Toque na peça e depois na casa de destino (ou arraste a peça).'}</div>
+        <div class="fila"><button class="bt${ex.t === 'quiz' ? ' oculto' : ''}" id="b-dica">Dica</button><button class="bt pri oculto" id="b-cont" style="flex:1">${i === n - 1 ? 'Concluir fase' : 'Continuar'}</button></div></div>`;
+      const ret = $('#retorno');
+      exAtual = criarExercicio(ex, $('#ex-host'), {
+        msg: (tipo, txt) => { ret.className = 'retorno ' + tipo; ret.textContent = txt; },
+        passo: txt => { const p = $('#passo-txt'); if (p) p.textContent = txt; },
+        erro: () => { erros++; },
+        resolvido: () => { $('#b-cont').classList.remove('oculto'); $('#b-dica').classList.add('oculto'); }
+      });
+      $('#b-dica').onclick = () => {
+        if (exAtual.dica()) { if (!penalizouDica) { penalizouDica = true; erros++; } ret.className = 'retorno info'; ret.textContent = 'Dica: siga a seta azul.'; }
+      };
+      $('#b-cont').onclick = () => proximo();
+      window.scrollTo(0, 0);
+    };
+    const fim = () => {
+      const est = erros === 0 ? 3 : erros <= 2 ? 2 : 1;
+      const antes = Dados.d.fases[id] || 0;
+      if (est > antes) { Dados.d.fases[id] = est; Dados.salvar(); }
+      const prox = t[pos + 1];
+      $('#tela').innerHTML = `<div class="estreito"><div class="cartao final">
+        <h2>Fase concluída!</h2><div class="est-g">${this.htmlEstrelas(est)}</div>
+        <p class="sub" style="margin-bottom:16px">${est === 3 ? 'Sem nenhum erro. Excelente!' : est === 2 ? 'Muito bem! Refaça sem erros nem dicas para ganhar 3 estrelas.' : 'Fase completa. Repita para fixar e ganhar mais estrelas.'}</p>
+        <div class="pilha">${prox ? `<button class="bt pri cheio" id="f-prox">Próxima fase: ${prox.fase.nome}</button>` : '<p><b>Você concluiu todas as fases. Parabéns!</b></p>'}
+        <button class="bt cheio" id="f-rep">Repetir esta fase</button><button class="bt cheio" id="f-lista">Voltar às fases</button></div></div></div>`;
+      if (prox) $('#f-prox').onclick = () => App.ir('fase', prox.fase.id);
+      $('#f-rep').onclick = () => App.ir('fase', id);
+      $('#f-lista').onclick = () => App.ir('aprender');
+      window.scrollTo(0, 0);
+    };
+    intro();
+  }
+};
+
+/* ==========================================================================
+   DESAFIOS TÁTICOS — quebra-cabeças com pontuação
+   ========================================================================== */
+const Desafios = {
+  faixa(r) { return r < 1000 ? 0 : r < 1300 ? 1 : 2; },
+  NOMES: ['Fácil', 'Médio', 'Difícil'],
+  tipo(k) { return k === 'm1' ? 'mate em 1' : k === 'm2' ? 'mate em 2' : 'ganho de material'; },
+  enunciado(k) { return k === 'm1' ? 'Brancas jogam e dão xeque-mate em 1 lance.' : k === 'm2' ? 'Brancas jogam e dão xeque-mate em 2 lances.' : 'Brancas jogam e ganham material.'; },
+  proximoId(atual) {
+    const d = Dados.d.desafios, livres = PUZZLES.filter(p => !d.feitos[p.id] && p.id !== atual);
+    if (!livres.length) { const outros = PUZZLES.filter(p => p.id !== atual); return sorteia(outros).id; }
+    livres.sort((a, b) => Math.abs(a.r - d.pontos) - Math.abs(b.r - d.pontos) || a.id - b.id);
+    return livres[0].id;
+  },
+  telaLista() {
+    const d = Dados.d.desafios, feitos = Object.keys(d.feitos).length;
+    App.cabecalho('Desafios táticos', 'menu');
+    let h = `<div class="cartao" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+      <div><div class="sub">Sua pontuação</div><div class="pontos">${d.pontos}</div></div>
+      <div style="flex:1;min-width:180px"><div class="sub" style="margin-bottom:6px">${feitos} de ${PUZZLES.length} desafios resolvidos</div><div class="progresso"><i style="width:${Math.round(feitos / PUZZLES.length * 100)}%"></i></div></div>
+      <button class="bt pri" id="d-prox">Próximo desafio</button></div>
+      <p class="sub" style="margin:10px 2px 0">A pontuação sobe quando você acerta de primeira e desce quando erra. Desafios difíceis valem mais.</p>`;
+    [0, 1, 2].forEach(fx => {
+      const lista = PUZZLES.filter(p => this.faixa(p.r) === fx);
+      h += `<section class="modulo"><header><h2>${this.NOMES[fx]}</h2><span>${lista.length} desafios</span></header><div class="grade-des">` +
+        lista.map(p => `<button class="des${d.feitos[p.id] === 1 ? ' ok1' : d.feitos[p.id] === 2 ? ' ok2' : ''}" data-id="${p.id}" title="${this.tipo(p.k)}"><span>${p.id}<small>${p.k === 'm1' ? 'MATE 1' : p.k === 'm2' ? 'MATE 2' : 'TÁTICA'}</small></span></button>`).join('') + '</div></section>';
+    });
+    $('#tela').innerHTML = h;
+    $('#d-prox').onclick = () => App.ir('desafio', this.proximoId(0));
+    $('#tela').onclick = e => { const b = e.target.closest('.des'); if (b) App.ir('desafio', +b.dataset.id); };
+    App.aoSair = () => { $('#tela').onclick = null; };
+  },
+  /* explicação mostrada depois de resolver */
+  explicar(p) {
+    const l = p.line.map(sanPt);
+    if (p.k === 'm1') return `${l[0]} é xeque-mate: o rei preto está em xeque e não pode fugir, bloquear nem capturar a peça que o ataca.`;
+    if (p.k === 'm2') return `A chave é ${l[0]}. Depois de ${l[1]}, ${l[2]} é xeque-mate — e contra qualquer outra defesa das pretas também há mate no lance seguinte.`;
+    const g0 = new Chess(p.fen), g = new Chess(p.fen), m = g.move(p.line[0]);
+    let motivo;
+    const gf = detectarGarfo(g, m.to);
+    if (m.captured && ganhoDaCaptura(g0, lanceDeUci(g0, uciDe(m))) > 0)
+      motivo = atacantes(g0, m.to, 'b').length === 0 ? `${oPeca(m.captured).replace(/^./, c => c.toUpperCase())} em ${m.to} estava sem defesa: bastava capturar.` : `${oPeca(m.captured).replace(/^./, c => c.toUpperCase())} em ${m.to} estava mal defendid${gen(m.captured, 'o', 'a')}: a captura ganha material.`;
+    else if (gf) motivo = `É um garfo: ${oPeca(gf.peca)} ataca ${gf.alvos.map(a => oPeca(a.type)).join(' e ')} ao mesmo tempo.`;
+    else if (m.san.indexOf('+') > 0) motivo = 'O xeque obriga as pretas a responder e, em seguida, as brancas ganham material.';
+    else motivo = 'O lance cria ameaças que as pretas não conseguem defender ao mesmo tempo.';
+    const cont = (p.cont || p.line).map(sanPt), partes = [];
+    for (let i = 0; i < cont.length; i += 2) partes.push(`${i / 2 + 1}. ${cont[i]}${cont[i + 1] ? ' ' + cont[i + 1] : ''}`);
+    return `A melhor jogada é ${l[0]}. ${motivo} Sequência principal: ${partes.join(' ')}. Resultado: cerca de ${p.g} ponto${p.g > 1 ? 's' : ''} de material a mais para as brancas.`;
+  },
+  telaDesafio(id) {
+    const p = PUZZLES.find(x => x.id === id) || PUZZLES[0], d = Dados.d.desafios;
+    const jaFeito = !!d.feitos[p.id];
+    let errou = false, usouDica = false, resolvido = false, delta = 0;
+    App.cabecalho('Desafio ' + p.id, 'desafios', `${d.pontos} pts`);
+    const ex = p.k === 'w'
+      ? { t: 'seq', fen: p.fen, line: p.line, ok: '', err: 'Não é a melhor jogada. Procure xeques, capturas e ameaças.' }
+      : { t: 'mate', n: p.k === 'm1' ? 1 : 2, fen: p.fen, sol: p.line, ok: '', err: p.k === 'm1' ? 'Esse lance não dá xeque-mate. Procure outro xeque.' : 'Esse lance não força o mate em 2. Tente outro.' };
+    $('#tela').innerHTML = `<div class="exercicio">
+      <div class="enunciado"><small>${this.NOMES[this.faixa(p.r)]} · ${this.tipo(p.k)} · dificuldade ${p.r}${jaFeito ? ' · treino (já resolvido)' : ''}</small><span>${this.enunciado(p.k)}</span></div>
+      <div id="ex-host"></div>
+      <div class="retorno info" id="retorno">Encontre a melhor jogada das brancas.</div>
+      <div class="fila"><button class="bt" id="b-dica">Dica</button><button class="bt" id="b-sol">Ver solução</button><button class="bt pri oculto" id="b-prox" style="flex:1">Próximo desafio</button></div>
+      <div class="sub" id="d-pts">Pontuação: <b>${d.pontos}</b></div></div>`;
+    const ret = $('#retorno');
+    const pinta = () => {
+      $('#d-pts').innerHTML = `Pontuação: <b>${d.pontos}</b>` + (delta ? ` <span class="delta ${delta > 0 ? 'mais' : 'menos'}">${delta > 0 ? '+' : '−'}${Math.abs(delta)}</span>` : '');
+      $('#topo-lado').textContent = d.pontos + ' pts';
+    };
+    const esperado = 1 / (1 + Math.pow(10, (p.r - d.pontos) / 400));
+    const perder = () => {                       // primeiro erro: a pontuação desce
+      if (errou) return; errou = true;
+      if (!jaFeito) { const q = Math.max(4, Math.round(24 * esperado)); delta -= q; d.pontos = Math.max(100, d.pontos - q); d.hist.push(d.pontos); if (d.hist.length > 120) d.hist = d.hist.slice(-120); Dados.salvar(); pinta(); }
+    };
+    const fechar = () => { $('#b-dica').classList.add('oculto'); $('#b-sol').classList.add('oculto'); $('#b-prox').classList.remove('oculto'); };
+    const exe = criarExercicio(ex, $('#ex-host'), {
+      msg: (tipo, txt) => { if (!txt) return; ret.className = 'retorno ' + tipo; ret.textContent = txt; },
+      erro: perder,
+      resolvido: () => {
+        resolvido = true;
+        if (!jaFeito) {
+          if (!errou && !usouDica) { const q = Math.max(4, Math.round(24 * (1 - esperado))); delta += q; d.pontos += q; d.hist.push(d.pontos); d.feitos[p.id] = 1; }
+          else d.feitos[p.id] = 2;
+          if (d.hist.length > 120) d.hist = d.hist.slice(-120);
+          Dados.salvar();
+        }
+        ret.className = 'retorno ok';
+        ret.innerHTML = `<b>${errou ? 'Resolvido!' : usouDica ? 'Resolvido com dica.' : 'Correto, de primeira!'}</b> ${esc(this.explicar(p))}`;
+        pinta(); fechar();
+      }
+    });
+    App.aoSair = () => exe.destruir();
+    $('#b-dica').onclick = () => { if (exe.dica()) { usouDica = true; ret.className = 'retorno info'; ret.textContent = 'Dica: siga a seta azul. (Com dica, o desafio não soma pontos.)'; } };
+    $('#b-sol').onclick = () => {
+      if (resolvido) return;
+      perder(); resolvido = true;
+      if (!jaFeito) { d.feitos[p.id] = 2; Dados.salvar(); }
+      exe.solucao();
+      ret.className = 'retorno info'; ret.innerHTML = `<b>Solução:</b> ${esc(this.explicar(p))}`;
+      fechar();
+    };
+    $('#b-prox').onclick = () => App.ir('desafio', this.proximoId(p.id));
+  }
+};
+
+/* ==========================================================================
+   APP — navegação entre telas, menu inicial e estatísticas
+   ========================================================================== */
+const App = {
+  atual: null, aoSair: null, voltarPara: null, empilhado: false, ignorarPop: false,
+
+  cabecalho(titulo, voltar, lado) {
+    $('#titulo').textContent = titulo;
+    this.voltarPara = voltar || null;
+    $('#voltar').classList.toggle('oculto', !voltar);
+    $('#topo-lado').textContent = lado || '';
+  },
+  voltar() {
+    if (!$('#modal').classList.contains('oculto')) return;      // há uma janela aberta
+    const v = this.voltarPara;
+    if (typeof v === 'function') v(); else if (v) this.ir(v);
+  },
+  /* troca de tela */
+  ir(tela, param) {
+    if (this.aoSair) { try { this.aoSair(); } catch (e) { /* ignora */ } this.aoSair = null; }
+    Motor.aoMudar = null;
+    this.atual = tela;
+    // o botão "voltar" do celular/navegador volta para a tela anterior em vez de fechar o app
+    try {
+      if (tela !== 'menu' && !this.empilhado) { history.pushState({ x: 1 }, ''); this.empilhado = true; }
+      else if (tela === 'menu' && this.empilhado) { this.empilhado = false; this.ignorarPop = true; history.back(); }
+    } catch (e) { /* histórico indisponível */ }
+    window.scrollTo(0, 0);
+    switch (tela) {
+      case 'config': Partida.telaConfig(); break;
+      case 'jogo': Partida.iniciar(); break;
+      case 'resumo': Analise.telaResumo(param); break;
+      case 'aprender': Aprender.telaLista(); break;
+      case 'fase': Aprender.telaFase(param); break;
+      case 'desafios': Desafios.telaLista(); break;
+      case 'desafio': Desafios.telaDesafio(param); break;
+      case 'stats': Estatisticas.tela(); break;
+      default: this.atual = 'menu'; telaMenu();
+    }
+  }
+};
+$('#voltar').onclick = () => App.voltar();
+window.addEventListener('popstate', () => {
+  if (App.ignorarPop) { App.ignorarPop = false; return; }
+  App.empilhado = false;
+  if (App.atual !== 'menu') {
+    App.voltar();
+    if (App.atual !== 'menu' && !App.empilhado) { try { history.pushState({ x: 1 }, ''); App.empilhado = true; } catch (e) { /* ignora */ } }
+  }
+});
+
+/* ---------- menu inicial ---------- */
+function telaMenu() {
+  App.cabecalho('Trainer de Xadrez', null);
+  const d = Dados.d, ra = Aprender.resumo(), nPart = d.partidas.length, feitos = Object.keys(d.desafios.feitos).length;
+  $('#tela').innerHTML = `<div class="capa">
+      <svg class="logo pcw" viewBox="0 0 100 100" style="fill:var(--dest);stroke:#3a2c08;stroke-width:3;stroke-linejoin:round"><use href="#pc-n"/></svg>
+      <h2>Trainer de Xadrez</h2><p>Jogue, aprenda e descubra onde você erra.</p></div>
+    <nav class="menu">
+      <button class="item-menu" data-ir="config"><span class="ic pcw">${pecaSvg('k', 'w')}</span><span><b>Jogar contra o computador</b><span>6 níveis · análise dos seus erros no final${nPart ? ' · ' + nPart + (nPart === 1 ? ' partida' : ' partidas') : ''}</span></span></button>
+      <button class="item-menu" data-ir="aprender"><span class="ic pcw">${pecaSvg('p', 'w')}</span><span><b>Aprender (fases)</b><span>${ra.feitas} de ${ra.total} fases · ${ra.estrelas} estrelas</span></span></button>
+      <button class="item-menu" data-ir="desafios"><span class="ic pcw">${pecaSvg('n', 'w')}</span><span><b>Desafios táticos</b><span>${feitos} de ${PUZZLES.length} resolvidos · ${d.desafios.pontos} pontos</span></span></button>
+      <button class="item-menu" data-ir="stats"><span class="ic"><svg viewBox="0 0 40 40" style="fill:none;stroke:var(--dest);stroke-width:3.2;stroke-linecap:round"><path d="M8 32V20M17 32V10M26 32V16M35 32V6"/></svg></span><span><b>Minhas estatísticas</b><span>Vitórias, precisão e erros mais comuns</span></span></button>
+    </nav>
+    <p class="rodape" id="rodape-motor">${Motor.rotulo()}</p>`;
+  $$('.item-menu svg.pcw').forEach(s => { s.style.cssText = 'fill:var(--pf);stroke:var(--ps);stroke-width:3.4;stroke-linejoin:round'; });
+  $('.menu').onclick = e => { const b = e.target.closest('.item-menu'); if (b) App.ir(b.dataset.ir); };
+  Motor.aoMudar = () => { const r = $('#rodape-motor'); if (r) r.innerHTML = Motor.rotulo(); };
+}
+
+/* ---------- estatísticas ---------- */
+const Estatisticas = {
+  grafico(vals) {
+    if (vals.length < 2) return '<p class="sub">Jogue pelo menos duas partidas para ver o gráfico de evolução.</p>';
+    const W = 600, H = 190, ml = 34, mr = 10, mt = 10, mb = 22, n = vals.length;
+    const x = i => ml + (W - ml - mr) * (n === 1 ? .5 : i / (n - 1)), y = v => mt + (H - mt - mb) * (1 - v / 100);
+    let h = `<svg class="grafico" viewBox="0 0 ${W} ${H}" role="img" aria-label="Precisão das últimas partidas">`;
+    [0, 25, 50, 75, 100].forEach(v => { h += `<line x1="${ml}" x2="${W - mr}" y1="${y(v)}" y2="${y(v)}" stroke="#303848" stroke-width="1"/><text x="${ml - 6}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="#9aa4b6">${v}%</text>`; });
+    const pts = vals.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+    h += `<polygon points="${x(0)},${y(0)} ${pts} ${x(n - 1)},${y(0)}" fill="rgba(240,180,65,.12)"/><polyline points="${pts}" fill="none" stroke="#f0b441" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+    vals.forEach((v, i) => { h += `<circle cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="3.5" fill="#f0b441"><title>Partida ${i + 1}: ${v}%</title></circle>`; });
+    h += `<text x="${ml}" y="${H - 5}" font-size="11" fill="#9aa4b6">mais antiga</text><text x="${W - mr}" y="${H - 5}" font-size="11" fill="#9aa4b6" text-anchor="end">mais recente</text></svg>`;
+    return h;
+  },
+  tela() {
+    App.cabecalho('Minhas estatísticas', 'menu');
+    const d = Dados.d, tot = { v: 0, e: 0, d: 0 };
+    d.porNivel.forEach(n => { tot.v += n.v; tot.e += n.e; tot.d += n.d; });
+    const jogos = tot.v + tot.e + tot.d;
+    const comPrec = d.partidas.filter(p => p.prec != null), ult10 = comPrec.slice(-10), ult20 = comPrec.slice(-20);
+    const media = ult10.length ? Math.round(ult10.reduce((s, p) => s + p.prec, 0) / ult10.length) : null;
+    const tags = Object.keys(d.tags).filter(t => d.tags[t] > 0).sort((a, b) => d.tags[b] - d.tags[a]), maxTag = tags.length ? d.tags[tags[0]] : 1;
+    const ra = Aprender.resumo(), feitos = Object.keys(d.desafios.feitos).length;
+    $('#tela').innerHTML = `<div class="pilha">
+      <div class="numeros">
+        <div class="numero"><b>${jogos}</b><span>Partidas jogadas</span></div>
+        <div class="numero"><b style="color:var(--ok)">${tot.v}</b><span>Vitórias</span></div>
+        <div class="numero"><b>${tot.e}</b><span>Empates</span></div>
+        <div class="numero"><b style="color:var(--ruim)">${tot.d}</b><span>Derrotas</span></div>
+      </div>
+      <div class="duas">
+        <div class="cartao"><h3>Resultados por nível</h3><table class="tb"><thead><tr><th>Nível</th><th>Partidas</th><th>Vitórias</th><th>Empates</th><th>Derrotas</th></tr></thead><tbody>
+          ${NIVEIS.map((n, i) => { const x = d.porNivel[i]; return `<tr><td>${n.nome}</td><td>${x.v + x.e + x.d}</td><td>${x.v}</td><td>${x.e}</td><td>${x.d}</td></tr>`; }).join('')}</tbody></table></div>
+        <div class="cartao"><h3>Precisão</h3>
+          <p style="margin-bottom:8px">${media == null ? '<span class="sub">Ainda sem partidas analisadas.</span>' : `${ult10.length > 1 ? 'Média das últimas ' + ult10.length + ' partidas' : 'Precisão da sua partida'}: <b style="font-size:1.4rem;color:var(--dest)">${media}%</b>`}</p>
+          ${this.grafico(ult20.map(p => p.prec))}</div>
+      </div>
+      <div class="duas">
+        <div class="cartao"><h3>Seus erros mais comuns</h3>
+          ${tags.length ? tags.slice(0, 6).map(t => `<div class="barra-h"><span>${ROTULO_TAG[t] || t}</span><div class="tr"><i style="width:${Math.round(d.tags[t] / maxTag * 100)}%"></i></div><b>${d.tags[t]}</b></div>`).join('') + `<p class="sub" style="margin-top:10px">${DICA_TAG[tags[0]] || ''}</p>`
+        : '<p class="sub">Depois das suas partidas, os tipos de erro mais frequentes aparecem aqui.</p>'}</div>
+        <div class="cartao"><h3>Estudo</h3>
+          <div class="barra-h"><span>Fases concluídas</span><div class="tr"><i style="width:${Math.round(ra.feitas / ra.total * 100)}%;background:var(--ok)"></i></div><b>${ra.feitas}</b></div>
+          <div class="barra-h"><span>Estrelas</span><div class="tr"><i style="width:${Math.round(ra.estrelas / ra.maxEstrelas * 100)}%;background:var(--dest)"></i></div><b>${ra.estrelas}</b></div>
+          <div class="barra-h"><span>Desafios resolvidos</span><div class="tr"><i style="width:${Math.round(feitos / PUZZLES.length * 100)}%;background:var(--info)"></i></div><b>${feitos}</b></div>
+          <p style="margin-top:10px">Pontuação nos desafios: <b style="color:var(--dest)">${d.desafios.pontos}</b></p></div>
+      </div>
+      <div class="cartao" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div><b>Zerar progresso</b><div class="sub">Apaga fases, pontuação, histórico e estatísticas deste aparelho.</div></div>
+        <button class="bt perigo" id="zerar">Zerar tudo</button></div></div>`;
+    $('#zerar').onclick = async () => {
+      const ok = await modal('Zerar todo o progresso?', 'Fases concluídas, estrelas, pontuação dos desafios, histórico de partidas e estatísticas serão apagados. Não dá para desfazer.', [{ txt: 'Cancelar', val: false }, { txt: 'Sim, zerar tudo', cls: 'perigo', val: true }]);
+      if (!ok) return;
+      Dados.zerar(); aviso('Progresso zerado.'); this.tela();
+    };
+  }
+};
+
+/* ---------- inicialização ---------- */
+(async function iniciarApp() {
+  Dados.carregar();
+  $('#tela').innerHTML = '<div class="capa"><p>Carregando…</p></div>';
+  const ok = await carregarChess();
+  if (!ok) {
+    $('#tela').innerHTML = `<div class="estreito"><div class="cartao final"><h2>Não foi possível carregar o jogo</h2>
+      <p class="sub" style="margin:8px 0 16px">O trainer precisa baixar a biblioteca de regras (chess.js) da internet na primeira abertura. Verifique a conexão e tente de novo.</p>
+      <button class="bt pri" id="recarregar">Tentar de novo</button></div></div>`;
+    $('#recarregar').onclick = () => location.reload();
+    return;
+  }
+  Motor.iniciar();          // carrega o Stockfish em paralelo; enquanto isso o motor reserva responde
+  App.ir('menu');
+})();
+
+</script>
+</body>
+</html>
