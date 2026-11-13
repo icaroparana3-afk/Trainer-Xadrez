@@ -4583,8 +4583,7 @@ const Partida = {
         <button class="op${c.relogio === 0 ? ' on' : ''}" data-v="0">Sem tempo<small>jogue com calma</small></button>
         <button class="op${c.relogio === 600 ? ' on' : ''}" data-v="600">10 min<small>para cada lado</small></button>
         <button class="op${c.relogio === 300 ? ' on' : ''}" data-v="300">5 min<small>para cada lado</small></button></div></div>
-      <button class="bt pri cheio" id="comecar">${salva ? 'Começar nova partida' : 'Começar partida'}</button>
-      <p class="sub" style="text-align:center">${Motor.rotulo()}</p></div>`;
+      <button class="bt pri cheio" id="comecar">${salva ? 'Começar nova partida' : 'Começar partida'}</button></div>`;
     const grupo = (id, chave, conv) => $(id).addEventListener('click', e => {
       const b = e.target.closest('.op'); if (!b) return;
       $$('.op', $(id)).forEach(x => x.classList.toggle('on', x === b));
@@ -6613,7 +6612,6 @@ function telaMenu() {
       <button class="bt-ic" id="m-tema" aria-label="Trocar tema (agora: ${tema.nome})">${SVG('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>')}</button>
       <button class="moedas-topo" data-ir="loja" aria-label="Moedas — abrir loja">${MOEDA}${d.moedas}</button>
     </header>
-    <p class="tema-txt">Tema: <b id="m-tema-nome">${tema.nome}</b> · toque no sol para trocar${Nuvem.usuario ? ' · ☁ conta conectada' : ''}</p>
     ${hero}
     <section class="aneis">${anel('Fases', ra.feitas, ra.total, 'cor-ok', 'aprender')}${anel('Desafios', feitos, PUZZLES.length, 'cor-info', 'desafios')}${anel('Conquistas', Conquistas.feitas(), Conquistas.total(), 'cor-dest', 'conquistas')}</section>
     <h2 class="secao">Jogar</h2>
@@ -6634,7 +6632,6 @@ function telaMenu() {
       <button class="linha-menu cor-dest" data-ir="loja"><span class="ic2">${MOEDA}</span><span class="tx"><b>Loja</b><small>Tabuleiros e fotos</small></span></button>
       <button class="linha-menu cor-neutra" data-ir="ajustes"><span class="ic2">${SVG('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>')}</span><span class="tx"><b>Configurações</b><small>Tema, sons</small></span></button>
     </section>
-    <p class="rodape" id="rodape-motor">${Motor.rotulo()}</p>
   </div>`;
   $('.home').onclick = ev => { const b = ev.target.closest('[data-ir]'); if (b && !modalAberto()) App.ir(b.dataset.ir); };
   if (salva) $('#m-continuar').onclick = () => App.ir('jogo', { modo: 'pc', retomar: salva });
@@ -6642,10 +6639,9 @@ function telaMenu() {
     ev.stopPropagation();
     const i = TEMAS.findIndex(t => t.id === d.ajustes.tema), nv = TEMAS[(i + 1) % TEMAS.length];
     d.ajustes.tema = nv.id; Dados.salvar(); aplicarVisual();
-    $('#m-tema-nome').textContent = nv.nome; $('#m-tema').classList.toggle('girou');
+    $('#m-tema').classList.toggle('girou');
     $('#m-tema').setAttribute('aria-label', 'Trocar tema (agora: ' + nv.nome + ')');
   };
-  Motor.aoMudar = () => { const r = $('#rodape-motor'); if (r) r.innerHTML = Motor.rotulo(); };
 }
 
 /* ---------- estatísticas ---------- */
