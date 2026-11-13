@@ -276,7 +276,7 @@ body.com-nav #tela{padding-bottom:calc(120px + env(safe-area-inset-bottom))}
 .casa.bloco{box-shadow:inset 0 0 0 100px rgba(0,0,0,.25)}
 @keyframes pulsa{50%{transform:scale(1.14)}}
 .tabuleiro .pecas{position:absolute;inset:0;pointer-events:none}
-.pc{position:absolute;left:0;top:0;width:12.5%;height:12.5%;transition:transform .2s cubic-bezier(.2,.7,.3,1),opacity .2s;will-change:transform}
+.pc{position:absolute;left:0;top:0;width:12.5%;height:12.5%;transition:transform .24s cubic-bezier(.25,.8,.3,1),opacity .2s;will-change:transform}
 .pc svg{width:100%;height:100%;display:block;stroke-linejoin:round;stroke-linecap:round;fill:var(--pf);stroke:var(--ps);stroke-width:3.4;
   filter:drop-shadow(0 2px 1.5px rgba(0,0,0,.28))}
 .pc.arr{transition:none;z-index:5}
@@ -716,6 +716,56 @@ button.selo-dev:active{transform:scale(.92)}
 .dev-rapido .bt{flex:1}
 .selo-dev{white-space:nowrap;flex:none}
 .dev-rapido .bt{white-space:nowrap;padding:6px 8px}
+
+
+/* ============================ EFEITOS DA PARTIDA ============================ */
+.tabuleiro .efeitos{position:absolute;inset:0;pointer-events:none;z-index:6}
+/* peça andando: levanta um pouco e pousa */
+.pc.anda{z-index:4}
+.pc.anda svg{animation:levanta .34s cubic-bezier(.3,.7,.3,1)}
+@keyframes levanta{0%{transform:none}40%{transform:translateY(-8%) scale(1.14);filter:drop-shadow(0 9px 6px rgba(0,0,0,.35))}82%{transform:scale(.96,1.03)}100%{transform:none}}
+.pc.some{opacity:0}
+/* peça capturada: estoura em pedaços */
+.pc.morta{z-index:1}
+.pc.morta.estoura svg{animation:estoura .3s ease-in forwards}
+@keyframes estoura{0%{transform:none}35%{transform:scale(1.16) rotate(-6deg);filter:brightness(1.7)}100%{transform:scale(.25) rotate(28deg);opacity:0}}
+.fx-boom{position:absolute;width:12.5%;height:12.5%}
+.fx-anel{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,rgba(255,250,225,1) 0,rgba(255,196,90,.75) 32%,rgba(255,120,40,.25) 55%,rgba(255,120,40,0) 70%);animation:fxAnel .45s ease-out forwards}
+@keyframes fxAnel{0%{transform:scale(.3);opacity:1}100%{transform:scale(2);opacity:0}}
+.fx-caco,.fx-fumaca{position:absolute;inset:0;display:grid;place-items:center}
+.fx-caco{animation:fxVoa .62s cubic-bezier(.12,.75,.35,1) forwards}
+.fx-caco b{display:block;border:1.5px solid;border-radius:24%;animation:fxGira .62s ease-out forwards}
+@keyframes fxVoa{0%{transform:none;opacity:1}70%{opacity:1}100%{transform:translate(var(--dx),var(--dy));opacity:0}}
+@keyframes fxGira{0%{transform:rotate(0) scale(1)}100%{transform:rotate(var(--rot)) scale(.55)}}
+.fx-fumaca{animation:fxVoa .7s ease-out forwards}
+.fx-fumaca b{display:block;width:36%;height:36%;border-radius:50%;background:rgba(200,200,205,.5);animation:fxFumaca .7s ease-out forwards}
+@keyframes fxFumaca{0%{transform:scale(.4);opacity:.8}100%{transform:scale(1.7);opacity:0}}
+/* número de pontos ganhos na captura */
+.fx-num{position:absolute;width:12.5%;height:12.5%;display:grid;place-items:center;font:800 calc(var(--tab) / 19)/1 var(--tit);color:#ffd75e;
+  text-shadow:0 2px 0 rgba(0,0,0,.45),0 0 8px rgba(0,0,0,.4);animation:fxNum 1.1s ease-out forwards}
+@keyframes fxNum{0%{transform:translateY(10%) scale(.6);opacity:0}18%{transform:translateY(-15%) scale(1.15);opacity:1}70%{opacity:1}100%{transform:translateY(-75%) scale(1);opacity:0}}
+/* balões: Xeque!, Roque!, Promoção! */
+.fx-balao{position:absolute;transform:translate(-50%,-100%);margin-top:-2px;--bc:#e5484d;--bt:#fff}
+.fx-balao.baixo{transform:translate(-50%,0);margin-top:2px}
+.fx-balao span{position:relative;display:block;padding:.38em .85em;border-radius:12px;background:var(--bc);color:var(--bt);white-space:nowrap;
+  font:800 calc(var(--tab) / 21)/1.1 var(--tit);letter-spacing:.01em;box-shadow:0 6px 16px rgba(0,0,0,.35);transform-origin:50% 100%;animation:fxBalao 1.5s cubic-bezier(.3,1.5,.5,1) forwards}
+.fx-balao.baixo span{transform-origin:50% 0}
+.fx-balao span::after{content:"";position:absolute;left:50%;bottom:-6px;margin-left:-7px;border:7px solid transparent;border-bottom:0;border-top-color:var(--bc)}
+.fx-balao.baixo span::after{bottom:auto;top:-6px;border:7px solid transparent;border-top:0;border-bottom-color:var(--bc)}
+.fx-balao.roque{--bc:#3d7be0}
+.fx-balao.promo{--bc:#f2b544;--bt:#2a1d04}
+@keyframes fxBalao{0%{transform:scale(.2);opacity:0}14%{transform:scale(1.12);opacity:1}24%{transform:scale(1)}80%{transform:none;opacity:1}100%{transform:translateY(-6px);opacity:0}}
+/* faixa no meio do tabuleiro: Xeque-mate!, Afogamento, Empate */
+.fx-faixa{position:absolute;inset:0;display:grid;place-items:center}
+.fx-faixa::before{content:"";position:absolute;inset:0;background:rgba(8,10,14,.38);animation:fxEscurece 2.2s ease forwards}
+.fx-faixa span{position:relative;padding:.18em .7em;border-radius:18px;font:800 calc(var(--tab) / 10)/1.15 var(--tit);color:#fff;letter-spacing:-.01em;
+  background:rgba(18,21,28,.86);border:2px solid rgba(255,255,255,.2);box-shadow:0 14px 40px rgba(0,0,0,.5);animation:fxFaixa 2.2s cubic-bezier(.3,1.4,.5,1) forwards}
+.fx-faixa.mate span{color:#ffd75e;border-color:#f2b544}
+@keyframes fxFaixa{0%{transform:scale(.3) rotate(-4deg);opacity:0}12%{transform:scale(1.08) rotate(1deg);opacity:1}22%{transform:none}82%{opacity:1}100%{transform:scale(.96);opacity:0}}
+@keyframes fxEscurece{0%{opacity:0}15%{opacity:1}80%{opacity:1}100%{opacity:0}}
+/* rei derrotado tomba */
+.pc.tomba svg{transform-origin:50% 92%;transform:rotate(80deg) translate(6%,0);transition:transform .65s cubic-bezier(.55,0,.35,1.35);filter:drop-shadow(0 0 5px rgba(229,72,77,.95))}
+@media (prefers-reduced-motion:reduce){.tabuleiro .efeitos{display:none}}
 
 </style>
 </head>
@@ -2653,7 +2703,7 @@ const Dados = {
       itens: {},                                             // itens comprados na loja: id -> 1
       tabuleiro: 'classico',
       conquistas: {},                                        // id -> data em que foi desbloqueada
-      ajustes: { tema: 'escuro', som: true, vibrar: true, coords: true, pontos: true },
+      ajustes: { tema: 'escuro', som: true, vibrar: true, coords: true, pontos: true, efeitos: true },
       extras: { dicas: 0, viradas: 0, salas: {}, zeradoEm: 0 },
       livro: {},                                             // contagens de cada aparelho (moedas e partidas) — ver Livro
       atualizadoEm: 0
@@ -2947,6 +2997,11 @@ const Som = {
     else this.tocar('lance');
   }
 };
+/* animações de partida (explosões, balões). Desligáveis em Configurações e respeitam "reduzir movimento" do aparelho */
+function efeitosLigados() {
+  try { if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return false; } catch (e) { /* ignora */ }
+  return !Dados.d || Dados.d.ajustes.efeitos !== false;
+}
 function vibrar(ms) { try { const ativo = !navigator.userActivation || navigator.userActivation.hasBeenActive; if (ativo && Dados.d.ajustes.vibrar && navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* ignora */ } }
 document.addEventListener('pointerdown', () => Som.desbloquear(), { once: true });
 
@@ -3222,8 +3277,8 @@ class Tabuleiro {
     this.marcas = { ult: [], xq: null, estrelas: [], blocos: [] }; this.listaSetas = [];
     this.el = document.createElement('div');
     this.el.className = 'tabuleiro' + (opcoes.estatico ? ' estatico' : '');
-    this.el.innerHTML = '<div class="casas"></div><div class="pecas"></div><svg class="setas" viewBox="0 0 8 8"></svg>';
-    this.elCasas = this.el.children[0]; this.elPecas = this.el.children[1]; this.elSetas = this.el.children[2];
+    this.el.innerHTML = '<div class="casas"></div><div class="pecas"></div><svg class="setas" viewBox="0 0 8 8"></svg><div class="efeitos" aria-hidden="true"></div>';
+    this.elCasas = this.el.children[0]; this.elPecas = this.el.children[1]; this.elSetas = this.el.children[2]; this.elEfeitos = this.el.children[3];
     hospedeiro.appendChild(this.el);
     this.montarCasas();
     if (!opcoes.estatico) {
@@ -3274,6 +3329,11 @@ class Tabuleiro {
   /* atualiza as peças para o novo mapa {casa:'wK'}, reaproveitando elementos para animar os lances */
   posicionar(mapa, animar = true) {
     if (!animar) this.elPecas.classList.add('sem-anim');
+    this.limparMortas();
+    // quantas casas mudaram: um lance muda no máximo 4 (roque). Mais que isso é troca de posição, sem explosões.
+    let mudou = 0; const todas = new Set(Object.keys(mapa).concat(Object.keys(this.pos)));
+    todas.forEach(c => { if (mapa[c] !== this.pos[c]) mudou++; });
+    const umLance = animar && efeitosLigados() && mudou <= 4, antes = this.pos;
     const livres = [], novos = {};
     for (const c in this.pos) { if (mapa[c] === this.pos[c]) novos[c] = this.els[c]; else livres.push({ c, cod: this.pos[c], el: this.els[c] }); }
     for (const c in mapa) {
@@ -3282,17 +3342,91 @@ class Tabuleiro {
       let melhor = -1, dist = 99;
       livres.forEach((l, i) => { if (l.cod !== mapa[c]) return; const [a, b] = this.xy(l.c); const d = Math.abs(a - x) + Math.abs(b - y); if (d < dist) { dist = d; melhor = i; } });
       let el;
-      if (melhor >= 0) { el = livres.splice(melhor, 1)[0].el; this.elPecas.appendChild(el); this.colocar(el, c); }
+      if (melhor >= 0) {
+        el = livres.splice(melhor, 1)[0].el; this.elPecas.appendChild(el); this.colocar(el, c);
+        if (umLance) { el.classList.remove('anda'); void el.offsetWidth; el.classList.add('anda'); setTimeout(() => el.classList.remove('anda'), 420); }
+      }
       else {
         el = this.criarPeca(mapa[c]); el.classList.add('nova'); this.colocar(el, c); this.elPecas.appendChild(el);
         requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove('nova')));
       }
       novos[c] = el;
     }
-    livres.forEach(l => l.el.remove());
+    livres.forEach(l => {
+      // peça capturada: no lugar dela agora há uma peça da outra cor (ou foi "en passant")
+      const ocup = mapa[l.c], capturada = umLance && ((ocup && ocup[0] !== l.cod[0]) || (!ocup && l.cod[1] === 'P' && this.foiEnPassant(l, mapa, antes)));
+      if (capturada) this.explodir(l.el, l.c);
+      else if (umLance && !this.el.classList.contains('estatico')) { l.el.classList.add('some'); setTimeout(() => l.el.remove(), 260); }
+      else l.el.remove();
+    });
     this.pos = Object.assign({}, mapa); this.els = novos;
     for (const c in this.els) this.els[c].classList.remove('arr');
     if (!animar) { void this.elPecas.offsetWidth; this.elPecas.classList.remove('sem-anim'); }
+  }
+  foiEnPassant(l, mapa, antes) {
+    const f = l.c[0], r = +l.c[1], dir = l.cod[0] === 'w' ? -1 : 1, atras = f + (r + dir);   // casa "atrás" do peão, onde o outro peão chegou
+    return !!mapa[atras] && mapa[atras][1] === 'P' && mapa[atras][0] !== l.cod[0] && !antes[atras];
+  }
+  limparMortas() { $$('.pc.morta', this.elPecas).forEach(e => e.remove()); }
+  /* ---------- efeitos visuais ---------- */
+  noQuadrado(casa, cls) {
+    const [x, y] = this.xy(casa), d = document.createElement('div');
+    d.className = cls; d.style.left = x * 12.5 + '%'; d.style.top = y * 12.5 + '%';
+    this.elEfeitos.appendChild(d); return d;
+  }
+  /* a peça capturada estoura em pedacinhos quando a outra chega na casa */
+  explodir(el, casa) {
+    el.classList.add('morta');
+    const cor = getComputedStyle(el).getPropertyValue('--pf') || '#fff', borda = getComputedStyle(el).getPropertyValue('--ps') || '#333';
+    setTimeout(() => {
+      el.classList.add('estoura');
+      const b = this.noQuadrado(casa, 'fx-boom');
+      let h = '<i class="fx-anel"></i>';
+      for (let k = 0; k < 12; k++) {
+        const a = (k / 12) * Math.PI * 2 + Math.random() * .5, dist = 60 + Math.random() * 55, tam = 13 + Math.random() * 10;
+        h += `<i class="fx-caco" style="--dx:${(Math.cos(a) * dist).toFixed(0)}%;--dy:${(Math.sin(a) * dist).toFixed(0)}%;--rot:${(Math.random() * 540 - 270).toFixed(0)}deg"><b style="width:${tam.toFixed(0)}%;height:${tam.toFixed(0)}%;background:${cor};border-color:${borda}"></b></i>`;
+      }
+      for (let k = 0; k < 4; k++) { const a = Math.random() * Math.PI * 2; h += `<i class="fx-fumaca" style="--dx:${(Math.cos(a) * 30).toFixed(0)}%;--dy:${(Math.sin(a) * 30 - 15).toFixed(0)}%;animation-delay:${(k * .04).toFixed(2)}s"><b></b></i>`; }
+      b.innerHTML = h;
+      setTimeout(() => { b.remove(); el.remove(); }, 700);
+    }, 150);
+  }
+  /* balão com texto (Xeque!, Roque!...) em cima de uma casa, ou faixa no meio do tabuleiro */
+  balao(texto, casa, tipo = '') {
+    if (!efeitosLigados()) return;
+    $$('.fx-balao', this.elEfeitos).forEach(b => b.remove());
+    if (!casa) {
+      const f = document.createElement('div'); f.className = 'fx-faixa ' + tipo; f.innerHTML = `<span>${texto}</span>`;
+      this.elEfeitos.appendChild(f); setTimeout(() => f.remove(), 2200); return;
+    }
+    const [x, y] = this.xy(casa), b = document.createElement('div');
+    b.className = 'fx-balao ' + tipo + (y <= 1 ? ' baixo' : '');
+    b.style.left = Math.min(84, Math.max(16, x * 12.5 + 6.25)) + '%';
+    b.style.top = (y <= 1 ? (y + 1) * 12.5 : y * 12.5) + '%';
+    b.innerHTML = `<span>${texto}</span>`;
+    this.elEfeitos.appendChild(b); setTimeout(() => b.remove(), 1500);
+  }
+  /* número subindo na casa (ex.: +3 ao capturar um bispo) */
+  numero(texto, casa) {
+    if (!efeitosLigados()) return;
+    const d = this.noQuadrado(casa, 'fx-num'); d.textContent = texto; setTimeout(() => d.remove(), 1100);
+  }
+  /* o rei derrotado tomba no xeque-mate */
+  derrubarRei(casa) { const el = this.els[casa]; if (el && efeitosLigados()) setTimeout(() => el.classList.add('tomba'), 450); }
+  /* todos os efeitos de um lance: chamado depois de mover a peça */
+  efeitos(m, g) {
+    if (!m || !efeitosLigados()) return;
+    const vez = g.turn(), rei = casaDoRei(g, vez);
+    if (m.captured) setTimeout(() => this.numero('+' + VALOR[m.captured], m.flags.includes('e') ? m.to[0] + m.from[1] : m.to), 260);
+    if (g.in_checkmate()) {
+      setTimeout(() => this.balao('Xeque-mate!', null, 'mate'), 250); this.derrubarRei(rei); return;
+    }
+    if (g.in_stalemate()) { setTimeout(() => this.balao('Afogamento', null, 'empate'), 250); return; }
+    if (g.in_draw()) { setTimeout(() => this.balao('Empate', null, 'empate'), 250); return; }
+    if (g.in_check()) { setTimeout(() => this.balao('Xeque!', rei, 'xeque'), 230); return; }
+    if (m.flags.includes('k') || m.flags.includes('q')) { setTimeout(() => this.balao('Roque!', m.to, 'roque'), 230); return; }
+    if (m.flags.includes('e')) { setTimeout(() => this.balao('En passant!', m.to, 'roque'), 230); return; }
+    if (m.promotion) setTimeout(() => this.balao('Promoção!', m.to, 'promo'), 230);
   }
   redesenhar() { for (const c in this.els) { this.els[c].classList.remove('arr'); this.colocar(this.els[c], c); } }
   /* destaques: último lance, rei em xeque, estrelas e casas bloqueadas */
@@ -4255,6 +4389,7 @@ const Ajustes = {
         <button class="bt cheio" id="aj-loja" style="margin-top:10px">Ver mais tabuleiros na loja</button></div>
       <div class="cartao pilha" style="gap:4px"><h3>Jogo</h3>
         ${chave('som', 'Sons', 'Lances, capturas, xeques e conquistas')}
+        ${chave('efeitos', 'Animações da partida', 'Peças explodindo nas capturas e balões de xeque, roque e mate')}
         ${chave('vibrar', 'Vibração', 'No celular, ao errar e ao ganhar conquistas')}
         ${chave('coords', 'Coordenadas', 'Letras e números nas bordas do tabuleiro')}
         ${chave('pontos', 'Mostrar lances possíveis', 'Pontinhos nas casas para onde a peça pode ir')}</div>
@@ -4267,7 +4402,7 @@ const Ajustes = {
     $('#aj-tema').onclick = e => { const b = e.target.closest('.op'); if (!b) return; a.tema = b.dataset.v; Dados.salvar(); aplicarVisual(); this.tela(); };
     $('#aj-tab').onclick = e => { const b = e.target.closest('[data-tab]'); if (!b) return; Dados.d.tabuleiro = b.dataset.tab; Dados.salvar(); aplicarVisual(); this.tela(); };
     $('#aj-loja').onclick = () => { Loja.aba = 'tab'; App.ir('loja'); };
-    ['som', 'vibrar', 'coords', 'pontos'].forEach(k => { $('#aj-' + k).onchange = ev => { a[k] = ev.target.checked; Dados.salvar(); aplicarVisual(); if (k === 'som' && a.som) Som.tocar('acerto'); }; });
+    ['som', 'vibrar', 'coords', 'pontos', 'efeitos'].forEach(k => { $('#aj-' + k).onchange = ev => { a[k] = ev.target.checked; Dados.salvar(); aplicarVisual(); if (k === 'som' && a.som) Som.tocar('acerto'); }; });
     $('#aj-instalar').onclick = async () => {
       if (!pedidoInstalacao) return;
       pedidoInstalacao.prompt();
@@ -4632,6 +4767,7 @@ const Partida = {
     this.tab.posicionar(mapaDoJogo(this.g));
     this.marcarUltimo(m);
     if (som) Som.lance(m, this.g);
+    this.tab.efeitos(m, this.g);
     const g = this.g;
     if (g.game_over()) {
       if (g.in_checkmate()) this.finalizar(m.color, 'xeque-mate');
@@ -4777,16 +4913,19 @@ const Partida = {
     fecharDica();
     const base = { lances, cor: this.cor, nivel: this.nivel, vencedor, motivo, titulo, modo: this.modo, foto: Conquistas.foto() };
     Conquistas.pausa = true;                       // os avisos de conquista aparecem juntos na tela de fim
+    // fim no tabuleiro (mate, afogamento...): espera a animação aparecer antes de abrir a tela de fim
+    const espera = efeitosLigados() && /xeque-mate|afogamento|insuficiente|repetição|50 lances/.test(motivo) ? 1500 : 0;
+    const ui = f => espera ? setTimeout(f, espera) : f();
     if (this.modo === 'pc') {
       base.mostrarFim = true;
       Dados.gravarPartida(null);
       base.registro = registrarPartida({ modo: 'pc', nivel: this.nivel, cor: this.cor, vencedor, motivo, plies: lances.length, relogio: this.relogio, dicas: this.dicas, san: lances.map(m => m.san) });
-      Analise.iniciar(base);
+      ui(() => Analise.iniciar(base));
     } else if (this.modo === 'local') {
       base.cor = 'ambos';
       base.registro = registrarPartida({ modo: 'local', cor: 'w', vencedor, motivo, plies: lances.length, san: lances.map(m => m.san) });
-      this.modalFim(base);
-    } else Salas.aoTerminar(base);
+      ui(() => this.modalFim(base));
+    } else ui(() => Salas.aoTerminar(base));
   },
   /* janela de fim de jogo (amigos) com opção de analisar */
   async modalFim(base, extras = []) {
@@ -5415,7 +5554,7 @@ function exLances(ex, linha, cb) {
   const concluir = () => { acabou = true; if (cb.passo) cb.passo(''); cb.msg('ok', ex.ok); cb.resolvido(); };
   async function responder(san) {
     travado = true; await espera(520); if (morto) return;
-    const m = g.move(san); if (m) { atualizar(m); Som.lance(m, g); } travado = false;
+    const m = g.move(san); if (m) { atualizar(m); Som.lance(m, g); tab.efeitos(m, g); } travado = false;
   }
   function mover(de, para, promo) {
     if (travado || acabou) { tab.redesenhar(); return; }
@@ -5438,7 +5577,7 @@ function exLances(ex, linha, cb) {
       cb.msg('err', (ex.wrong && ex.wrong[s]) || (afogou ? 'Afogamento! O rei adversário ficaria sem lances e sem estar em xeque: a partida empataria.' : ex.err));
       cb.erro(); return;
     }
-    atualizar(m); Som.lance(m, g);
+    atualizar(m); Som.lance(m, g); tab.efeitos(m, g);
     if (ehMate) {
       if (g.in_checkmate()) return concluir();
       restante--; idx += 2;
