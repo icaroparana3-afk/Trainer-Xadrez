@@ -665,6 +665,42 @@ body.com-nav #conquista-pop{bottom:calc(100px + env(safe-area-inset-bottom))}
   .fim-conq{padding:7px 10px}.fim-conq .cq-ic{width:34px;height:34px;font-size:1.15rem}
 }
 
+/* ---------- molduras de nível (desenhos em volta da foto) ---------- */
+.avatar.molv{overflow:visible}
+.avatar svg.mold-arte{position:absolute;left:-40%;top:-40%;width:180%;height:180%;fill:none;stroke:none;stroke-width:1;overflow:visible;pointer-events:none}
+.grade-molv{grid-template-columns:repeat(auto-fill,minmax(98px,1fr));row-gap:10px}
+.grade-molv .op-av{padding:20px 4px 8px;overflow:visible}
+.grade-molv .op-av small{text-align:center;line-height:1.25;margin-top:8px}
+.brilho-m{transform-box:fill-box;transform-origin:center;animation:cintila 2.6s ease-in-out infinite}
+@keyframes cintila{0%,100%{opacity:.15;transform:scale(.5)}50%{opacity:1;transform:scale(1.1)}}
+.molv-mestre{filter:drop-shadow(0 0 calc(var(--av)*.06) rgba(255,210,90,.45))}
+.fim-mold{width:100%;display:flex;align-items:center;gap:14px;padding:10px 12px;border-radius:18px;background:var(--sup2);border:1px solid var(--dest);text-align:left;animation:desliza .5s cubic-bezier(.2,.8,.2,1) both}
+.fim-mold .avatar{margin:10px 8px}
+.fim-mold small{display:block;font-size:.66rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--dest)}
+/* botão "Próximo módulo" no fim da trilha: largura suficiente para nomes longos */
+.fim-mod{width:240px;margin-left:-120px}
+.fim-mod .bt{white-space:normal;line-height:1.25;text-align:center;max-width:100%;height:auto;padding:10px 16px}
+
+/* ---------- histórico de partidas ---------- */
+.hist-lista{display:flex;flex-direction:column;gap:8px}
+.hist-item{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border-radius:16px;background:var(--sup);border:1px solid var(--linha);text-align:left;position:relative;overflow:hidden;transition:transform .12s,border-color .2s}
+.hist-item::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--rc,var(--linha))}
+.hist-item:active{transform:scale(.98)}
+.hist-item:not([disabled]):hover{border-color:var(--rc,var(--linha))}
+.hist-item[disabled]{opacity:.6;cursor:default}
+.hist-item.res-v{--rc:var(--ok)}.hist-item.res-d{--rc:var(--ruim)}.hist-item.res-e{--rc:var(--txt2)}.hist-item.res-n{--rc:var(--info)}
+.hist-ic{width:42px;height:42px;border-radius:12px;background:var(--sup2);display:grid;place-items:center;flex:none;color:var(--rc)}
+.hist-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hist-tx{flex:1;min-width:0;display:flex;flex-direction:column}
+.hist-tx b{font-size:.98rem;color:var(--rc)}
+.hist-tx span{font-size:.86rem}
+.hist-tx small{font-size:.74rem;color:var(--txt2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hist-dir{text-align:right;flex:none;display:flex;flex-direction:column;align-items:flex-end}
+.hist-dir b{font-family:var(--tit);font-size:1.15rem}
+.hist-dir small{font-size:.72rem;color:var(--txt2)}
+.grade-molv .op-av{padding:26px 4px 10px}
+.grade-molv .op-av small{margin-top:18px;position:relative;z-index:1}
+
 </style>
 </head>
 <body>
@@ -712,6 +748,43 @@ body.com-nav #conquista-pop{bottom:calc(100px + env(safe-area-inset-bottom))}
     <symbol id="pi-b" viewBox="0 0 100 100"><path d="M36.5 64.5Q36.5 61 38.4 58Q38.8 57 39.5 56.2Q36 54 34 50.4Q31.6 46.2 31.5 41.6V41.4Q31.6 36.8 34 32.6Q36.4 28.3 40.9 25.9Q42.5 25.1 44.3 24.5Q42.8 23.5 41.8 21.8Q40.5 19.6 40.5 17.2Q40.5 14.7 41.8 12.6Q43.1 10.4 45.3 9.2Q47.6 8 50 8Q52.4 8 54.6 9.2Q56.8 10.4 58.1 12.6Q59.4 14.7 59.4 17.2Q59.4 19.6 58.2 21.8Q57.3 23.5 55.8 24.6Q57.4 25.1 59.1 25.9Q63.5 28.3 66 32.6Q68.5 36.8 68.5 41.4V41.6Q68.5 46.2 66 50.4Q63.9 53.9 60.6 56.1Q61.2 57 61.7 58Q63.5 61 63.5 64.5Q63.5 67.8 61.6 70.9L77.6 94H22.4L38 70.8Q36.5 67.7 36.5 64.5ZM53.4 51.6V44.4H63.3V38.2H53.4V31.1H46.6V38.2H36.7V44.4H46.6V51.6Z"/></symbol>
     <symbol id="pi-n" viewBox="0 0 100 100"><path d="M42.6 21.9Q44.8 20.6 44.8 18.3Q44.8 16.9 43.9 15.3Q43 13.6 43 12.4Q43 9.7 46.4 8Q51.3 12.7 51.7 15.2Q52.1 17.8 52.1 18.5Q52.1 21.2 50.2 21.9H50.4Q50.4 22 50.3 22Q81.1 41.5 83.7 94H27.9Q27.2 90.8 27.2 87.4Q27.2 78.2 38.8 70.1Q50.5 62 50.5 55.5Q50.5 55 50.4 54.6Q46.6 64.2 39.9 64.2Q39.9 64.2 39.3 64.2Q34.1 72.6 28.2 72.6Q28 72.6 27.8 72.6L30.6 66.6L24.4 71.2Q17.9 69.6 16.3 64.9Q21.4 51.7 21.4 40.8Q21.4 39.2 21.3 37.7Q24 31.5 29.7 25.5Q29.9 24.9 29.9 24.4Q29.9 22.8 28.6 22Q27.3 21.3 27.3 19.3Q27.3 17.1 28.4 13.3Q34.4 14.9 37.6 21.9ZM27.9 36.6V37.5Q28.1 39.2 28.6 39.2H29.8Q33.7 39.2 33.7 36.4Q33.7 34.4 36.2 31.7H35.9Q30.3 31.7 28.2 35.4ZM21.6 62.4V63.8Q21.6 65.5 23.2 65.5H23.8Q27.9 64.6 27.9 61.6L27.5 59.6Q24 59.6 21.6 62.4ZM50.2 26.5 53.2 31.6Q74.8 47.1 75.1 91H79.5Q77 42.1 50.2 26.5Z"/></symbol>
     <symbol id="pi-p" viewBox="0 0 100 100"><path d="M15.4 94Q14.7 90.7 14.7 87.4Q14.7 78.2 19.5 69.8Q24.2 61.3 32.6 56.9Q34.8 55.7 37.1 54.8Q35.4 53.1 34.2 50.9Q31.7 46.6 31.7 41.9Q31.7 37.1 34.2 32.8Q36.6 28.5 41.1 26.1Q42.6 25.2 44.3 24.7Q42.8 23.6 41.9 21.9Q40.6 19.7 40.6 17.3Q40.6 14.8 41.9 12.6Q43.1 10.4 45.4 9.2Q47.6 8 50 8Q52.3 8 54.5 9.2Q56.8 10.4 58 12.6Q59.3 14.8 59.3 17.3Q59.3 19.7 58.1 21.9Q57.2 23.6 55.7 24.7Q57.3 25.2 59 26.1Q63.3 28.5 65.8 32.8Q68.3 37.1 68.3 41.9Q68.3 46.6 65.9 50.9Q64.6 53.1 62.9 54.8Q65.1 55.7 67.3 56.9Q75.7 61.3 80.5 69.8Q85.3 78.2 85.3 87.4Q85.3 90.7 84.6 94Z"/></symbol>
+
+    <!-- molduras de nível (perfil) -->
+
+<filter id="mf-brilho" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4"/></filter>
+<linearGradient id="mg-aco" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4f7fb"/><stop offset=".45" stop-color="#9aa5b4"/><stop offset=".7" stop-color="#5d6776"/><stop offset="1" stop-color="#d9dfe7"/></linearGradient>
+<linearGradient id="mg-ouro" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff6c4"/><stop offset=".3" stop-color="#f2c84b"/><stop offset=".55" stop-color="#b8860b"/><stop offset=".8" stop-color="#ffe28a"/><stop offset="1" stop-color="#a87408"/></linearGradient>
+<linearGradient id="mg-ouro2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#9c6a06"/><stop offset=".5" stop-color="#f5cf5a"/><stop offset="1" stop-color="#fff3b8"/></linearGradient>
+<radialGradient id="mg-rubi" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#ffd0d6"/><stop offset=".25" stop-color="#ff3b55"/><stop offset=".7" stop-color="#a3001b"/><stop offset="1" stop-color="#4a000c"/></radialGradient>
+<linearGradient id="mg-fogo" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#b3150b"/><stop offset=".45" stop-color="#ff6a1a"/><stop offset=".8" stop-color="#ffc53d"/><stop offset="1" stop-color="#fff2b0"/></linearGradient>
+<linearGradient id="mg-azul" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5aa0e6"/><stop offset="1" stop-color="#173f78"/></linearGradient>
+<linearGradient id="mg-cipo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a6a3a"/><stop offset=".5" stop-color="#5c4322"/><stop offset="1" stop-color="#7d5f30"/></linearGradient>
+<radialGradient id="mg-roxo" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#f3d8ff"/><stop offset=".3" stop-color="#b65cff"/><stop offset="1" stop-color="#3d0a6b"/></radialGradient>
+<symbol id="mf-aprendiz" viewBox="-40 -40 180 180"><circle cx="50" cy="50" r="53" fill="none" stroke="#2e2412" stroke-width="7.5"/><circle cx="50" cy="50" r="53" fill="none" stroke="url(#mg-cipo)" stroke-width="5.5"/><path d="M50 -3L53.8 -4.7L57.8 -5.5L61.7 -4.8L65.1 -2.8L68.1 0.2L70.8 3.3L73.5 5.9L76.5 7.6L80 8.6L84.1 9.4L88.1 10.5L91.6 12.5L94.2 15.5L95.5 19.3L95.9 23.5L95.9 27.6L96.3 31.3L97.5 34.6L99.6 37.6L102.2 40.8L104.6 44.3L106 48L106 52L104.6 55.7L102.2 59.2L99.6 62.4L97.5 65.4L96.3 68.7L95.9 72.4L95.9 76.5L95.5 80.7L94.2 84.5L91.6 87.5L88.1 89.5L84.1 90.6L80 91.4L76.5 92.4L73.5 94.1L70.8 96.7L68.1 99.8L65.1 102.8L61.7 104.8L57.8 105.5L53.8 104.7L50 103L46.4 101L43 99.5L39.6 98.9L35.9 99.1L31.9 99.8L27.7 100.1L23.7 99.5L20.3 97.5L17.7 94.4L15.9 90.6L14.5 86.8L12.9 83.4L10.6 80.8L7.6 78.6L4.1 76.5L0.7 74.1L-2 71L-3.3 67.3L-3.3 63.3L-2.2 59.2L-0.8 55.3L0.1 51.7L0.1 48.3L-0.8 44.7L-2.2 40.8L-3.3 36.7L-3.3 32.7L-2 29L0.7 25.9L4.1 23.5L7.6 21.4L10.6 19.2L12.9 16.6L14.5 13.2L15.9 9.4L17.7 5.6L20.3 2.5L23.7 0.5L27.7 -0.1L31.9 0.2L35.9 0.9L39.6 1.1L43 0.5L46.4 -1L50 -3" fill="none" stroke="#4f8a2b" stroke-width="3" stroke-linecap="round"/><path d="M50 -0.4L53.5 0.1L57.1 -0.3L60.9 -1.2L64.9 -2.1L69 -2.2L72.8 -1.1L75.9 1.2L78.4 4.5L80.4 8.1L82.4 11.4L84.7 14L87.7 16L91.3 17.8L95 19.7L98.1 22.2L100.3 25.5L101.2 29.3L101 33.4L100.2 37.5L99.6 41.2L99.7 44.8L100.7 48.2L102.3 51.8L103.9 55.7L104.8 59.7L104.3 63.5L102.5 67.1L99.7 70.1L96.5 72.7L93.6 75.2L91.5 78L90 81.3L88.9 85L87.7 89L85.7 92.6L82.9 95.3L79.3 96.8L75.2 97.3L71.1 97.3L67.2 97.4L63.8 98.1L60.6 99.7L57.3 101.9L53.8 104.1L50 105.6L46.1 105.8L42.3 104.7L38.9 102.5L35.7 99.8L32.8 97.4L29.7 95.7L26.2 94.8L22.2 94.4L18.1 93.9L14.3 92.6L11.1 90.3L9 87L7.7 83L7.1 79L6.4 75.2L5 71.9L2.9 69L0.2 66.2L-2.6 63.1L-4.8 59.7L-5.7 55.9L-5.2 51.9L-3.6 48.1L-1.5 44.6L0.4 41.2L1.5 37.9L1.7 34.3L1.4 30.4L1.3 26.2L1.9 22.2L3.6 18.7L6.5 16L10.1 14.1L14 12.8L17.6 11.4L20.6 9.5L23.1 6.9L25.4 3.8L27.9 0.5L31 -2.2L34.6 -3.8L38.5 -4L42.5 -3.1L46.4 -1.7L50 -0.4" fill="none" stroke="#86b844" stroke-width="2" stroke-linecap="round" opacity=".9"/><g transform="translate(-2.6 30.8) rotate(-195)"><path d="M0 0 Q5.7 -6 12.6 0 Q5.7 6 0 0Z" fill="#5fae3e" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H10.8" stroke="#3f7f25" stroke-width=".6" fill="none"/></g><g transform="translate(12.5 8.4) rotate(-97)"><path d="M0 0 Q7.2 -7.5 15.9 0 Q7.2 7.5 0 0Z" fill="#79c653" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H13.6" stroke="#3f7f25" stroke-width=".6" fill="none"/></g><g transform="translate(29 -1.9) rotate(-147)"><path d="M0 0 Q7.2 -7.5 15.9 0 Q7.2 7.5 0 0Z" fill="#5fae3e" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H13.6" stroke="#3f7f25" stroke-width=".6" fill="none"/></g><g transform="translate(71 -1.9) rotate(-33)"><path d="M0 0 Q5.7 -6 12.6 0 Q5.7 6 0 0Z" fill="#79c653" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H10.8" stroke="#3f7f25" stroke-width=".6" fill="none"/></g><g transform="translate(87.5 8.4) rotate(-83)"><path d="M0 0 Q7.2 -7.5 15.9 0 Q7.2 7.5 0 0Z" fill="#5fae3e" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H13.6" stroke="#3f7f25" stroke-width=".6" fill="none"/></g><g transform="translate(102.6 30.8) rotate(15)"><path d="M0 0 Q7.2 -7.5 15.9 0 Q7.2 7.5 0 0Z" fill="#79c653" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H13.6" stroke="#3f7f25" stroke-width=".6" fill="none"/></g><g transform="translate(105.1 59.7) rotate(-25)"><path d="M0 0 Q5.7 -6 12.6 0 Q5.7 6 0 0Z" fill="#5fae3e" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H10.8" stroke="#3f7f25" stroke-width=".6" fill="none"/></g><g transform="translate(94.1 84.5) rotate(73)"><path d="M0 0 Q7.2 -7.5 15.9 0 Q7.2 7.5 0 0Z" fill="#79c653" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H13.6" stroke="#3f7f25" stroke-width=".6" fill="none"/></g><g transform="translate(74.5 100.3) rotate(29)"><path d="M0 0 Q7.2 -7.5 15.9 0 Q7.2 7.5 0 0Z" fill="#5fae3e" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H13.6" stroke="#3f7f25" stroke-width=".6" fill="none"/></g><g transform="translate(25.5 100.3) rotate(151)"><path d="M0 0 Q5.7 -6 12.6 0 Q5.7 6 0 0Z" fill="#79c653" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H10.8" stroke="#3f7f25" stroke-width=".6" fill="none"/></g><g transform="translate(5.9 84.5) rotate(107)"><path d="M0 0 Q7.2 -7.5 15.9 0 Q7.2 7.5 0 0Z" fill="#5fae3e" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H13.6" stroke="#3f7f25" stroke-width=".6" fill="none"/></g><g transform="translate(-5.1 59.7) rotate(205)"><path d="M0 0 Q7.2 -7.5 15.9 0 Q7.2 7.5 0 0Z" fill="#79c653" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H13.6" stroke="#3f7f25" stroke-width=".6" fill="none"/></g><g transform="translate(-2.6 30.8) rotate(165)"><path d="M0 0 Q5.7 -6 12.6 0 Q5.7 6 0 0Z" fill="#5fae3e" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H10.8" stroke="#3f7f25" stroke-width=".6" fill="none"/></g><path d="M50 -8 q4 -6 -1 -9 q-4 2 -1 -5" fill="none" stroke="#4f8a2b" stroke-width="1.3" stroke-linecap="round"/><g transform="translate(50 -8) rotate(-120)"><path d="M0 0 Q5.9 -6.2 13.2 0 Q5.9 6.2 0 0Z" fill="#8fd765" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H11.2" stroke="#3f7f25" stroke-width=".6" fill="none"/></g><g transform="translate(50 -8) rotate(-60)"><path d="M0 0 Q5 -5.2 11 0 Q5 5.2 0 0Z" fill="#6fbf4a" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H9.3" stroke="#3f7f25" stroke-width=".6" fill="none"/></g><path d="M50 108 q4 6 -1 9 q-4 -2 -1 5" fill="none" stroke="#4f8a2b" stroke-width="1.3" stroke-linecap="round"/><g transform="translate(50 108) rotate(60)"><path d="M0 0 Q5.9 -6.2 13.2 0 Q5.9 6.2 0 0Z" fill="#8fd765" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H11.2" stroke="#3f7f25" stroke-width=".6" fill="none"/></g><g transform="translate(50 108) rotate(120)"><path d="M0 0 Q5 -5.2 11 0 Q5 5.2 0 0Z" fill="#6fbf4a" stroke="#3f7f25" stroke-width=".7"/><path d="M1 0H9.3" stroke="#3f7f25" stroke-width=".6" fill="none"/></g></symbol>
+<symbol id="mf-intermediario" viewBox="-40 -40 180 180"><circle cx="50" cy="50" r="53.5" fill="none" stroke="#2b313b" stroke-width="8.5"/><circle cx="50" cy="50" r="53.5" fill="none" stroke="url(#mg-aco)" stroke-width="6.5"/><circle cx="50" cy="-3.5" r="1.7" fill="#eef2f6" stroke="#4a525e" stroke-width=".6"/><circle cx="76.8" cy="3.7" r="1.7" fill="#eef2f6" stroke="#4a525e" stroke-width=".6"/><circle cx="96.3" cy="23.3" r="1.7" fill="#eef2f6" stroke="#4a525e" stroke-width=".6"/><circle cx="103.5" cy="50" r="1.7" fill="#eef2f6" stroke="#4a525e" stroke-width=".6"/><circle cx="96.3" cy="76.8" r="1.7" fill="#eef2f6" stroke="#4a525e" stroke-width=".6"/><circle cx="76.8" cy="96.3" r="1.7" fill="#eef2f6" stroke="#4a525e" stroke-width=".6"/><circle cx="23.3" cy="96.3" r="1.7" fill="#eef2f6" stroke="#4a525e" stroke-width=".6"/><circle cx="3.7" cy="76.8" r="1.7" fill="#eef2f6" stroke="#4a525e" stroke-width=".6"/><circle cx="-3.5" cy="50" r="1.7" fill="#eef2f6" stroke="#4a525e" stroke-width=".6"/><circle cx="3.7" cy="23.2" r="1.7" fill="#eef2f6" stroke="#4a525e" stroke-width=".6"/><circle cx="23.2" cy="3.7" r="1.7" fill="#eef2f6" stroke="#4a525e" stroke-width=".6"/><g transform="translate(50 106)">
+<path d="M-4 -26 C-2 -38 12 -40 17 -32 C11 -35 6 -32 4 -26Z" fill="#c8202f" stroke="#6e0d17" stroke-width=".8"/>
+<path d="M-18 4 C-19 -14 -12 -25 0 -26 C12 -25 19 -14 18 4 L18 15 C10 19 -10 19 -18 15Z" fill="url(#mg-aco)" stroke="#2f3640" stroke-width="1.4"/>
+<path d="M0 -25 V17" stroke="#5d6776" stroke-width="1.6"/>
+<rect x="-16.5" y="-4" width="33" height="4.2" rx="1.2" fill="#1b1f26"/>
+<path d="M-15 -8 C-8 -10 8 -10 15 -8" fill="none" stroke="#f4f7fb" stroke-width="1" opacity=".7"/>
+<g fill="#1b1f26"><circle cx="6" cy="6" r="1.1"/><circle cx="10" cy="6" r="1.1"/><circle cx="14" cy="6" r="1.1"/><circle cx="6" cy="10" r="1.1"/><circle cx="10" cy="10" r="1.1"/><circle cx="14" cy="10" r="1.1"/></g>
+<path d="M-18 13 L18 13" stroke="#2f3640" stroke-width="1.2"/>
+</g></symbol>
+<symbol id="mf-avancado" viewBox="-40 -40 180 180"><path d="M9.7 9.7 L-5.2 -5.2" stroke="#2b313b" stroke-width="6" stroke-linecap="round"/><path d="M9.7 9.7 L-5.2 -5.2" stroke="url(#mg-aco)" stroke-width="4" stroke-linecap="round"/><path d="M90.3 90.3 L102.3 102.3" stroke="#5b3a1e" stroke-width="4.5" stroke-linecap="round"/><path d="M98.5 85.3 L85.3 98.5" stroke="#d9b54a" stroke-width="3.6" stroke-linecap="round"/><circle cx="102.3" cy="102.3" r="3" fill="#d9b54a" stroke="#7a5a10" stroke-width=".7"/><path d="M90.3 9.7 L105.2 -5.2" stroke="#2b313b" stroke-width="6" stroke-linecap="round"/><path d="M90.3 9.7 L105.2 -5.2" stroke="url(#mg-aco)" stroke-width="4" stroke-linecap="round"/><path d="M9.7 90.3 L-2.3 102.3" stroke="#5b3a1e" stroke-width="4.5" stroke-linecap="round"/><path d="M14.7 98.5 L1.5 85.3" stroke="#d9b54a" stroke-width="3.6" stroke-linecap="round"/><circle cx="-2.3" cy="102.3" r="3" fill="#d9b54a" stroke="#7a5a10" stroke-width=".7"/><circle cx="50" cy="50" r="54" fill="none" stroke="#e6ebf2" stroke-width="8"/><circle cx="50" cy="50" r="54" fill="none" stroke="url(#mg-azul)" stroke-width="5"/><path d="M50 -6.4 l2.4 2.4 l-2.4 2.4 l-2.4 -2.4z" fill="#f4f7fb"/><path d="M88.2 9.4 l2.4 2.4 l-2.4 2.4 l-2.4 -2.4z" fill="#f4f7fb"/><path d="M104 47.6 l2.4 2.4 l-2.4 2.4 l-2.4 -2.4z" fill="#f4f7fb"/><path d="M88.2 85.8 l2.4 2.4 l-2.4 2.4 l-2.4 -2.4z" fill="#f4f7fb"/><path d="M50 101.6 l2.4 2.4 l-2.4 2.4 l-2.4 -2.4z" fill="#f4f7fb"/><path d="M11.8 85.8 l2.4 2.4 l-2.4 2.4 l-2.4 -2.4z" fill="#f4f7fb"/><path d="M-4 47.6 l2.4 2.4 l-2.4 2.4 l-2.4 -2.4z" fill="#f4f7fb"/><path d="M11.8 9.4 l2.4 2.4 l-2.4 2.4 l-2.4 -2.4z" fill="#f4f7fb"/><g transform="translate(50 108)"><path d="M-14 -16 H14 V-2 C14 9 6 15 0 18 C-6 15 -14 9 -14 -2Z" fill="url(#mg-azul)" stroke="#e6ebf2" stroke-width="2.4"/>
+<path d="M-6 -11 h3 v2.5 h1.8 v-2.5 h2.4 v2.5 h1.8 v-2.5 h3 v6 l-2 1.8 v7 h2.6 v3 h-13.2 v-3 h2.6 v-7 l-2 -1.8z" fill="#f4f7fb"/></g></symbol>
+<symbol id="mf-expert" viewBox="-40 -40 180 180"><g transform="translate(-3 50) rotate(-90)"><path d="M-6.5 2 C-6.5 -5.7 -1 -7.5 0 -12.6 C1.5 -7.5 6.5 -5.7 6.5 2Z" fill="url(#mg-fogo)"/><path d="M-2.6 2 C-2.6 -3.1 0 -4.4 0 -6.9 C.6 -4.4 2.6 -3.1 2.6 2Z" fill="#fff4c2" opacity=".85"/></g><g transform="translate(-1.2 36.3) rotate(-75)"><path d="M-6.5 2 C-6.5 -5.6 -1 -7.4 0 -12.3 C1.5 -7.4 6.5 -5.6 6.5 2Z" fill="url(#mg-fogo)"/><path d="M-2.6 2 C-2.6 -3.1 0 -4.3 0 -6.8 C.6 -4.3 2.6 -3.1 2.6 2Z" fill="#fff4c2" opacity=".85"/></g><g transform="translate(4.1 23.5) rotate(-60)"><path d="M-6.5 2 C-6.5 -6.9 -1 -9.2 0 -15.3 C1.5 -9.2 6.5 -6.9 6.5 2Z" fill="url(#mg-fogo)"/><path d="M-2.6 2 C-2.6 -3.8 0 -5.3 0 -8.4 C.6 -5.3 2.6 -3.8 2.6 2Z" fill="#fff4c2" opacity=".85"/></g><g transform="translate(12.5 12.5) rotate(-45)"><path d="M-6.5 2 C-6.5 -6.5 -1 -8.6 0 -14.4 C1.5 -8.6 6.5 -6.5 6.5 2Z" fill="url(#mg-fogo)"/><path d="M-2.6 2 C-2.6 -3.6 0 -5 0 -7.9 C.6 -5 2.6 -3.6 2.6 2Z" fill="#fff4c2" opacity=".85"/></g><g transform="translate(23.5 4.1) rotate(-30)"><path d="M-6.5 2 C-6.5 -8.1 -1 -10.8 0 -18 C1.5 -10.8 6.5 -8.1 6.5 2Z" fill="url(#mg-fogo)"/><path d="M-2.6 2 C-2.6 -4.5 0 -6.3 0 -9.9 C.6 -6.3 2.6 -4.5 2.6 2Z" fill="#fff4c2" opacity=".85"/></g><g transform="translate(36.3 -1.2) rotate(-15)"><path d="M-6.5 2 C-6.5 -8.5 -1 -11.3 0 -18.9 C1.5 -11.3 6.5 -8.5 6.5 2Z" fill="url(#mg-fogo)"/><path d="M-2.6 2 C-2.6 -4.7 0 -6.6 0 -10.4 C.6 -6.6 2.6 -4.7 2.6 2Z" fill="#fff4c2" opacity=".85"/></g><g transform="translate(50 -3) rotate(0)"><path d="M-6.5 2 C-6.5 -8.2 -1 -10.9 0 -18.2 C1.5 -10.9 6.5 -8.2 6.5 2Z" fill="url(#mg-fogo)"/><path d="M-2.6 2 C-2.6 -4.6 0 -6.4 0 -10 C.6 -6.4 2.6 -4.6 2.6 2Z" fill="#fff4c2" opacity=".85"/></g><g transform="translate(63.7 -1.2) rotate(15)"><path d="M-6.5 2 C-6.5 -8.7 -1 -11.7 0 -19.4 C1.5 -11.7 6.5 -8.7 6.5 2Z" fill="url(#mg-fogo)"/><path d="M-2.6 2 C-2.6 -4.9 0 -6.8 0 -10.7 C.6 -6.8 2.6 -4.9 2.6 2Z" fill="#fff4c2" opacity=".85"/></g><g transform="translate(76.5 4.1) rotate(30)"><path d="M-6.5 2 C-6.5 -7.2 -1 -9.6 0 -16 C1.5 -9.6 6.5 -7.2 6.5 2Z" fill="url(#mg-fogo)"/><path d="M-2.6 2 C-2.6 -4 0 -5.6 0 -8.8 C.6 -5.6 2.6 -4 2.6 2Z" fill="#fff4c2" opacity=".85"/></g><g transform="translate(87.5 12.5) rotate(45)"><path d="M-6.5 2 C-6.5 -7.1 -1 -9.5 0 -15.8 C1.5 -9.5 6.5 -7.1 6.5 2Z" fill="url(#mg-fogo)"/><path d="M-2.6 2 C-2.6 -4 0 -5.5 0 -8.7 C.6 -5.5 2.6 -4 2.6 2Z" fill="#fff4c2" opacity=".85"/></g><g transform="translate(95.9 23.5) rotate(60)"><path d="M-6.5 2 C-6.5 -5.8 -1 -7.8 0 -12.9 C1.5 -7.8 6.5 -5.8 6.5 2Z" fill="url(#mg-fogo)"/><path d="M-2.6 2 C-2.6 -3.2 0 -4.5 0 -7.1 C.6 -4.5 2.6 -3.2 2.6 2Z" fill="#fff4c2" opacity=".85"/></g><g transform="translate(101.2 36.3) rotate(75)"><path d="M-6.5 2 C-6.5 -5.4 -1 -7.3 0 -12.1 C1.5 -7.3 6.5 -5.4 6.5 2Z" fill="url(#mg-fogo)"/><path d="M-2.6 2 C-2.6 -3 0 -4.2 0 -6.7 C.6 -4.2 2.6 -3 2.6 2Z" fill="#fff4c2" opacity=".85"/></g><g transform="translate(103 50) rotate(90)"><path d="M-6.5 2 C-6.5 -5.8 -1 -7.8 0 -13 C1.5 -7.8 6.5 -5.8 6.5 2Z" fill="url(#mg-fogo)"/><path d="M-2.6 2 C-2.6 -3.2 0 -4.5 0 -7.1 C.6 -4.5 2.6 -3.2 2.6 2Z" fill="#fff4c2" opacity=".85"/></g><g transform="translate(102.5 57.4) rotate(98)"><path d="M-5 2 C-5 -4 -1 -6 0 -9 C1 -6 5 -4 5 2Z" fill="url(#mg-fogo)"/></g><g transform="translate(-2.5 57.4) rotate(262)"><path d="M-5 2 C-5 -4 -1 -6 0 -9 C1 -6 5 -4 5 2Z" fill="url(#mg-fogo)"/></g><g transform="translate(95.9 76.5) rotate(120)"><path d="M-5 2 C-5 -4 -1 -6 0 -9 C1 -6 5 -4 5 2Z" fill="url(#mg-fogo)"/></g><g transform="translate(4.1 76.5) rotate(240)"><path d="M-5 2 C-5 -4 -1 -6 0 -9 C1 -6 5 -4 5 2Z" fill="url(#mg-fogo)"/></g><circle cx="50" cy="50" r="53" fill="none" stroke="#3a0b06" stroke-width="7.5"/><circle cx="50" cy="50" r="53" fill="none" stroke="url(#mg-fogo)" stroke-width="5"/><circle cx="50" cy="50" r="53" fill="none" stroke="#ffe08a" stroke-width=".8" stroke-dasharray="2 5" opacity=".9"/><g transform="translate(50 104)"><path d="M0 -10 L9 0 L0 12 L-9 0Z" fill="url(#mg-roxo)" stroke="#2a0545" stroke-width="1.2"/><path d="M-9 0 H9 M0 -10 L-3 0 L0 12 L3 0Z" fill="none" stroke="#e8c4ff" stroke-width=".6" opacity=".8"/></g></symbol>
+<symbol id="mf-mestre" viewBox="-40 -40 180 180"><circle cx="50" cy="50" r="58" fill="none" stroke="#ffd96a" stroke-width="10" opacity=".35" filter="url(#mf-brilho)"/><g transform="translate(61.1 113) rotate(198)"><path d="M0 0 Q8.7 -9.1 19.2 0 Q8.7 9.1 0 0Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".7"/><path d="M1 0H16.4" stroke="#6a4706" stroke-width=".6" fill="none"/></g><g transform="translate(79.1 107) rotate(181)"><path d="M0 0 Q8.7 -9.1 19.2 0 Q8.7 9.1 0 0Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".7"/><path d="M1 0H16.4" stroke="#6a4706" stroke-width=".6" fill="none"/></g><g transform="translate(94.5 96) rotate(164)"><path d="M0 0 Q8.7 -9.1 19.2 0 Q8.7 9.1 0 0Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".7"/><path d="M1 0H16.4" stroke="#6a4706" stroke-width=".6" fill="none"/></g><g transform="translate(106 81) rotate(147)"><path d="M0 0 Q8.7 -9.1 19.2 0 Q8.7 9.1 0 0Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".7"/><path d="M1 0H16.4" stroke="#6a4706" stroke-width=".6" fill="none"/></g><g transform="translate(112.6 63.3) rotate(130)"><path d="M0 0 Q8.7 -9.1 19.2 0 Q8.7 9.1 0 0Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".7"/><path d="M1 0H16.4" stroke="#6a4706" stroke-width=".6" fill="none"/></g><g transform="translate(113.8 44.4) rotate(113)"><path d="M0 0 Q8.7 -9.1 19.2 0 Q8.7 9.1 0 0Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".7"/><path d="M1 0H16.4" stroke="#6a4706" stroke-width=".6" fill="none"/></g><g transform="translate(109.3 26) rotate(96)"><path d="M0 0 Q8.7 -9.1 19.2 0 Q8.7 9.1 0 0Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".7"/><path d="M1 0H16.4" stroke="#6a4706" stroke-width=".6" fill="none"/></g><g transform="translate(99.7 9.7) rotate(79)"><path d="M0 0 Q8.7 -9.1 19.2 0 Q8.7 9.1 0 0Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".7"/><path d="M1 0H16.4" stroke="#6a4706" stroke-width=".6" fill="none"/></g><g transform="translate(38.9 113) rotate(342)"><path d="M0 0 Q8.7 -9.1 19.2 0 Q8.7 9.1 0 0Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".7"/><path d="M1 0H16.4" stroke="#6a4706" stroke-width=".6" fill="none"/></g><g transform="translate(20.9 107) rotate(359)"><path d="M0 0 Q8.7 -9.1 19.2 0 Q8.7 9.1 0 0Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".7"/><path d="M1 0H16.4" stroke="#6a4706" stroke-width=".6" fill="none"/></g><g transform="translate(5.5 96) rotate(376)"><path d="M0 0 Q8.7 -9.1 19.2 0 Q8.7 9.1 0 0Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".7"/><path d="M1 0H16.4" stroke="#6a4706" stroke-width=".6" fill="none"/></g><g transform="translate(-6 81) rotate(393)"><path d="M0 0 Q8.7 -9.1 19.2 0 Q8.7 9.1 0 0Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".7"/><path d="M1 0H16.4" stroke="#6a4706" stroke-width=".6" fill="none"/></g><g transform="translate(-12.6 63.3) rotate(410)"><path d="M0 0 Q8.7 -9.1 19.2 0 Q8.7 9.1 0 0Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".7"/><path d="M1 0H16.4" stroke="#6a4706" stroke-width=".6" fill="none"/></g><g transform="translate(-13.8 44.4) rotate(427)"><path d="M0 0 Q8.7 -9.1 19.2 0 Q8.7 9.1 0 0Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".7"/><path d="M1 0H16.4" stroke="#6a4706" stroke-width=".6" fill="none"/></g><g transform="translate(-9.3 26) rotate(444)"><path d="M0 0 Q8.7 -9.1 19.2 0 Q8.7 9.1 0 0Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".7"/><path d="M1 0H16.4" stroke="#6a4706" stroke-width=".6" fill="none"/></g><g transform="translate(0.3 9.7) rotate(461)"><path d="M0 0 Q8.7 -9.1 19.2 0 Q8.7 9.1 0 0Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".7"/><path d="M1 0H16.4" stroke="#6a4706" stroke-width=".6" fill="none"/></g><path d="M39.2 111.1 A62 62 0 0 1 15.3 -1.4" fill="none" stroke="#8a6008" stroke-width="1.6"/><path d="M60.8 111.1 A62 62 0 0 0 84.7 -1.4" fill="none" stroke="#8a6008" stroke-width="1.6"/><circle cx="50" cy="50" r="54.5" fill="none" stroke="#5a3d04" stroke-width="10"/><circle cx="50" cy="50" r="54.5" fill="none" stroke="url(#mg-ouro)" stroke-width="8"/><circle cx="50" cy="50" r="50.8" fill="none" stroke="#fff4c0" stroke-width=".9" opacity=".9"/><circle cx="50" cy="50" r="58.2" fill="none" stroke="#fff4c0" stroke-width=".7" opacity=".7"/><circle cx="77.2" cy="2.8" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="88.5" cy="11.5" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="97.2" cy="22.8" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="102.6" cy="35.9" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="104.5" cy="50" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="102.6" cy="64.1" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="97.2" cy="77.2" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="88.5" cy="88.5" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="77.2" cy="97.2" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="64.1" cy="102.6" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="50" cy="104.5" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="35.9" cy="102.6" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="22.8" cy="97.2" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="11.5" cy="88.5" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="2.8" cy="77.2" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="-2.6" cy="64.1" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="-4.5" cy="50" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="-2.6" cy="35.9" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="2.8" cy="22.7" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="11.5" cy="11.5" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="22.7" cy="2.8" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="35.9" cy="-2.6" r="1.5" fill="#fff6c8" stroke="#a87408" stroke-width=".5"/><circle cx="104.5" cy="50" r="4.4" fill="url(#mg-ouro2)" stroke="#5a3d04" stroke-width=".6"/><circle cx="104.5" cy="50" r="3.2" fill="url(#mg-rubi)"/><circle cx="103.4" cy="48.7" r="0.9" fill="#fff" opacity=".85"/><circle cx="-4.5" cy="50" r="4.4" fill="url(#mg-ouro2)" stroke="#5a3d04" stroke-width=".6"/><circle cx="-4.5" cy="50" r="3.2" fill="url(#mg-rubi)"/><circle cx="-5.6" cy="48.7" r="0.9" fill="#fff" opacity=".85"/><circle cx="50" cy="104.5" r="5.4" fill="url(#mg-ouro2)" stroke="#5a3d04" stroke-width=".6"/><circle cx="50" cy="104.5" r="4.2" fill="url(#mg-rubi)"/><circle cx="48.5" cy="102.8" r="1.2" fill="#fff" opacity=".85"/><g transform="translate(50 -5) scale(1.15)">
+<path d="M-27 10 L-31 -14 L-17 -3 L-9 -22 L0 -6 L9 -22 L17 -3 L31 -14 L27 10Z" fill="url(#mg-ouro2)" stroke="#5a3d04" stroke-width="1.6" stroke-linejoin="round"/>
+<path d="M-27 10 L-31 -14 L-17 -3 L-9 -22 L0 -6 L9 -22 L17 -3 L31 -14 L27 10" fill="none" stroke="#fff4c0" stroke-width=".7" opacity=".7" transform="translate(0 2) scale(.94)"/>
+<rect x="-28" y="6" width="56" height="9" rx="2.5" fill="url(#mg-ouro)" stroke="#5a3d04" stroke-width="1.4"/>
+<g fill="#fff6c8" stroke="#a87408" stroke-width=".5"><circle cx="-31" cy="-15" r="3"/><circle cx="31" cy="-15" r="3"/><circle cx="-9" cy="-23.5" r="3"/><circle cx="9" cy="-23.5" r="3"/></g>
+<circle cx="-18" cy="10.5" r="2.4" fill="url(#mg-rubi)"/><circle cx="18" cy="10.5" r="2.4" fill="url(#mg-rubi)"/>
+<g fill="#fff6c8"><circle cx="-9" cy="10.5" r="1.4"/><circle cx="9" cy="10.5" r="1.4"/><circle cx="-24" cy="10.5" r="1.2"/><circle cx="24" cy="10.5" r="1.2"/></g>
+<path d="M0 -15 L8.5 -5 L0 6 L-8.5 -5Z" fill="#5a3d04"/>
+<path d="M0 -13 L7 -5 L0 4 L-7 -5Z" fill="url(#mg-rubi)"/>
+<path d="M-7 -5 H7 M0 -13 L-2.5 -5 L0 4 L2.5 -5Z" fill="none" stroke="#ffb3be" stroke-width=".5" opacity=".8"/>
+<path d="M-3 -9.5 L-1 -11 L0 -8Z" fill="#fff" opacity=".9"/>
+</g><path class="brilho-m" style="animation-delay:1.7s" d="M10 -19 Q10.8 -14.8 15 -14 Q10.8 -13.2 10 -9 Q9.2 -13.2 5 -14 Q9.2 -14.8 10 -19Z" fill="#fffbe0"/><path class="brilho-m" style="animation-delay:1.4s" d="M93 4 Q93.6 7.4 97 8 Q93.6 8.6 93 12 Q92.4 8.6 89 8 Q92.4 7.4 93 4Z" fill="#fffbe0"/><path class="brilho-m" style="animation-delay:1.2s" d="M-6 66.5 Q-5.4 69.4 -2.5 70 Q-5.4 70.6 -6 73.5 Q-6.6 70.6 -9.5 70 Q-6.6 69.4 -6 66.5Z" fill="#fffbe0"/><path class="brilho-m" style="animation-delay:1.5s" d="M104 71.5 Q104.7 75.3 108.5 76 Q104.7 76.7 104 80.5 Q103.3 76.7 99.5 76 Q103.3 75.3 104 71.5Z" fill="#fffbe0"/><path class="brilho-m" style="animation-delay:1s" d="M82 -27 Q82.5 -24.5 85 -24 Q82.5 -23.5 82 -21 Q81.5 -23.5 79 -24 Q81.5 -24.5 82 -27Z" fill="#fffbe0"/></symbol>
 
     <symbol id="ic-moeda" viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" fill="#f2b544"/><circle cx="13" cy="13" r="8.5" fill="none" stroke="#b97f12" stroke-width="1.6"/><path d="M13 8.5v9M10.5 11h4a1.6 1.6 0 0 1 0 3.2h-3" fill="none" stroke="#7a520a" stroke-width="1.7" stroke-linecap="round"/></symbol>
   </defs>
@@ -2599,7 +2672,7 @@ const Dados = {
   zerar() {
     this.d = this.padrao();
     this.d.extras.zeradoEm = Date.now();     // avisa a conta (e os outros aparelhos) que o progresso foi zerado
-    try { localStorage.removeItem(this.CHAVE); localStorage.removeItem(this.CHAVE_PARTIDA); } catch (e) { /* ignora */ }
+    try { localStorage.removeItem(this.CHAVE); localStorage.removeItem(this.CHAVE_PARTIDA); localStorage.removeItem('trainer-xadrez-analises'); } catch (e) { /* ignora */ }
   },
   /* partida em andamento contra o computador (para continuar depois) — fica só neste aparelho */
   lerPartida() { try { const s = localStorage.getItem(this.CHAVE_PARTIDA); return s ? JSON.parse(s) : null; } catch (e) { return null; } },
@@ -2641,14 +2714,20 @@ const Livro = {
   recalcular(d = Dados.d) {
     let g = 0, s = 0, lo = 0; const pn = this.vazio().pn, on = { v: 0, e: 0, d: 0 };
     for (const k in d.livro) {
-      const l = d.livro[k]; g += l.g || 0; s += l.s || 0; lo += l.lo || 0;
+      const l = d.livro[k]; g += (l.g || 0) + (l.aj || 0); s += l.s || 0; lo += l.lo || 0;
       (l.pn || []).forEach((n, i) => { if (pn[i]) { pn[i].v += n.v || 0; pn[i].e += n.e || 0; pn[i].d += n.d || 0; } });
       if (l.on) { on.v += l.on.v || 0; on.e += l.on.e || 0; on.d += l.on.d || 0; }
     }
     const b = this.bonus(d);
-    d.moedasTotal = MOEDAS_INICIAIS + g + b; d.moedas = MOEDAS_INICIAIS + g + b - s;
+    let saldo = MOEDAS_INICIAIS + g + b - s;
+    /* o saldo nunca fica negativo. Isso acontecia quando dois aparelhos gastavam o mesmo saldo
+       ao mesmo tempo (um deles offline). A diferença vira um "ajuste" deste aparelho, que também
+       vai para a conta, então o saldo fica em 0 em todos os aparelhos. */
+    if (!(saldo >= 0)) { const m = this.meu(d), falta = Math.ceil(-(saldo || 0)); m.aj = (m.aj || 0) + falta; g += falta; saldo = 0; }
+    d.moedasTotal = Math.max(0, MOEDAS_INICIAIS + g + b - (this.somaAj(d))); d.moedas = Math.max(0, Math.round(saldo));
     d.porNivel = pn; d.online = on; d.local = lo;
   },
+  somaAj(d) { let t = 0; for (const k in d.livro) t += d.livro[k].aj || 0; return t; },
   /* junta dois livros: em cada aparelho vale o maior número (cada aparelho só aumenta os seus) */
   juntar(a, b) {
     const r = JSON.parse(JSON.stringify(a));
@@ -2656,6 +2735,7 @@ const Livro = {
       const x = b[k], y = r[k];
       if (!y) { r[k] = JSON.parse(JSON.stringify(x)); continue; }
       y.g = Math.max(y.g || 0, x.g || 0); y.s = Math.max(y.s || 0, x.s || 0); y.lo = Math.max(y.lo || 0, x.lo || 0);
+      if (y.aj || x.aj) y.aj = Math.max(y.aj || 0, x.aj || 0);
       y.pn = (y.pn || this.vazio().pn).map((n, i) => { const m = (x.pn || [])[i] || {}; return { v: Math.max(n.v, m.v || 0), e: Math.max(n.e, m.e || 0), d: Math.max(n.d, m.d || 0) }; });
       const o = x.on || {}; y.on = { v: Math.max(y.on.v, o.v || 0), e: Math.max(y.on.e, o.e || 0), d: Math.max(y.on.d, o.d || 0) };
     }
@@ -3314,9 +3394,9 @@ const MODULOS = [
       {t:'seq', fen:'4k3/8/8/8/2n1p3/3P4/8/4K3 w - - 0 1', p:'Seu peão pode capturar o cavalo ou o peão. Capture a peça mais valiosa.', line:['dxc4'],
         ok:'Boa escolha! O cavalo vale 3 pontos e o peão só 1.', err:'O cavalo vale mais que o peão. Capture o cavalo em c4.'},
       {t:'quiz', fen:'4k3/8/8/4p3/4P3/8/8/4K3 w - - 0 1', q:'O peão branco de e4 pode capturar o peão preto que está bem na frente dele, em e5?',
-        opts:['Sim, peão captura para frente','Não: peão só captura na diagonal, ele está bloqueado','Sim, mas só no primeiro lance'], a:1,
-        ok:'Exato. Um peão com uma peça na frente fica bloqueado.', err:'Lembre: o peão anda para frente, mas só captura na diagonal.'},
-      {t:'quiz', q:'O peão pode andar para trás?', opts:['Sim, uma casa','Não, nunca','Só quando captura'], a:1,
+        opts:['Sim, o peão captura para a frente','Não, o peão só captura na diagonal','Sim, mas só no primeiro lance dele'], a:1,
+        ok:'Exato. O peão só captura na diagonal: com uma peça bem na frente, ele fica bloqueado.', err:'Lembre: o peão anda para frente, mas só captura na diagonal.'},
+      {t:'quiz', q:'O peão pode andar para trás?', opts:['Sim, uma casa por vez','Não, o peão nunca volta','Só quando faz uma captura'], a:1,
         ok:'Isso mesmo. Por isso, pense bem antes de avançar um peão!', err:'O peão é a única peça que nunca volta.'}
     ]},
   { id:'torre', nome:'A torre', icone:'r',
@@ -3337,7 +3417,7 @@ const MODULOS = [
       {t:'seq', fen:'4k3/8/8/6r1/8/8/3B4/4K3 w - - 0 1', p:'Capture a torre com o bispo.', line:['Bxg5'],
         ok:'Ótimo! Um bispo (3) capturando uma torre (5) é lucro.', err:'Siga a diagonal do bispo: d2, e3, f4, g5.'},
       {t:'quiz', q:'Um bispo que começa numa casa clara consegue chegar a uma casa escura?',
-        opts:['Sim, depois de alguns lances','Não, ele fica sempre na mesma cor','Só se capturar uma peça'], a:1,
+        opts:['Sim, depois de alguns lances','Não, fica sempre na mesma cor','Só se capturar uma peça escura'], a:1,
         ok:'Isso. Por isso ter os dois bispos é valioso: juntos eles cobrem todas as casas.', err:'Andando só na diagonal, o bispo nunca troca de cor.'}
     ]},
   { id:'cavalo', nome:'O cavalo', icone:'n',
@@ -3368,8 +3448,8 @@ const MODULOS = [
       {t:'seq', fen:'7k/8/8/8/8/8/3n4/4K3 w - - 0 1', p:'O rei também captura. Capture o cavalo.', line:['Kxd2'],
         ok:'Isso! O cavalo estava sem defesa, então o rei pôde capturar.', err:'O cavalo está ao lado do rei, em d2.'},
       {t:'quiz', fen:'7k/8/8/8/8/2b5/3n4/4K3 w - - 0 1', q:'Agora o cavalo de d2 está defendido pelo bispo. O rei branco pode capturá-lo?',
-        opts:['Sim, o rei captura qualquer peça vizinha','Não: o rei ficaria em xeque do bispo','Sim, mas depois perde o rei'], a:1,
-        ok:'Exato. O rei nunca pode entrar numa casa atacada.', err:'O rei nunca pode ir para uma casa atacada por uma peça adversária.'}
+        opts:['Sim, o rei pode capturar ele','Não, o rei ficaria em xeque','Sim, mas perde o direito ao roque'], a:1,
+        ok:'Exato. O rei ficaria em xeque do bispo, e o rei nunca pode entrar numa casa atacada.', err:'O rei nunca pode ir para uma casa atacada por uma peça adversária.'}
     ]}
 ]},
 /* ------------------------------------------------------------------ */
@@ -3383,7 +3463,7 @@ const MODULOS = [
         ok:'Roque grande! A torre já saiu ativa em d1.', err:'Toque no rei e depois na casa c1.'},
       {t:'seq', fen:'5rk1/8/8/8/8/8/8/R3K2R w KQ - 0 1', p:'A torre preta ataca a casa f1, por onde o rei passaria. Faça o roque para o lado que ainda é permitido.', line:['O-O-O'],
         ok:'Isso! O rei não pode passar por casa atacada, então só o roque grande era possível.', err:'O roque pequeno é proibido aqui (o rei passaria por f1, que está atacada). Faça o roque grande.'},
-      {t:'quiz', q:'Você pode fazer roque se o seu rei já tiver se movido antes na partida?', opts:['Sim, se ele voltou para a casa inicial','Não, nunca mais','Sim, mas só o roque grande'], a:1,
+      {t:'quiz', q:'Você pode fazer roque se o seu rei já tiver se movido antes na partida?', opts:['Sim, se ele voltou para a casa','Não, perdeu o direito ao roque','Sim, mas só o roque grande depois'], a:1,
         ok:'Certo. Rei que se moveu perde o direito ao roque para sempre.', err:'Depois que o rei se move, o roque não é mais permitido, mesmo que ele volte.'}
     ]},
   { id:'enpassant', nome:'En passant', icone:'p',
@@ -3395,7 +3475,7 @@ const MODULOS = [
         ok:'Perfeito, você pegou o peão “de passagem”.', err:'O peão preto andou duas casas e parou ao lado do seu. Capture indo para c6.'},
       {t:'seq', fen:'4k3/8/8/pP6/8/8/8/4K3 w - a6 0 1', p:'Mais uma vez, agora pelo outro lado. Capture en passant.', line:['bxa6'],
         ok:'Muito bem!', err:'Leve o peão de b5 para a6.'},
-      {t:'quiz', q:'Você pode guardar o en passant para fazer alguns lances depois?', opts:['Sim, quando quiser','Não: só no lance imediatamente seguinte','Sim, até o peão se mover de novo'], a:1,
+      {t:'quiz', q:'Você pode guardar o en passant para fazer alguns lances depois?', opts:['Sim, quando eu quiser','Não, só no lance seguinte','Sim, até o peão andar de novo'], a:1,
         ok:'Isso. É agora ou nunca.', err:'O en passant só vale logo depois do avanço duplo do peão adversário.'}
     ]},
   { id:'promocao', nome:'Promoção', icone:'q',
@@ -3405,7 +3485,7 @@ const MODULOS = [
         ok:'Uma nova dama no tabuleiro!', err:'Avance o peão para e8 e escolha a dama.'},
       {t:'seq', fen:'3r2k1/4P3/8/8/8/8/8/4K3 w - - 0 1', p:'Capture a torre e promova a dama ao mesmo tempo.', line:['exd8=Q+'],
         ok:'Dois em um: ganhou a torre e ainda fez uma dama.', err:'O peão captura na diagonal: tome a torre em d8 e escolha a dama.'},
-      {t:'quiz', q:'Em quais peças um peão pode ser promovido?', opts:['Somente em dama','Dama, torre, bispo ou cavalo','Em qualquer peça, até em rei'], a:1,
+      {t:'quiz', q:'Em quais peças um peão pode ser promovido?', opts:['Somente em dama ou torre','Dama, torre, bispo ou cavalo','Em qualquer peça, até em rei'], a:1,
         ok:'Certo! E você pode ter mais de uma dama.', err:'Pode ser dama, torre, bispo ou cavalo — nunca rei, e não pode continuar peão.'},
       {t:'seq', fen:'8/3q1P1k/8/8/8/8/5PPP/6K1 w - - 0 1', p:'As pretas ameaçam mate com a dama em d1. Promova a uma peça que dê xeque e ataque a dama ao mesmo tempo!', line:['f8=N+','Kg7','Nxd7'],
         ok:'Genial! Promover a cavalo deu um garfo no rei e na dama.', err:'Uma dama em f8 não dá xeque, e as pretas dariam mate. Que peça em f8 atacaria o rei em h7 e a dama em d7?',
@@ -3435,18 +3515,18 @@ const MODULOS = [
         ok:'Mate! O bispo protege a dama, então o rei não pode capturá-la.', err:'Qual casa ao lado do rei preto é atacada pela dama e pelo bispo ao mesmo tempo?'},
       {t:'mate', n:1, fen:'7k/R7/8/8/8/8/1R6/4K3 w - - 0 1', p:'Duas torres: uma prende, a outra dá mate. Mate em 1.', sol:['Rb8#'],
         ok:'Mate da escada! Uma torre fecha a 7ª fileira e a outra ataca na 8ª.', err:'A torre de a7 já impede o rei de sair da última fileira. Use a outra torre.'},
-      {t:'quiz', q:'Qual é a diferença entre xeque e xeque-mate?', opts:['Nenhuma, são a mesma coisa','No xeque o rei consegue escapar; no mate não há saída','No mate o rei é capturado'], a:1,
+      {t:'quiz', q:'Qual é a diferença entre xeque e xeque-mate?', opts:['Nenhuma, são a mesma coisa','No mate, o rei não tem saída','No mate, o rei é capturado','No xeque, a partida empata'], a:1,
         ok:'Exato. E o rei nunca é capturado de verdade: a partida termina no mate.', err:'Xeque é só um ataque ao rei. Mate é um xeque sem nenhuma defesa.'}
     ]},
   { id:'empate', nome:'Empate e afogamento', icone:'k',
     intro:'Nem toda partida tem vencedor. O empate mais traiçoeiro é o <b>afogamento</b>: o jogador da vez <b>não está em xeque</b>, mas <b>não tem nenhum lance legal</b>. Também é empate: repetir a mesma posição três vezes, 50 lances sem captura nem lance de peão, material insuficiente (por exemplo, rei contra rei) ou acordo entre os jogadores.',
     ex:[
       {t:'quiz', fen:'7k/5Q2/6K1/8/8/8/8/8 b - - 0 1', q:'É a vez das pretas. O rei preto não está em xeque, mas todas as casas vizinhas estão atacadas. Qual é o resultado?',
-        opts:['Vitória das brancas','Empate por afogamento','As pretas passam a vez'], a:1,
+        opts:['Vitória das brancas por mate','Empate por afogamento','As pretas passam a vez'], a:1,
         ok:'Isso. As brancas tinham dama a mais e deixaram escapar a vitória!', err:'Sem xeque e sem lances legais = afogamento = empate.'},
       {t:'mate', n:1, fen:'7k/8/6K1/8/8/8/8/5Q2 w - - 0 1', p:'Cuidado para não afogar o rei! Dê xeque-mate em 1 lance.', sol:['Qf8#'],
         ok:'Mate! Você atacou o rei em vez de só tirar as casas dele.', err:'Não é mate. Lembre: se o rei preto ficar sem lances e sem xeque, é empate.'},
-      {t:'quiz', q:'Qual destas situações NÃO é empate?', opts:['Afogamento','Rei contra rei','A mesma posição repetida três vezes','Perder a dama'], a:3,
+      {t:'quiz', q:'Qual destas situações NÃO é empate?', opts:['Afogamento','Rei contra rei','A mesma posição repetida três vezes','Um jogador perder a dama'], a:3,
         ok:'Certo. Perder a dama é ruim, mas a partida continua.', err:'Afogamento, rei contra rei e repetição tripla são empates.'},
       {t:'seq', fen:'7k/2Q3p1/8/8/8/7p/5q2/7K w - - 0 1', p:'As pretas ameaçam mate em g2 e seu rei não tem lances. Use o afogamento a seu favor: entregue a dama com xeque!', line:['Qxg7+','Kxg7'], stalemate:true,
         ok:'Empate por afogamento! Sem a dama, você não tem nenhum lance legal — e salvou meio ponto.', err:'Seu rei já não tem lances. Se a sua dama sumir do tabuleiro, é afogamento. Onde ela pode se sacrificar com xeque?'}
@@ -3459,11 +3539,11 @@ const MODULOS = [
     ex:[
       {t:'quiz', q:'Quantos pontos vale a dama?', opts:['5','7','9','12'], a:2, ok:'Isso: 9 pontos, quase duas torres.', err:'A dama vale 9 pontos.'},
       {t:'quiz', q:'O que vale mais: uma torre ou um bispo?', opts:['O bispo','A torre','Valem o mesmo'], a:1, ok:'Certo: torre 5, bispo 3.', err:'A torre vale 5 e o bispo vale 3.'},
-      {t:'quiz', q:'Trocar o seu bispo por uma torre do adversário é um bom negócio?', opts:['Sim: dou 3 pontos e ganho 5','Não, o bispo vale mais','Tanto faz'], a:0,
+      {t:'quiz', q:'Trocar o seu bispo por uma torre do adversário é um bom negócio?', opts:['Sim, dou 3 pontos e ganho 5','Não, o bispo vale mais que ela','Tanto faz, valem o mesmo'], a:0,
         ok:'Isso! Essa vantagem se chama “ganhar a qualidade”.', err:'Bispo = 3, torre = 5. Você sai ganhando 2 pontos.'},
       {t:'seq', fen:'4k3/8/8/1q3r2/3N4/8/8/4K3 w - - 0 1', p:'Seu cavalo ataca a dama e a torre. Capture a peça que vale mais.', line:['Nxb5'],
         ok:'Claro: a dama (9) vale bem mais que a torre (5).', err:'A dama vale 9 e a torre vale 5. Capture a dama em b5.'},
-      {t:'quiz', q:'Você tem 1 torre e 2 peões. O adversário tem 1 bispo e 1 cavalo. Quem tem mais pontos?', opts:['Você: 7 contra 6','O adversário: 6 contra 5','Está igual'], a:0,
+      {t:'quiz', q:'Você tem 1 torre e 2 peões. O adversário tem 1 bispo e 1 cavalo. Quem tem mais pontos?', opts:['Você: 7 contra 6','O adversário: 6 contra 5','Está igual: 6 contra 6'], a:0,
         ok:'Isso: 5+1+1 = 7 contra 3+3 = 6.', err:'Torre 5 + dois peões 2 = 7. Bispo 3 + cavalo 3 = 6.'}
     ]},
   { id:'trocas', nome:'Trocas boas e ruins', icone:'r',
@@ -3472,7 +3552,7 @@ const MODULOS = [
       {t:'seq', fen:'r3k3/8/8/3n4/8/8/3R4/4K3 w - - 0 1', p:'Há uma peça preta sem defesa. Capture-a.', line:['Rxd5'],
         ok:'Peça de graça! Sempre procure peças sem defesa.', err:'O cavalo em d5 não está defendido por ninguém.'},
       {t:'quiz', fen:'4k3/8/4p3/3p4/8/8/3Q4/4K3 w - - 0 1', q:'A dama branca deve capturar o peão em d5?',
-        opts:['Sim, peão de graça','Não: o peão de e6 recaptura e eu perco a dama por um peão','Sim, porque dá xeque'], a:1,
+        opts:['Sim, é um peão ganho de graça','Não, o peão está defendido','Sim, porque ela dá xeque'], a:1,
         ok:'Exato. O peão está defendido: trocar 9 pontos por 1 é péssimo.', err:'Olhe o peão em e6: ele defende d5 e capturaria a sua dama.'},
       {t:'seq', fen:'4k3/2p5/3r4/8/8/B7/8/4K3 w - - 0 1', p:'A torre está defendida por um peão. Mesmo assim, vale a pena capturá-la com o bispo?', line:['Bxd6','cxd6'],
         ok:'Vale! Você deu um bispo (3) e levou uma torre (5): ganhou a qualidade.', err:'Bispo (3) por torre (5) é lucro, mesmo sendo recapturado. Capture em d6.'},
@@ -3484,12 +3564,12 @@ const MODULOS = [
     intro:'Para saber se dá para ganhar uma peça defendida, <b>conte</b>: quantas peças suas atacam a casa e quantas do adversário a defendem. Se você tem <b>mais atacantes do que defensores</b>, normalmente ganha material. Se o número é igual, quem captura primeiro costuma sair perdendo.',
     ex:[
       {t:'quiz', fen:'4k3/pp6/5n2/3p4/8/2N5/PP4B1/4K3 w - - 0 1', q:'O peão de d5 é atacado pelo cavalo e pelo bispo (2 atacantes) e defendido só pelo cavalo preto (1 defensor). Dá para ganhar o peão?',
-        opts:['Sim: tenho mais atacantes que defensores','Não, está igual','Não, peão defendido nunca se captura'], a:0,
+        opts:['Sim, tenho mais atacantes','Não, está igual em número','Não, peão defendido não se captura'], a:0,
         ok:'Isso mesmo: 2 contra 1.', err:'Conte: 2 atacantes contra 1 defensor. A última captura será sua.'},
       {t:'seq', fen:'4k3/pp6/5n2/3p4/8/2N5/PP4B1/4K3 w - - 0 1', p:'Então faça as contas no tabuleiro: capture o peão e recapture depois.', line:[['Nxd5','Bxd5'],'Nxd5',['Bxd5','Nxd5']],
         ok:'Pronto: trocaram-se os cavalos e você ficou com um peão a mais.', err:'Capture em d5 com o cavalo ou o bispo.'},
       {t:'quiz', fen:'4k3/8/2np4/4p3/8/5N2/8/4RK2 w - - 0 1', q:'O peão de e5 é atacado por cavalo e torre (2) e defendido por cavalo e peão (2). Vale a pena capturar?',
-        opts:['Sim, 2 atacantes bastam','Não: com números iguais, a última captura é do defensor','Sim, porque a torre é forte'], a:1,
+        opts:['Sim, 2 atacantes bastam','Não, o defensor captura por último','Sim, porque a torre é a peça mais forte'], a:1,
         ok:'Certo. Você perderia cavalo e torre por dois peões.', err:'2 contra 2: o defensor dá a última captura e você sai perdendo.'},
       {t:'seq', fen:'r3k2r/ppp2ppp/2n5/3q4/8/2N5/PPP2PPP/R2QK2R w KQkq - 0 1', p:'Uma peça preta muito valiosa está atacada e sem nenhuma defesa. Encontre e capture.', line:[['Nxd5','Qxd5']],
         ok:'A dama estava pendurada! Sempre confira o que está sem defesa.', err:'Olhe para a dama preta em d5: quem a defende?'}
@@ -3518,7 +3598,7 @@ const MODULOS = [
         ok:'A dama cravada não pôde fugir: você trocou uma torre (5) por uma dama (9).', err:'Leve a torre para a coluna “e”, na frente da dama.'},
       {t:'seq', fen:'4k3/8/2n5/1B6/3P4/8/8/4K3 w - - 0 1', p:'O cavalo está cravado e não pode fugir. Ataque-o com o peão!', line:['d5','Ke7',['dxc6','Bxc6']],
         ok:'Regra de ouro: ataque a peça cravada. Ela não consegue escapar.', err:'Avance o peão para atacar o cavalo cravado.'},
-      {t:'quiz', q:'Uma peça cravada contra o próprio REI pode sair da cravada?', opts:['Sim, se capturar algo','Não: o lance seria ilegal, pois deixaria o rei em xeque','Sim, mas perde a vez'], a:1,
+      {t:'quiz', q:'Uma peça cravada contra o próprio REI pode sair da cravada?', opts:['Sim, se ela capturar algo','Não, o lance seria ilegal','Sim, mas perde a vez seguinte'], a:1,
         ok:'Isso. Por isso a cravada contra o rei é tão forte.', err:'Nenhum lance pode deixar o próprio rei em xeque.'}
     ]},
   { id:'espeto', nome:'Espeto', icone:'r',
@@ -3530,8 +3610,8 @@ const MODULOS = [
         ok:'Espeto de bispo: xeque na diagonal e a torre cai.', err:'Rei (d5) e torre (g8) estão na mesma diagonal. Dê xeque nela com o bispo.'},
       {t:'seq', fen:'4q3/8/8/4k3/8/8/8/R5K1 w - - 0 1', p:'Rei na frente, dama atrás, na mesma coluna. Você sabe o que fazer.', line:['Re1+','Kd6','Rxe8'],
         ok:'Mais um espeto. Fique de olho em rei e dama alinhados!', err:'Dê xeque na coluna “e” com a torre.'},
-      {t:'quiz', q:'Qual é a diferença entre cravada e espeto?', opts:['Na cravada a peça da frente vale menos; no espeto a da frente vale mais e precisa sair','Não há diferença','A cravada é só com cavalos'], a:0,
-        ok:'Perfeito.', err:'Cravada: peça menos valiosa na frente. Espeto: peça mais valiosa na frente.'}
+      {t:'quiz', q:'Qual é a diferença entre cravada e espeto?', opts:['Na cravada a peça da frente vale menos; no espeto, vale mais','Não há diferença entre os dois','Na cravada a peça da frente vale mais; no espeto, vale menos','A cravada só é feita com cavalos'], a:0,
+        ok:'Perfeito. No espeto a peça valiosa da frente precisa sair, e a de trás fica para ser capturada.', err:'Cravada: peça menos valiosa na frente. Espeto: peça mais valiosa na frente.'}
     ]},
   { id:'descoberto', nome:'Ataque descoberto', icone:'b',
     intro:'No <b>ataque descoberto</b> você move uma peça e, ao sair do caminho, ela <b>abre a linha</b> de outra peça sua que estava atrás. São duas ameaças num lance só: a da peça que se moveu e a da que foi “descoberta”. Se a peça descoberta dá xeque, é um <b>xeque descoberto</b>.',
@@ -3540,8 +3620,8 @@ const MODULOS = [
         ok:'O rei teve de cuidar do xeque da torre e o bispo capturou a dama.', err:'O bispo deve sair da coluna “e” indo para uma casa que ataque a dama em a2.'},
       {t:'seq', fen:'6k1/3q1pp1/8/8/8/3B4/8/3R2K1 w - - 0 1', p:'A torre está atrás do bispo, mirando a dama. Saia com o bispo dando xeque!', line:['Bh7+','Kxh7','Rxd7'],
         ok:'O bispo se sacrificou com xeque e a torre ganhou a dama.', err:'Mova o bispo com xeque para abrir a coluna da torre até a dama.'},
-      {t:'quiz', q:'No ataque descoberto, de onde vem a ameaça “surpresa”?', opts:['Da peça que se moveu','Da peça que estava atrás e teve a linha aberta','Do rei'], a:1,
-        ok:'Isso. E a peça que se moveu ainda pode criar uma segunda ameaça.', err:'A peça da frente sai e revela o ataque da peça de trás.'}
+      {t:'quiz', q:'No ataque descoberto, de onde vem a ameaça “surpresa”?', opts:['Da peça que acabou de se mover','Da peça que estava atrás dela','Do rei do jogador que atacou'], a:1,
+        ok:'Isso. A peça de trás ganha a linha aberta, e a peça que se moveu ainda pode criar uma segunda ameaça.', err:'A peça da frente sai e revela o ataque da peça de trás.'}
     ]},
   { id:'duplo', nome:'Xeque duplo', icone:'n',
     intro:'O <b>xeque duplo</b> é um xeque descoberto em que a peça que se move <b>também dá xeque</b>. O rei é atacado por duas peças de uma vez — não dá para bloquear nem capturar as duas, então a única defesa é <b>mover o rei</b>.',
@@ -3555,7 +3635,7 @@ const MODULOS = [
         line:['Qd8+','Kxd8','Bg5+','Kc7','Bd8#'],
         ok:'Brilhante! O xeque duplo não deu tempo para as pretas respirarem.', err:'Siga a ideia: dama em d8 com xeque, depois o bispo sai dando xeque duplo.'},
       {t:'quiz', q:'Como se escapa de um xeque duplo?', opts:['Bloqueando com uma peça','Capturando uma das peças','Somente movendo o rei'], a:2,
-        ok:'Exato. Por isso o xeque duplo é tão perigoso.', err:'Bloquear ou capturar só resolve um dos dois xeques. O rei tem que andar.'}
+        ok:'Exato. Nenhuma peça bloqueia ou captura duas ameaças ao mesmo tempo: só o rei pode fugir.', err:'Bloquear ou capturar só resolve um dos dois xeques. O rei tem que andar.'}
     ]},
   { id:'defensor', nome:'Remoção do defensor', icone:'q',
     intro:'Muitas vezes uma peça ou uma casa importante está protegida por <b>um único defensor</b>. Se você <b>capturar, trocar ou afastar</b> esse defensor, o que ele protegia cai. Sempre pergunte: “o que está segurando a posição do adversário?”',
@@ -3567,8 +3647,8 @@ const MODULOS = [
         wrong:{'Nxe5':'Assim o cavalo de c6 recaptura e fica tudo igual. Elimine o defensor antes!'}},
       {t:'seq', fen:'r2r2k1/5ppp/8/8/8/8/3Q1PPP/3R2K1 w - - 0 1', p:'A torre de d8 guarda a última fileira. Troque-a e aproveite!', line:['Qxd8+','Rxd8','Rxd8#'],
         ok:'A dama se sacrificou para remover o defensor e a torre deu mate.', err:'Capture a torre de d8 com a dama: depois da recaptura, a sua torre entra com mate.'},
-      {t:'quiz', q:'O que significa “remover o defensor”?', opts:['Tirar o próprio rei do perigo','Capturar ou afastar a peça que protege outra peça ou casa importante','Trocar as damas'], a:1,
-        ok:'Isso mesmo.', err:'É eliminar a peça que faz o trabalho de defesa.'}
+      {t:'quiz', q:'O que significa “remover o defensor”?', opts:['Tirar o próprio rei do perigo','Eliminar a peça que protege outra','Trocar as damas para aliviar o ataque','Defender uma peça atacada'], a:1,
+        ok:'Isso mesmo: capture ou afaste a peça que protege outra peça ou casa importante.', err:'É eliminar a peça que faz o trabalho de defesa.'}
     ]}
 ]},
 /* ------------------------------------------------------------------ */
@@ -3595,7 +3675,7 @@ const MODULOS = [
         ok:'Perfeito: primeiro o rei chegou perto, depois a dama deu o mate.', err:'Esse lance não leva ao mate em 2. Aproxime o rei sem tirar TODAS as casas do rei preto.'},
       {t:'mate', n:2, fen:'k7/8/2K5/8/8/8/8/6Q1 w - - 0 1', p:'Mesma ideia no outro canto. Mate em 2.', sol:['Kb6','Kb8','Qg8#'],
         ok:'Isso! Rei perto + dama na borda = mate.', err:'Traga o rei para mais perto, deixando um lance para as pretas.'},
-      {t:'quiz', q:'Qual é o maior perigo quando você tem dama e rei contra rei?', opts:['Perder a dama','Afogar o rei adversário e empatar','Ficar sem tempo'], a:1,
+      {t:'quiz', q:'Qual é o maior perigo quando você tem dama e rei contra rei?', opts:['Perder a dama para o rei','Afogar o rei e empatar','Ficar sem tempo no relógio'], a:1,
         ok:'Exato. Antes de cada lance, confira se o rei adversário ainda tem um lance (ou se é mate).', err:'O erro clássico é deixar o rei sem lances e sem xeque: afogamento.'}
     ]},
   { id:'torrerei', nome:'Torre e rei contra rei', icone:'r',
@@ -3607,7 +3687,7 @@ const MODULOS = [
         ok:'Isso: rei na frente do rei, torre na borda.', err:'Esse lance não força mate em 2. Aproxime o seu rei.'},
       {t:'mate', n:2, fen:'8/8/8/8/k7/2K5/8/7R w - - 0 1', p:'Mate em 2. Use a torre como “parede” para cortar a fuga do rei.', sol:['Rh5','Ka3','Ra5#'],
         ok:'A torre cortou a fileira, o rei ficou sem opção e veio o mate.', err:'Feche a 5ª fileira com a torre: o rei preto só poderá ir para a3.'},
-      {t:'quiz', q:'No mate de torre, onde deve estar o seu rei na hora do xeque final?', opts:['Longe, para não atrapalhar','De frente para o rei adversário, tirando as casas de fuga','Atrás da torre'], a:1,
+      {t:'quiz', q:'No mate de torre, onde deve estar o seu rei na hora do xeque final?', opts:['Longe, para não atrapalhar a torre','De frente para o rei inimigo','Atrás da própria torre'], a:1,
         ok:'Certo: é a “oposição”.', err:'O rei precisa ajudar: ele tira as três casas da frente do rei adversário.'}
     ]},
   { id:'pastor', nome:'Mate pastor', icone:'q',
@@ -3632,7 +3712,7 @@ const MODULOS = [
         wrong:{'Nh6':'Defende f7, mas o cavalo fica mal colocado na borda. Prefira g6 ou De7.'}},
       {t:'seq', fen:'r1bqkbnr/pppp1p1p/2n3p1/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR b KQkq - 1 4', p:'A dama recuou para f3 e ameaça mate em f7 de novo. Defenda desenvolvendo uma peça.', line:[['Nf6','Qe7','Qf6']],
         ok:'Pronto! As brancas perderam tempo com a dama e você está bem desenvolvido.', err:'Bloqueie a coluna “f” com o cavalo (Cf6) ou defenda f7.'},
-      {t:'quiz', q:'Por que sair muito cedo com a dama costuma ser ruim?', opts:['Porque é proibido','Porque ela vira alvo e o adversário ganha tempo desenvolvendo peças','Porque a dama é fraca no começo'], a:1,
+      {t:'quiz', q:'Por que sair muito cedo com a dama costuma ser ruim?', opts:['Porque é proibido pelas regras','Porque ela vira alvo e perde tempo','Porque a dama ainda é fraca no começo'], a:1,
         ok:'Exato: cada ataque à dama é um lance de desenvolvimento grátis para o adversário.', err:'A dama exposta é atacada por peças menores, e você perde tempo fugindo.'}
     ]}
 ]},
@@ -3654,12 +3734,12 @@ const MODULOS = [
     ex:[
       {t:'seq', fen:'r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3', p:'Desenvolva o bispo do rei para uma casa ativa.', line:[['Bc4','Bb5']],
         ok:'Bispo ativo e o caminho livre para o roque.', err:'Leve o bispo de f1 para c4 ou b5.'},
-      {t:'quiz', q:'Na abertura, qual é o melhor plano?', opts:['Avançar todos os peões da borda','Desenvolver cavalos e bispos e fazer o roque','Atacar sozinho com a dama'], a:1,
+      {t:'quiz', q:'Na abertura, qual é o melhor plano?', opts:['Avançar os peões da borda','Desenvolver as peças e rocar','Atacar logo com a dama sozinha'], a:1,
         ok:'Isso. Um exército inteiro em jogo vence uma peça sozinha.', err:'Peças desenvolvidas + rei rocado é a receita básica.'},
       {t:'seq', fen:'r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4', p:'Falta desenvolver o cavalo da dama. Leve-o para a melhor casa.', line:['Nc3'],
         ok:'Cc3: mais uma peça em jogo, de olho no centro.', err:'O cavalo de b1 fica melhor em c3.'},
-      {t:'quiz', q:'Quantas vezes você deve mover a mesma peça na abertura?', opts:['Quantas quiser','De preferência uma só, até desenvolver as outras','Sempre duas'], a:1,
-        ok:'Certo. Cada lance repetido é uma peça a menos em jogo.', err:'Mover a mesma peça de novo atrasa o desenvolvimento das outras.'}
+      {t:'quiz', q:'Quantas vezes você deve mover a mesma peça na abertura?', opts:['Quantas vezes você quiser','De preferência só uma vez','Sempre duas vezes seguidas'], a:1,
+        ok:'Certo. Mova cada peça uma vez até desenvolver as outras: cada lance repetido é uma peça a menos em jogo.', err:'Mover a mesma peça de novo atrasa o desenvolvimento das outras.'}
     ]},
   { id:'seguranca', nome:'Segurança do rei', icone:'k',
     intro:'Um rei no centro, com colunas abertas, é um alvo. Por isso: <b>faça o roque cedo</b>, <b>não avance sem motivo os peões da frente do rei rocado</b> (eles são o escudo) e fique atento a peças inimigas se aproximando.',
@@ -3680,7 +3760,7 @@ const MODULOS = [
         ok:'Dobrados: o de trás não consegue avançar enquanto o da frente não sair.', err:'Dois peões da mesma cor na mesma coluna são “dobrados”.'},
       {t:'quiz', fen:'4k3/pp6/8/3P4/8/8/PP6/4K3 w - - 0 1', q:'O peão de d5 não tem peões pretos na frente nem nas colunas vizinhas. Como ele se chama?', opts:['Peão passado','Peão dobrado','Peão atrasado'], a:0,
         ok:'Peão passado! Nenhum peão pode pará-lo — só as peças.', err:'Sem peões inimigos no caminho: é um peão passado.'},
-      {t:'quiz', fen:'4k3/5ppp/8/8/3P4/8/5PPP/4K3 w - - 0 1', q:'O peão de d4 não tem peões brancos nas colunas c e e. Qual é o problema dele?', opts:['Nenhum','É isolado: nenhum peão amigo pode defendê-lo','Não pode mais andar'], a:1,
+      {t:'quiz', fen:'4k3/5ppp/8/8/3P4/8/5PPP/4K3 w - - 0 1', q:'O peão de d4 não tem peões brancos nas colunas c e e. Qual é o problema dele?', opts:['Nenhum, é um peão normal','Nenhum peão amigo o defende','Ele não pode mais andar para frente'], a:1,
         ok:'Isso. Peão isolado precisa ser defendido por peças.', err:'Sem vizinhos, ele é um peão isolado.'},
       {t:'seq', fen:'8/8/3P4/8/8/k7/8/4K3 w - - 0 1', p:'Peão passado deve avançar! O rei preto está longe: corra para a promoção.', line:['d7','Kb4','d8=Q'],
         ok:'Dama nova. O rei preto não chegou a tempo.', err:'Avance o peão: ninguém consegue alcançá-lo.'}
@@ -3696,8 +3776,8 @@ const MODULOS = [
         steps:['Jogue c3 para apoiar o avanço do peão da dama.','Agora sim: d4, ocupando o centro e atacando o bispo.'],
         line:['c3','Nf6','d4'],
         ok:'Centro forte com apoio do peão de c3.', err:'Primeiro c3, depois d4.'},
-      {t:'quiz', q:'Qual é a ideia principal da Abertura Italiana?', opts:['Trocar as damas rápido','Desenvolver rápido, mirar f7 com o bispo e rocar cedo','Avançar os peões da ala da dama'], a:1,
-        ok:'Isso mesmo.', err:'Desenvolvimento rápido, bispo em c4 de olho em f7 e roque.'}
+      {t:'quiz', q:'Qual é a ideia principal da Abertura Italiana?', opts:['Trocar as damas bem rápido','Desenvolver, mirar f7 e rocar','Avançar os peões da ala da dama'], a:1,
+        ok:'Isso mesmo: desenvolver rápido, mirar f7 com o bispo e rocar cedo.', err:'Desenvolvimento rápido, bispo em c4 de olho em f7 e roque.'}
     ]},
   { id:'siciliana', nome:'Defesa Siciliana', icone:'p',
     intro:'A <b>Siciliana</b> (1.e4 c5) é a resposta mais popular contra 1.e4. Em vez de copiar com e5, as pretas atacam a casa d4 pelo lado. Quando as brancas jogam d4, as pretas trocam o peão <b>c</b> (lateral) pelo peão <b>d</b> (central) e ficam com mais peões no centro e a coluna “c” aberta para a torre. Gera partidas desequilibradas e cheias de luta.',
@@ -3710,8 +3790,8 @@ const MODULOS = [
         steps:['Avance o peão da dama: d4.','Recapture em d4 com o cavalo.'],
         line:['d4','cxd4','Nxd4'],
         ok:'O cavalo ficou forte no centro e as brancas têm mais espaço.', err:'Jogue d4 e depois recapture com o cavalo de f3.'},
-      {t:'quiz', q:'Qual é a troca típica que as pretas fazem na Siciliana?', opts:['O peão lateral “c” pelo peão central “d” das brancas','A dama pela torre','Os dois bispos pelos cavalos'], a:0,
-        ok:'Isso: assim as pretas ficam com maioria de peões no centro.', err:'As pretas trocam o peão c pelo peão d das brancas.'}
+      {t:'quiz', q:'Qual é a troca típica que as pretas fazem na Siciliana?', opts:['Peão “c” pelo peão central “d”','A dama pela torre adversária','Os dois bispos pelos cavalos'], a:0,
+        ok:'Isso: as pretas trocam o peão “c” pelo peão central “d” e ficam com maioria de peões no centro.', err:'As pretas trocam o peão c pelo peão d das brancas.'}
     ]},
   { id:'gambito', nome:'Gambito da Dama', icone:'q',
     intro:'O <b>Gambito da Dama</b> (1.d4 d5 2.c4) oferece o peão de c4 para <b>desviar o peão de d5</b> e dominar o centro. Não é um sacrifício de verdade: se as pretas aceitam (dxc4), as brancas quase sempre recuperam o peão. Se recusam (e6), o jogo fica sólido e estratégico.',
@@ -3722,7 +3802,7 @@ const MODULOS = [
         ok:'Posição clássica do Gambito da Dama Recusado.', err:'Siga a instrução do passo atual.'},
       {t:'seq', fen:'rnbqkb1r/ppp1pppp/5n2/8/2pP4/4P3/PP3PPP/RNBQKBNR w KQkq - 1 4', p:'As pretas aceitaram o gambito. Recupere o peão desenvolvendo uma peça.', line:['Bxc4'],
         ok:'Peão recuperado e bispo desenvolvido. Por isso não é um sacrifício de verdade.', err:'O bispo de f1 captura o peão em c4.'},
-      {t:'quiz', q:'Por que as brancas oferecem o peão de c4?', opts:['Para desviar o peão de d5 e dominar o centro','Porque o peão não serve para nada','Para trocar as damas'], a:0,
+      {t:'quiz', q:'Por que as brancas oferecem o peão de c4?', opts:['Para desviar o peão de d5','Porque esse peão não serve para nada','Para forçar a troca das damas'], a:0,
         ok:'Exato: é tudo pela luta do centro.', err:'A ideia é tirar o peão preto de d5 e ficar com o centro.'}
     ]}
 ]}
@@ -3816,15 +3896,26 @@ const MOLDURAS = [
   { id: 'bronze', nome: 'Bronze', trofeu: 'bronze' },
   { id: 'prata', nome: 'Prata', trofeu: 'prata' },
   { id: 'ouro', nome: 'Ouro', trofeu: 'ouro' },
-  { id: 'platina', nome: 'Platina', trofeu: 'platina' }
+  { id: 'platina', nome: 'Platina', trofeu: 'platina' },
+  /* molduras de nível: liberadas ao vencer o computador naquele nível (o Iniciante não tem) */
+  { id: 'aprendiz', nome: 'Cipós do Aprendiz', nivel: 1, arte: true },
+  { id: 'intermediario', nome: 'Elmo do Cavaleiro', nivel: 2, arte: true },
+  { id: 'avancado', nome: 'Espadas de Prata', nivel: 3, arte: true },
+  { id: 'expert', nome: 'Chamas do Expert', nivel: 4, arte: true },
+  { id: 'mestre', nome: 'Coroa do Mestre', nivel: 5, arte: true }
 ];
 /* desenha a foto de perfil (avatar) com a moldura */
 function htmlAvatar(avatarId, moldura, tam = 44) {
   const a = AVATARES.find(x => x.id === avatarId) || AVATARES[1];
-  return `<span class="avatar av-${a.cor}${moldura ? ' mold-' + moldura : ''}" style="--av:${tam}px"><svg viewBox="0 0 100 100"><use href="#pc-${a.peca}"/></svg></span>`;
+  const m = MOLDURAS.find(x => x.id === moldura), arte = m && m.arte;
+  return `<span class="avatar av-${a.cor}${moldura ? (arte ? ' molv molv-' : ' mold-') + moldura : ''}" style="--av:${tam}px"><svg viewBox="0 0 100 100"><use href="#pc-${a.peca}"/></svg>${arte ? `<svg class="mold-arte" viewBox="0 0 180 180" aria-hidden="true"><use href="#mf-${moldura}"/></svg>` : ''}</span>`;
 }
+/* molduras de nível liberadas agora (para avisar na tela de fim de partida) */
+const moldurasNivel = () => MOLDURAS.filter(m => m.nivel && temMoldura(m.id)).map(m => m.id);
 const temAvatar = id => { const a = AVATARES.find(x => x.id === id); return !!a && (a.trofeu ? !!Dados.d.conquistas['tr-' + a.trofeu] : (a.preco === 0 || !!Dados.d.itens['av-' + id])); };
-const temMoldura = id => { const m = MOLDURAS.find(x => x.id === id); return !!m && (!m.trofeu || !!Dados.d.conquistas['tr-' + m.trofeu]); };
+const temMoldura = id => { const m = MOLDURAS.find(x => x.id === id); if (!m) return false;
+  if (m.nivel) return ((Dados.d.porNivel[m.nivel] || {}).v || 0) >= 1;
+  return !m.trofeu || !!Dados.d.conquistas['tr-' + m.trofeu]; };
 const temTabuleiro = id => { const t = TABULEIROS.find(x => x.id === id); return !!t && (t.preco === 0 || !!Dados.d.itens['tab-' + id]); };
 const nomeJogador = () => (Dados.d.perfil.nome || '').trim() || 'Jogador';
 
@@ -3839,7 +3930,8 @@ const Moedas = {
     Som.tocar('moeda');
   },
   gastar(n) {
-    if (Dados.d.moedas < n) return false;
+    n = Math.round(n);
+    if (!(n > 0) || !(Dados.d.moedas >= n)) return false;
     Livro.meu().s += n; Livro.recalcular(); Dados.salvar(); App.atualizarTopo(); return true;
   }
 };
@@ -3964,7 +4056,7 @@ const Conquistas = {
   },
   pausa: false,
   /* fotografia antes de uma partida: depois dá para saber o que foi ganho nela */
-  foto() { return { moedas: Dados.d.moedas, conq: new Set(Object.keys(Dados.d.conquistas)) }; },
+  foto() { return { moedas: Dados.d.moedas, conq: new Set(Object.keys(Dados.d.conquistas)), molv: moldurasNivel() }; },
   novasDesde(f) {
     if (!f) return [];
     return Object.keys(Dados.d.conquistas).filter(id => !f.conq.has(id)).map(id => {
@@ -4078,6 +4170,10 @@ const Loja = {
 };
 
 /* ---------- perfil ---------- */
+function opMold(m) {
+  const ok = temMoldura(m.id), p = Dados.d.perfil, dica = m.nivel ? 'Vença o nível ' + NIVEIS[m.nivel].nome : m.nome;
+  return `<button class="op-av${p.moldura === m.id ? ' on' : ''}${ok ? '' : ' trancado'}" data-mold="${m.id}" ${ok ? '' : 'disabled'} title="${ok ? m.nome : dica}">${htmlAvatar(p.avatar, m.id, 54)}<small>${ok ? m.nome : '🔒 ' + (m.nivel ? NIVEIS[m.nivel].nome : m.nome)}</small></button>`;
+}
 const Perfil = {
   tela() {
     App.cabecalho('Meu perfil', 'menu');
@@ -4092,9 +4188,12 @@ const Perfil = {
         ${avs.map(a => `<button class="op-av${p.avatar === a.id ? ' on' : ''}" data-av="${a.id}" title="${a.nome}">${htmlAvatar(a.id, '', 54)}</button>`).join('')}
         ${bloq.map(a => `<button class="op-av trancado" data-loja="1" title="${a.nome}">${htmlAvatar(a.id, '', 54)}<small>${a.trofeu ? '🏆' : MOEDA + a.preco}</small></button>`).join('')}</div>
         <p class="sub" style="margin-top:8px">Fotos com cadeado podem ser compradas na loja.</p></div>
-      <div class="cartao"><h3>Moldura</h3><div class="grade-av">
-        ${MOLDURAS.map(m => { const ok = temMoldura(m.id); return `<button class="op-av${p.moldura === m.id ? ' on' : ''}${ok ? '' : ' trancado'}" data-mold="${m.id}" ${ok ? '' : 'disabled'} title="${m.nome}">${htmlAvatar(p.avatar, m.id, 54)}<small>${ok ? m.nome : '🔒 ' + m.nome}</small></button>`; }).join('')}</div>
+      <div class="cartao"><h3>Molduras de troféu</h3><div class="grade-av">
+        ${MOLDURAS.filter(m => !m.nivel).map(opMold).join('')}</div>
         <p class="sub" style="margin-top:8px">Bronze: conclua 1 módulo · Prata: 3 módulos · Ouro: todos os módulos · Platina: todos os módulos e todos os desafios.</p></div>
+      <div class="cartao"><h3>Molduras de nível</h3><div class="grade-av grade-molv">
+        ${MOLDURAS.filter(m => m.nivel).map(opMold).join('')}</div>
+        <p class="sub" style="margin-top:8px">Vença o computador em cada nível para liberar a moldura dele. A mais especial é a do Mestre.</p></div>
       <div class="cartao"><h3>Troféus</h3><div class="trofeus">${TROFEUS.map(t => { const ok = !!d.conquistas['tr-' + t.id]; return `<div class="trofeu${ok ? ' ok' : ''}">${svgTrofeu(t.id, ok, 48)}<b>${t.nome.replace('Troféu de ', '')}</b></div>`; }).join('')}</div></div>
       <div class="cartao" id="conta"></div></div>`;
     Nuvem.pintarConta($('#conta'));
@@ -4238,6 +4337,8 @@ function registrarPartida(op) {
   const d = Dados.d;
   const res = op.vencedor == null ? 'e' : (op.modo === 'local' ? op.vencedor : (op.vencedor === op.cor ? 'v' : 'd'));
   const reg = { t: Date.now(), modo: op.modo, nivel: op.nivel, cor: op.cor, res, motivo: op.motivo, prec: null, cont: null, lances: op.plies, dicas: op.dicas || 0 };
+  if (op.san && op.san.length) reg.san = op.san.join(' ');     // lances da partida: permitem rever e analisar depois (histórico)
+  if (op.adv) reg.adv = String(op.adv).slice(0, 20);
   d.partidas.push(reg); if (d.partidas.length > 80) d.partidas = d.partidas.slice(-80);
   let moedas = 0;
   const valeu = op.plies >= 10;                              // partidas muito curtas não dão moedas
@@ -4272,6 +4373,7 @@ function telaFim(o) {
   // o: { res: 'v'|'e'|'d', titulo, motivo, prec, cont, foto, botoes: [{txt, cls, val}] }
   return new Promise(resolve => {
     const ganhou = o.foto ? Math.max(0, Dados.d.moedas - o.foto.moedas) : 0, conq = Conquistas.novasDesde(o.foto);
+    const molds = o.foto && o.foto.molv ? moldurasNivel().filter(id => !o.foto.molv.includes(id)).map(id => MOLDURAS.find(m => m.id === id)) : [];
     const ic = o.res === 'v' ? '<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/>'
       : o.res === 'e' ? '<path d="M5 9h14M5 15h14"/>' : '<path d="M5 21V4M5 4h12l-2.5 4L17 12H5"/>';
     let raios = ''; for (let k = 0; k < 12; k++) { const a1 = k / 12 * Math.PI * 2, a2 = a1 + .14; raios += `<path d="M76 76L${(76 + 76 * Math.cos(a1)).toFixed(1)} ${(76 + 76 * Math.sin(a1)).toFixed(1)}L${(76 + 76 * Math.cos(a2)).toFixed(1)} ${(76 + 76 * Math.sin(a2)).toFixed(1)}Z"/>`; }
@@ -4287,8 +4389,9 @@ function telaFim(o) {
       <div class="anima-entra" style="animation-delay:.45s"><h2 id="fim-tit">${esc(o.titulo)}</h2><p class="motivo">${esc(maiuscula(o.motivo))}.</p></div>
       ${nums.length ? `<div class="fim-nums anima-entra" style="animation-delay:.6s">${nums.join('')}</div>` : ''}
       ${classes ? `<div class="fim-classes anima-entra" style="animation-delay:.72s">${classes.map(x => `<div class="${x[2]}"><b>${x[1]}</b><small>${x[0]}</small></div>`).join('')}</div>` : ''}
-      ${conq.slice(0, 3).map((x, k) => `<div class="fim-conq" style="animation-delay:${(1.1 + k * .15).toFixed(2)}s"><span class="cq-ic">${x.ic}</span><span><small>${x.trofeu ? 'Troféu conquistado' : 'Conquista desbloqueada'}</small><b>${esc(x.nome)}</b></span>${x.moedas ? `<em>+${x.moedas}</em>` : ''}</div>`).join('')}
-      ${conq.length > 3 ? `<p class="sub">e mais ${conq.length - 3} conquista${conq.length - 3 > 1 ? 's' : ''} · veja em Troféus</p>` : ''}
+      ${molds.map(m => `<div class="fim-mold" style="animation-delay:.95s">${htmlAvatar(Dados.d.perfil.avatar, m.id, 46)}<span><small>Moldura nova!</small><b>${esc(m.nome)}</b><span class="sub" style="display:block;font-size:.78rem">Escolha no seu perfil</span></span></div>`).join('')}
+      ${conq.slice(0, molds.length ? 2 : 3).map((x, k) => `<div class="fim-conq" style="animation-delay:${(1.1 + k * .15).toFixed(2)}s"><span class="cq-ic">${x.ic}</span><span><small>${x.trofeu ? 'Troféu conquistado' : 'Conquista desbloqueada'}</small><b>${esc(x.nome)}</b></span>${x.moedas ? `<em>+${x.moedas}</em>` : ''}</div>`).join('')}
+      ${conq.length > (molds.length ? 2 : 3) ? `<p class="sub">e mais ${conq.length - (molds.length ? 2 : 3)} conquista${conq.length - (molds.length ? 2 : 3) > 1 ? 's' : ''} · veja em Troféus</p>` : ''}
       <div class="botoes anima-entra" style="animation-delay:.85s">${pri}${bts.length ? `<div class="fila">${bts.join('')}</div>` : ''}</div></div>`;
     m.classList.remove('oculto');
     if (conq.length) { Som.tocar('conquista'); vibrar([30, 40, 30]); }
@@ -4658,11 +4761,11 @@ const Partida = {
     if (this.modo === 'pc') {
       base.mostrarFim = true;
       Dados.gravarPartida(null);
-      base.registro = registrarPartida({ modo: 'pc', nivel: this.nivel, cor: this.cor, vencedor, motivo, plies: lances.length, relogio: this.relogio, dicas: this.dicas });
+      base.registro = registrarPartida({ modo: 'pc', nivel: this.nivel, cor: this.cor, vencedor, motivo, plies: lances.length, relogio: this.relogio, dicas: this.dicas, san: lances.map(m => m.san) });
       Analise.iniciar(base);
     } else if (this.modo === 'local') {
       base.cor = 'ambos';
-      base.registro = registrarPartida({ modo: 'local', cor: 'w', vencedor, motivo, plies: lances.length });
+      base.registro = registrarPartida({ modo: 'local', cor: 'w', vencedor, motivo, plies: lances.length, san: lances.map(m => m.san) });
       this.modalFim(base);
     } else Salas.aoTerminar(base);
   },
@@ -4854,12 +4957,18 @@ const Analise = {
   async iniciar(p) {
     const m = $('#modal');
     m.innerHTML = `<div class="cx"><h2>${esc(p.titulo)}</h2><p>${esc(maiuscula(p.motivo))}.</p>
-      <div class="sub" id="an-txt" style="margin-bottom:8px">Analisando ${p.cor === 'ambos' ? 'os lances dos dois lados' : 'os seus lances'}…</div><div class="progresso"><i id="an-barra"></i></div></div>`;
+      <div class="sub" id="an-txt" style="margin-bottom:8px">${p.avPronto ? 'Abrindo a análise' : 'Analisando'} ${p.cor === 'ambos' ? 'os lances dos dois lados' : 'os seus lances'}…</div><div class="progresso"><i id="an-barra"></i></div></div>`;
     m.classList.remove('oculto');
     let r;
     try { r = await this.analisar(p, f => { const b = $('#an-barra'); if (b) b.style.width = Math.round(f * 100) + '%'; }); }
     catch (e) { r = { precisao: null, lados: {}, cont: { exc: 0, bom: 0, imp: 0, err: 0, gra: 0 }, itens: [], tags: {}, dicas: DICAS_GERAIS.slice(), fens: [], av: [], classe: {}, falhou: true }; }
     r.p = p;
+    if (!r.falhou) Historico.guardarAnalise(p.historico ? p.t : p.registro && p.registro.t, r.av);
+    if (p.historico) {                       // revendo uma partida antiga: não conta de novo nas estatísticas
+      const reg = Dados.d.partidas.find(x => x.t === p.t);
+      if (reg && reg.prec == null && p.cor !== 'ambos' && r.precisao != null) { reg.prec = Math.round(r.precisao); reg.cont = r.cont; Dados.salvar(); }
+      fecharModal(); App.ir('resumo', r); return;
+    }
     this.gravar(p, r);
     fecharModal();
     if (!p.mostrarFim) { Conquistas.retomar([]); App.ir('resumo', r); return; }
@@ -4890,7 +4999,10 @@ const Analise = {
     p.lances.forEach((m, i) => { if (lados.includes(m.color)) { precisa.add(i); precisa.add(i + 1); } });
     const lista = Array.from(precisa).sort((a, b) => a - b), av = new Array(N + 1).fill(null);
     let feitos = 0;
+    const pronto = p.avPronto && p.avPronto.length === N + 1 ? p.avPronto : null;   // análise já feita antes (histórico)
+    if (pronto) { lista.forEach(i => { av[i] = pronto[i]; }); if (lista.some(i => !av[i])) lista.forEach(i => { av[i] = null; }); }
     for (const i of lista) {
+      if (av[i]) { progresso(++feitos / lista.length); continue; }
       const gi = new Chess(fens[i]), vez = gi.turn(), s = vez === 'w' ? 1 : -1;
       if (gi.in_checkmate()) av[i] = { nota: -10000 * s, mate: null, best: null, pv: [] };
       else if (gi.game_over()) av[i] = { nota: 0, mate: null, best: null, pv: [] };
@@ -4979,7 +5091,7 @@ const Analise = {
   /* ---------- tela de resumo + revisão lance a lance ---------- */
   telaResumo(r) {
     const p = r.p, N = p.lances.length, ambos = p.cor === 'ambos';
-    App.cabecalho('Resumo da partida', 'menu');
+    App.cabecalho('Resumo da partida', p.historico ? 'historico' : 'menu');
     const roda = (prec, rot) => `<div class="roda" style="--p:${prec == null ? 0 : Math.round(prec)}"><div><span><b>${prec == null ? '–' : Math.round(prec) + '%'}</b><small>${rot}</small></span></div></div>`;
     const chips = c => `<div class="chips">${Object.keys(CLASSES).map(k => `<span class="chip ${CLASSES[k].cls}"><i></i>${CLASSES[k].nome}: ${c ? c[k] : 0}</span>`).join('')}</div>`;
     const total = r.itens.length;
@@ -5098,6 +5210,84 @@ const Analise = {
   }
 };
 
+
+/* ---------- histórico de partidas: lista e reabre a análise de partidas antigas ---------- */
+const Historico = {
+  CHAVE: 'trainer-xadrez-analises',
+  filtro: 'todas',
+  /* as avaliações do motor ficam guardadas só neste aparelho (as últimas 30), para reabrir na hora */
+  lerCache() { try { return JSON.parse(localStorage.getItem(this.CHAVE) || '{}'); } catch (e) { return {}; } },
+  guardarAnalise(t, av) {
+    if (!t || !av) return;
+    try {
+      const c = this.lerCache();
+      c[t] = av.map(a => a && [Math.round(a.nota), a.mate, a.best, (a.pv || []).slice(0, 8).join(' ')]);
+      const ks = Object.keys(c).sort((a, b) => b - a); ks.slice(30).forEach(k => delete c[k]);
+      localStorage.setItem(this.CHAVE, JSON.stringify(c));
+    } catch (e) { /* sem espaço: tudo bem, a análise é refeita quando precisar */ }
+  },
+  lerAnalise(t) {
+    const x = this.lerCache()[t]; if (!x) return null;
+    return x.map(a => a && { nota: a[0], mate: a[1], best: a[2], pv: a[3] ? a[3].split(' ') : [] });
+  },
+  rotulo(reg) {
+    if (reg.modo === 'pc') return { quem: 'Computador · ' + (NIVEIS[reg.nivel] || NIVEIS[0]).nome, ic: 'pc' };
+    if (reg.modo === 'online') return { quem: 'Online' + (reg.adv ? ' · ' + reg.adv : ''), ic: 'on' };
+    return { quem: 'Amigo no mesmo aparelho', ic: 'lo' };
+  },
+  resultado(reg) {
+    if (reg.modo === 'local') return reg.res === 'e' ? { t: 'Empate', c: 'e' } : { t: 'Vitória das ' + corNome(reg.res), c: 'n' };
+    return reg.res === 'v' ? { t: 'Vitória', c: 'v' } : reg.res === 'd' ? { t: 'Derrota', c: 'd' } : { t: 'Empate', c: 'e' };
+  },
+  dataTxt(t) {
+    const d = new Date(t), hoje = new Date(), ontem = new Date(Date.now() - 864e5), mesmoDia = (a, b) => a.toDateString() === b.toDateString();
+    const h = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    if (mesmoDia(d, hoje)) return 'Hoje, ' + h;
+    if (mesmoDia(d, ontem)) return 'Ontem, ' + h;
+    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).replace('.', '') + ', ' + h;
+  },
+  tela() {
+    App.cabecalho('Histórico', 'menu');
+    const todas = Dados.d.partidas.slice().reverse(), cache = this.lerCache();
+    const F = { todas: () => true, pc: r => r.modo === 'pc', amigos: r => r.modo !== 'pc', vit: r => r.res === 'v' };
+    const lista = todas.filter(F[this.filtro] || F.todas);
+    const chip = (id, nome) => `<button class="chip-mod${this.filtro === id ? ' on' : ''}" data-f="${id}">${nome}</button>`;
+    const ICS = {
+      pc: '<rect x="4" y="4" width="16" height="12" rx="2"/><path d="M9 20h6M12 16v4M9 10h.01M15 10h.01"/>',
+      on: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+      lo: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.8"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/>'
+    };
+    const item = reg => {
+      const r = this.resultado(reg), q = this.rotulo(reg), pode = !!reg.san, temCache = !!cache[reg.t];
+      const cor = reg.modo === 'local' ? '' : ` · de ${corNome(reg.cor)}`;
+      return `<button class="hist-item res-${r.c}" data-t="${reg.t}" ${pode ? '' : 'disabled'}>
+        <span class="hist-ic"><svg viewBox="0 0 24 24" aria-hidden="true">${ICS[q.ic]}</svg></span>
+        <span class="hist-tx"><b>${r.t}</b><span>${esc(q.quem)}${cor}</span><small>${this.dataTxt(reg.t)} · ${Math.ceil((reg.lances || 0) / 2)} lances${reg.motivo ? ' · ' + esc(reg.motivo) : ''}</small></span>
+        <span class="hist-dir">${reg.prec != null ? `<b>${reg.prec}%</b><small>precisão</small>` : pode ? `<small>${temCache ? 'ver análise' : 'analisar'}</small>` : '<small>sem lances</small>'}</span></button>`;
+    };
+    $('#tela').innerHTML = `<div class="pilha estreito">
+      <div class="chips-mod">${chip('todas', 'Todas')}${chip('pc', 'Computador')}${chip('amigos', 'Amigos')}${chip('vit', 'Vitórias')}</div>
+      ${lista.length ? `<div class="hist-lista">${lista.map(item).join('')}</div>`
+        : `<div class="cartao" style="text-align:center"><p class="sub">${todas.length ? 'Nenhuma partida neste filtro.' : 'Você ainda não terminou nenhuma partida. Quando terminar, ela aparece aqui para você rever os lances.'}</p>${todas.length ? '' : '<button class="bt pri" data-ir="config" style="margin-top:12px">Jogar agora</button>'}</div>`}
+      ${todas.some(r => !r.san) ? '<p class="sub" style="text-align:center">Partidas jogadas antes desta versão não guardaram os lances, por isso não dá para analisar.</p>' : ''}
+      </div>`;
+    $('#tela').onclick = e => {
+      const f = e.target.closest('[data-f]'); if (f) { this.filtro = f.dataset.f; this.tela(); return; }
+      const ir = e.target.closest('[data-ir]'); if (ir) { App.ir(ir.dataset.ir); return; }
+      const b = e.target.closest('.hist-item'); if (b && !b.disabled) this.abrir(+b.dataset.t);
+    };
+    App.aoSair = () => { $('#tela').onclick = null; };
+  },
+  abrir(t) {
+    const reg = Dados.d.partidas.find(x => x.t === t); if (!reg || !reg.san) return;
+    const g = new Chess(), lances = [];
+    for (const s of reg.san.split(' ')) { const m = g.move(s); if (!m) break; lances.push(m); }
+    const r = this.resultado(reg), venc = reg.modo === 'local' ? (reg.res === 'e' ? null : reg.res) : reg.res === 'e' ? null : reg.res === 'v' ? reg.cor : outraCor(reg.cor);
+    const titulo = reg.modo === 'local' ? (venc ? `Vitória das ${corNome(venc)}!` : 'Empate') : r.c === 'v' ? 'Você venceu!' : r.c === 'd' ? 'Você perdeu' : 'Empate';
+    Analise.iniciar({ historico: true, t, lances, cor: reg.modo === 'local' ? 'ambos' : reg.cor, nivel: reg.nivel || 0, vencedor: venc, motivo: reg.motivo || 'fim de partida', titulo, modo: reg.modo, avPronto: this.lerAnalise(t) });
+  }
+};
+
 /* ==========================================================================
    EXERCÍCIOS INTERATIVOS (usados nas fases e nos desafios táticos)
    criarExercicio(ex, host, cb) -> { dica(), solucao(), destruir(), temDica }
@@ -5145,7 +5335,10 @@ function exQuiz(ex, host, cb) {
     tab.orientar('w'); tab.posicionar(mapaDoJogo(g), false);
   }
   const cx = document.createElement('div'); cx.className = 'quiz';
-  cx.innerHTML = ex.opts.map((o, i) => `<button class="bt" data-i="${i}">${esc(o)}</button>`).join('');
+  // embaralha as opções a cada vez: a resposta certa não fica sempre no mesmo lugar
+  const ordem = ex.opts.map((o, i) => i);
+  if (!/^\d+$/.test(ex.opts.join(''))) for (let i = ordem.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [ordem[i], ordem[j]] = [ordem[j], ordem[i]]; }
+  cx.innerHTML = ordem.map(i => `<button class="bt" data-i="${i}">${esc(ex.opts[i])}</button>`).join('');
   host.appendChild(cx);
   let acabou = false;
   cx.onclick = e => {
@@ -5155,7 +5348,7 @@ function exQuiz(ex, host, cb) {
       cb.msg('ok', ex.ok); cb.resolvido();
     } else { b.classList.add('errada'); b.disabled = true; cb.msg('err', ex.err); cb.erro(); }
   };
-  return { temDica: false, dica: () => false, solucao: () => { const b = $$('button', cx)[ex.a]; if (b && !acabou) b.click(); }, destruir() { acabou = true; } };
+  return { temDica: false, dica: () => false, solucao: () => { const b = $(`button[data-i="${ex.a}"]`, cx); if (b && !acabou) b.click(); }, destruir() { acabou = true; } };
 }
 
 /* ---------- coletar estrelas com uma peça ---------- */
@@ -5303,7 +5496,7 @@ const Aprender = {
     const chips = MODULOS.map((x, i) => { const ok = x.fases.every(f => Dados.d.fases[f.id] >= 1);
       return `<button class="chip-mod${i === mi ? ' on' : ''}${ok ? ' feito' : ''}" data-mod="${i}">${ok ? '✓ ' : ''}${i + 1}. ${x.nome}</button>`; }).join('');
     const OFF = [0, 64, 0, -64], DY = 106, Y0 = 128, pts = m.fases.map((f, k) => ({ x: OFF[k % 4], y: Y0 + k * DY }));
-    const fimY = Y0 + m.fases.length * DY + 6, alt = fimY + 120;
+    const fimY = Y0 + m.fases.length * DY + 6, temProx = mi + 1 < MODULOS.length && m.fases.every(f => Dados.d.fases[f.id] >= 1), alt = fimY + (temProx ? 200 : 120);
     const caminho = lista => lista.map((p, k) => k === 0 ? `M${180 + p.x} ${p.y}` : `C${180 + lista[k - 1].x} ${lista[k - 1].y + DY / 2} ${180 + p.x} ${p.y - DY / 2} ${180 + p.x} ${p.y}`).join(' ');
     const todos = pts.concat([{ x: 0, y: fimY }]);
     let atual = -1; m.fases.forEach((f, k) => { if (atual < 0 && !(Dados.d.fases[f.id] >= 1) && this.liberada(ini + k)) atual = k; });
@@ -5896,7 +6089,7 @@ const Salas = {
     if (!d.extras.salas[this.codigo]) {
       d.extras.salas[this.codigo] = Date.now();
       const chaves = Object.keys(d.extras.salas); if (chaves.length > 60) chaves.sort((a, b) => d.extras.salas[a] - d.extras.salas[b]).slice(0, chaves.length - 60).forEach(k => delete d.extras.salas[k]);
-      base.registro = registrarPartida({ modo: 'online', cor: this.minhaCor, vencedor: base.vencedor, motivo: base.motivo, plies: base.lances.length, relogio: s.tempo });
+      base.registro = registrarPartida({ modo: 'online', cor: this.minhaCor, vencedor: base.vencedor, motivo: base.motivo, plies: base.lances.length, relogio: s.tempo, san: base.lances.map(m => m.san), adv: base.nomeAdv });
     }
     Partida.modalFim(base, [{ txt: 'Revanche', val: () => this.revanche() }]);
   },
@@ -6058,6 +6251,7 @@ const App = {
       case 'config': Partida.telaConfig(); break;
       case 'jogo': Partida.iniciar(param || { modo: 'pc' }); break;
       case 'resumo': Analise.telaResumo(param); break;
+      case 'historico': Historico.tela(); break;
       case 'aprender': Aprender.telaLista(); break;
       case 'fase': Aprender.telaFase(param); break;
       case 'desafios': Desafios.telaLista(); break;
@@ -6074,7 +6268,7 @@ const App = {
     this.depois();
   },
   /* barra de navegação inferior e animação de entrada da tela */
-  ABAS: { menu: 'menu', aprender: 'aprender', config: 'config', conquistas: 'conquistas', perfil: 'perfil', desafios: 'menu', stats: 'menu', loja: 'menu', ajustes: 'perfil', amigos: 'config' },
+  ABAS: { menu: 'menu', aprender: 'aprender', config: 'config', conquistas: 'conquistas', perfil: 'perfil', desafios: 'menu', stats: 'menu', historico: 'menu', loja: 'menu', ajustes: 'perfil', amigos: 'config' },
   depois() {
     const t = this.atual, aba = this.ABAS[t], nav = $('#nav-inf');
     document.body.dataset.tela = t;
@@ -6154,6 +6348,7 @@ function telaMenu() {
     <section class="linhas-menu">
       <button class="linha-menu cor-ok" data-ir="aprender"><span class="ic2">${pcSvg('p')}</span><span class="tx"><span><b>Aprender</b><small>${ra.feitas} de ${ra.total} fases · ${ra.estrelas} ★</small></span><span class="barrinha"><i style="width:${Math.round(ra.feitas / ra.total * 100)}%"></i></span></span>${SETA}</button>
       <button class="linha-menu cor-info" data-ir="desafios"><span class="ic2">${SVG('<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>')}</span><span class="tx"><span><b>Desafios táticos</b><small>${feitos} de ${PUZZLES.length} · ${d.desafios.pontos} pts</small></span><span class="barrinha"><i style="width:${Math.round(feitos / PUZZLES.length * 100)}%"></i></span></span>${SETA}</button>
+      <button class="linha-menu cor-neutra" data-ir="historico"><span class="ic2">${SVG('<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>')}</span><span class="tx"><b>Histórico de partidas</b><small>${d.partidas.length ? d.partidas.length + ' partida' + (d.partidas.length > 1 ? 's' : '') + ' · reveja e analise os lances' : 'Reveja e analise suas partidas'}</small></span>${SETA}</button>
       <button class="linha-menu cor-dest" data-ir="stats"><span class="ic2">${SVG('<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>')}</span><span class="tx"><b>Minhas estatísticas</b><small>${e.jogos} partidas · ${e.vitorias} vitórias</small></span>${SETA}</button>
     </section>
     <section class="duas-peq">
@@ -6201,6 +6396,7 @@ const Estatisticas = {
         <div class="numero"><b style="color:var(--ok)">${e.vitorias}</b><span>Vitórias</span></div>
         <div class="numero"><b>${e.empates}</b><span>Empates</span></div>
         <div class="numero"><b style="color:var(--ruim)">${e.derrotas}</b><span>Derrotas</span></div>
+        <button class="numero" data-hist="1" style="cursor:pointer"><b style="color:var(--info)">${d.partidas.filter(r => r.san).length}</b><span>Ver histórico ›</span></button>
       </div>
       <div class="duas">
         <div class="cartao" style="overflow-x:auto"><h3>Resultados por adversário</h3><table class="tb"><thead><tr><th>Contra</th><th>Partidas</th><th>Vitórias</th><th>Empates</th><th>Derrotas</th></tr></thead><tbody>
@@ -6224,6 +6420,7 @@ const Estatisticas = {
           <p>Moedas ganhas no total: <b>${MOEDA} ${d.moedasTotal}</b> · Dicas usadas: <b>${d.extras.dicas || 0}</b></p></div>
       </div>
       <p class="sub" style="text-align:center">Para apagar tudo, vá em Configurações → Zerar progresso.</p></div>`;
+    $('[data-hist]').onclick = () => App.ir('historico');
   }
 };
 
