@@ -701,6 +701,22 @@ body.com-nav #conquista-pop{bottom:calc(100px + env(safe-area-inset-bottom))}
 .grade-molv .op-av{padding:26px 4px 10px}
 .grade-molv .op-av small{margin-top:18px;position:relative;z-index:1}
 
+/* ---------- modo desenvolvedor ---------- */
+.selo-dev{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border-radius:7px;background:linear-gradient(135deg,#7c4dff,#d14dff);color:#fff;font:700 .68rem/1.4 Inter,sans-serif;letter-spacing:.08em;vertical-align:1px;margin-left:4px}
+button.selo-dev:active{transform:scale(.92)}
+.linha-menu .ic2 .selo-dev{margin:0}
+.dev-cab{display:flex;align-items:center;gap:14px;border-color:#9a5cff}
+.dev-cab .selo-dev{font-size:.9rem;padding:8px 12px;border-radius:12px;margin:0}
+.dev-valor{display:flex;align-items:center;gap:10px;margin:2px 0 12px}
+.dev-valor b{font-family:var(--tit);font-size:2.2rem;line-height:1}
+.dev-valor svg.moeda{width:36px;height:36px}
+.dev-valor svg.gema{width:36px;height:36px;fill:#7fd8ff;stroke:#1d6f99;stroke-width:1.4;stroke-linejoin:round}
+.dev-def{display:flex;gap:8px;margin-bottom:8px}
+.dev-def .campo{flex:1;min-width:0}
+.dev-rapido .bt{flex:1}
+.selo-dev{white-space:nowrap;flex:none}
+.dev-rapido .bt{white-space:nowrap;padding:6px 8px}
+
 </style>
 </head>
 <body>
@@ -2712,9 +2728,9 @@ const Livro = {
   meu(d = Dados.d) { const id = this.id(); if (!d.livro[id]) d.livro[id] = this.vazio(); return d.livro[id]; },
   /* refaz os totais (moedas, partidas por nível, online, local) somando todos os aparelhos */
   recalcular(d = Dados.d) {
-    let g = 0, s = 0, lo = 0; const pn = this.vazio().pn, on = { v: 0, e: 0, d: 0 };
+    let g = 0, s = 0, lo = 0, gg = 0, gs = 0; const pn = this.vazio().pn, on = { v: 0, e: 0, d: 0 };
     for (const k in d.livro) {
-      const l = d.livro[k]; g += (l.g || 0) + (l.aj || 0); s += l.s || 0; lo += l.lo || 0;
+      const l = d.livro[k]; g += (l.g || 0) + (l.aj || 0); s += l.s || 0; lo += l.lo || 0; gg += l.gg || 0; gs += l.gs || 0;
       (l.pn || []).forEach((n, i) => { if (pn[i]) { pn[i].v += n.v || 0; pn[i].e += n.e || 0; pn[i].d += n.d || 0; } });
       if (l.on) { on.v += l.on.v || 0; on.e += l.on.e || 0; on.d += l.on.d || 0; }
     }
@@ -2725,7 +2741,7 @@ const Livro = {
        vai para a conta, então o saldo fica em 0 em todos os aparelhos. */
     if (!(saldo >= 0)) { const m = this.meu(d), falta = Math.ceil(-(saldo || 0)); m.aj = (m.aj || 0) + falta; g += falta; saldo = 0; }
     d.moedasTotal = Math.max(0, MOEDAS_INICIAIS + g + b - (this.somaAj(d))); d.moedas = Math.max(0, Math.round(saldo));
-    d.porNivel = pn; d.online = on; d.local = lo;
+    d.porNivel = pn; d.online = on; d.local = lo; d.gemas = Math.max(0, gg - gs);
   },
   somaAj(d) { let t = 0; for (const k in d.livro) t += d.livro[k].aj || 0; return t; },
   /* junta dois livros: em cada aparelho vale o maior número (cada aparelho só aumenta os seus) */
@@ -2736,6 +2752,8 @@ const Livro = {
       if (!y) { r[k] = JSON.parse(JSON.stringify(x)); continue; }
       y.g = Math.max(y.g || 0, x.g || 0); y.s = Math.max(y.s || 0, x.s || 0); y.lo = Math.max(y.lo || 0, x.lo || 0);
       if (y.aj || x.aj) y.aj = Math.max(y.aj || 0, x.aj || 0);
+      if (y.gg || x.gg) y.gg = Math.max(y.gg || 0, x.gg || 0);
+      if (y.gs || x.gs) y.gs = Math.max(y.gs || 0, x.gs || 0);
       y.pn = (y.pn || this.vazio().pn).map((n, i) => { const m = (x.pn || [])[i] || {}; return { v: Math.max(n.v, m.v || 0), e: Math.max(n.e, m.e || 0), d: Math.max(n.d, m.d || 0) }; });
       const o = x.on || {}; y.on = { v: Math.max(y.on.v, o.v || 0), e: Math.max(y.on.e, o.e || 0), d: Math.max(y.on.d, o.d || 0) };
     }
@@ -3912,11 +3930,11 @@ function htmlAvatar(avatarId, moldura, tam = 44) {
 }
 /* molduras de nível liberadas agora (para avisar na tela de fim de partida) */
 const moldurasNivel = () => MOLDURAS.filter(m => m.nivel && temMoldura(m.id)).map(m => m.id);
-const temAvatar = id => { const a = AVATARES.find(x => x.id === id); return !!a && (a.trofeu ? !!Dados.d.conquistas['tr-' + a.trofeu] : (a.preco === 0 || !!Dados.d.itens['av-' + id])); };
-const temMoldura = id => { const m = MOLDURAS.find(x => x.id === id); if (!m) return false;
+const temAvatar = id => { const a = AVATARES.find(x => x.id === id); return !!a && (Dev.tudo || a.trofeu ? !!Dados.d.conquistas['tr-' + a.trofeu] : (a.preco === 0 || !!Dados.d.itens['av-' + id])); };
+const temMoldura = id => { const m = MOLDURAS.find(x => x.id === id); if (!m) return false; if (Dev.tudo) return true;
   if (m.nivel) return ((Dados.d.porNivel[m.nivel] || {}).v || 0) >= 1;
   return !m.trofeu || !!Dados.d.conquistas['tr-' + m.trofeu]; };
-const temTabuleiro = id => { const t = TABULEIROS.find(x => x.id === id); return !!t && (t.preco === 0 || !!Dados.d.itens['tab-' + id]); };
+const temTabuleiro = id => { const t = TABULEIROS.find(x => x.id === id); return !!t && (Dev.tudo || t.preco === 0 || !!Dados.d.itens['tab-' + id]); };
 const nomeJogador = () => (Dados.d.perfil.nome || '').trim() || 'Jogador';
 
 /* ---------- moedas ---------- */
@@ -4184,6 +4202,7 @@ const Perfil = {
         <div style="flex:1;min-width:0"><label class="sub" for="nome">Nome de usuário</label>
           <input id="nome" class="campo" maxlength="20" value="${esc(p.nome)}" placeholder="Seu nome" autocomplete="nickname">
           <div class="sub" style="margin-top:6px">${e.vitorias} vitórias · ${e.fases} fases · ${e.desafios} desafios · ${MOEDA} ${d.moedas}</div></div></div>
+      ${Dev.ativo ? `<button class="linha-menu cor-dest" data-dev-abrir="1"><span class="ic2"><span class="selo-dev">DEV</span></span><span class="tx"><b>Painel do desenvolvedor</b><small>Moedas, gemas, desbloqueios e atalhos de teste</small></span>${SETA}</button>` : ''}
       <div class="cartao"><h3>Foto de perfil</h3><div class="grade-av">
         ${avs.map(a => `<button class="op-av${p.avatar === a.id ? ' on' : ''}" data-av="${a.id}" title="${a.nome}">${htmlAvatar(a.id, '', 54)}</button>`).join('')}
         ${bloq.map(a => `<button class="op-av trancado" data-loja="1" title="${a.nome}">${htmlAvatar(a.id, '', 54)}<small>${a.trofeu ? '🏆' : MOEDA + a.preco}</small></button>`).join('')}</div>
@@ -5475,7 +5494,7 @@ const Aprender = {
     if (!this.lista) { this.lista = []; MODULOS.forEach(m => m.fases.forEach(f => this.lista.push({ mod: m, fase: f }))); }
     return this.lista;
   },
-  liberada(i) { return i === 0 || (Dados.d.fases[this.todas()[i - 1].fase.id] || 0) >= 1; },
+  liberada(i) { return i === 0 || Dev.tudo || (Dados.d.fases[this.todas()[i - 1].fase.id] || 0) >= 1; },
   resumo() {
     const t = this.todas(); let feitas = 0, estrelas = 0;
     t.forEach(x => { const e = Dados.d.fases[x.fase.id] || 0; if (e) feitas++; estrelas += e; });
@@ -5775,6 +5794,7 @@ const Nuvem = {
 
   async aoMudarUsuario(u) {
     this.usuario = u || null;
+    Dev.conferir(u);
     if (u) {
       await this.baixar();
       if (Conquistas.marcar('conta')) { Dados.salvar(); Conquistas.verificar(); }
@@ -6210,6 +6230,125 @@ const Salas = {
   }
 };
 
+/* =====================================================================
+   MODO DESENVOLVEDOR
+   Só liga para a conta do dono do jogo (entrada com Google, e-mail verificado).
+   O e-mail fica guardado como "impressão digital" (SHA-256): ele não aparece no código do site.
+   ===================================================================== */
+const DEV_CONTAS = ['7d77ea4d38c19288f4a536a78825b16229f6226ae01bbc8955bd084b7ac7fcc2'];
+
+async function sha256(txt) {
+  const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(txt));
+  return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2, '0')).join('');
+}
+
+/* ---------- gemas (moeda futura). Usa o mesmo livro por aparelho das moedas ---------- */
+const Gemas = {
+  ganhar(n) { n = Math.round(n); if (!(n > 0)) return; Livro.meu().gg = (Livro.meu().gg || 0) + n; Livro.recalcular(); Dados.salvar(); },
+  gastar(n) { n = Math.round(n); if (!(n > 0) || !(Dados.d.gemas >= n)) return false; Livro.meu().gs = (Livro.meu().gs || 0) + n; Livro.recalcular(); Dados.salvar(); return true; }
+};
+
+const Dev = {
+  ativo: false,
+  CHAVE: 'trainer-xadrez-dev',
+  op() { try { return JSON.parse(localStorage.getItem(this.CHAVE) || '{}'); } catch (e) { return {}; } },
+  salvarOp(o) { try { localStorage.setItem(this.CHAVE, JSON.stringify(o)); } catch (e) { /* ignora */ } },
+  /* "liberar tudo": tabuleiros, fotos, molduras e fases sem precisar comprar ou vencer */
+  get tudo() { return this.ativo && this.op().tudo !== false; },
+
+  /* chamada sempre que a conta muda (entrar, sair, abrir o app já conectado) */
+  async conferir(u) {
+    let ok = false;
+    try {
+      if (u && u.email && u.emailVerified && window.crypto && crypto.subtle) ok = DEV_CONTAS.includes(await sha256(u.email.trim().toLowerCase()));
+    } catch (e) { ok = false; }
+    // lembra neste aparelho, para o modo já começar ligado mesmo antes da conta carregar (ou sem internet)
+    try { if (ok) localStorage.setItem(this.CHAVE + '-uid', u.uid); else if (u || this.ativo) localStorage.removeItem(this.CHAVE + '-uid'); } catch (e) { /* ignora */ }
+    this.ligar(ok);
+  },
+  /* começo do app: se esta conta já foi reconhecida aqui antes, liga direto */
+  lembrar() { try { if (localStorage.getItem(this.CHAVE + '-uid')) this.ligar(true, true); } catch (e) { /* ignora */ } },
+  ligar(ok, quieto) {
+    if (ok === this.ativo) return;
+    this.ativo = ok;
+    document.body.classList.toggle('modo-dev', ok);
+    if (quieto) return;
+    if (ok) aviso('Modo desenvolvedor ligado');
+    if (['menu', 'perfil', 'loja', 'aprender', 'ajustes', 'conquistas'].includes(App.atual)) App.ir(App.atual);
+    if (App.atual === 'dev' && !ok) App.ir('menu');
+  },
+
+  /* ---------- ações do painel ---------- */
+  definir(tipo, valor) {
+    valor = Math.max(0, Math.round(+valor || 0));
+    const l = Livro.meu(), atual = tipo === 'gemas' ? Dados.d.gemas || 0 : Dados.d.moedas, dif = valor - atual;
+    // o livro só aumenta (assim a sincronização entre aparelhos continua certa): subir = ganhar, descer = gastar
+    if (tipo === 'gemas') { if (dif > 0) l.gg = (l.gg || 0) + dif; else l.gs = (l.gs || 0) - dif; }
+    else { if (dif > 0) l.g += dif; else l.s += -dif; }
+    Livro.recalcular(); Dados.salvar(); App.atualizarTopo(true);
+  },
+  todasConquistas() {
+    const d = Dados.d, t = Date.now();
+    CONQUISTAS.forEach(c => { if (!d.conquistas[c.id]) d.conquistas[c.id] = t; });
+    TROFEUS.forEach(x => { if (!d.conquistas['tr-' + x.id]) d.conquistas['tr-' + x.id] = t; });
+  },
+  todasFases() { MODULOS.forEach(m => m.fases.forEach(f => { Dados.d.fases[f.id] = 3; })); },
+  todosDesafios() { PUZZLES.forEach(p => { if (Dados.d.desafios.feitos[p.id] !== 1) Dados.d.desafios.feitos[p.id] = 1; }); },
+  todosNiveis() { const l = Livro.meu(); NIVEIS.forEach((n, i) => { if (!((Dados.d.porNivel[i] || {}).v >= 1)) l.pn[i].v += 1; }); },
+
+  tela() {
+    if (!this.ativo) { App.ir('menu'); return; }
+    App.cabecalho('Modo dev', 'perfil');
+    const d = Dados.d, u = Nuvem.usuario, o = this.op();
+    const bloco = (tipo, nome, ic, valor, nota) => `<div class="cartao dev-saldo" data-tipo="${tipo}">
+      <h3>${nome}</h3>
+      <div class="dev-valor">${ic}<b>${valor.toLocaleString('pt-BR')}</b></div>
+      <div class="dev-def"><input class="campo" type="number" inputmode="numeric" min="0" step="1" placeholder="Novo valor" aria-label="Novo valor de ${nome.toLowerCase()}"><button class="bt pri" data-acao="definir">Definir</button></div>
+      <div class="fila dev-rapido">${[100, 1000, 10000].map(n => `<button class="bt peq" data-soma="${n}">+${n >= 10000 ? n / 1000 + ' mil' : n.toLocaleString('pt-BR')}</button>`).join('')}<button class="bt peq perigo" data-zerar="1">Zerar</button></div>
+      ${nota ? `<p class="sub" style="margin-top:8px">${nota}</p>` : ''}</div>`;
+    const atalho = (id, tit, sub) => `<button class="linha-menu cor-neutra" data-atalho="${id}"><span class="tx"><b>${tit}</b><small>${sub}</small></span>${SETA}</button>`;
+    $('#tela').innerHTML = `<div class="pilha estreito">
+      <div class="cartao dev-cab"><span class="selo-dev">DEV</span><div><b>Modo desenvolvedor ligado</b>
+        <div class="sub">${esc((u && u.email) || 'sua conta')} · aparelho ${esc(Livro.id().slice(-6))}</div></div></div>
+      ${bloco('moedas', 'Moedas', MOEDA, d.moedas)}
+      ${bloco('gemas', 'Gemas', '<svg class="gema" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M12 21L8 9l4-6 4 6z"/></svg>', d.gemas || 0, 'As gemas ainda não aparecem no jogo. Quando essa função existir, o saldo definido aqui já vale.')}
+      <div class="cartao pilha" style="gap:4px"><h3>Desbloqueios</h3>
+        <label class="chave"><span><b>Liberar tudo</b><small>Todos os tabuleiros, fotos, molduras e fases, sem comprar nem vencer. Desligue para ver o jogo como um jogador comum.</small></span><input type="checkbox" id="dev-tudo" ${o.tudo !== false ? 'checked' : ''}><i></i></label></div>
+      <div class="cartao pilha"><h3>Atalhos de teste</h3>
+        <p class="sub" style="margin-top:-6px">Estes mudam o progresso de verdade (e na sua conta). Para voltar ao começo, use Configurações → Zerar progresso.</p>
+        ${atalho('conq', 'Ganhar todas as conquistas e troféus', 'Inclui as moedas de cada conquista')}
+        ${atalho('fases', 'Concluir todas as fases', '3 estrelas em todas')}
+        ${atalho('desafios', 'Concluir todos os desafios', 'Marca os 55 como resolvidos')}
+        ${atalho('niveis', 'Vencer todos os níveis', 'Libera as molduras de nível (conta como vitória nas estatísticas)')}
+        ${atalho('tudo', 'Fazer tudo de uma vez', 'Todos os atalhos acima')}</div>
+      <p class="sub" style="text-align:center">Só a sua conta Google vê este painel.</p></div>`;
+
+    $('#dev-tudo').onchange = e => { const x = this.op(); x.tudo = e.target.checked; this.salvarOp(x); aplicarVisual(); aviso(e.target.checked ? 'Tudo liberado' : 'Vendo como jogador comum'); };
+    $('#tela').onclick = async e => {
+      const cx = e.target.closest('.dev-saldo'), tipo = cx && cx.dataset.tipo, atual = tipo === 'gemas' ? Dados.d.gemas || 0 : Dados.d.moedas;
+      if (e.target.closest('[data-acao="definir"]')) {
+        const v = $('input', cx).value.trim();
+        if (v === '' || !(+v >= 0)) { aviso('Digite um número (0 ou mais).'); return; }
+        this.definir(tipo, +v); aviso(`${tipo === 'gemas' ? 'Gemas' : 'Moedas'}: ${Math.round(+v).toLocaleString('pt-BR')}`); this.tela(); return;
+      }
+      const s = e.target.closest('[data-soma]'); if (s) { this.definir(tipo, atual + +s.dataset.soma); this.tela(); return; }
+      if (e.target.closest('[data-zerar]')) { this.definir(tipo, 0); this.tela(); return; }
+      const a = e.target.closest('[data-atalho]'); if (!a) return;
+      const ok = await modal('Aplicar atalho?', 'Isso muda o seu progresso de verdade, inclusive na conta.', [{ txt: 'Cancelar', val: false }, { txt: 'Aplicar', cls: 'pri', val: true }]);
+      if (!ok) return;
+      const q = a.dataset.atalho;
+      if (q === 'fases' || q === 'tudo') this.todasFases();
+      if (q === 'desafios' || q === 'tudo') this.todosDesafios();
+      if (q === 'niveis' || q === 'tudo') this.todosNiveis();
+      if (q === 'conq' || q === 'tudo') this.todasConquistas();
+      Livro.recalcular(); Conquistas.verificar(); Dados.salvar(); App.atualizarTopo(true); aviso('Pronto!'); this.tela();
+    };
+    App.aoSair = () => { $('#tela').onclick = null; };
+  }
+};
+
+document.addEventListener('click', e => { if (e.target.closest('[data-dev-abrir]') && Dev.ativo && !modalAberto()) App.ir('dev'); });
+
 /* ==========================================================================
    APP — navegação entre telas, menu inicial, estatísticas e inicialização
    ========================================================================== */
@@ -6263,12 +6402,13 @@ const App = {
       case 'conquistas': Conquistas.tela(); break;
       case 'loja': Loja.tela(); break;
       case 'ajustes': Ajustes.tela(); break;
+      case 'dev': Dev.tela(); break;
       default: this.atual = 'menu'; telaMenu();
     }
     this.depois();
   },
   /* barra de navegação inferior e animação de entrada da tela */
-  ABAS: { menu: 'menu', aprender: 'aprender', config: 'config', conquistas: 'conquistas', perfil: 'perfil', desafios: 'menu', stats: 'menu', historico: 'menu', loja: 'menu', ajustes: 'perfil', amigos: 'config' },
+  ABAS: { menu: 'menu', aprender: 'aprender', config: 'config', conquistas: 'conquistas', perfil: 'perfil', desafios: 'menu', stats: 'menu', historico: 'menu', dev: 'perfil', loja: 'menu', ajustes: 'perfil', amigos: 'config' },
   depois() {
     const t = this.atual, aba = this.ABAS[t], nav = $('#nav-inf');
     document.body.dataset.tela = t;
@@ -6330,7 +6470,7 @@ function telaMenu() {
   $('#tela').innerHTML = `<div class="home">
     <header class="home-cab">
       <button class="perfil-topo" data-ir="perfil" aria-label="Meu perfil" style="width:56px;height:56px">${htmlAvatar(d.perfil.avatar, d.perfil.moldura, 52)}</button>
-      <div class="quem"><p>${saud}</p><h1>${d.perfil.nome ? 'Olá, ' + esc(d.perfil.nome) + '!' : 'Olá, jogador!'}</h1></div>
+      <div class="quem"><p>${saud}${Dev.ativo ? ' <button class="selo-dev" data-ir="dev" aria-label="Abrir painel do desenvolvedor">DEV</button>' : ''}</p><h1>${d.perfil.nome ? 'Olá, ' + esc(d.perfil.nome) + '!' : 'Olá, jogador!'}</h1></div>
       <button class="bt-ic" id="m-tema" aria-label="Trocar tema (agora: ${tema.nome})">${SVG('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>')}</button>
       <button class="moedas-topo" data-ir="loja" aria-label="Moedas — abrir loja">${MOEDA}${d.moedas}</button>
     </header>
@@ -6427,6 +6567,7 @@ const Estatisticas = {
 /* ---------- inicialização ---------- */
 (function iniciarApp() {
   Dados.carregar();
+  Dev.lembrar();            // conta de desenvolvedor já reconhecida neste aparelho
   aplicarVisual();
   if (typeof Chess !== 'function') {
     $('#tela').innerHTML = '<div class="estreito"><div class="cartao final"><h2>Não foi possível carregar o jogo</h2><p class="sub">O arquivo parece incompleto. Baixe-o de novo.</p></div></div>';
