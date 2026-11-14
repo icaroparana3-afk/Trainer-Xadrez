@@ -11,11 +11,19 @@ service cloud.firestore {
       allow read: if true;
       allow delete: if request.auth != null && request.auth.uid == uid;
       allow create, update: if request.auth != null && request.auth.uid == uid
-        && request.resource.data.size() <= 12
+        && request.resource.data.size() <= 20
         && request.resource.data.nome is string && request.resource.data.nome.size() <= 24
         && request.resource.data.xp is int && request.resource.data.xp >= 0
         && request.resource.data.nivel is int
         && (!('pts' in request.resource.data) || request.resource.data.pts is int);
+    }
+    // convites de partida: só quem mandou e quem recebeu podem ver e responder
+    match /convites/{id} {
+      allow read, delete: if request.auth != null && (resource.data.de == request.auth.uid || resource.data.para == request.auth.uid);
+      allow create: if request.auth != null && request.resource.data.de == request.auth.uid
+        && request.resource.data.para is string && request.resource.data.para != request.auth.uid;
+      allow update: if request.auth != null && (resource.data.de == request.auth.uid || resource.data.para == request.auth.uid)
+        && request.resource.data.de == resource.data.de && request.resource.data.para == resource.data.para;
     }
     // salas de partidas online: quem tem conta pode criar e entrar;
     // depois que a sala fecha, só os dois jogadores podem mexer nela

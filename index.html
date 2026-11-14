@@ -878,6 +878,55 @@ button.selo-dev:active{transform:scale(.92)}
 .pts-on b{font-family:var(--tit);font-size:1.2rem;color:var(--dest)}
 .pts-on small{color:var(--txt2);font-size:.78rem}
 
+/* ============================ AMIGOS, PERFIL DE JOGADOR, CONVITES E CHAT ============================ */
+.rk-it[data-jogador],.jg-it[data-jogador]{cursor:pointer}
+.rk-it[data-jogador]:active,.jg-it[data-jogador]:active{transform:scale(.985)}
+.jg-lista{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.jg-lista:empty{display:none}
+.jg-it{display:flex;align-items:center;gap:10px;padding:8px;border-radius:14px;background:var(--sup2)}
+.jg-it .rk-tx small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pt-on{position:absolute;left:-1px;top:-1px;width:12px;height:12px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 2px var(--sup2)}
+.txt-on{color:var(--ok);font-weight:600}
+.tag-amigo{font-size:.7rem;font-weight:700;color:var(--ok);background:var(--ok-bg2);padding:3px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.04em}
+.conv-it{flex-wrap:wrap}
+.conv-it .rk-tx{min-width:120px}
+.cod-amigo{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-radius:14px;background:var(--sup2)}
+.cod-amigo b{font-family:var(--tit);font-size:1.6rem;letter-spacing:.18em;color:var(--dest)}
+.conv-cab{display:flex;align-items:center;gap:14px;text-align:left;margin:6px 0 12px}
+.conv-cab b{display:block;font-size:1.1rem}
+.conv-cab small{color:var(--txt2);font-size:.82rem}
+.jg-cab{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding-top:22px;background:linear-gradient(180deg,color-mix(in srgb,var(--nv) 16%,var(--sup)),var(--sup) 70%)}
+.jg-cab h2{font-family:var(--tit);font-size:1.5rem;margin-top:4px}
+.jg-nv{display:inline-flex;align-items:center;gap:8px;font-weight:700}
+.jg-est{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.jg-est>div{padding:10px 6px;border-radius:14px;background:var(--sup2);text-align:center;display:flex;flex-direction:column;gap:2px}
+.jg-est b{font-family:var(--tit);font-size:1.2rem}
+.jg-est small{font-size:.7rem;color:var(--txt2);line-height:1.2}
+.selo-n{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;margin-left:6px;border-radius:999px;background:var(--ruim);color:#fff;font-style:normal;font-size:.72rem;font-weight:800;vertical-align:2px}
+.selo-conv{position:absolute;top:-2px;right:-2px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--ruim);color:#fff;font-style:normal;font-size:.72rem;font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 2px var(--fundo);z-index:2}
+#nav-inf button{position:relative}
+#faixa-conv{position:fixed;left:50%;top:calc(10px + env(safe-area-inset-top));transform:translate(-50%,-140%);z-index:80;display:flex;align-items:center;gap:10px;
+  width:min(440px,calc(100vw - 20px));padding:10px 10px 10px 12px;border-radius:18px;background:var(--sup);border:1px solid var(--dest);box-shadow:0 12px 40px var(--sombra);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+#faixa-conv.entra{transform:translate(-50%,0)}
+#faixa-conv .avatar{flex:none}
+#faixa-conv>span{flex:1;min-width:0;font-size:.9rem;line-height:1.25}
+.bt-x{width:32px;height:32px;border-radius:10px;font-size:1.3rem;color:var(--txt2);flex:none}
+
+/* chat rápido */
+.jogador{position:relative}
+.bt-chat{width:36px;height:36px;border-radius:12px;background:var(--sup2);border:1px solid var(--linha);font-size:1.05rem;flex:none;display:grid;place-items:center}
+.bt-chat[aria-expanded="true"]{border-color:var(--dest);background:var(--dest-bg)}
+.chat-painel{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:10px;margin:2px 0 4px;border-radius:16px;background:var(--sup);border:1px solid var(--linha);box-shadow:0 10px 30px var(--sombra);animation:sobe .25s ease both}
+.chat-painel.oculto{display:none}
+.chat-painel button{grid-column:span 2;padding:9px 8px;border-radius:12px;background:var(--sup2);font-size:.86rem;font-weight:600;text-align:center}
+.chat-painel button:active{transform:scale(.96);background:var(--dest-bg)}
+.chat-painel button.emo{grid-column:span 1;font-size:1.3rem;padding:5px}
+.chat-painel .chat-mudo{grid-column:1/-1;background:transparent;color:var(--txt2);font-weight:500;font-size:.8rem}
+.chat-balao{position:absolute;left:46px;top:calc(100% + 4px);z-index:20;max-width:calc(100% - 60px);padding:8px 12px;border-radius:4px 16px 16px 16px;background:var(--txt);color:var(--fundo);font-weight:700;font-size:.92rem;
+  box-shadow:0 8px 24px var(--sombra);animation:pula .35s cubic-bezier(.2,.8,.2,1) both;pointer-events:none;white-space:nowrap}
+.chat-balao.baixo{top:auto;bottom:calc(100% + 4px);border-radius:16px 16px 16px 4px;background:var(--dest);color:var(--dest-tinta)}
+.chat-balao.sai{opacity:0;transform:translateY(-6px);transition:opacity .4s,transform .4s}
+
 </style>
 </head>
 <body>
@@ -2809,7 +2858,7 @@ const Dados = {
       cfg: { nivel: 1, cor: 'w', relogio: 0 },
       cfgAmigo: { relogio: 0, girar: true },
       cfgOnline: { cor: 'a', relogio: 600 },
-      perfil: { nome: '', avatar: 'wn', moldura: '' },
+      perfil: { nome: '', avatar: 'wn', moldura: '', conv: 'todos' },   // conv: quem pode convidar (todos, amigos, ninguem)
       moedas: 50, moedasTotal: 50,
       itens: {},                                             // itens comprados na loja: id -> 1
       tabuleiro: 'classico',
@@ -2820,6 +2869,7 @@ const Dados = {
       sequencia: { atual: 0, melhor: 0, ultimo: '' },         // dias seguidos jogando
       missoes: null,                                         // missões do dia: {dia, lista, prog, pegas, bau}
       ranque: { pts: 1000, n: 0, t: 0, melhor: 1000 },        // pontos das partidas online
+      amigos: {},                                            // uid -> {n: nome, a: foto, m: moldura, t: quando mudou, x: removido}
       atualizadoEm: 0
     };
   },
@@ -2832,7 +2882,7 @@ const Dados = {
     if (!Array.isArray(p.porNivel) || p.porNivel.length !== 6) p.porNivel = this.padrao().porNivel;
     if (!Array.isArray(p.partidas)) p.partidas = [];
     if (!Array.isArray(p.desafios.hist)) p.desafios.hist = [p.desafios.pontos];
-    ['fases', 'tags', 'itens', 'conquistas', 'livro'].forEach(k => { if (!p[k] || typeof p[k] !== 'object') p[k] = {}; });
+    ['fases', 'tags', 'itens', 'conquistas', 'livro', 'amigos'].forEach(k => { if (!p[k] || typeof p[k] !== 'object') p[k] = {}; });
     if (!Object.keys(p.livro).length) Livro.migrar(p);
     if (!p.extras.salas || typeof p.extras.salas !== 'object') p.extras.salas = {};
     p.v = 2;
@@ -4258,6 +4308,7 @@ const CONQUISTAS = [
   { id: 'loc1', g: 'amigos', ic: '📱', nome: 'Passa o celular', desc: 'Jogue com um amigo no mesmo aparelho.', moedas: 20, ...cont('local', 1) },
   { id: 'on1', g: 'amigos', ic: '🌐', nome: 'Bora de x1?', desc: 'Jogue sua primeira partida online contra um amigo.', moedas: 30, ...cont('online', 1) },
   { id: 'onv1', g: 'amigos', ic: '📣', nome: 'Zoeira liberada no grupo', desc: 'Vença um amigo numa partida online.', moedas: 40, ...cont('onlineV', 1) },
+  { id: 'amigo1', g: 'amigos', ic: '🫂', nome: 'Fazendo amizade', desc: 'Adicione alguém à sua lista de amigos.', moedas: 20, ...flag('amigo') },
   { id: 'onv10', g: 'amigos', ic: '🏆', nome: 'Rei da resenha', desc: 'Vença 10 partidas online.', moedas: 120, ...cont('onlineV', 10) },
   // fases
   { id: 'f1', g: 'fases', ic: '🌱', nome: 'Iniciando uma nova jornada', desc: 'Conclua o primeiro tutorial.', moedas: 20, ...cont('fases', 1) },
@@ -4795,7 +4846,9 @@ const Ranking = {
   doc() {
     const d = Dados.d, xp = XP.total(d), p = d.perfil;
     const o = { nome: nomeJogador().slice(0, 20), avatar: p.avatar || 'wn', moldura: p.moldura || '', nivel: XP.nivel(xp).n, xp,
-      on: (d.online.v || 0) + (d.online.e || 0) + (d.online.d || 0), t: Date.now() };
+      on: (d.online.v || 0) + (d.online.e || 0) + (d.online.d || 0), t: Date.now(), visto: Date.now(),
+      vit: estadoJogador().vitorias, conq: Object.keys(d.conquistas).length, seq: Math.max(d.sequencia.melhor || 0, d.sequencia.atual || 0),
+      nomeB: normNome(nomeJogador()).slice(0, 20), cod: Nuvem.usuario ? codigoAmigo(Nuvem.usuario.uid) : '', conv: p.conv || 'todos' };
     if (d.ranque.n > 0) o.pts = d.ranque.pts;
     if (d.xpSemana > 0) o[campoSemana()] = d.xpSemana;
     return o;
@@ -4803,7 +4856,7 @@ const Ranking = {
   /* envia o resumo público (nome, foto, nível, XP, pontos) — só quando algo mudou */
   async publicar() {
     if (!Nuvem.usuario || !Nuvem.db) return;
-    const o = this.doc(), chave = JSON.stringify(Object.assign({}, o, { t: 0 }));
+    const o = this.doc(), chave = JSON.stringify(Object.assign({}, o, { t: 0, visto: 0 }));
     if (chave === this.enviado) return;
     try { await Nuvem.db.collection('ranking').doc(Nuvem.usuario.uid).set(o); this.enviado = chave; this.erro = null; }
     catch (e) { this.erro = e && e.code; }
@@ -4815,7 +4868,7 @@ const Ranking = {
   },
   linha(x, pos, eu) {
     const t = XP.titulo(x.nivel || 1), un = this.aba === 'online' ? 'pts' : 'XP';
-    return `<div class="rk-it${eu ? ' eu' : ''}${pos && pos <= 3 ? ' top' + pos : ''}"><span class="rk-pos">${pos || '–'}</span>
+    return `<div class="rk-it${eu ? ' eu' : ''}${pos && pos <= 3 ? ' top' + pos : ''}"${x.uid ? ` data-jogador="${esc(x.uid)}" role="button" tabindex="0"` : ''}><span class="rk-pos">${pos || '–'}</span>
       <span class="rk-av">${htmlAvatar(x.avatar || 'wn', x.moldura || '', 40)}${XP.selo(x.nivel || 1, 20)}</span>
       <span class="rk-tx"><b>${esc(x.nome || 'Jogador')}${eu ? ' <em>você</em>' : ''}</b><small>Nível ${x.nivel || 1} · ${t.nome}${this.aba === 'online' && x.on ? ' · ' + x.on + ' partidas' : ''}</small></span>
       <span class="rk-val">${(x.valor || 0).toLocaleString('pt-BR')}<small>${un}</small></span></div>`;
@@ -4833,6 +4886,7 @@ const Ranking = {
     $('#tela').onclick = e => {
       const a = e.target.closest('[data-aba]'); if (a) { this.aba = a.dataset.aba; this.tela(); return; }
       if (e.target.closest('[data-ir-perfil]')) App.ir('perfil');
+      const j = e.target.closest('[data-jogador]'); if (j) { Social.voltar = 'ranking'; App.ir('jogador', j.dataset.jogador); }
     };
     const lista = $('#rk-lista'), msg = (tit, txt) => { lista.innerHTML = `<div class="rk-vazio"><b>${tit}</b><span class="sub">${txt}</span></div>`; };
     if (!Nuvem.configurada()) return msg('Ranking indisponível', 'Este aparelho não está ligado à nuvem do jogo.');
@@ -4853,7 +4907,7 @@ const Ranking = {
     if (!l.length) html = `<div class="rk-vazio"><b>${aba === 'semana' ? 'Ninguém pontuou nesta semana ainda' : aba === 'online' ? 'Ninguém jogou online ainda' : 'Ninguém no ranking ainda'}</b><span class="sub">Seja o primeiro!</span></div>`;
     if (u && meu < 0) {
       const eu = this.doc(), v = aba === 'online' ? (d.ranque.n ? d.ranque.pts : 0) : aba === 'semana' ? d.xpSemana || 0 : eu.xp;
-      html += `<p class="sub rk-sep">${aba === 'online' && !d.ranque.n ? 'Jogue uma partida online para entrar' : 'Você ainda não está entre os 50 primeiros'}</p>` + this.linha(Object.assign(eu, { valor: v }), 0, true);
+      html += `<p class="sub rk-sep">${aba === 'online' && !d.ranque.n ? 'Jogue uma partida online para entrar' : 'Você ainda não está entre os 50 primeiros'}</p>` + this.linha(Object.assign(eu, { valor: v, uid: u.uid }), 0, true);
     }
     lista.innerHTML = html;
   }
@@ -5079,7 +5133,8 @@ const Partida = {
       <div class="col-tab">
         <div class="jogador" id="j-cima"><span class="foto"></span><span class="nome"></span><span class="relogio${this.relogio ? '' : ' oculto'}"></span></div>
         <div class="tab-linha" id="tab-linha">${this.modo === 'pc' ? '<div class="barra-av" id="barra"><i></i><span></span></div>' : ''}</div>
-        <div class="jogador" id="j-baixo"><span class="foto"></span><span class="nome"></span><span class="relogio${this.relogio ? '' : ' oculto'}"></span></div>
+        <div class="jogador" id="j-baixo"><span class="foto"></span><span class="nome"></span>${this.modo === 'online' ? Chat.botao() : ''}<span class="relogio${this.relogio ? '' : ' oculto'}"></span></div>
+        ${this.modo === 'online' ? Chat.painel() : ''}
         <div class="controles${this.modo === 'pc' || this.modo === 'local' ? '' : ' c4'}">${controles}</div>
       </div>
       <div class="lateral">
@@ -5103,7 +5158,8 @@ const Partida = {
     liga('#b-nova', () => this.nova());
     liga('#b-empate', () => this.empate());
     liga('#b-sair', () => this.sair());
-    if (this.modo === 'pc') { Motor.aoMudar = () => { const r = $('#motor-rot'); if (r) r.innerHTML = Motor.rotulo(); }; Motor.aoMudar(); }
+    if (this.modo === 'online') { Chat.iniciar(this.sala); Chat.ligar(); }
+    if (this.modo === 'pc') { Motor.aoMudar = () => { const r = $('#motor-rot'); if (r) r.innerHTML = Motor.estado === 'stockfish' ? '' : Motor.rotulo(); }; Motor.aoMudar(); }
     App.aoSair = () => this.encerrar();
     this.pintar();
     if (this.relogio) { this.ultTick = performance.now(); this.timer = setInterval(() => this.tique(), 200); }
@@ -6388,7 +6444,8 @@ const Nuvem = {
       await this.baixar();
       if (Conquistas.marcar('conta')) { Dados.salvar(); Conquistas.verificar(); }
       Salas.verificarPendente();
-    }
+      Convites.iniciar(); Perfis.pulso();
+    } else Convites.encerrar();
     this.repintar();
   },
   /* junta o progresso deste aparelho com o da conta, sem perder nada */
@@ -6428,6 +6485,7 @@ const Nuvem = {
     // pontos do online: vale o lado com mais partidas contadas
     if ((a.ranque.n || 0) > (r.ranque.n || 0) || (a.ranque.n === r.ranque.n && (a.ranque.t || 0) > (r.ranque.t || 0))) r.ranque = a.ranque;
     r.ranque.melhor = Math.max(r.ranque.melhor || 1000, a.ranque.melhor || 1000);
+    r.amigos = Amigos.juntar(r.amigos, a.amigos);
     r.ajustes = a.ajustes; r.cfg = a.cfg; r.cfgAmigo = a.cfgAmigo; r.cfgOnline = a.cfgOnline;   // preferências do aparelho
     r.atualizadoEm = Math.max(a.atualizadoEm, r.atualizadoEm);
     Livro.recalcular(r);                     // por último: depende do livro e das conquistas já juntados
@@ -6620,10 +6678,11 @@ const Salas = {
   aoAtualizar(s) {
     this.sala = s;
     if (App.atual === 'sala') {
-      if (s.status !== 'esperando') { this.indoParaJogo = true; App.ir('jogo', { modo: 'online', sala: s, minhaCor: this.minhaCor }); this.indoParaJogo = false; }
+      if (s.status !== 'esperando') {
+        if (Convites.enviado && Convites.enviado.codigo === s.codigo) { Convites.pararVigia(); Convites.enviado = null; } this.indoParaJogo = true; App.ir('jogo', { modo: 'online', sala: s, minhaCor: this.minhaCor }); this.indoParaJogo = false; }
       return;
     }
-    if (App.atual === 'jogo' && Partida.modo === 'online') this.sincronizar(s);
+    if (App.atual === 'jogo' && Partida.modo === 'online') { this.sincronizar(s); Chat.receber(s); }
     if (s.status === 'fim' && s.revanche && !this.revancheVista && App.atual === 'jogo') {
       this.revancheVista = true;
       if (!this.pediRevanche) {
@@ -6717,7 +6776,9 @@ const Salas = {
       // pontos do online (só conta se a partida chegou a começar)
       if (base.lances.length >= 2) base.pts = Ranque.aplicar(base.vencedor == null ? 'e' : base.vencedor === this.minhaCor ? 'v' : 'd', adv && adv.pts);
     }
-    Partida.modalFim(base, [{ txt: 'Revanche', val: () => this.revanche() }]);
+    const advUid = this.minhaCor === 'w' ? s.pretasUid : s.brancasUid, extras = [{ txt: 'Revanche', val: () => this.revanche() }];
+    if (advUid && !Amigos.tem(advUid)) extras.push({ txt: '＋ Amigo', val: () => { Amigos.adicionar(Object.assign({ uid: advUid }, adv || {})); } });
+    Partida.modalFim(base, extras);
   },
   async revanche() {
     if (!this.pronto()) return;
@@ -6772,8 +6833,20 @@ const Salas = {
 
   /* ---------- tela de espera (mostra o código para o amigo) ---------- */
   telaEspera(codigo) {
-    App.cabecalho('Sala ' + codigo, () => { this.pararEscuta(); App.ir('amigos'); });
+    const cv = Convites.enviado && Convites.enviado.codigo === codigo ? Convites.enviado : null;
+    App.cabecalho('Sala ' + codigo, () => { Convites.cancelarEnviado(); this.pararEscuta(); App.ir(cv ? 'social' : 'amigos'); });
     const link = this.link(codigo);
+    if (cv) {
+      $('#tela').innerHTML = `<div class="estreito pilha"><div class="cartao final">
+        <h2>Convite enviado!</h2><p class="sub" style="margin:4px 0 6px">Esperando <b>${esc(cv.nome)}</b> aceitar o convite.</p>
+        <p class="aguardando"><span class="pensando"><i></i><i></i><i></i></span> Aguardando resposta…</p>
+        <p class="sub">Você joga de <b>${corNome(this.minhaCor)}</b>. O convite vale por 10 minutos.</p>
+        <button class="bt cheio" id="s-cancelar" style="margin-top:12px">Cancelar convite</button></div></div>`;
+      $('#s-cancelar').onclick = () => App.voltar();
+      App.aoSair = () => this.sair();
+      if (this.sala && this.sala.codigo === codigo && this.sala.status !== 'esperando') this.aoAtualizar(this.sala);
+      return;
+    }
     $('#tela').innerHTML = `<div class="estreito pilha"><div class="cartao final">
       <p class="sub">Passe este código para o seu amigo</p>
       <div class="codigo-sala">${codigo.split('').map(l => `<span>${l}</span>`).join('')}</div>
@@ -6834,6 +6907,363 @@ const Salas = {
       $('#a-entrar').disabled = true; await this.entrarPorCodigo(c); const b = $('#a-entrar'); if (b) b.disabled = false;
     });
     const cod = $('#a-codigo'); if (cod) cod.addEventListener('keydown', e => { if (e.key === 'Enter') $('#a-entrar').click(); });
+  }
+};
+
+/* ==========================================================================
+   SOCIAL — perfil de outros jogadores, amigos, convites de partida e
+   chat rápido nas partidas online
+   ========================================================================== */
+const normNome = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+/* código de amigo: 6 letras/números tirados do id da conta (sempre o mesmo) */
+function codigoAmigo(uid) {
+  const a = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let h1 = 2166136261, h2 = 5381;
+  for (const ch of String(uid)) { const c = ch.charCodeAt(0); h1 = Math.imul(h1 ^ c, 16777619) >>> 0; h2 = (Math.imul(h2, 33) + c) >>> 0; }
+  let s = '', x = h1, y = h2; for (let i = 0; i < 6; i++) { const v = i < 3 ? x : y; s += a[v % 32]; if (i < 3) x = Math.floor(x / 32); else y = Math.floor(y / 32); }
+  return s;
+}
+/* "online agora", "visto há 2 h"… */
+function vistoTxt(t) {
+  if (!t) return '';
+  const min = Math.floor((Date.now() - t) / 60000);
+  if (min < 4) return 'online agora';
+  if (min < 60) return `visto há ${min} min`;
+  const h = Math.floor(min / 60); if (h < 24) return `visto há ${h} h`;
+  const d = Math.floor(h / 24); return d === 1 ? 'visto ontem' : `visto há ${d} dias`;
+}
+const estaOnline = t => t && Date.now() - t < 4 * 60000;
+
+/* ---------- lista de amigos (fica no progresso e sincroniza entre aparelhos) ---------- */
+const Amigos = {
+  todos() { const a = Dados.d.amigos || {}; return Object.keys(a).filter(k => !a[k].x).map(uid => Object.assign({ uid }, a[uid])); },
+  tem(uid) { const x = (Dados.d.amigos || {})[uid]; return !!x && !x.x; },
+  adicionar(p) {
+    if (!p || !p.uid || (Nuvem.usuario && p.uid === Nuvem.usuario.uid)) return;
+    Dados.d.amigos[p.uid] = { n: String(p.nome || 'Jogador').slice(0, 20), a: p.avatar || 'wn', m: p.moldura || '', t: Date.now() };
+    Dados.salvar(); Conquistas.marcar('amigo'); Conquistas.verificar();
+    aviso(`${p.nome || 'Jogador'} foi adicionado aos amigos`);
+  },
+  remover(uid) { const x = Dados.d.amigos[uid]; if (!x) return; x.x = 1; x.t = Date.now(); Dados.salvar(); },
+  /* junta as listas de dois aparelhos: em cada amigo vale a mudança mais recente */
+  juntar(a, b) { const r = Object.assign({}, a); for (const k in b) if (!r[k] || (b[k].t || 0) > (r[k].t || 0)) r[k] = b[k]; return r; }
+};
+
+/* ---------- perfis públicos (vêm da coleção "ranking") ---------- */
+const Perfis = {
+  cache: {},
+  async ler(uid, fresco) {
+    const c = this.cache[uid];
+    if (c && !fresco && Date.now() - c.lido < 60000) return c.p;
+    const s = await Nuvem.db.collection('ranking').doc(uid).get();
+    const p = s.exists ? Object.assign({ uid }, s.data()) : null;
+    this.cache[uid] = { p, lido: Date.now() };
+    return p;
+  },
+  async buscar(txt) {
+    const q = normNome(txt), cod = String(txt).trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+    const col = Nuvem.db.collection('ranking'), res = {};
+    const juntar = snap => snap.docs.forEach(x => { res[x.id] = Object.assign({ uid: x.id }, x.data()); });
+    if (cod.length === 6) juntar(await col.where('cod', '==', cod).limit(5).get());
+    if (q.length >= 2) juntar(await col.orderBy('nomeB').startAt(q).endAt(q + '').limit(15).get());
+    return Object.values(res).sort((a, b) => (b.xp || 0) - (a.xp || 0));
+  },
+  /* sinal de "estou online" enquanto o jogo está aberto */
+  pulsoTimer: null,
+  pulso() {
+    clearInterval(this.pulsoTimer);
+    const bate = () => { if (Nuvem.usuario && Nuvem.db && document.visibilityState !== 'hidden' && navigator.onLine !== false) Nuvem.db.collection('ranking').doc(Nuvem.usuario.uid).update({ visto: Date.now() }).catch(() => {}); };
+    this.pulsoTimer = setInterval(bate, 120000);
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') bate(); });
+  }
+};
+
+/* linha de jogador (busca e lista de amigos) */
+function linhaJogador(p, extra = '') {
+  const nv = p.nivel || 1, on = estaOnline(p.visto);
+  return `<div class="jg-it" data-jogador="${esc(p.uid)}" role="button" tabindex="0">
+    <span class="rk-av">${htmlAvatar(p.avatar || 'wn', p.moldura || '', 40)}${XP.selo(nv, 20)}${on ? '<i class="pt-on" title="Online agora"></i>' : ''}</span>
+    <span class="rk-tx"><b>${esc(p.nome || 'Jogador')}</b><small>Nível ${nv} · ${XP.titulo(nv).nome}${p.visto ? ' · <span class="' + (on ? 'txt-on' : '') + '">' + vistoTxt(p.visto) + '</span>' : ''}</small></span>${extra}</div>`;
+}
+
+/* ---------- convites de partida (coleção "convites/{código da sala}") ---------- */
+const VALIDADE_CONVITE = 10 * 60000;
+const Convites = {
+  parar: null, lista: [], vistos: new Set(), enviado: null, pararEnviado: null, timerEnviado: null,
+  col() { return Nuvem.db.collection('convites'); },
+  iniciar() {
+    this.encerrar();
+    if (!Nuvem.usuario || !Nuvem.db) return;
+    const uid = Nuvem.usuario.uid;
+    try { this.parar = this.col().where('para', '==', uid).onSnapshot(s => this.aoReceber(s.docs.map(x => Object.assign({ id: x.id }, x.data()))), () => {}); }
+    catch (e) { this.parar = null; }
+  },
+  encerrar() { if (this.parar) { try { this.parar(); } catch (e) { /* ignora */ } } this.parar = null; this.lista = []; this.selos(); },
+  aceita(c) { const q = Dados.d.perfil.conv || 'todos'; return q === 'todos' || (q === 'amigos' && Amigos.tem(c.de)); },
+  aoReceber(l) {
+    const agora = Date.now();
+    // convites velhos (mais de 1 dia) são apagados
+    l.filter(c => agora - (c.criadoEm || 0) > 864e5).forEach(c => this.col().doc(c.id).delete().catch(() => {}));
+    const pend = l.filter(c => c.status === 'pendente' && agora - (c.criadoEm || 0) < VALIDADE_CONVITE);
+    pend.filter(c => !this.aceita(c)).forEach(c => this.responder(c, false));     // preferência "quem pode me convidar"
+    this.lista = pend.filter(c => this.aceita(c)).sort((a, b) => b.criadoEm - a.criadoEm);
+    this.selos();
+    const novo = this.lista.find(c => !this.vistos.has(c.id));
+    if (novo) { this.lista.forEach(c => this.vistos.add(c.id)); this.avisar(novo); }
+    if (App.atual === 'social') Social.pintarConvites();
+  },
+  /* número de convites na tela inicial e na barra de baixo */
+  selos() {
+    const n = this.lista.length, b = $('#nav-inf [data-ir=config]');
+    if (b) { let s = $('.selo-conv', b); if (n && !s) { s = document.createElement('i'); s.className = 'selo-conv'; b.appendChild(s); } if (s) { if (n) s.textContent = n; else s.remove(); } }
+    $$('.home [data-conv-n]').forEach(el => { el.textContent = n; el.classList.toggle('oculto', !n); });
+  },
+  avisar(c) {
+    Som.tocar('conquista'); vibrar([80, 60, 80]);
+    const ocupado = (App.atual === 'jogo' && !Partida.fim) || modalAberto() || App.atual === 'sala';
+    if (ocupado) this.faixa(c); else this.abrir(c);
+  },
+  /* aviso discreto no alto da tela (quando está no meio de uma partida) */
+  faixa(c) {
+    let f = $('#faixa-conv'); if (!f) { f = document.createElement('div'); f.id = 'faixa-conv'; document.body.appendChild(f); }
+    f.innerHTML = `${htmlAvatar(c.deAvatar, c.deMoldura, 34)}<span><b>${esc(c.deNome)}</b> te convidou para jogar</span><button class="bt peq pri" data-ver>Ver</button><button class="bt-x" data-fechar aria-label="Fechar">×</button>`;
+    f.className = 'entra';
+    f.onclick = e => {
+      if (e.target.closest('[data-ver]')) { f.className = ''; if (App.atual === 'jogo' && !Partida.fim) { aviso('Termine a partida atual primeiro. O convite fica em Amigos.'); return; } this.abrir(c); }
+      else if (e.target.closest('[data-fechar]')) f.className = '';
+    };
+    clearTimeout(this.timerFaixa); this.timerFaixa = setTimeout(() => { f.className = ''; }, 9000);
+  },
+  async abrir(c) {
+    if (Date.now() - c.criadoEm > VALIDADE_CONVITE) { aviso('Esse convite expirou.'); return; }
+    const html = `<div class="conv-cab">${htmlAvatar(c.deAvatar, c.deMoldura, 64)}<div><b>${esc(c.deNome)}</b><small>Nível ${c.deNivel || 1} · ${XP.titulo(c.deNivel || 1).nome}${c.dePts ? ' · ' + c.dePts + ' pts' : ''}</small></div></div>
+      <p>quer jogar uma partida com você.</p><p class="sub">${c.tempo ? c.tempo / 60 + ' minutos para cada lado' : 'Sem relógio'} · você joga de <b>${corNome(c.corConvidado || 'b')}</b></p>`;
+    const ok = await modal('Convite para partida', html, [{ txt: 'Recusar', val: false }, { txt: 'Aceitar', cls: 'pri', val: true }], true);
+    if (ok) this.aceitar(c); else this.responder(c, false);
+  },
+  async aceitar(c) {
+    if (!Salas.pronto()) { aviso('Entre na sua conta para jogar online.'); return; }
+    this.lista = this.lista.filter(x => x.id !== c.id); this.selos();
+    this.responder(c, true);
+    if (App.atual === 'sala') Salas.pararEscuta();
+    await Salas.entrarPorCodigo(c.sala);
+  },
+  responder(c, sim) {
+    this.lista = this.lista.filter(x => x.id !== c.id); this.selos();
+    return this.col().doc(c.id).update({ status: sim ? 'aceito' : 'recusado', resp: Date.now() }).catch(() => {});
+  },
+
+  /* ---------- enviar ---------- */
+  async escolher(alvo) {
+    const co = Dados.d.cfgOnline; let tempo = co.relogio, cor = co.cor;
+    const op = (lista, sel, attr) => lista.map(([v, t]) => `<button class="op${sel === v ? ' on' : ''}" data-${attr}="${v}">${t}</button>`).join('');
+    const html = `<div class="conv-cab">${htmlAvatar(alvo.avatar || 'wn', alvo.moldura || '', 52)}<div><b>${esc(alvo.nome || 'Jogador')}</b><small>${estaOnline(alvo.visto) ? '<span class="txt-on">online agora</span>' : vistoTxt(alvo.visto) || 'Nível ' + (alvo.nivel || 1)}</small></div></div>
+      <div class="opcoes c3" id="cv-tempo">${op([[0, 'Sem tempo'], [600, '10 min'], [300, '5 min']], tempo, 'tempo')}</div>
+      <div class="opcoes c3" id="cv-cor" style="margin-top:8px">${op([['w', 'Brancas'], ['b', 'Pretas'], ['a', 'Aleatório']], cor, 'cor')}</div>
+      ${estaOnline(alvo.visto) ? '' : '<p class="sub" style="margin-top:10px">Ele não está com o jogo aberto agora. O convite vale por 10 minutos.</p>'}`;
+    const pr = modal('Convidar para partida', html, [{ txt: 'Cancelar', val: false }, { txt: 'Enviar convite', cls: 'pri', val: true }], true);
+    $('#modal').addEventListener('click', e => {
+      const b = e.target.closest('.op'); if (!b) return;
+      $$('.op', b.parentNode).forEach(x => x.classList.toggle('on', x === b));
+      if (b.dataset.tempo != null) tempo = +b.dataset.tempo; else cor = b.dataset.cor;
+    });
+    if (!(await pr)) return null;
+    co.relogio = tempo; co.cor = cor; Dados.salvar(false);
+    return { tempo, cor };
+  },
+  async enviar(alvo) {
+    if (!Salas.pronto()) { aviso('Entre na sua conta para convidar.'); return; }
+    if (alvo.conv === 'ninguem') { aviso(`${alvo.nome} não está recebendo convites.`); return; }
+    const op = await this.escolher(alvo); if (!op) return;
+    try {
+      const r = await Salas.criar(op.cor, op.tempo), eu = Nuvem.usuario.uid, p = Dados.d.perfil;
+      await this.col().doc(r.codigo).set({ de: eu, para: alvo.uid, sala: r.codigo, tempo: op.tempo, corConvidado: outraCor(r.cor), status: 'pendente', criadoEm: Date.now(),
+        deNome: nomeJogador(), deAvatar: p.avatar || 'wn', deMoldura: p.moldura || '', deNivel: XP.nivel(XP.total()).n, dePts: Dados.d.ranque.pts, paraNome: String(alvo.nome || 'Jogador').slice(0, 20) });
+      this.enviado = { codigo: r.codigo, nome: alvo.nome || 'Jogador', uid: alvo.uid };
+      Salas.ouvir(r.codigo, r.cor); App.ir('sala', r.codigo);
+      this.vigiarEnviado();
+    } catch (e) { aviso('Não foi possível enviar o convite: ' + msgErro(e), 4000); }
+  },
+  /* fica de olho na resposta do convite enviado */
+  vigiarEnviado() {
+    this.pararVigia();
+    const e = this.enviado; if (!e) return;
+    this.pararEnviado = this.col().doc(e.codigo).onSnapshot(s => {
+      const c = s.exists ? s.data() : null; if (!c || !this.enviado || this.enviado.codigo !== e.codigo) return;
+      if (c.status === 'recusado' && App.atual === 'sala' && Salas.codigo === e.codigo) {
+        this.pararVigia(); this.enviado = null; Salas.pararEscuta();
+        modal('Convite recusado', `${e.nome} não pode jogar agora. Tente de novo mais tarde.`, [{ txt: 'Ok', cls: 'pri', val: 1 }]).then(() => App.ir('social'));
+      }
+    }, () => {});
+    this.timerEnviado = setTimeout(() => {
+      if (this.enviado && this.enviado.codigo === e.codigo && App.atual === 'sala' && Salas.codigo === e.codigo) { aviso(`${e.nome} não respondeu ao convite.`, 4000); this.cancelarEnviado(); }
+    }, VALIDADE_CONVITE);
+  },
+  pararVigia() { if (this.pararEnviado) { try { this.pararEnviado(); } catch (e) { /* ignora */ } } this.pararEnviado = null; clearTimeout(this.timerEnviado); },
+  /* saiu da sala de espera antes do amigo aceitar */
+  cancelarEnviado() {
+    const e = this.enviado; this.pararVigia(); this.enviado = null;
+    if (e && Nuvem.db) this.col().doc(e.codigo).update({ status: 'cancelado' }).catch(() => {});
+  }
+};
+
+/* ---------- telas: Amigos e perfil de um jogador ---------- */
+const Social = {
+  busca: '', resultados: null, voltar: 'menu',
+  tela() {
+    App.cabecalho('Amigos', 'menu');
+    const u = Nuvem.usuario, p = Dados.d.perfil, conv = p.conv || 'todos';
+    if (!u) {
+      $('#tela').innerHTML = `<div class="pilha estreito"><div class="cartao final"><h2>👋 Jogue com outras pessoas</h2>
+        <p class="sub" style="margin:6px 0 14px">Entre na sua conta para adicionar amigos, ver o perfil dos jogadores e mandar convites de partida. É grátis.</p>
+        <button class="bt pri cheio" data-ir-perfil>Entrar ou criar conta</button></div></div>`;
+      $('#tela').onclick = e => { if (e.target.closest('[data-ir-perfil]')) App.ir('perfil'); };
+      return;
+    }
+    const cod = codigoAmigo(u.uid);
+    $('#tela').innerHTML = `<div class="pilha estreito">
+      <div id="sc-conv"></div>
+      <div class="cartao"><h3>Buscar jogador</h3>
+        <div class="fila"><input class="campo" id="sc-busca" placeholder="Nome ou código de amigo" value="${esc(this.busca)}" autocomplete="off" enterkeyhint="search" style="flex:1"><button class="bt pri" id="sc-ir">Buscar</button></div>
+        <div id="sc-res" class="jg-lista"></div></div>
+      <div class="cartao"><div class="ms-cab"><h3>Meus amigos</h3><span class="sub" id="sc-n"></span></div><div id="sc-amigos" class="jg-lista"><p class="sub">Carregando…</p></div></div>
+      <div class="cartao"><h3>Seu código de amigo</h3>
+        <div class="cod-amigo"><b>${cod}</b><button class="bt peq" id="sc-copiar">Copiar</button></div>
+        <p class="sub" style="margin:6px 0 14px">Passe esse código para seus amigos te acharem na busca.</p>
+        <h4>Quem pode te convidar para partidas</h4>
+        <div class="opcoes c3" id="sc-quem">${[['todos', 'Todos'], ['amigos', 'Só amigos'], ['ninguem', 'Ninguém']].map(([v, t]) => `<button class="op${conv === v ? ' on' : ''}" data-v="${v}">${t}</button>`).join('')}</div></div></div>`;
+    this.pintarConvites();
+    if (this.resultados) this.pintarResultados();
+    this.pintarAmigos();
+    const ir = () => this.buscar($('#sc-busca').value);
+    $('#sc-ir').onclick = ir;
+    $('#sc-busca').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); ir(); } });
+    $('#sc-copiar').onclick = async () => { try { await navigator.clipboard.writeText(cod); aviso('Código copiado!'); } catch (e) { aviso('Seu código: ' + cod, 5000); } };
+    $('#sc-quem').onclick = e => {
+      const b = e.target.closest('.op'); if (!b) return;
+      $$('.op', b.parentNode).forEach(x => x.classList.toggle('on', x === b));
+      p.conv = b.dataset.v; Dados.salvar(); Ranking.publicar();
+      aviso(p.conv === 'todos' ? 'Qualquer jogador pode te convidar' : p.conv === 'amigos' ? 'Só seus amigos podem te convidar' : 'Ninguém pode te convidar');
+    };
+    $('#tela').onclick = e => this.clique(e);
+    $('#tela').onkeydown = e => { if (e.key === 'Enter' && e.target.matches('[data-jogador]')) this.clique(e); };
+  },
+  clique(e) {
+    const conv = e.target.closest('[data-conv]');
+    if (conv) { const c = Convites.lista.find(x => x.id === conv.dataset.id); if (c) { if (conv.dataset.conv === 'sim') Convites.aceitar(c); else { Convites.responder(c, false); this.pintarConvites(); } } return; }
+    const cv = e.target.closest('[data-convidar]');
+    if (cv) { const uid = cv.dataset.convidar; Perfis.ler(uid).then(p => p && Convites.enviar(p)).catch(err => aviso(msgErro(err))); return; }
+    const j = e.target.closest('[data-jogador]'); if (j) { this.voltar = App.atual; App.ir('jogador', j.dataset.jogador); }
+  },
+  pintarConvites() {
+    const el = $('#sc-conv'); if (!el) return;
+    el.innerHTML = Convites.lista.length ? `<div class="cartao destaque"><h3>Convites recebidos</h3><div class="jg-lista">${Convites.lista.map(c =>
+      `<div class="jg-it conv-it">${htmlAvatar(c.deAvatar, c.deMoldura, 40)}<span class="rk-tx"><b>${esc(c.deNome)}</b><small>${c.tempo ? c.tempo / 60 + ' min' : 'sem tempo'} · você de ${corNome(c.corConvidado || 'b')}</small></span>
+        <button class="bt peq" data-conv="nao" data-id="${esc(c.id)}">Recusar</button><button class="bt peq pri" data-conv="sim" data-id="${esc(c.id)}">Aceitar</button></div>`).join('')}</div></div>` : '';
+  },
+  async buscar(txt) {
+    this.busca = String(txt || '').trim();
+    const el = $('#sc-res');
+    if (this.busca.length < 2) { el.innerHTML = '<p class="sub">Digite pelo menos 2 letras.</p>'; return; }
+    el.innerHTML = '<p class="sub">Buscando…</p>';
+    try { this.resultados = await Perfis.buscar(this.busca); }
+    catch (e) { el.innerHTML = `<p class="sub">${e && e.code === 'permission-denied' ? 'A busca ainda não foi ativada (falta atualizar as regras do Firebase).' : 'Não consegui buscar: ' + esc(msgErro(e))}</p>`; return; }
+    if (App.atual === 'social') this.pintarResultados();
+  },
+  pintarResultados() {
+    const el = $('#sc-res'), u = Nuvem.usuario, l = (this.resultados || []).filter(p => !u || p.uid !== u.uid);
+    el.innerHTML = l.length ? l.map(p => linhaJogador(p, Amigos.tem(p.uid) ? '<span class="tag-amigo">amigo</span>' : '')).join('') : '<p class="sub">Ninguém encontrado. Confira o nome ou peça o código de amigo.</p>';
+  },
+  async pintarAmigos() {
+    const el = $('#sc-amigos'), lista = Amigos.todos();
+    $('#sc-n').textContent = lista.length ? lista.length + (lista.length > 1 ? ' amigos' : ' amigo') : '';
+    if (!lista.length) { el.innerHTML = '<p class="sub">Você ainda não tem amigos na lista. Busque pelo nome ou toque em alguém no Ranking.</p>'; return; }
+    const base = lista.map(a => ({ uid: a.uid, nome: a.n, avatar: a.a, moldura: a.m }));
+    const pinta = ps => { el.innerHTML = ps.sort((a, b) => (estaOnline(b.visto) - estaOnline(a.visto)) || (b.visto || 0) - (a.visto || 0)).map(p => linhaJogador(p, `<button class="bt peq pri" data-convidar="${esc(p.uid)}">Convidar</button>`)).join(''); };
+    pinta(base);
+    try {
+      const ps = await Promise.all(base.map(b => Perfis.ler(b.uid).catch(() => null).then(p => p || b)));
+      ps.forEach(p => { const a = Dados.d.amigos[p.uid]; if (a && p.nome && (a.n !== p.nome || a.a !== p.avatar)) { a.n = p.nome; a.a = p.avatar; a.m = p.moldura || ''; } });
+      if (App.atual === 'social') pinta(ps);
+    } catch (e) { /* fica com os dados guardados */ }
+  },
+
+  /* perfil de outro jogador */
+  async telaJogador(uid) {
+    const volta = this.voltar && this.voltar !== 'jogador' ? this.voltar : 'menu';
+    App.cabecalho('Perfil do jogador', volta);
+    $('#tela').innerHTML = '<div class="pilha estreito"><div class="cartao final"><p class="sub">Carregando…</p></div></div>';
+    let p = null;
+    try { p = await Perfis.ler(uid, true); } catch (e) { p = null; }
+    if (App.atual !== 'jogador') return;
+    if (!p) { const a = (Dados.d.amigos || {})[uid]; p = a ? { uid, nome: a.n, avatar: a.a, moldura: a.m, nivel: 1, semDados: true } : null; }
+    if (!p) { $('#tela').innerHTML = '<div class="pilha estreito"><div class="cartao final"><b>Não encontrei esse jogador</b><p class="sub">Pode ser falta de internet. Tente de novo.</p></div></div>'; return; }
+    const u = Nuvem.usuario, eu = u && u.uid === uid, amigo = Amigos.tem(uid), nv = p.nivel || 1, t = XP.titulo(nv);
+    const est = (v, n) => `<div><b>${v}</b><small>${n}</small></div>`;
+    $('#tela').innerHTML = `<div class="pilha estreito">
+      <div class="cartao jg-cab" style="--nv:${t.cor}">${htmlAvatar(p.avatar || 'wn', p.moldura || '', 96)}
+        <h2>${esc(p.nome || 'Jogador')}</h2>
+        <span class="jg-nv">${XP.selo(nv, 26)} Nível ${nv} · ${t.nome}</span>
+        <span class="sub ${estaOnline(p.visto) ? 'txt-on' : ''}">${eu ? 'Este é você' : vistoTxt(p.visto) || ''}</span></div>
+      ${p.semDados ? '' : `<div class="cartao jg-est">${est((p.xp || 0).toLocaleString('pt-BR'), 'XP')}${est(p.pts || '—', 'Pontos online')}${est(p.on || 0, 'Partidas online')}
+        ${est(p.vit != null ? p.vit : '—', 'Vitórias')}${est(p.conq != null ? p.conq : '—', 'Conquistas')}${est(p.seq ? p.seq + ' 🔥' : '—', 'Melhor sequência')}</div>`}
+      ${eu ? '' : `<div class="pilha" style="gap:8px">
+        ${p.conv === 'ninguem' ? '<p class="sub" style="text-align:center">Este jogador não está recebendo convites.</p>' : `<button class="bt pri cheio" id="jg-conv">Convidar para partida</button>`}
+        <button class="bt cheio" id="jg-amigo">${amigo ? 'Remover dos amigos' : '＋ Adicionar aos amigos'}</button></div>`}</div>`;
+    const liga = (id, fn) => { const b = $(id); if (b) b.onclick = fn; };
+    liga('#jg-conv', () => { if (!u) { aviso('Entre na sua conta para convidar.'); App.ir('perfil'); return; } Convites.enviar(p); });
+    liga('#jg-amigo', async () => {
+      if (!u) { aviso('Entre na sua conta para adicionar amigos.'); App.ir('perfil'); return; }
+      if (Amigos.tem(uid)) {
+        const ok = await modal('Remover amigo?', `${p.nome || 'Jogador'} sai da sua lista de amigos.`, [{ txt: 'Cancelar', val: false }, { txt: 'Remover', cls: 'perigo', val: true }]);
+        if (ok) Amigos.remover(uid);
+      } else Amigos.adicionar(p);
+      this.telaJogador(uid);
+    });
+  }
+};
+
+/* ---------- chat rápido nas partidas online (só frases prontas) ---------- */
+const FRASES = ['Boa sorte! 🍀', 'Bom jogo! 🤝', 'Belo lance! 👏', 'Essa doeu 😅', 'Deixa eu pensar… 🤔', 'Opa! 😮', 'Obrigado! 🙏', 'Foi mal! 😬', 'Quase! 😤', 'Revanche? 🔁', '👍', '😂', '😎', '🔥'];
+const Chat = {
+  vistos: new Set(), mudo: false, ultimo: 0,
+  iniciar(sala) { this.vistos = new Set(((sala && sala.chat) || []).map(m => m.c + m.t)); this.mudo = false; },
+  botao() { return '<button class="bt-chat" id="b-chat" aria-label="Chat rápido" aria-expanded="false">💬</button>'; },
+  painel() {
+    return `<div class="chat-painel oculto" id="chat-painel" role="menu">${FRASES.map((f, i) => `<button role="menuitem" data-frase="${i}" class="${f.length <= 2 ? 'emo' : ''}">${f}</button>`).join('')}
+      <button class="chat-mudo" data-mudo>${this.mudo ? '🔔 Mostrar mensagens' : '🔕 Silenciar o adversário'}</button></div>`;
+  },
+  ligar() {
+    const b = $('#b-chat'), pn = $('#chat-painel'); if (!b || !pn) return;
+    const fechar = () => { pn.classList.add('oculto'); b.setAttribute('aria-expanded', 'false'); };
+    b.onclick = e => { e.stopPropagation(); const ab = pn.classList.toggle('oculto'); b.setAttribute('aria-expanded', String(!ab)); };
+    pn.onclick = e => {
+      const f = e.target.closest('[data-frase]');
+      if (f) { this.enviar(+f.dataset.frase); fechar(); return; }
+      if (e.target.closest('[data-mudo]')) { this.mudo = !this.mudo; e.target.closest('[data-mudo]').textContent = this.mudo ? '🔔 Mostrar mensagens' : '🔕 Silenciar o adversário'; aviso(this.mudo ? 'Mensagens do adversário escondidas' : 'Mensagens do adversário visíveis'); fechar(); }
+    };
+    if (!this.ouvindoFora) { this.ouvindoFora = true; document.addEventListener('click', e => { const p = $('#chat-painel'); if (p && !e.target.closest('#chat-painel') && !e.target.closest('#b-chat')) { p.classList.add('oculto'); const bb = $('#b-chat'); if (bb) bb.setAttribute('aria-expanded', 'false'); } }); }
+  },
+  enviar(i) {
+    const agora = Date.now();
+    if (agora - this.ultimo < 2500) { aviso('Espere um pouquinho para mandar outra.'); return; }
+    this.ultimo = agora;
+    const cor = Salas.minhaCor, msg = { c: cor, i, t: agora };
+    this.vistos.add(cor + agora); this.mostrar(msg);
+    Salas.alterar(d => d.status === 'esperando' ? null : { chat: (d.chat || []).slice(-7).concat([msg]) });
+  },
+  receber(s) {
+    (s.chat || []).forEach(m => {
+      const k = m.c + m.t; if (this.vistos.has(k)) return; this.vistos.add(k);
+      if (m.c === Salas.minhaCor || this.mudo || Date.now() - m.t > 60000) return;
+      this.mostrar(m); vibrar(25);
+    });
+  },
+  mostrar(m) {
+    const P = Partida; if (!P.tab || App.atual !== 'jogo') return;
+    const bar = m.c === P.tab.ori ? $('#j-baixo') : $('#j-cima'); if (!bar) return;
+    $$('.chat-balao', bar).forEach(x => x.remove());
+    const el = document.createElement('span'); el.className = 'chat-balao' + (bar.id === 'j-baixo' ? ' baixo' : ''); el.textContent = FRASES[m.i] || '👍';
+    bar.appendChild(el); setTimeout(() => el.classList.add('sai'), 3200); setTimeout(() => el.remove(), 3700);
   }
 };
 
@@ -7018,12 +7448,14 @@ const App = {
       case 'dev': Dev.tela(); break;
       case 'missoes': Missoes.tela(); break;
       case 'ranking': Ranking.tela(); break;
+      case 'social': Social.tela(); break;
+      case 'jogador': Social.telaJogador(param); break;
       default: this.atual = 'menu'; telaMenu();
     }
     this.depois();
   },
   /* barra de navegação inferior e animação de entrada da tela */
-  ABAS: { menu: 'menu', aprender: 'aprender', config: 'config', conquistas: 'conquistas', perfil: 'perfil', desafios: 'menu', stats: 'menu', historico: 'menu', dev: 'perfil', loja: 'menu', missoes: 'menu', ranking: 'menu', ajustes: 'perfil', amigos: 'config' },
+  ABAS: { menu: 'menu', aprender: 'aprender', config: 'config', conquistas: 'conquistas', perfil: 'perfil', desafios: 'menu', stats: 'menu', historico: 'menu', dev: 'perfil', loja: 'menu', missoes: 'menu', ranking: 'menu', social: 'menu', jogador: 'menu', ajustes: 'perfil', amigos: 'config' },
   depois() {
     const t = this.atual, aba = this.ABAS[t], nav = $('#nav-inf');
     document.body.dataset.tela = t;
@@ -7111,6 +7543,7 @@ function telaMenu() {
     <section class="linhas-menu">
       <button class="linha-menu cor-ok" data-ir="aprender"><span class="ic2">${pcSvg('p')}</span><span class="tx"><span><b>Aprender</b><small>${ra.feitas} de ${ra.total} fases · ${ra.estrelas} ★</small></span><span class="barrinha"><i style="width:${Math.round(ra.feitas / ra.total * 100)}%"></i></span></span>${SETA}</button>
       <button class="linha-menu cor-info" data-ir="desafios"><span class="ic2">${SVG('<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>')}</span><span class="tx"><span><b>Desafios táticos</b><small>${feitos} de ${PUZZLES.length} · ${d.desafios.pontos} pts</small></span><span class="barrinha"><i style="width:${Math.round(feitos / PUZZLES.length * 100)}%"></i></span></span>${SETA}</button>
+      <button class="linha-menu cor-ok" data-ir="social"><span class="ic2">${SVG('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M19 8v6M16 11h6"/>')}</span><span class="tx"><b>Amigos <i class="selo-n oculto" data-conv-n>0</i></b><small>${Nuvem.usuario ? (Amigos.todos().length ? Amigos.todos().length + (Amigos.todos().length > 1 ? ' amigos' : ' amigo') + ' · convites e busca' : 'Busque jogadores e mande convites') : 'Adicione amigos e convide para jogar'}</small></span>${SETA}</button>
       <button class="linha-menu cor-dest" data-ir="ranking"><span class="ic2">${SVG('<path d="M8 21V11H3v10zM15.5 21V5h-7v16zM21 21v-7h-5.5v7z"/>')}</span><span class="tx"><b>Ranking</b><small>${Nuvem.usuario ? 'Geral, da semana e do online' : 'Veja os melhores jogadores'}</small></span>${SETA}</button>
       <button class="linha-menu cor-neutra" data-ir="historico"><span class="ic2">${SVG('<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>')}</span><span class="tx"><b>Histórico de partidas</b><small>${d.partidas.length ? d.partidas.length + ' partida' + (d.partidas.length > 1 ? 's' : '') + ' · reveja e analise os lances' : 'Reveja e analise suas partidas'}</small></span>${SETA}</button>
       <button class="linha-menu cor-dest" data-ir="stats"><span class="ic2">${SVG('<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>')}</span><span class="tx"><b>Minhas estatísticas</b><small>${e.jogos} partidas · ${e.vitorias} vitórias</small></span>${SETA}</button>
@@ -7125,6 +7558,7 @@ function telaMenu() {
     if (Missoes.clique(ev, () => App.ir('menu'))) return;
     const b = ev.target.closest('[data-ir]'); if (b) App.ir(b.dataset.ir);
   };
+  Convites.selos();
   if (salva) $('#m-continuar').onclick = () => App.ir('jogo', { modo: 'pc', retomar: salva });
   $('#m-tema').onclick = ev => {
     ev.stopPropagation();
