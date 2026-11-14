@@ -1115,6 +1115,67 @@ svg.gema{fill:#7fd8ff;stroke:#1d6f99;stroke-width:1.4;stroke-linejoin:round}
 .saldo-gema svg{width:18px;height:18px}
 .rk-tx b .selo-rei{vertical-align:1px}
 
+/* ===== cabeçalho da tela inicial (menos apertado) ===== */
+.home-cab{align-items:center;gap:12px}
+.home-cab .perfil-topo{flex:none;margin:4px}
+.home-cab .quem{display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:0}
+.home-cab .quem p.saud{display:block;font-size:.8rem;color:var(--txt2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.home-cab .quem h1{max-width:100%;line-height:1.2}
+.selo-linha{display:flex;min-height:0;margin-top:3px;max-width:100%;padding:0}
+.selo-linha:empty{display:none}
+.cab-dir{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}
+.cab-bts{display:flex;gap:6px}
+.home-cab .cab-dir .bt-ic{width:38px;height:38px;border-radius:12px}
+.home-cab .cab-dir .bt-ic svg{width:18px;height:18px}
+.home-cab .cab-dir .moedas-topo{height:36px;padding:0 11px 0 6px;font-size:.9rem}
+.home-cab .cab-dir .moedas-topo svg.moeda{width:22px;height:22px}
+
+/* selos */
+.selo-x{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:7px;font:800 .66rem/1.45 Inter,sans-serif;letter-spacing:.05em;white-space:nowrap;vertical-align:1px;color:#fff;background:linear-gradient(135deg,#5a6478,#3b4252);flex:none;animation:surge .35s ease}
+.selo-x i{font-style:normal;font-size:.8rem;line-height:1;letter-spacing:0}
+.selo-x svg{width:12px;height:12px;fill:currentColor}
+.selo-rei{color:#2a1300;background:linear-gradient(135deg,#ffd75e,#f29f1d 45%,#9b4dff);box-shadow:0 0 10px rgba(255,200,80,.3)}
+.selo-dev{background:linear-gradient(135deg,#7c4dff,#d14dff);letter-spacing:.08em}
+.selo-mes{color:#2a1300;background:linear-gradient(135deg,#ffe27a,#e6a21b)}
+.selo-sem1{color:#2a1300;background:linear-gradient(135deg,#ffe9a0,#d9a52a)}
+.selo-sem2{color:#132033;background:linear-gradient(135deg,#eef3f9,#9fb0c6)}
+.selo-platina{color:#0d2a33;background:linear-gradient(135deg,#e9fbff,#7fc4d8)}
+.selo-mestre{background:linear-gradient(135deg,#d24b4b,#7a1f2b)}
+.selo-titulo{color:#2a1300;background:linear-gradient(135deg,#f6c25c,#b97f12)}
+.selo-fogo{background:linear-gradient(135deg,#ff9b3d,#e2442f)}
+.selo-social{background:linear-gradient(135deg,#3fb27f,#1d6f4f)}
+.selo-roda{display:inline-flex;flex:none}
+.rk-tx b .selo-x,.rk-tx b .selo-roda{margin-left:5px;vertical-align:1px}
+.jg-selo{display:flex;justify-content:center;margin:-2px 0 2px}
+.pf-dev{font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;background:linear-gradient(135deg,#7c4dff,#d14dff);color:#fff}
+.pf-info [data-selo-rei]:empty{display:none}
+.vs-prev .vs-selo{display:flex;margin:3px 0}
+.vs-prev .vs-selo:empty{display:none}
+.sl-modos{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:4px;border-radius:14px;background:var(--sup2)}
+.sl-modos button{padding:9px 6px;border-radius:10px;font-weight:600;font-size:.88rem;color:var(--txt2)}
+.sl-modos button.on{background:var(--dest);color:var(--dest-tinta)}
+.sl-expl{margin:10px 2px 12px}
+.sl-lista{display:grid;gap:8px}
+.sl-lista.apagada{opacity:.45}
+.sl-it{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--sup2);border:1px solid transparent;text-align:left}
+.sl-it small{font-size:.76rem;color:var(--txt2);line-height:1.25}
+.sl-it.on{border-color:var(--dest);background:color-mix(in srgb,var(--dest) 12%,var(--sup2))}
+.sl-it.trancado .selo-x{filter:grayscale(1);opacity:.5}
+.sl-marca{width:20px;height:20px;border:2px solid var(--txt2);border-radius:6px;display:grid;place-items:center;font-style:normal}
+.sl-marca.radio{border-radius:50%}
+.sl-it.on .sl-marca{border-color:var(--dest);background:var(--dest)}
+.sl-it.on .sl-marca::after{content:"✓";color:var(--dest-tinta);font-size:.75rem;font-weight:900}
+.sl-it.on .sl-marca.radio::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--dest-tinta)}
+.sl-it.trancado .sl-marca{visibility:hidden}
+.selo-x.selo-dev,.selo-x.selo-rei{margin-left:0}
+.home-cab .quem p.saud{font-size:.76rem;line-height:1.25}
+.home-cab .quem h1{font-size:1.25rem;line-height:1.15}
+.selo-linha{margin-top:4px}
+.cab-dir{gap:5px}
+.home-cab .cab-dir .moedas-topo{height:33px}
+.home-cab .cab-dir .bt-ic{width:35px;height:35px;border-radius:11px}
+body.com-nav[data-tela="menu"] #tela{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+
 </style>
 </head>
 <body>
@@ -4424,6 +4485,39 @@ const MOLDURAS = [
   /* exclusiva: só quem está em 1º no ranking geral */
   { id: 'campeao', nome: 'Trono do Campeão', rei: true, arte: true }
 ];
+/* ---------- selos (aparecem ao lado do nome para todo mundo) ---------- */
+const SELOS = [
+  { id: 'rei', txt: 'Nº 1', ic: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18L2 7l5.5 4L12 4l4.5 7L22 7l-1 11z"/></svg>', desc: 'Está em 1º no ranking geral agora', tem: () => Premios.souRei() },
+  { id: 'dev', txt: 'DEV', desc: 'Desenvolvedor do jogo', tem: () => Dev.ativo },
+  { id: 'mes', txt: 'Campeão do mês', ic: '👑', desc: 'Terminou um mês em 1º no ranking geral', tem: d => Object.keys(d.premios || {}).some(k => k[0] === 'm') },
+  { id: 'sem1', txt: '1º da semana', ic: '🥇', desc: 'Terminou uma semana em 1º no ranking', tem: d => !!d.conquistas['tr-topo1'] },
+  { id: 'sem2', txt: '2º da semana', ic: '🥈', desc: 'Terminou uma semana em 2º no ranking', tem: d => !!d.conquistas['tr-topo2'] },
+  { id: 'platina', txt: 'Platina', ic: '💎', desc: 'Ganhou o troféu de platina', tem: d => !!d.conquistas['tr-platina'] },
+  { id: 'mestre', txt: 'Mestre', ic: '♚', desc: 'Venceu o computador no nível Mestre', tem: d => ((d.porNivel[5] || {}).v || 0) >= 1 },
+  { id: 'titulo', txt: 'Rei', ic: '♛', desc: 'Chegou ao nível 30 (título Rei)', tem: d => XP.nivel(XP.total(d)).n >= 30 },
+  { id: 'fogo', txt: '30 dias', ic: '🔥', desc: 'Jogou 30 dias seguidos', tem: d => Math.max(d.sequencia.melhor || 0, d.sequencia.atual || 0) >= 30 },
+  { id: 'social', txt: 'Popular', ic: '🤝', desc: 'Tem 10 amigos ou mais', tem: () => Amigos.todos().length >= 10 }
+];
+const Selos = {
+  ganhos(d = Dados.d) { return SELOS.filter(s => { try { return s.tem(d); } catch (e) { return false; } }).map(s => s.id); },
+  /* os selos escolhidos (perfil.selos: {modo: 'um' | 'auto' | 'nenhum', um, auto: [...]}); sem escolha: alterna todos */
+  meus(d = Dados.d) {
+    const g = this.ganhos(d), c = d.perfil.selos;
+    if (!c) return g;
+    if (c.modo === 'nenhum') return [];
+    if (c.modo === 'um') return g.includes(c.um) ? [c.um] : g.slice(0, 1);
+    const l = (c.auto || []).filter(x => g.includes(x)); return l.length ? l : [];
+  },
+  um(id) { const s = SELOS.find(x => x.id === id); if (!s) return ''; return `<span class="selo-x selo-${s.id}" title="${esc(s.desc)}">${s.ic ? `<i>${s.ic}</i>` : ''}${esc(s.txt)}</span>`; },
+  /* lista de outro jogador: tira o "Nº 1" de quem não é mais o primeiro */
+  de(lista, uid) { let l = (typeof lista === 'string' ? lista.split(',') : lista || []).filter(x => SELOS.some(s => s.id === x)); if (uid !== undefined) l = l.filter(x => x !== 'rei' || Premios.ehRei(uid)); return l.slice(0, 10); },
+  dePerfil(x) { return x && x.sl != null ? this.de(x.sl, x.uid) : (x && Premios.ehRei(x.uid) ? ['rei'] : []); },
+  html(lista) { if (!lista || !lista.length) return ''; if (lista.length === 1) return this.um(lista[0]); return `<span class="selo-roda" data-selos="${lista.join(',')}" data-i="0">${this.um(lista[0])}</span>`; },
+  /* troca o selo mostrado a cada 3 segundos */
+  girar() { $$('.selo-roda').forEach(el => { const l = el.dataset.selos.split(','), i = (+el.dataset.i + 1) % l.length; el.dataset.i = i; el.innerHTML = this.um(l[i]); }); }
+};
+setInterval(() => { if (document.visibilityState !== 'hidden') Selos.girar(); }, 3000);
+
 /* desenha a foto de perfil (avatar) com a moldura */
 function htmlAvatar(avatarId, moldura, tam = 44) {
   const a = AVATARES.find(x => x.id === avatarId) || AVATARES[1];
@@ -4778,7 +4872,7 @@ const Perfil = {
         <button class="pf-av" data-ir-tela="visual" aria-label="Trocar ícone e moldura">${htmlAvatar(p.avatar, p.moldura, 84)}<i class="pf-lapis">${SVG('<path d="M4 20h4L19 9l-4-4L4 16z"/>')}</i></button>
         <div style="flex:1;min-width:0"><label class="sub" for="nome">Nome de usuário</label>
           <input id="nome" class="campo" maxlength="20" value="${esc(p.nome)}" placeholder="Seu nome" autocomplete="nickname">
-          <div class="pf-info"><span data-selo-rei>${Premios.selo()}</span>${Dev.ativo ? '<button class="selo-dev" data-dev-abrir="1" aria-label="Abrir painel do desenvolvedor">DEV</button>' : ''}<span class="pf-saldo">${MOEDA}${d.moedas.toLocaleString('pt-BR')}</span><span class="pf-saldo">${GEMA}${(d.gemas || 0).toLocaleString('pt-BR')}</span></div></div></div>
+          <div class="pf-info"><span data-selo-rei>${Premios.selo()}</span>${Dev.ativo ? '<button class="pf-dev" data-dev-abrir="1">Painel DEV</button>' : ''}<span class="pf-saldo">${MOEDA}${d.moedas.toLocaleString('pt-BR')}</span><span class="pf-saldo">${GEMA}${(d.gemas || 0).toLocaleString('pt-BR')}</span></div></div></div>
       <button class="cartao nv-cartao peq" data-ir-missoes="1" style="--nv:${t.cor}">${XP.selo(nv.n, 48)}
         <span class="nv-tx"><small>Nível ${nv.n} · ${t.nome}</small><span class="barra-xp"><i style="width:${Math.round(nv.frac * 100)}%"></i></span>
         <span class="sub">${nv.atual}/${nv.prox} XP · 🔥 ${Sequencia.viva()} ${Sequencia.viva() === 1 ? 'dia' : 'dias'}${d.ranque.n ? ` · ${d.ranque.pts} pts` : ''}</span></span>${SETA}</button>
@@ -4786,7 +4880,7 @@ const Perfil = {
         ${tile('data-ir-tela="social"', 'cor-ok', SVG('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.8"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/>') + '<i class="selo-n oculto" data-pedidos-n>0</i>', 'Amigos', u ? (na ? na + (na > 1 ? ' amigos' : ' amigo') : 'Buscar') : 'Precisa de conta')}
         ${tile('data-ir-tela="historico"', 'cor-neutra', SVG('<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>'), 'Histórico', d.partidas.length ? d.partidas.length + ' partida' + (d.partidas.length > 1 ? 's' : '') : 'Nenhuma ainda')}
         ${tile('data-ir-tela="stats"', 'cor-dest', SVG('<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>'), 'Estatísticas', e.vitorias + ' vitória' + (e.vitorias === 1 ? '' : 's'))}
-        ${tile('data-ir-tela="visual"', 'cor-info', SVG('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.5a6.5 6.5 0 0 1 11 0"/>'), 'Ícone e moldura', 'Personalize')}
+        ${tile('data-ir-tela="visual"', 'cor-info', SVG('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.5a6.5 6.5 0 0 1 11 0"/>'), 'Visual', 'Ícone e selos')}
         ${tile('data-ir-tela="ranking"', 'cor-dest', SVG('<path d="M8 21V11H3v10zM15.5 21V5h-7v16zM21 21v-7h-5.5v7z"/>'), 'Ranking', 'Prêmios semanais')}
         ${tile('data-ir-tela="conta"', u ? 'cor-ok' : 'cor-ruim', SVG('<path d="M7 18a5 5 0 0 1-.7-9.95A6 6 0 0 1 18 9a4.5 4.5 0 0 1-.5 9z"/>'), 'Conta', u ? 'Conectada' : 'Entrar')}
       </div></div>`;
@@ -4808,14 +4902,14 @@ const Perfil = {
   aba: 'av',
   /* trocar ícone e moldura */
   telaVisual() {
-    App.cabecalho('Ícone e moldura', 'perfil');
+    App.cabecalho('Visual', 'perfil');
     const d = Dados.d, p = d.perfil, rei = Premios.souRei();
     const avs = AVATARES.filter(a => temAvatar(a.id)), bloq = AVATARES.filter(a => !temAvatar(a.id));
     const grupoMold = (tit, lista, cls = '') => `<h3 class="vs-sub">${tit}</h3><div class="grade-av ${cls}">${lista.map(opMold).join('')}</div>`;
     $('#tela').innerHTML = `<div class="pilha estreito vs-tela">
-      <div class="cartao vs-prev">${htmlAvatar(p.avatar, p.moldura, 76)}<span><b>${esc(nomeJogador())}</b><small class="sub">${esc((AVATARES.find(a => a.id === p.avatar) || {}).nome || '')}${p.moldura ? ' · ' + esc((MOLDURAS.find(m => m.id === p.moldura) || {}).nome || '') : ''}</small></span></div>
-      <div class="abas"><button class="aba${this.aba === 'av' ? ' on' : ''}" data-aba="av">Ícones</button><button class="aba${this.aba === 'mold' ? ' on' : ''}" data-aba="mold">Molduras</button></div>
-      ${this.aba === 'av' ? `<div class="cartao"><div class="grade-av">
+      <div class="cartao vs-prev">${htmlAvatar(p.avatar, p.moldura, 76)}<span><b>${esc(nomeJogador())}</b><span class="vs-selo" data-selo-rei>${Premios.selo()}</span><small class="sub">${esc((AVATARES.find(a => a.id === p.avatar) || {}).nome || '')}${p.moldura ? ' · ' + esc((MOLDURAS.find(m => m.id === p.moldura) || {}).nome || '') : ''}</small></span></div>
+      <div class="abas"><button class="aba${this.aba === 'av' ? ' on' : ''}" data-aba="av">Ícones</button><button class="aba${this.aba === 'mold' ? ' on' : ''}" data-aba="mold">Molduras</button><button class="aba${this.aba === 'selo' ? ' on' : ''}" data-aba="selo">Selos</button></div>
+      ${this.aba === 'selo' ? this.htmlSelos() : this.aba === 'av' ? `<div class="cartao"><div class="grade-av">
         ${avs.map(a => `<button class="op-av${p.avatar === a.id ? ' on' : ''}" data-av="${a.id}" title="${a.nome}">${htmlAvatar(a.id, '', 54)}</button>`).join('')}
         ${bloq.map(a => `<button class="op-av trancado" data-loja="1" title="${a.nome}">${htmlAvatar(a.id, '', 54)}<small>${a.trofeu ? '🏆' : MOEDA + a.preco}</small></button>`).join('')}</div>
         <p class="sub" style="margin-top:8px">Ícones com cadeado podem ser comprados na loja.</p></div>`
@@ -4830,10 +4924,33 @@ const Perfil = {
       const b = ev.target.closest('button'); if (!b) return;
       if (b.dataset.aba) { this.aba = b.dataset.aba; this.telaVisual(); }
       else if (b.dataset.loja) { Loja.aba = 'av'; App.ir('loja'); }
+      else if (b.dataset.slModo || b.dataset.sl) this.escolherSelo(b.dataset.slModo, b.dataset.sl);
       else if (b.dataset.av) { p.avatar = b.dataset.av; Dados.salvar(); this.checarConquista(); App.atualizarTopo(); Nuvem.publicarPerfil(); this.telaVisual(); }
       else if (b.dataset.mold != null && !b.disabled) { if (b.dataset.mold === 'campeao' && p.moldura !== 'campeao') p.moldAnt = p.moldura; p.moldura = b.dataset.mold; Dados.salvar(); App.atualizarTopo(); Nuvem.publicarPerfil(); this.telaVisual(); }
     };
     App.aoSair = () => { $('#tela').onclick = null; };
+  },
+  /* aba "Selos": um selo fixo, vários alternando ou nenhum */
+  confSelos() { const d = Dados.d; return d.perfil.selos || { modo: 'auto', auto: Selos.ganhos(d), um: Selos.ganhos(d)[0] || '' }; },
+  htmlSelos() {
+    const d = Dados.d, c = this.confSelos(), g = Selos.ganhos(d);
+    const modos = [['um', 'Um selo'], ['auto', 'Alternar'], ['nenhum', 'Nenhum']];
+    const expl = { um: 'Toque no selo que vai aparecer ao lado do seu nome.', auto: 'Marque os selos que vão se alternar a cada 3 segundos.', nenhum: 'Nenhum selo aparece ao lado do seu nome.' }[c.modo];
+    return `<div class="cartao">
+      <div class="sl-modos" role="radiogroup">${modos.map(([m, n]) => `<button role="radio" aria-checked="${c.modo === m}" class="${c.modo === m ? 'on' : ''}" data-sl-modo="${m}">${n}</button>`).join('')}</div>
+      <p class="sub sl-expl">${expl} Todos os jogadores veem o seu selo.</p>
+      <div class="sl-lista${c.modo === 'nenhum' ? ' apagada' : ''}">${SELOS.map(s => {
+        const tem = g.includes(s.id), marcado = c.modo === 'um' ? c.um === s.id : c.modo === 'auto' && (c.auto || []).includes(s.id);
+        return `<button class="sl-it${tem ? '' : ' trancado'}${marcado ? ' on' : ''}" data-sl="${s.id}" ${tem && c.modo !== 'nenhum' ? '' : 'disabled'}>
+          ${Selos.um(s.id)}<small>${tem ? esc(s.desc) : '🔒 ' + esc(s.desc)}</small><i class="sl-marca ${c.modo === 'um' ? 'radio' : 'caixa'}"></i></button>`;
+      }).join('')}</div></div>`;
+  },
+  escolherSelo(modo, id) {
+    const d = Dados.d, c = this.confSelos(), g = Selos.ganhos(d);
+    if (modo) { c.modo = modo; if (modo === 'um' && !g.includes(c.um)) c.um = g[0] || ''; if (modo === 'auto' && !(c.auto || []).length) c.auto = g.slice(); }
+    else if (id && c.modo === 'um') c.um = id;
+    else if (id && c.modo === 'auto') { const l = new Set(c.auto || []); if (l.has(id)) l.delete(id); else l.add(id); c.auto = SELOS.map(s => s.id).filter(x => l.has(x)); }
+    d.perfil.selos = c; Dados.salvar(); Nuvem.publicarPerfil(); Ranking.publicar(); this.telaVisual();
   },
   telaConta() {
     App.cabecalho('Conta', 'perfil');
@@ -5142,6 +5259,7 @@ const Ranking = {
       on: (d.online.v || 0) + (d.online.e || 0) + (d.online.d || 0), t: Date.now(), visto: Date.now(),
       vit: estadoJogador().vitorias, conq: Object.keys(d.conquistas).length, seq: Math.max(d.sequencia.melhor || 0, d.sequencia.atual || 0),
       nomeB: normNome(nomeJogador()).slice(0, 20), cod: Nuvem.usuario ? codigoAmigo(Nuvem.usuario.uid) : '', conv: p.conv || 'todos' };
+    o.sl = Selos.meus(d).join(',');
     if (d.ranque.n > 0) o.pts = d.ranque.pts;
     if (d.xpSemana > 0) o[campoSemana()] = d.xpSemana;
     if (d.xpSemanaAnt > 0) o[campoSemana(semanaAnterior())] = d.xpSemanaAnt;   // a semana que acabou continua valendo para os prêmios
@@ -5172,7 +5290,7 @@ const Ranking = {
     const t = XP.titulo(x.nivel || 1), un = this.aba === 'online' ? 'pts' : 'XP';
     return `<div class="rk-it${eu ? ' eu' : ''}${pos && pos <= 3 ? ' top' + pos : ''}"${x.uid ? ` data-jogador="${esc(x.uid)}" role="button" tabindex="0"` : ''}><span class="rk-pos">${pos || '–'}</span>
       <span class="rk-av">${htmlAvatar(x.avatar || 'wn', Premios.moldDe(x), 40)}${XP.selo(x.nivel || 1, 20)}</span>
-      <span class="rk-tx"><b>${esc(x.nome || 'Jogador')}${Premios.ehRei(x.uid) ? ' ' + SELO_REI : ''}${eu ? ' <em>você</em>' : ''}</b><small>Nível ${x.nivel || 1} · ${t.nome}${this.aba === 'online' && x.on ? ' · ' + x.on + ' partidas' : ''}</small></span>
+      <span class="rk-tx"><b>${esc(x.nome || 'Jogador')}${Selos.html(Selos.dePerfil(x))}${eu ? ' <em>você</em>' : ''}</b><small>Nível ${x.nivel || 1} · ${t.nome}${this.aba === 'online' && x.on ? ' · ' + x.on + ' partidas' : ''}</small></span>
       <span class="rk-val">${(x.valor || 0).toLocaleString('pt-BR')}<small>${un}</small></span></div>`;
   },
   async tela() {
@@ -5240,8 +5358,8 @@ const Premios = {
   ehRei(uid) { return !!uid && uid === this.reiUid; },
   /* a moldura exclusiva só aparece em quem é o 1º agora */
   moldDe(x) { return x && x.moldura === 'campeao' && !this.ehRei(x.uid) ? '' : (x && x.moldura) || ''; },
-  selo() { return this.souRei() ? SELO_REI : ''; },
-  pintar() { $$('[data-selo-rei]').forEach(el => { el.innerHTML = this.selo(); }); },
+  selo() { return Selos.html(Selos.meus()); },
+  pintar() { $$('[data-selo-rei]').forEach(el => { el.innerHTML = this.selo(); }); Ranking.publicar(); },
   fimSemana() {
     const dia = new Date().getDay(), falta = dia === 0 ? 1 : 8 - dia;
     return falta === 1 ? 'Termina hoje à meia-noite.' : `Termina em ${falta} dias.`;
@@ -5274,7 +5392,7 @@ const Premios = {
     for (let k = 0; k < 40 && modalAberto(); k++) await espera(500);
     if (modalAberto() || !this.souRei()) return;
     Som.tocar('conquista'); vibrar([40, 60, 40]);
-    const usar = await modal('Você é o nº 1!', `<div class="pm-pop">${htmlAvatar(Dados.d.perfil.avatar, 'campeao', 96)}<p>Você está em <b>1º lugar no ranking geral</b>. Enquanto ficar no topo, você usa a moldura exclusiva <b>Trono do Campeão</b> e o selo ${SELO_REI} aparece para todo mundo.</p></div>`,
+    const usar = await modal('Você é o nº 1!', `<div class="pm-pop">${htmlAvatar(Dados.d.perfil.avatar, 'campeao', 96)}<p>Você está em <b>1º lugar no ranking geral</b>. Enquanto ficar no topo, você usa a moldura exclusiva <b>Trono do Campeão</b> e o selo ${Selos.um('rei')} aparece para todo mundo.</p></div>`,
       [{ txt: 'Depois', val: false }, { txt: 'Usar a moldura', cls: 'pri', val: true }], true);
     if (usar && this.souRei()) { const p = Dados.d.perfil; if (p.moldura !== 'campeao') p.moldAnt = p.moldura; p.moldura = 'campeao'; Dados.salvar(); App.atualizarTopo(); Nuvem.publicarPerfil(); if (App.atual === 'perfil') Perfil.tela(); }
   },
@@ -7478,7 +7596,7 @@ function linhaJogador(p, extra = '') {
   const nv = p.nivel || 1, on = estaOnline(p.visto);
   return `<div class="jg-it" data-jogador="${esc(p.uid)}" role="button" tabindex="0">
     <span class="rk-av">${htmlAvatar(p.avatar || 'wn', Premios.moldDe(p), 40)}${XP.selo(nv, 20)}${on ? '<i class="pt-on" title="Online agora"></i>' : ''}</span>
-    <span class="rk-tx"><b>${esc(p.nome || 'Jogador')}${Premios.ehRei(p.uid) ? ' ' + SELO_REI : ''}</b><small>Nível ${nv} · ${XP.titulo(nv).nome}${p.visto ? ' · <span class="' + (on ? 'txt-on' : '') + '">' + vistoTxt(p.visto) + '</span>' : ''}</small></span>${extra}</div>`;
+    <span class="rk-tx"><b>${esc(p.nome || 'Jogador')}${Selos.html(Selos.dePerfil(p))}</b><small>Nível ${nv} · ${XP.titulo(nv).nome}${p.visto ? ' · <span class="' + (on ? 'txt-on' : '') + '">' + vistoTxt(p.visto) + '</span>' : ''}</small></span>${extra}</div>`;
 }
 
 /* ---------- convites de partida (coleção "convites/{código da sala}") ---------- */
@@ -7850,7 +7968,7 @@ const Social = {
     const est = (v, n) => `<div><b>${v}</b><small>${n}</small></div>`;
     $('#tela').innerHTML = `<div class="pilha estreito">
       <div class="cartao jg-cab" style="--nv:${t.cor}">${htmlAvatar(p.avatar || 'wn', Premios.moldDe(Object.assign({ uid }, p)), 96)}
-        <h2>${esc(p.nome || 'Jogador')}${Premios.ehRei(uid) ? ' ' + SELO_REI : ''}</h2>
+        <h2>${esc(p.nome || 'Jogador')}</h2>${(s => s ? `<span class="jg-selo">${s}</span>` : '')(Selos.html(Selos.dePerfil(Object.assign({}, p, { uid }))))}
         <span class="jg-nv">${XP.selo(nv, 26)} Nível ${nv} · ${t.nome}</span>
         <span class="sub ${estaOnline(p.visto) ? 'txt-on' : ''}">${eu ? 'Este é você' : vistoTxt(p.visto) || ''}</span></div>
       ${p.semDados ? '' : `<div class="cartao jg-est">${est((p.xp || 0).toLocaleString('pt-BR'), 'XP')}${est(p.pts || '—', 'Pontos online')}${est(p.on || 0, 'Partidas online')}
@@ -8122,7 +8240,7 @@ const App = {
       case 'amigos': Salas.telaAmigos(); break;
       case 'sala': Salas.telaEspera(param); break;
       case 'perfil': Perfil.tela(); break;
-      case 'visual': Perfil.telaVisual(); break;
+      case 'visual': if (param) Perfil.aba = param; Perfil.telaVisual(); break;
       case 'conta': Perfil.telaConta(); break;
       case 'conquistas': Conquistas.tela(); break;
       case 'loja': Loja.tela(); break;
@@ -8203,10 +8321,11 @@ function telaMenu() {
   $('#tela').innerHTML = `<div class="home">
     <header class="home-cab">
       <button class="perfil-topo" data-ir="perfil" aria-label="Meu perfil" style="width:56px;height:56px">${htmlAvatar(d.perfil.avatar, d.perfil.moldura, 52)}${XP.selo(nv.n, 22)}</button>
-      <div class="quem"><p><span class="saud">${saud}</span><span data-selo-rei>${Premios.selo()}</span>${Dev.ativo ? ' <button class="selo-dev" data-ir="dev" aria-label="Abrir painel do desenvolvedor">DEV</button>' : ''}</p><h1>${d.perfil.nome ? 'Olá, ' + esc(d.perfil.nome) + '!' : 'Olá, jogador!'}</h1></div>
-      <button class="bt-ic sino" data-ir="avisos" aria-label="Notificações">${SVG(SINO)}<i class="selo-conv oculto" data-avisos-n>0</i></button>
-      <button class="bt-ic" data-ir="ajustes" aria-label="Configurações">${SVG(ENGRENAGEM)}</button>
-      <button class="moedas-topo" data-ir="loja" aria-label="Moedas — abrir loja">${MOEDA}${d.moedas}</button>
+      <div class="quem"><p class="saud">${saud}</p><h1>${d.perfil.nome ? 'Olá, ' + esc(d.perfil.nome) + '!' : 'Olá, jogador!'}</h1><button class="selo-linha" data-ir="visual" data-param="selo" aria-label="Escolher selo" data-selo-rei>${Premios.selo()}</button></div>
+      <div class="cab-dir">
+        <button class="moedas-topo" data-ir="loja" aria-label="Moedas — abrir loja">${MOEDA}${d.moedas.toLocaleString('pt-BR')}</button>
+        <div class="cab-bts"><button class="bt-ic sino" data-ir="avisos" aria-label="Notificações">${SVG(SINO)}<i class="selo-conv oculto" data-avisos-n>0</i></button>
+        <button class="bt-ic" data-ir="ajustes" aria-label="Configurações">${SVG(ENGRENAGEM)}</button></div></div>
     </header>
     <button class="nivel-home" data-ir="missoes" style="--nv:${tit.cor}" aria-label="Nível ${nv.n}, ${nv.atual} de ${nv.prox} XP. Sequência de ${seq} dias">
       <span class="nh-tx"><b>Nível ${nv.n} · ${tit.nome}</b><small>${nv.atual}/${nv.prox} XP</small></span>
