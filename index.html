@@ -1250,7 +1250,7 @@ body.com-nav[data-tela="menu"] #tela{padding-bottom:calc(84px + env(safe-area-in
 #abertura{position:fixed;inset:0;z-index:9999;background:#2c1810;color:#f5ebe0;overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:none;transition:opacity .55s ease,visibility 0s .55s}
 #abertura.sai{opacity:0;visibility:hidden;pointer-events:none}
 #ab-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.ab-topo{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top) + clamp(28px,9vh,72px));display:flex;flex-direction:column;align-items:center;pointer-events:none;opacity:.92;z-index:2}
+.ab-topo{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top) + clamp(18px,9vh,72px));display:flex;flex-direction:column;align-items:center;pointer-events:none;opacity:.92;z-index:2}
 .ab-topo h1{font:700 clamp(1.25rem,5.4vw,1.6rem)/1.2 Inter,system-ui,sans-serif;letter-spacing:.28em;text-transform:uppercase;margin:0 0 0 .28em;color:#f5ebe0}
 .ab-topo h1 span{color:#d5bdaf}
 .ab-topo small{font:300 11px/1.4 Inter,system-ui,sans-serif;letter-spacing:.35em;text-transform:uppercase;color:#a38b7d;margin:4px 0 0 .35em}
@@ -1258,7 +1258,8 @@ body.com-nav[data-tela="menu"] #tela{padding-bottom:calc(84px + env(safe-area-in
   font:800 clamp(11.5px,3.3vw,14px)/1.55 Nunito,Inter,system-ui,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#d5bdaf;
   opacity:0;transition:opacity .5s ease;text-wrap:balance}
 .ab-dica.vis{opacity:.95}
-@media (min-width:768px){.ab-topo h1{font-size:1.6rem}.ab-topo small{font-size:12px}}
+@media (orientation:landscape) and (max-height:520px){.ab-topo h1{font-size:1.15rem}.ab-topo small{font-size:10px;margin-top:2px}.ab-dica{font-size:11.5px;width:min(70vw,560px)}}
+@media (min-width:768px) and (min-height:521px){.ab-topo h1{font-size:1.6rem}.ab-topo small{font-size:12px}}
 </style>
 <script>
 /* animação da abertura (adaptada da versão de computador para caber em qualquer celular) */
@@ -1303,8 +1304,9 @@ body.com-nav[data-tela="menu"] #tela{padding-bottom:calc(84px + env(safe-area-in
   /* tudo é medido a partir do tamanho da tela: no celular as peças ficam maiores em relação à largura
      e a distância entre elas menor; em telas baixas (celular deitado) a escala segue a altura */
   function medir() {
-    W = Math.max(200, window.innerWidth || document.documentElement.clientWidth || 360);
-    H = Math.max(200, window.innerHeight || document.documentElement.clientHeight || 640);
+    /* mede o tamanho real da tela de abertura (no iPhone, ao girar, innerWidth/innerHeight chegam atrasados) */
+    W = Math.max(200, raiz.clientWidth || window.innerWidth || 360);
+    H = Math.max(200, raiz.clientHeight || window.innerHeight || 640);
     var dpr = Math.min(window.devicePixelRatio || 1, 2.5);
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1317,7 +1319,10 @@ body.com-nav[data-tela="menu"] #tela{padding-bottom:calc(84px + env(safe-area-in
       raio: celular ? 4.2 : 5, passo: celular ? 20 : 25, pontosY: cy + 62 * esc + (baixa ? 8 : 18) };
     dicaEl.style.top = (L.pontosY + 26) + 'px';
   }
-  window.addEventListener('resize', medir); medir();
+  function remedir() { medir(); setTimeout(medir, 120); setTimeout(medir, 400); }
+  window.addEventListener('resize', remedir); window.addEventListener('orientationchange', remedir);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', remedir);
+  medir();
 
   function suaveSeno(t) { return -(Math.cos(Math.PI * t) - 1) / 2; }
   function suaveCubica(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
@@ -1418,6 +1423,8 @@ body.com-nav[data-tela="menu"] #tela{padding-bottom:calc(84px + env(safe-area-in
     if (!ligado) return;
     if (ultimo === null) ultimo = ts;
     var dt = Math.min((ts - ultimo) / 1000, 0.05); ultimo = ts;
+    /* se o tamanho mudou (celular girou), refaz as medidas antes de desenhar: nunca estica o desenho */
+    if (raiz.clientWidth && (Math.abs(raiz.clientWidth - W) > 1 || Math.abs(raiz.clientHeight - H) > 1)) medir();
     ctx.clearRect(0, 0, W, H);
     var s = L.esc, flutH = Math.sin(ts * 0.0024) * 7, flutO = Math.sin(ts * 0.0024 + 1.15) * 7, alfaO = 1, escO = 1;
     if (!capturada) {
@@ -1471,7 +1478,7 @@ body.com-nav[data-tela="menu"] #tela{padding-bottom:calc(84px + env(safe-area-in
   function sumir() {
     if (fechando) return; fechando = true;
     raiz.classList.add('sai');
-    setTimeout(function () { ligado = false; clearInterval(timerDica); window.removeEventListener('resize', medir); if (raiz.parentNode) raiz.parentNode.removeChild(raiz); }, robo ? 0 : 650);
+    setTimeout(function () { ligado = false; clearInterval(timerDica); window.removeEventListener('resize', remedir); window.removeEventListener('orientationchange', remedir); if (window.visualViewport) window.visualViewport.removeEventListener('resize', remedir); if (raiz.parentNode) raiz.parentNode.removeChild(raiz); }, robo ? 0 : 650);
   }
   var pronto = false;
   window.Abertura = {
