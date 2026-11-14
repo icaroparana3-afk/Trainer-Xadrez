@@ -767,6 +767,117 @@ button.selo-dev:active{transform:scale(.92)}
 .pc.tomba svg{transform-origin:50% 92%;transform:rotate(80deg) translate(6%,0);transition:transform .65s cubic-bezier(.55,0,.35,1.35);filter:drop-shadow(0 0 5px rgba(229,72,77,.95))}
 @media (prefers-reduced-motion:reduce){.tabuleiro .efeitos{display:none}}
 
+/* ============================ NÍVEL, MISSÕES, SEQUÊNCIA E RANKING ============================ */
+@keyframes chamaDanca{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.12) rotate(3deg)}}
+@keyframes bauPula{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-4px) rotate(-6deg)}60%{transform:translateY(-2px) rotate(5deg)}}
+.selo-nv{--tam:28px;display:inline-grid;place-items:center;width:var(--tam);height:var(--tam);flex:none;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--nv) 55%,#fff),var(--nv) 60%,color-mix(in srgb,var(--nv) 60%,#000));
+  box-shadow:0 0 0 2px var(--fundo),0 2px 6px var(--sombra);color:#141820}
+.selo-nv b{font-family:var(--tit);font-weight:700;font-size:calc(var(--tam) * .46);line-height:1}
+.perfil-topo .selo-nv{position:absolute;right:-4px;bottom:-2px}
+.barra-xp{display:block;height:8px;border-radius:4px;background:var(--sup2);overflow:hidden}
+.barra-xp i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--nv,var(--info)),color-mix(in srgb,var(--nv,var(--info)) 60%,#fff));animation:barraCresce 1s cubic-bezier(.2,.8,.2,1) .3s both}
+.xp-txt{color:var(--info);font-weight:700;white-space:nowrap}
+
+/* faixa de nível na tela inicial */
+.nivel-home{display:grid;grid-template-columns:1fr auto;grid-template-areas:"tx chama" "barra chama";column-gap:12px;row-gap:6px;align-items:center;
+  padding:10px 14px;border-radius:16px;background:var(--sup);border:1px solid var(--linha);text-align:left;margin-top:-6px}
+.nivel-home:active{transform:scale(.98)}
+.nivel-home .nh-tx{grid-area:tx;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.nivel-home .nh-tx b{font-size:.92rem}.nivel-home .nh-tx small{font-size:.76rem;color:var(--txt2)}
+.nivel-home .barra-xp{grid-area:barra}
+.chama-chip{grid-area:chama;display:flex;align-items:center;gap:3px;padding:6px 10px;border-radius:999px;background:var(--dest-bg);color:var(--dest);font-weight:700;font-size:.95rem;white-space:nowrap}
+.chama-chip.apagada{filter:grayscale(1);opacity:.6}
+.chama-chip.risco{box-shadow:0 0 0 2px var(--alerta);animation:pulsoDest 2s infinite}
+
+/* missões */
+.missoes-home{padding:14px}
+.ms-cab{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.ms-cab h3{margin:0}
+.link-ver{color:var(--dest);font-weight:600;font-size:.85rem;padding:4px 0}
+.ms-lista{display:flex;flex-direction:column;gap:8px}
+.ms-it,.ms-bau{display:flex;align-items:center;gap:12px;padding:10px;border-radius:14px;background:var(--sup2)}
+.ms-ic,.bau-ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none;background:var(--sup);font-size:1.2rem}
+.ms-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.ms-tx b{font-size:.9rem;line-height:1.25}
+.ms-tx small{font-size:.74rem;color:var(--txt2)}
+.ms-tx small svg.moeda,.nv-cartao .sub svg.moeda,.seq-cartao>p.sub svg.moeda{width:14px;height:14px;vertical-align:-2px;margin-right:2px}
+.ms-fim{color:var(--ok);font-size:.88rem;font-weight:600}
+.ms-tx .barrinha{--c:var(--info);margin-top:2px}
+.ms-n{font-weight:700;color:var(--txt2);font-size:.85rem;white-space:nowrap}
+.ms-it.feita{background:var(--dest-bg);box-shadow:inset 0 0 0 1px var(--dest)}
+.ms-it.feita .ms-ic{animation:bauPula 1.6s ease-in-out infinite}
+.ms-it.pega{background:var(--ok-bg2);box-shadow:none}
+.ms-it.pega .ms-ic{background:var(--ok);color:#0b2a17;font-weight:800;animation:none}
+.ms-it.pega b{color:var(--txt2);text-decoration:line-through;text-decoration-thickness:1px}
+.ms-bau{border:1px dashed var(--linha);background:transparent}
+.ms-bau.pronto{border:1px solid var(--dest);background:var(--dest-bg)}
+.ms-bau.pronto .bau-ic{animation:bauPula 1.2s ease-in-out infinite}
+.ms-bau.aberto{opacity:.7}
+
+/* cartão de nível (missões e perfil) */
+.nv-cartao{display:flex;align-items:center;gap:14px;text-align:left;width:100%}
+.nv-cartao .nv-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.nv-cartao .nv-tx>small{font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--nv)}
+.nv-cartao .nv-tx>b{font-family:var(--tit);font-size:1.3rem;line-height:1.1}
+.nv-cartao .nv-tx .sub{font-size:.8rem}
+.nv-cartao.peq{padding:12px 14px}
+.nv-cartao.peq .nv-tx>small{font-size:.8rem;letter-spacing:.02em;text-transform:none;color:var(--txt);font-weight:700}
+.nv-cartao .seta{width:18px;height:18px;fill:none;stroke:var(--txt2);stroke-width:2.2;stroke-linecap:round;flex:none}
+
+/* sequência */
+.seq-cab{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.seq-cab b{display:block;font-family:var(--tit);font-size:1.3rem}
+.seq-cab .chama{font-size:2.4rem;line-height:1;filter:grayscale(1);opacity:.5}
+.seq-cartao.viva .chama{filter:none;opacity:1;animation:chamaDanca 1.8s ease-in-out infinite}
+.seq-bolas{display:flex;justify-content:space-between;gap:6px;margin-bottom:10px}
+.seq-bolas i{flex:1;max-width:40px;aspect-ratio:1;border-radius:50%;background:var(--sup2);display:grid;place-items:center;position:relative}
+.seq-bolas i.on{background:linear-gradient(160deg,#ffcf5a,#f07a3a)}
+.seq-bolas i.on::before{content:"🔥";font-size:1rem}
+.seq-bolas i.hj{box-shadow:0 0 0 2px var(--dest)}
+.seq-bolas small{position:absolute;bottom:-17px;font-size:.62rem;color:var(--txt2);font-style:normal}
+.seq-cartao .seq-bolas{margin-bottom:24px}
+.xp-lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.xp-lista li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--linha);font-size:.9rem}
+.xp-lista li:last-child{border-bottom:0}
+.xp-lista b{color:var(--info);white-space:nowrap}
+
+/* ranking */
+.abas-rk{display:flex;gap:4px;padding:4px;border-radius:14px;background:var(--sup2)}
+.abas-rk button{flex:1;padding:9px 6px;border-radius:11px;font-weight:600;color:var(--txt2)}
+.abas-rk button.on{background:var(--sup);color:var(--txt);box-shadow:0 2px 8px var(--sombra)}
+.rk-exp{margin:-4px 2px 0;font-size:.82rem}
+.rk-lista{padding:6px;display:flex;flex-direction:column;gap:2px}
+.rk-it{display:flex;align-items:center;gap:10px;padding:8px;border-radius:14px;min-height:58px}
+.rk-it.eu{background:var(--dest-bg);box-shadow:inset 0 0 0 1px var(--dest)}
+.rk-it.esq{background:var(--sup2);opacity:.5;animation:surge 1s ease-in-out infinite alternate}
+.rk-pos{width:28px;text-align:center;font-family:var(--tit);font-weight:700;color:var(--txt2);flex:none}
+.rk-it.top1 .rk-pos,.rk-it.top2 .rk-pos,.rk-it.top3 .rk-pos{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:#1b1404}
+.rk-it.top1 .rk-pos{background:linear-gradient(160deg,#ffe27a,#c48b12)}
+.rk-it.top2 .rk-pos{background:linear-gradient(160deg,#eef2f6,#8d97a5)}
+.rk-it.top3 .rk-pos{background:linear-gradient(160deg,#e3a46b,#9a5b2a)}
+.rk-av{position:relative;flex:none;display:grid;place-items:center;width:46px;height:46px}
+.rk-av .selo-nv{position:absolute;right:-4px;bottom:-4px}
+.rk-tx{flex:1;min-width:0;display:flex;flex-direction:column}
+.rk-tx b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.95rem}
+.rk-tx b em{font-style:normal;font-size:.7rem;font-weight:700;color:var(--dest);text-transform:uppercase;letter-spacing:.05em;margin-left:4px}
+.rk-tx small{font-size:.76rem;color:var(--txt2)}
+.rk-val{font-family:var(--tit);font-weight:700;font-size:1.05rem;text-align:right;white-space:nowrap;display:flex;flex-direction:column;line-height:1.1}
+.rk-val small{font-family:Inter,sans-serif;font-size:.68rem;font-weight:600;color:var(--txt2)}
+.rk-vazio{padding:28px 16px;text-align:center;display:flex;flex-direction:column;gap:4px}
+.rk-sep{text-align:center;margin:10px 0 4px;font-size:.78rem}
+
+/* tela de fim, perfil e online */
+.fim-nv{border-color:var(--nv);background:color-mix(in srgb,var(--nv) 18%,var(--sup))}
+.fim-nv small{color:var(--nv)}
+.fim-ms{border-color:var(--info);background:var(--info-bg)}
+.fim-ms small,.fim-ms em{color:var(--info)}
+.fim-ms b{font-size:.88rem}
+.fim-nums.n4{gap:6px}.fim-nums.n4>div{padding:10px 4px;min-width:0}.fim-nums.n4 b{font-size:1.35rem}.fim-nums.n4 small{font-size:.68rem}
+.pts-on{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;padding:10px 12px;margin-bottom:14px;border-radius:14px;background:var(--sup2)}
+.pts-on b{font-family:var(--tit);font-size:1.2rem;color:var(--dest)}
+.pts-on small{color:var(--txt2);font-size:.78rem}
+
 </style>
 </head>
 <body>
@@ -2706,6 +2817,9 @@ const Dados = {
       ajustes: { tema: 'escuro', som: true, vibrar: true, coords: true, pontos: true, efeitos: true },
       extras: { dicas: 0, viradas: 0, salas: {}, zeradoEm: 0 },
       livro: {},                                             // contagens de cada aparelho (moedas e partidas) — ver Livro
+      sequencia: { atual: 0, melhor: 0, ultimo: '' },         // dias seguidos jogando
+      missoes: null,                                         // missões do dia: {dia, lista, prog, pegas, bau}
+      ranque: { pts: 1000, n: 0, t: 0, melhor: 1000 },        // pontos das partidas online
       atualizadoEm: 0
     };
   },
@@ -2714,7 +2828,7 @@ const Dados = {
     const p = this.padrao();
     if (!o || typeof o !== 'object') return p;
     for (const k in o) if (k in p) p[k] = o[k];
-    for (const k of ['desafios', 'cfg', 'cfgAmigo', 'cfgOnline', 'perfil', 'ajustes', 'extras', 'online']) p[k] = Object.assign(this.padrao()[k], o[k] || {});
+    for (const k of ['desafios', 'cfg', 'cfgAmigo', 'cfgOnline', 'perfil', 'ajustes', 'extras', 'online', 'sequencia', 'ranque']) p[k] = Object.assign(this.padrao()[k], o[k] || {});
     if (!Array.isArray(p.porNivel) || p.porNivel.length !== 6) p.porNivel = this.padrao().porNivel;
     if (!Array.isArray(p.partidas)) p.partidas = [];
     if (!Array.isArray(p.desafios.hist)) p.desafios.hist = [p.desafios.pontos];
@@ -2760,8 +2874,8 @@ const Livro = {
   },
   vazio() { return { g: 0, s: 0, pn: [0, 1, 2, 3, 4, 5].map(() => ({ v: 0, e: 0, d: 0 })), on: { v: 0, e: 0, d: 0 }, lo: 0 }; },
   /* moedas das conquistas e troféus: calculadas pela lista (cada conquista paga uma vez só, mesmo ganha em dois aparelhos) */
-  bonus(d) {
-    let b = 0;
+  bonus(d, comNiveis = true) {
+    let b = comNiveis && typeof XP !== 'undefined' ? XP.bonusNiveis(d) : 0;      // prêmio de cada nível de XP alcançado
     if (typeof CONQUISTAS !== 'undefined') CONQUISTAS.forEach(c => { if (d.conquistas[c.id]) b += c.moedas; });
     if (typeof TROFEUS !== 'undefined') TROFEUS.forEach(t => { if (d.conquistas['tr-' + t.id]) b += t.moedas; });
     return b;
@@ -2769,7 +2883,7 @@ const Livro = {
   /* dados de versões antigas: os totais viram uma entrada "legado" */
   migrar(p) {
     const l = this.vazio();
-    l.g = Math.max(0, (p.moedasTotal || MOEDAS_INICIAIS) - MOEDAS_INICIAIS - this.bonus(p));
+    l.g = Math.max(0, (p.moedasTotal || MOEDAS_INICIAIS) - MOEDAS_INICIAIS - this.bonus(p, false));
     l.s = Math.max(0, (p.moedasTotal || MOEDAS_INICIAIS) - (p.moedas == null ? MOEDAS_INICIAIS : p.moedas));
     l.pn = p.porNivel.map(n => ({ v: n.v || 0, e: n.e || 0, d: n.d || 0 }));
     l.on = { v: p.online.v || 0, e: p.online.e || 0, d: p.online.d || 0 }; l.lo = p.local || 0;
@@ -2778,12 +2892,14 @@ const Livro = {
   meu(d = Dados.d) { const id = this.id(); if (!d.livro[id]) d.livro[id] = this.vazio(); return d.livro[id]; },
   /* refaz os totais (moedas, partidas por nível, online, local) somando todos os aparelhos */
   recalcular(d = Dados.d) {
-    let g = 0, s = 0, lo = 0, gg = 0, gs = 0; const pn = this.vazio().pn, on = { v: 0, e: 0, d: 0 };
+    let g = 0, s = 0, lo = 0, gg = 0, gs = 0, xe = 0, xs = 0; const pn = this.vazio().pn, on = { v: 0, e: 0, d: 0 }, sem = typeof semanaTxt === 'function' ? semanaTxt() : '';
     for (const k in d.livro) {
       const l = d.livro[k]; g += (l.g || 0) + (l.aj || 0); s += l.s || 0; lo += l.lo || 0; gg += l.gg || 0; gs += l.gs || 0;
+      xe += l.xe || 0; if (l.xs && l.xs.s === sem) xs += l.xs.v || 0;
       (l.pn || []).forEach((n, i) => { if (pn[i]) { pn[i].v += n.v || 0; pn[i].e += n.e || 0; pn[i].d += n.d || 0; } });
       if (l.on) { on.v += l.on.v || 0; on.e += l.on.e || 0; on.d += l.on.d || 0; }
     }
+    d.porNivel = pn; d.online = on; d.local = lo; d.gemas = Math.max(0, gg - gs); d.xpExtra = xe; d.xpSemana = xs;   // antes do bônus: o XP depende deles
     const b = this.bonus(d);
     let saldo = MOEDAS_INICIAIS + g + b - s;
     /* o saldo nunca fica negativo. Isso acontecia quando dois aparelhos gastavam o mesmo saldo
@@ -2791,7 +2907,6 @@ const Livro = {
        vai para a conta, então o saldo fica em 0 em todos os aparelhos. */
     if (!(saldo >= 0)) { const m = this.meu(d), falta = Math.ceil(-(saldo || 0)); m.aj = (m.aj || 0) + falta; g += falta; saldo = 0; }
     d.moedasTotal = Math.max(0, MOEDAS_INICIAIS + g + b - (this.somaAj(d))); d.moedas = Math.max(0, Math.round(saldo));
-    d.porNivel = pn; d.online = on; d.local = lo; d.gemas = Math.max(0, gg - gs);
   },
   somaAj(d) { let t = 0; for (const k in d.livro) t += d.livro[k].aj || 0; return t; },
   /* junta dois livros: em cada aparelho vale o maior número (cada aparelho só aumenta os seus) */
@@ -2804,6 +2919,9 @@ const Livro = {
       if (y.aj || x.aj) y.aj = Math.max(y.aj || 0, x.aj || 0);
       if (y.gg || x.gg) y.gg = Math.max(y.gg || 0, x.gg || 0);
       if (y.gs || x.gs) y.gs = Math.max(y.gs || 0, x.gs || 0);
+      if (y.xe || x.xe) y.xe = Math.max(y.xe || 0, x.xe || 0);
+      if (x.xs && (!y.xs || x.xs.s > y.xs.s)) y.xs = Object.assign({}, x.xs);           // XP da semana: vale a semana mais nova
+      else if (x.xs && y.xs && x.xs.s === y.xs.s) y.xs.v = Math.max(y.xs.v || 0, x.xs.v || 0);
       y.pn = (y.pn || this.vazio().pn).map((n, i) => { const m = (x.pn || [])[i] || {}; return { v: Math.max(n.v, m.v || 0), e: Math.max(n.e, m.e || 0), d: Math.max(n.d, m.d || 0) }; });
       const o = x.on || {}; y.on = { v: Math.max(y.on.v, o.v || 0), e: Math.max(y.on.e, o.e || 0), d: Math.max(y.on.d, o.d || 0) };
     }
@@ -4101,7 +4219,8 @@ function estadoJogador() {
     vitNivel: d.porNivel.map(n => n.v), online: d.online.v + d.online.e + d.online.d, onlineV: d.online.v, local: d.local,
     fases, modulos, estrelas, totalFases: MODULOS.reduce((s, m) => s + m.fases.length, 0),
     desafios: Object.keys(d.desafios.feitos).length, pontos: d.desafios.pontos, seq: d.desafios.melhorSeq || 0,
-    flags: d.extras.flags || {}, moedasTotal: d.moedasTotal, compras: Object.keys(d.itens).length
+    flags: d.extras.flags || {}, moedasTotal: d.moedasTotal, compras: Object.keys(d.itens).length,
+    diasSeguidos: Math.max(d.sequencia.melhor || 0, d.sequencia.atual || 0), nivelXp: XP.nivel(XP.total(d)).n, ptsOnline: d.ranque.melhor || 1000
   };
 }
 const cont = (chave, meta) => ({ cond: e => e[chave] >= meta, prog: e => [Math.min(e[chave], meta), meta] });
@@ -4110,7 +4229,7 @@ const flag = f => ({ cond: e => !!e.flags[f] });
 /* ---------- lista de conquistas ---------- */
 const GRUPOS_CONQ = [
   { id: 'partidas', nome: 'Partidas' }, { id: 'amigos', nome: 'Com os amigos' }, { id: 'fases', nome: 'Aprender' },
-  { id: 'desafios', nome: 'Desafios táticos' }, { id: 'extras', nome: 'Extras' }
+  { id: 'desafios', nome: 'Desafios táticos' }, { id: 'rotina', nome: 'Nível e rotina' }, { id: 'extras', nome: 'Extras' }
 ];
 const CONQUISTAS = [
   // partidas
@@ -4165,6 +4284,16 @@ const CONQUISTAS = [
   { id: 'pt1000', g: 'desafios', ic: '4️⃣', nome: 'Quatro dígitos, hein?', desc: 'Chegue a 1000 pontos nos desafios.', moedas: 40, ...cont('pontos', 1000) },
   { id: 'pt1300', g: 'desafios', ic: '🧮', nome: 'Calculadora ambulante', desc: 'Chegue a 1300 pontos nos desafios.', moedas: 80, ...cont('pontos', 1300) },
   { id: 'pt1500', g: 'desafios', ic: '📚', nome: 'Tá estudando escondido?', desc: 'Chegue a 1500 pontos nos desafios.', moedas: 150, ...cont('pontos', 1500) },
+  // nível e rotina
+  { id: 'dias3', g: 'rotina', ic: '📅', nome: 'Pegando o ritmo', desc: 'Jogue 3 dias seguidos.', moedas: 20, ...cont('diasSeguidos', 3) },
+  { id: 'dias7', g: 'rotina', ic: '🔥', nome: 'Uma semana sem faltar', desc: 'Jogue 7 dias seguidos.', moedas: 60, ...cont('diasSeguidos', 7) },
+  { id: 'dias30', g: 'rotina', ic: '🧘', nome: 'Disciplina de monge', desc: 'Jogue 30 dias seguidos.', moedas: 200, ...cont('diasSeguidos', 30) },
+  { id: 'nvl5', g: 'rotina', ic: '🐴', nome: 'Já é um Cavalo', desc: 'Chegue ao nível 5.', moedas: 30, ...cont('nivelXp', 5) },
+  { id: 'nvl10', g: 'rotina', ic: '⛪', nome: 'Bispo na diagonal certa', desc: 'Chegue ao nível 10.', moedas: 60, ...cont('nivelXp', 10) },
+  { id: 'nvl20', g: 'rotina', ic: '👸', nome: 'Dama do tabuleiro', desc: 'Chegue ao nível 20.', moedas: 150, ...cont('nivelXp', 20) },
+  { id: 'bau', g: 'rotina', ic: '🧰', nome: 'Tesouro do dia', desc: 'Cumpra as 3 missões do dia e abra o baú.', moedas: 20, ...flag('bau') },
+  { id: 'pts1100', g: 'rotina', ic: '📊', nome: 'Subindo na tabela', desc: 'Chegue a 1100 pontos no online.', moedas: 50, ...cont('ptsOnline', 1100) },
+  { id: 'pts1300', g: 'rotina', ic: '🦈', nome: 'Temido no online', desc: 'Chegue a 1300 pontos no online.', moedas: 120, ...cont('ptsOnline', 1300) },
   // extras
   { id: 'perfil', g: 'extras', ic: '🪪', nome: 'Prazer, sou eu', desc: 'Escolha um nome e uma foto no seu perfil.', moedas: 20, ...flag('perfil') },
   { id: 'loja', g: 'extras', ic: '🛍️', nome: 'Gastando as economias', desc: 'Compre seu primeiro item na loja.', moedas: 20, ...cont('compras', 1) },
@@ -4208,7 +4337,7 @@ const Conquistas = {
   },
   pausa: false,
   /* fotografia antes de uma partida: depois dá para saber o que foi ganho nela */
-  foto() { return { moedas: Dados.d.moedas, conq: new Set(Object.keys(Dados.d.conquistas)), molv: moldurasNivel() }; },
+  foto() { return { moedas: Dados.d.moedas, conq: new Set(Object.keys(Dados.d.conquistas)), molv: moldurasNivel(), xp: XP.total(), ms: Missoes.feitas() }; },
   novasDesde(f) {
     if (!f) return [];
     return Object.keys(Dados.d.conquistas).filter(id => !f.conq.has(id)).map(id => {
@@ -4228,12 +4357,14 @@ const Conquistas = {
     const el = $('#conquista-pop');
     let html, longo = false;
     if (this.fila.length >= 3) {                 // muitas de uma vez: um aviso só
-      const todas = this.fila.splice(0), soma = todas.reduce((s, x) => s + x.c.moedas, 0), tr = todas.filter(x => x.tipo === 'trofeu');
-      html = `<span class="cq-ic">${tr.length ? svgTrofeu(tr[tr.length - 1].c.id, true, 44) : '🏅'}</span><span><small>Conquistas desbloqueadas!</small><b>${todas.length} de uma vez${tr.length ? ' (incluindo ' + tr.length + ' troféu' + (tr.length > 1 ? 's' : '') + ')' : ''}</b><em>+${soma} moedas · veja em Conquistas</em></span>`;
+      const todas = this.fila.splice(0), soma = todas.reduce((s, x) => s + (x.c.moedas || 0), 0), tr = todas.filter(x => x.tipo === 'trofeu');
+      const soConq = todas.every(x => x.tipo === 'conquista' || x.tipo === 'trofeu');
+      html = `<span class="cq-ic">${tr.length ? svgTrofeu(tr[tr.length - 1].c.id, true, 44) : '🏅'}</span><span><small>${soConq ? 'Conquistas desbloqueadas!' : 'Novidades!'}</small><b>${todas.length} de uma vez${tr.length ? ' (incluindo ' + tr.length + ' troféu' + (tr.length > 1 ? 's' : '') + ')' : ''}</b><em>${soma ? '+' + soma + ' moedas · ' : ''}veja em ${soConq ? 'Conquistas' : 'Missões'}</em></span>`;
       longo = true;
     } else {
-      const { c, tipo } = this.fila.shift(); longo = tipo === 'trofeu';
-      html = `<span class="cq-ic">${tipo === 'trofeu' ? svgTrofeu(c.id, true, 44) : c.ic}</span><span><small>${tipo === 'trofeu' ? 'Troféu conquistado!' : 'Conquista desbloqueada!'}</small><b>${esc(c.nome)}</b><em>+${c.moedas} moedas</em></span>`;
+      const { c, tipo } = this.fila.shift(); longo = tipo === 'trofeu' || tipo === 'nivel';
+      const rot = { trofeu: 'Troféu conquistado!', nivel: 'Subiu de nível!', missao: 'Missão cumprida!', seq: 'Sequência de dias' }[tipo] || 'Conquista desbloqueada!';
+      html = `<span class="cq-ic">${tipo === 'trofeu' ? svgTrofeu(c.id, true, 44) : c.ic}</span><span><small>${rot}</small><b>${esc(c.nome)}</b><em>${c.sub ? esc(c.sub) : '+' + c.moedas + ' moedas'}</em></span>`;
     }
     el.innerHTML = html;
     el.classList.remove('oculto'); el.classList.add('entra');
@@ -4335,7 +4466,10 @@ const Perfil = {
       <div class="cartao perfil-cab">${htmlAvatar(p.avatar, p.moldura, 96)}
         <div style="flex:1;min-width:0"><label class="sub" for="nome">Nome de usuário</label>
           <input id="nome" class="campo" maxlength="20" value="${esc(p.nome)}" placeholder="Seu nome" autocomplete="nickname">
-          <div class="sub" style="margin-top:6px">${e.vitorias} vitórias · ${e.fases} fases · ${e.desafios} desafios · ${MOEDA} ${d.moedas}</div></div></div>
+          <div class="sub" style="margin-top:6px">${e.vitorias} vitória${e.vitorias === 1 ? '' : 's'} · ${e.fases} fase${e.fases === 1 ? '' : 's'} · ${e.desafios} desafio${e.desafios === 1 ? '' : 's'} · ${MOEDA} ${d.moedas}</div></div></div>
+      ${(() => { const xp = XP.total(), nv = XP.nivel(xp), t = XP.titulo(nv.n); return `<button class="cartao nv-cartao peq" data-ir-missoes="1" style="--nv:${t.cor}">${XP.selo(nv.n, 48)}
+        <span class="nv-tx"><small>Nível ${nv.n} · ${t.nome}</small><span class="barra-xp"><i style="width:${Math.round(nv.frac * 100)}%"></i></span>
+        <span class="sub">${nv.atual}/${nv.prox} XP · 🔥 ${Sequencia.viva()} ${Sequencia.viva() === 1 ? 'dia' : 'dias'}${d.ranque.n ? ` · ${d.ranque.pts} pts online` : ''}</span></span>${SETA}</button>`; })()}
       ${Dev.ativo ? `<button class="linha-menu cor-dest" data-dev-abrir="1"><span class="ic2"><span class="selo-dev">DEV</span></span><span class="tx"><b>Painel do desenvolvedor</b><small>Moedas, gemas, desbloqueios e atalhos de teste</small></span>${SETA}</button>` : ''}
       <div class="cartao"><h3>Foto de perfil</h3><div class="grade-av">
         ${avs.map(a => `<button class="op-av${p.avatar === a.id ? ' on' : ''}" data-av="${a.id}" title="${a.nome}">${htmlAvatar(a.id, '', 54)}</button>`).join('')}
@@ -4358,7 +4492,8 @@ const Perfil = {
     });
     $('#tela').onclick = ev => {
       const b = ev.target.closest('button'); if (!b) return;
-      if (b.dataset.loja) { Loja.aba = 'av'; App.ir('loja'); }
+      if (b.dataset.irMissoes) App.ir('missoes');
+      else if (b.dataset.loja) { Loja.aba = 'av'; App.ir('loja'); }
       else if (b.dataset.av) { p.avatar = b.dataset.av; Dados.salvar(); this.checarConquista(); App.atualizarTopo(); Nuvem.publicarPerfil(); this.tela(); }
       else if (b.dataset.mold != null && !b.disabled) { p.moldura = b.dataset.mold; Dados.salvar(); App.atualizarTopo(); Nuvem.publicarPerfil(); this.tela(); }
     };
@@ -4420,6 +4555,307 @@ const Ajustes = {
     if (instalado) return 'O aplicativo já está instalado neste aparelho e funciona sem internet. ✓';
     if (location.protocol === 'file:') return 'Você abriu o arquivo direto do computador: tudo funciona sem internet (só as contas e o jogo online precisam de conexão).';
     return 'O jogo funciona sem internet depois de aberto uma vez. Para ter um ícone na tela inicial: no Android (Chrome), toque em ⋮ e depois em “Instalar app” ou “Adicionar à tela inicial”; no iPhone (Safari), toque em Compartilhar e depois em “Adicionar à Tela de Início”.';
+  }
+};
+
+/* ==========================================================================
+   PROGRESSO — nível (XP), sequência de dias, missões diárias, pontos do
+   online e ranking
+   ========================================================================== */
+
+/* ---------- datas no fuso do aparelho ---------- */
+const diaTxt = (t = new Date()) => t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
+const diaAntes = (dia, n = 1) => { const [a, m, d] = dia.split('-').map(Number); return diaTxt(new Date(a, m - 1, d - n)); };
+/* semana no padrão ISO (começa na segunda): "2026-W46" */
+function semanaTxt(t = new Date()) {
+  const d = new Date(Date.UTC(t.getFullYear(), t.getMonth(), t.getDate()));
+  const dia = d.getUTCDay() || 7; d.setUTCDate(d.getUTCDate() + 4 - dia);
+  const ano = d.getUTCFullYear(), n = Math.ceil(((d - Date.UTC(ano, 0, 1)) / 864e5 + 1) / 7);
+  return ano + '-W' + String(n).padStart(2, '0');
+}
+const campoSemana = () => 's_' + semanaTxt().replace('-', '');
+
+/* ---------- nível e XP ----------
+   A maior parte do XP sai do que já está guardado (vitórias por nível, estrelas,
+   desafios). Assim quem já jogava começa com o nível que merece, e juntar dois
+   aparelhos nunca conta nada duas vezes. Missões e sequência entram como "extra"
+   no livro de cada aparelho. */
+const TITULOS = [
+  { de: 1, nome: 'Peão', p: 'p', cor: '#9fb0c6' }, { de: 5, nome: 'Cavalo', p: 'n', cor: '#5ecb8a' },
+  { de: 10, nome: 'Bispo', p: 'b', cor: '#6aaef7' }, { de: 15, nome: 'Torre', p: 'r', cor: '#c59cf2' },
+  { de: 20, nome: 'Dama', p: 'q', cor: '#f07a7a' }, { de: 30, nome: 'Rei', p: 'k', cor: '#f2b544' }
+];
+const XP = {
+  PC_V: [15, 25, 35, 50, 70, 100], PC_E: 10, PC_D: 5, ON: { v: 40, e: 20, d: 10 }, LOCAL: 5, ESTRELA: 10, DESAFIO: [0, 15, 5],
+  MISSAO: 40, BAU: 80,
+  base(d) {
+    let x = 0;
+    (d.porNivel || []).forEach((n, i) => { x += (n.v || 0) * this.PC_V[i] + (n.e || 0) * this.PC_E + (n.d || 0) * this.PC_D; });
+    const o = d.online || {}; x += (o.v || 0) * this.ON.v + (o.e || 0) * this.ON.e + (o.d || 0) * this.ON.d;
+    x += (d.local || 0) * this.LOCAL;
+    for (const k in d.fases || {}) x += (d.fases[k] || 0) * this.ESTRELA;
+    const f = (d.desafios && d.desafios.feitos) || {}; for (const k in f) x += this.DESAFIO[f[k]] || 0;
+    return x;
+  },
+  total(d = Dados.d) { return this.base(d) + (d.xpExtra || 0); },
+  passo(n) { return 80 + 40 * (n - 1); },                    // XP para ir do nível n ao n+1
+  nivel(xp) {
+    let n = 1, resto = Math.max(0, xp || 0);
+    while (n < 99 && resto >= this.passo(n)) { resto -= this.passo(n); n++; }
+    return { n, atual: resto, prox: this.passo(n), frac: Math.min(1, resto / this.passo(n)) };
+  },
+  titulo(n) { let t = TITULOS[0]; TITULOS.forEach(x => { if (n >= x.de) t = x; }); return t; },
+  moedasNivel(n) { return 10 * n; },                          // prêmio ao chegar no nível n
+  bonusNiveis(d) { const n = this.nivel(this.total(d)).n; let s = 0; for (let k = 2; k <= n; k++) s += this.moedasNivel(k); return s; },
+  /* selo redondo com o número do nível (cor muda a cada título) */
+  selo(n, tam = 0) { const t = this.titulo(n); return `<span class="selo-nv" style="--nv:${t.cor}${tam ? ';--tam:' + tam + 'px' : ''}" aria-label="Nível ${n}"><b>${n}</b></span>`; },
+  /* chamado depois de algo que pode dar XP: soma na semana, conta o dia da sequência e avisa quando sobe de nível */
+  contar(xa) {
+    const d = Dados.d, xb = this.total(d), ganho = xb - xa;
+    if (!(ganho > 0)) return 0;
+    const l = Livro.meu(d), s = semanaTxt();
+    if (!l.xs || l.xs.s !== s) l.xs = { s, v: 0 };
+    l.xs.v += ganho;
+    const na = this.nivel(xa).n, nb = this.nivel(xb).n;
+    Livro.recalcular(d);                                      // nível novo = moedas do prêmio
+    for (let k = na + 1; k <= nb; k++) Conquistas.fila.push({ tipo: 'nivel', c: { id: 'nivel-' + k, nome: 'Nível ' + k + ' · ' + this.titulo(k).nome, ic: this.selo(k, 40), moedas: this.moedasNivel(k) } });
+    if (nb > na) Som.tocar('conquista');
+    Dados.salvar(); App.atualizarTopo(nb > na);
+    Sequencia.marcar();
+    Conquistas.verificar(); Conquistas.mostrar();
+    return ganho;
+  },
+  extra(n) { n = Math.round(n); if (!(n > 0)) return 0; const xa = this.total(), l = Livro.meu(); l.xe = (l.xe || 0) + n; Livro.recalcular(); return this.contar(xa); }
+};
+
+/* ---------- sequência de dias seguidos ---------- */
+const MARCOS_SEQ = { 3: 30, 7: 80, 14: 150, 30: 300, 60: 500, 100: 1000 };
+const Sequencia = {
+  /* primeira atividade do dia (partida, fase, desafio ou missão) */
+  marcar() {
+    const s = Dados.d.sequencia, hoje = diaTxt();
+    if (s.ultimo === hoje) return;
+    s.atual = s.ultimo === diaAntes(hoje) ? (s.atual || 0) + 1 : 1;
+    s.ultimo = hoje; s.melhor = Math.max(s.melhor || 0, s.atual);
+    Dados.salvar();
+    const bonus = this.bonusXp(s.atual), marco = MARCOS_SEQ[s.atual] || 0;
+    if (s.atual >= 2) Conquistas.fila.push({ tipo: 'seq', c: { id: 'seq-' + hoje, nome: s.atual + ' dias seguidos', ic: '🔥', moedas: marco, sub: `+${bonus} XP${marco ? ' · +' + marco + ' moedas' : ''}` } });
+    if (marco) { Livro.meu().g += marco; Livro.recalcular(); }
+    XP.extra(bonus);
+  },
+  bonusXp(n) { return 10 + 5 * Math.min(Math.max(n, 1) - 1, 6); },
+  /* dias seguidos que ainda valem (ontem ou hoje) */
+  viva() { const s = Dados.d.sequencia, h = diaTxt(); return s.ultimo === h || s.ultimo === diaAntes(h) ? s.atual || 0 : 0; },
+  hoje() { return Dados.d.sequencia.ultimo === diaTxt(); },
+  proximoMarco(n) { return Object.keys(MARCOS_SEQ).map(Number).find(k => k > n); }
+};
+
+/* ---------- missões diárias ---------- */
+const MOEDAS_MISSAO = 25, MOEDAS_BAU = 60;
+const venceu = o => o.res === 'v' && o.modo !== 'local';
+const MISSOES = [
+  { id: 'jogar3', g: 'jogo', txt: 'Termine 3 partidas', alvo: 3, ev: t => t === 'partida' },
+  { id: 'vencer', g: 'jogo', txt: 'Vença o computador', alvo: 1, ev: (t, o) => t === 'partida' && o.modo === 'pc' && o.res === 'v' },
+  { id: 'vencer2', g: 'jogo', txt: 'Vença o computador no nível Aprendiz ou acima', alvo: 1, ev: (t, o) => t === 'partida' && o.modo === 'pc' && o.res === 'v' && o.nivel >= 1 },
+  { id: 'semdica', g: 'jogo', txt: 'Vença o computador sem pedir dica', alvo: 1, ev: (t, o) => t === 'partida' && o.modo === 'pc' && o.res === 'v' && !o.dicas },
+  { id: 'mate', g: 'jogo', txt: 'Vença uma partida por xeque-mate', alvo: 1, ev: (t, o) => t === 'partida' && venceu(o) && /xeque-mate/.test(o.motivo || '') },
+  { id: 'pretas', g: 'jogo', txt: 'Vença uma partida jogando de pretas', alvo: 1, ev: (t, o) => t === 'partida' && venceu(o) && o.cor === 'b' },
+  { id: 'online', g: 'jogo', txt: 'Jogue uma partida online', alvo: 1, conta: true, ev: (t, o) => t === 'partida' && o.modo === 'online' },
+  { id: 'desafios3', g: 'treino', txt: 'Resolva 3 desafios táticos', alvo: 3, ev: t => t === 'desafio' },
+  { id: 'primeira2', g: 'treino', txt: 'Acerte 2 desafios de primeira', alvo: 2, ev: (t, o) => t === 'desafio' && o.primeira },
+  { id: 'fase', g: 'treino', txt: 'Conclua uma fase do Aprender', alvo: 1, ev: t => t === 'fase' },
+  { id: 'fase3', g: 'treino', txt: 'Termine uma fase com 3 estrelas', alvo: 1, ev: (t, o) => t === 'fase' && o.est === 3 },
+  { id: 'rever', g: 'treino', txt: 'Reveja uma partida do histórico', alvo: 1, hist: true, ev: t => t === 'rever' }
+];
+const Missoes = {
+  /* as 3 missões de hoje (sorteadas uma vez por dia) */
+  hoje() {
+    const d = Dados.d, dia = diaTxt();
+    if (!d.missoes || d.missoes.dia !== dia) { d.missoes = { dia, lista: this.sortear(dia), prog: {}, pegas: {}, bau: 0 }; Dados.salvar(false); }
+    return d.missoes;
+  },
+  sortear(dia) {
+    let s = 0; for (const c of dia) s = (s * 31 + c.charCodeAt(0)) >>> 0;
+    const rnd = () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
+    const pode = MISSOES.filter(m => (!m.conta || (typeof Nuvem !== 'undefined' && Nuvem.usuario)) && (!m.hist || Dados.d.partidas.length));
+    const tira = l => l.splice(Math.floor(rnd() * l.length), 1)[0];
+    const jogo = pode.filter(m => m.g === 'jogo'), treino = pode.filter(m => m.g === 'treino');
+    const r = [tira(jogo), tira(treino)], resto = jogo.concat(treino);
+    r.push(tira(resto));
+    return r.filter(Boolean).map(m => m.id);
+  },
+  itens() {
+    const m = this.hoje();
+    return m.lista.map(id => MISSOES.find(x => x.id === id)).filter(Boolean)
+      .map(x => ({ id: x.id, txt: x.txt, alvo: x.alvo, n: Math.min(m.prog[x.id] || 0, x.alvo), feita: (m.prog[x.id] || 0) >= x.alvo, pega: !!m.pegas[x.id] }));
+  },
+  feitas() { return this.itens().filter(x => x.feita).map(x => x.id); },
+  /* algo aconteceu no jogo: avança as missões que combinam */
+  evento(t, o = {}) {
+    const m = this.hoje(); let mudou = false;
+    m.lista.forEach(id => {
+      const x = MISSOES.find(y => y.id === id); if (!x) return;
+      const n = m.prog[id] || 0; if (n >= x.alvo) return;
+      let ok = false; try { ok = x.ev(t, o); } catch (e) { ok = false; }
+      if (!ok) return;
+      m.prog[id] = n + 1; mudou = true;
+      if (n + 1 >= x.alvo) Conquistas.fila.push({ tipo: 'missao', c: { id: 'ms-' + id, nome: x.txt, ic: '🎯', moedas: 0, sub: 'Pegue o prêmio em Missões' } });
+    });
+    if (mudou) { Dados.salvar(); Conquistas.mostrar(); }
+  },
+  pegar(id) {
+    const m = this.hoje(), x = MISSOES.find(y => y.id === id);
+    if (!x || m.pegas[id] || !m.lista.includes(id) || (m.prog[id] || 0) < x.alvo) return false;
+    m.pegas[id] = 1; Dados.salvar();
+    Moedas.ganhar(MOEDAS_MISSAO, 'missão cumprida'); XP.extra(XP.MISSAO);
+    return true;
+  },
+  podeBau() { const m = this.hoje(); return !m.bau && m.lista.length > 0 && m.lista.every(id => m.pegas[id]); },
+  abrirBau() {
+    if (!this.podeBau()) return false;
+    this.hoje().bau = 1; Conquistas.marcar('bau'); Dados.salvar();
+    Moedas.ganhar(MOEDAS_BAU, 'baú do dia'); XP.extra(XP.BAU);
+    return true;
+  },
+  /* quanto falta para as missões novas (meia-noite) */
+  faltaTxt() {
+    const a = new Date(), m = new Date(a.getFullYear(), a.getMonth(), a.getDate() + 1), min = Math.max(1, Math.round((m - a) / 60000));
+    return min >= 60 ? Math.floor(min / 60) + 'h ' + String(min % 60).padStart(2, '0') + 'min' : min + ' min';
+  },
+  /* linha de uma missão (usada na tela inicial e na tela de missões) */
+  html(x) {
+    const p = x.alvo > 1 ? `${x.n}/${x.alvo}` : x.feita ? '' : '0/1';
+    return `<div class="ms-it${x.feita ? ' feita' : ''}${x.pega ? ' pega' : ''}">
+      <span class="ms-ic" aria-hidden="true">${x.pega ? '✓' : x.feita ? '🎁' : '🎯'}</span>
+      <span class="ms-tx"><b>${esc(x.txt)}</b><small>${x.pega ? 'Prêmio recebido' : `${MOEDA}${MOEDAS_MISSAO} · +${XP.MISSAO} XP`}</small>
+        ${!x.feita ? `<span class="barrinha"><i style="width:${Math.round(x.n / x.alvo * 100)}%"></i></span>` : ''}</span>
+      ${x.feita && !x.pega ? `<button class="bt pri peq" data-pegar="${x.id}">Pegar</button>` : `<span class="ms-n">${p}</span>`}</div>`;
+  },
+  htmlBau() {
+    const m = this.hoje(), todas = this.itens().filter(x => x.pega).length, pode = this.podeBau();
+    return `<div class="ms-bau${pode ? ' pronto' : ''}${m.bau ? ' aberto' : ''}"><span class="bau-ic" aria-hidden="true">${m.bau ? '📭' : '🧰'}</span>
+      <span class="ms-tx"><b>${m.bau ? 'Baú do dia aberto' : 'Baú do dia'}</b><small>${m.bau ? 'Volte amanhã para novas missões' : pode ? 'Pronto para abrir!' : `Pegue os 3 prêmios para abrir (${todas}/3)`} · ${MOEDA}${MOEDAS_BAU} · +${XP.BAU} XP</small></span>
+      ${pode ? '<button class="bt pri peq" data-bau="1">Abrir</button>' : ''}</div>`;
+  },
+  /* trata os botões "Pegar" e "Abrir" em qualquer tela */
+  clique(e, depois) {
+    const p = e.target.closest('[data-pegar]'), b = e.target.closest('[data-bau]');
+    if (p) { if (this.pegar(p.dataset.pegar)) { vibrar(30); depois(); } return true; }
+    if (b) { if (this.abrirBau()) { vibrar([30, 40, 30]); aviso('Baú aberto! +' + MOEDAS_BAU + ' moedas e +' + XP.BAU + ' XP'); depois(); } return true; }
+    return false;
+  },
+
+  /* tela "Missões": nível, sequência e missões do dia */
+  tela() {
+    App.cabecalho('Missões e nível', 'menu');
+    const d = Dados.d, xp = XP.total(), nv = XP.nivel(xp), t = XP.titulo(nv.n), prox = XP.titulo(nv.n + 1);
+    const seq = Sequencia.viva(), s = d.sequencia, marco = Sequencia.proximoMarco(seq), its = this.itens();
+    const ini = Sequencia.hoje() ? 0 : 1, dias = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+    let bolas = ''; for (let k = 6; k >= 0; k--) { const on = seq && k >= ini && k < ini + seq, dt = new Date(Date.now() - k * 864e5); bolas += `<i class="${on ? 'on' : ''}${k === 0 ? ' hj' : ''}"><small>${k === 0 ? 'hoje' : dias[dt.getDay()]}</small></i>`; }
+    $('#tela').innerHTML = `<div class="pilha estreito">
+      <div class="cartao nv-cartao" style="--nv:${t.cor}">${XP.selo(nv.n, 64)}
+        <div class="nv-tx"><small>Seu nível</small><b>Nível ${nv.n} · ${t.nome}</b>
+          <span class="barra-xp"><i style="width:${Math.round(nv.frac * 100)}%"></i></span>
+          <span class="sub">${nv.atual} de ${nv.prox} XP · ao subir: ${MOEDA}${XP.moedasNivel(nv.n + 1)}${prox.de === nv.n + 1 ? ' e o título ' + prox.nome : ''}</span></div></div>
+      <div class="cartao seq-cartao${seq ? ' viva' : ''}">
+        <div class="seq-cab"><span class="chama" aria-hidden="true">🔥</span><div><b>${seq} ${seq === 1 ? 'dia seguido' : 'dias seguidos'}</b>
+          <span class="sub">${Sequencia.hoje() ? 'Hoje já está garantido ✓' : seq ? 'Jogue hoje para não perder a sequência' : 'Jogue, faça uma fase ou um desafio para começar'}</span></div></div>
+        <div class="seq-bolas" aria-hidden="true">${bolas}</div>
+        <p class="sub">Recorde: ${Math.max(s.melhor || 0, seq)} ${(s.melhor || 0) === 1 ? 'dia' : 'dias'} · cada dia vale até +${Sequencia.bonusXp(7)} XP${marco ? ` · com ${marco} dias: ${MOEDA}${MARCOS_SEQ[marco]}` : ''}</p></div>
+      <div class="cartao"><div class="ms-cab"><h3>Missões do dia</h3><span class="sub">Novas em ${this.faltaTxt()}</span></div>
+        <div class="ms-lista">${its.map(x => this.html(x)).join('')}${this.htmlBau()}</div></div>
+      <div class="cartao"><h3>Como ganhar XP</h3><ul class="xp-lista">
+        <li><span>Vencer o computador</span><b>+${XP.PC_V[0]} a +${XP.PC_V[5]}</b></li>
+        <li><span>Vencer online</span><b>+${XP.ON.v}</b></li>
+        <li><span>Cada estrela nas fases</span><b>+${XP.ESTRELA}</b></li>
+        <li><span>Desafio de primeira</span><b>+${XP.DESAFIO[1]}</b></li>
+        <li><span>Missão do dia</span><b>+${XP.MISSAO}</b></li>
+        <li><span>Dia de sequência</span><b>+${Sequencia.bonusXp(1)} a +${Sequencia.bonusXp(7)}</b></li></ul>
+        <p class="sub" style="margin-top:8px">Empates e derrotas também valem um pouco. Cada nível novo dá moedas.</p></div></div>`;
+    $('#tela').onclick = e => this.clique(e, () => this.tela());
+  }
+};
+
+/* ---------- pontos do online (estilo Elo) ---------- */
+const Ranque = {
+  /* res: 'v' | 'e' | 'd'; advPts: pontos do adversário no começo da partida */
+  aplicar(res, advPts) {
+    const r = Dados.d.ranque, adv = +advPts > 0 ? +advPts : 1000;
+    const K = r.n < 10 ? 40 : 24, esp = 1 / (1 + Math.pow(10, (adv - r.pts) / 400)), s = res === 'v' ? 1 : res === 'e' ? .5 : 0;
+    const antes = r.pts; r.pts = Math.max(100, Math.round(r.pts + K * (s - esp)));
+    r.n++; r.t = Date.now(); r.melhor = Math.max(r.melhor || 1000, r.pts);
+    Dados.salvar(); Conquistas.verificar();
+    return { antes, depois: r.pts, delta: r.pts - antes };
+  }
+};
+
+/* ---------- ranking (coleção pública "ranking/{uid}") ---------- */
+const Ranking = {
+  aba: 'geral', enviado: '', erro: null,
+  doc() {
+    const d = Dados.d, xp = XP.total(d), p = d.perfil;
+    const o = { nome: nomeJogador().slice(0, 20), avatar: p.avatar || 'wn', moldura: p.moldura || '', nivel: XP.nivel(xp).n, xp,
+      on: (d.online.v || 0) + (d.online.e || 0) + (d.online.d || 0), t: Date.now() };
+    if (d.ranque.n > 0) o.pts = d.ranque.pts;
+    if (d.xpSemana > 0) o[campoSemana()] = d.xpSemana;
+    return o;
+  },
+  /* envia o resumo público (nome, foto, nível, XP, pontos) — só quando algo mudou */
+  async publicar() {
+    if (!Nuvem.usuario || !Nuvem.db) return;
+    const o = this.doc(), chave = JSON.stringify(Object.assign({}, o, { t: 0 }));
+    if (chave === this.enviado) return;
+    try { await Nuvem.db.collection('ranking').doc(Nuvem.usuario.uid).set(o); this.enviado = chave; this.erro = null; }
+    catch (e) { this.erro = e && e.code; }
+  },
+  campo(aba) { return aba === 'online' ? 'pts' : aba === 'semana' ? campoSemana() : 'xp'; },
+  async buscar(aba) {
+    const c = this.campo(aba), snap = await Nuvem.db.collection('ranking').orderBy(c, 'desc').limit(50).get();
+    return snap.docs.map(x => Object.assign({ uid: x.id }, x.data(), { valor: x.data()[c] || 0 }));
+  },
+  linha(x, pos, eu) {
+    const t = XP.titulo(x.nivel || 1), un = this.aba === 'online' ? 'pts' : 'XP';
+    return `<div class="rk-it${eu ? ' eu' : ''}${pos && pos <= 3 ? ' top' + pos : ''}"><span class="rk-pos">${pos || '–'}</span>
+      <span class="rk-av">${htmlAvatar(x.avatar || 'wn', x.moldura || '', 40)}${XP.selo(x.nivel || 1, 20)}</span>
+      <span class="rk-tx"><b>${esc(x.nome || 'Jogador')}${eu ? ' <em>você</em>' : ''}</b><small>Nível ${x.nivel || 1} · ${t.nome}${this.aba === 'online' && x.on ? ' · ' + x.on + ' partidas' : ''}</small></span>
+      <span class="rk-val">${(x.valor || 0).toLocaleString('pt-BR')}<small>${un}</small></span></div>`;
+  },
+  async tela() {
+    App.cabecalho('Ranking', 'menu');
+    const abas = [['geral', 'Geral'], ['semana', 'Semana'], ['online', 'Online']];
+    const expl = { geral: 'Quem tem mais XP no total.', semana: 'Quem ganhou mais XP desde segunda-feira. Zera toda semana.', online: 'Pontos das partidas online: sobem quando você vence e descem quando perde. Todo mundo começa com 1000.' };
+    const u = Nuvem.usuario, d = Dados.d;
+    $('#tela').innerHTML = `<div class="pilha estreito">
+      <div class="abas-rk" role="tablist">${abas.map(([id, n]) => `<button role="tab" aria-selected="${this.aba === id}" class="${this.aba === id ? 'on' : ''}" data-aba="${id}">${n}</button>`).join('')}</div>
+      <p class="sub rk-exp">${expl[this.aba]}</p>
+      <div class="cartao rk-lista" id="rk-lista" aria-live="polite">${'<div class="rk-it esq"><span></span></div>'.repeat(5)}</div>
+      ${u ? '' : '<div class="cartao destaque"><b>Entre com uma conta para aparecer no ranking</b><p class="sub" style="margin:4px 0 10px">É grátis e também salva seu progresso.</p><button class="bt pri" data-ir-perfil="1">Entrar na conta</button></div>'}</div>`;
+    $('#tela').onclick = e => {
+      const a = e.target.closest('[data-aba]'); if (a) { this.aba = a.dataset.aba; this.tela(); return; }
+      if (e.target.closest('[data-ir-perfil]')) App.ir('perfil');
+    };
+    const lista = $('#rk-lista'), msg = (tit, txt) => { lista.innerHTML = `<div class="rk-vazio"><b>${tit}</b><span class="sub">${txt}</span></div>`; };
+    if (!Nuvem.configurada()) return msg('Ranking indisponível', 'Este aparelho não está ligado à nuvem do jogo.');
+    if (navigator.onLine === false) return msg('Sem internet', 'O ranking precisa de internet. Seus pontos continuam contando offline.');
+    for (let k = 0; k < 40 && Nuvem.estado === 'carregando'; k++) await espera(150);
+    if (Nuvem.estado !== 'pronta' || !Nuvem.db) return msg('Ranking indisponível agora', 'Não consegui conectar. Tente de novo daqui a pouco.');
+    const aba = this.aba;
+    if (u) await this.publicar();
+    let l;
+    try { l = await this.buscar(aba); }
+    catch (e) {
+      if (App.atual !== 'ranking' || this.aba !== aba) return;
+      return e && e.code === 'permission-denied' ? msg('O ranking ainda não foi ativado', 'Falta atualizar as regras do banco de dados no Firebase.') : msg('Não consegui carregar o ranking', msgErro(e));
+    }
+    if (App.atual !== 'ranking' || this.aba !== aba) return;
+    const meu = u ? l.findIndex(x => x.uid === u.uid) : -1;
+    let html = l.map((x, i) => this.linha(x, i + 1, u && x.uid === u.uid)).join('');
+    if (!l.length) html = `<div class="rk-vazio"><b>${aba === 'semana' ? 'Ninguém pontuou nesta semana ainda' : aba === 'online' ? 'Ninguém jogou online ainda' : 'Ninguém no ranking ainda'}</b><span class="sub">Seja o primeiro!</span></div>`;
+    if (u && meu < 0) {
+      const eu = this.doc(), v = aba === 'online' ? (d.ranque.n ? d.ranque.pts : 0) : aba === 'semana' ? d.xpSemana || 0 : eu.xp;
+      html += `<p class="sub rk-sep">${aba === 'online' && !d.ranque.n ? 'Jogue uma partida online para entrar' : 'Você ainda não está entre os 50 primeiros'}</p>` + this.linha(Object.assign(eu, { valor: v }), 0, true);
+    }
+    lista.innerHTML = html;
   }
 };
 
@@ -4488,7 +4924,7 @@ function pintarBarra(el, av, ori) {
 /* ---------- registro da partida nas estatísticas (moedas e conquistas incluídas) ---------- */
 function registrarPartida(op) {
   // op: {modo, nivel, cor, vencedor ('w'|'b'|null), motivo, plies, relogio, dicas}
-  const d = Dados.d;
+  const d = Dados.d, xa = XP.total(d);
   const res = op.vencedor == null ? 'e' : (op.modo === 'local' ? op.vencedor : (op.vencedor === op.cor ? 'v' : 'd'));
   const reg = { t: Date.now(), modo: op.modo, nivel: op.nivel, cor: op.cor, res, motivo: op.motivo, prec: null, cont: null, lances: op.plies, dicas: op.dicas || 0 };
   if (op.san && op.san.length) reg.san = op.san.join(' ');     // lances da partida: permitem rever e analisar depois (histórico)
@@ -4508,6 +4944,8 @@ function registrarPartida(op) {
   }
   Dados.salvar();
   if (valeu && moedas) Moedas.ganhar(moedas, res === 'v' ? 'vitória' : res === 'e' ? 'empate' : 'partida jogada');
+  if (valeu) Missoes.evento('partida', { modo: op.modo, res, nivel: op.nivel, cor: op.cor, dicas: op.dicas || 0, motivo: op.motivo });
+  XP.contar(xa);
   Conquistas.verificar();
   return reg;
 }
@@ -4527,6 +4965,10 @@ function telaFim(o) {
   // o: { res: 'v'|'e'|'d', titulo, motivo, prec, cont, foto, botoes: [{txt, cls, val}] }
   return new Promise(resolve => {
     const ganhou = o.foto ? Math.max(0, Dados.d.moedas - o.foto.moedas) : 0, conq = Conquistas.novasDesde(o.foto);
+    const xpGanho = o.foto && o.foto.xp != null ? Math.max(0, XP.total() - o.foto.xp) : 0;
+    const nvA = o.foto && o.foto.xp != null ? XP.nivel(o.foto.xp).n : 0, nvB = XP.nivel(XP.total()).n, niveis = [];
+    for (let k = nvA + 1; nvA && k <= nvB; k++) niveis.push(k);
+    const missoes = o.foto && o.foto.ms ? Missoes.itens().filter(x => x.feita && !o.foto.ms.includes(x.id)) : [];
     const molds = o.foto && o.foto.molv ? moldurasNivel().filter(id => !o.foto.molv.includes(id)).map(id => MOLDURAS.find(m => m.id === id)) : [];
     const ic = o.res === 'v' ? '<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/>'
       : o.res === 'e' ? '<path d="M5 9h14M5 15h14"/>' : '<path d="M5 21V4M5 4h12l-2.5 4L17 12H5"/>';
@@ -4536,16 +4978,20 @@ function telaFim(o) {
     const nums = [];
     if (o.prec != null) nums.push(`<div><b style="color:var(--ok)" data-conta="${Math.round(o.prec)}" data-suf="%">0%</b><small>Precisão</small></div>`);
     if (ganhou) nums.push(`<div><b style="color:var(--dest)" data-conta="${ganhou}" data-pre="+">+0</b><small>Moedas</small></div>`);
+    if (xpGanho) nums.push(`<div><b style="color:var(--info)" data-conta="${xpGanho}" data-pre="+">+0</b><small>XP</small></div>`);
+    if (o.pts) nums.push(`<div><b style="color:${o.pts.delta >= 0 ? 'var(--ok)' : 'var(--ruim)'}">${o.pts.delta >= 0 ? '+' : '−'}${Math.abs(o.pts.delta)}</b><small>Pontos (${o.pts.depois})</small></div>`);
     const bts = o.botoes.map((b, i) => `<button class="bt ${b.cls || ''}" data-i="${i}">${esc(b.txt)}</button>`), pri = o.botoes[0] && o.botoes[0].cls === 'pri' ? bts.shift() : '';
     const m = $('#modal');
     m.innerHTML = `<div class="cx cx-fim" role="dialog" aria-modal="true" aria-labelledby="fim-tit">${conf ? `<div class="confetes" aria-hidden="true">${conf}</div>` : ''}
       <div class="trofeu-fim ${o.res}">${o.res === 'v' ? `<svg class="raios" viewBox="0 0 152 152" aria-hidden="true">${raios}</svg>` : ''}<span><svg viewBox="0 0 24 24" aria-hidden="true">${ic}</svg></span></div>
       <div class="anima-entra" style="animation-delay:.45s"><h2 id="fim-tit">${esc(o.titulo)}</h2><p class="motivo">${esc(maiuscula(o.motivo))}.</p></div>
-      ${nums.length ? `<div class="fim-nums anima-entra" style="animation-delay:.6s">${nums.join('')}</div>` : ''}
+      ${nums.length ? `<div class="fim-nums anima-entra${nums.length > 3 ? ' n4' : ''}" style="animation-delay:.6s">${nums.join('')}</div>` : ''}
       ${classes ? `<div class="fim-classes anima-entra" style="animation-delay:.72s">${classes.map(x => `<div class="${x[2]}"><b>${x[1]}</b><small>${x[0]}</small></div>`).join('')}</div>` : ''}
+      ${niveis.slice(-1).map(k => `<div class="fim-conq fim-nv" style="animation-delay:.9s;--nv:${XP.titulo(k).cor}"><span class="cq-ic">${XP.selo(k, 38)}</span><span><small>Subiu de nível!</small><b>Nível ${k} · ${XP.titulo(k).nome}</b></span><em>+${niveis.reduce((t, n) => t + XP.moedasNivel(n), 0)}</em></div>`).join('')}
+      ${missoes.length ? `<div class="fim-conq fim-ms" style="animation-delay:1s"><span class="cq-ic">🎯</span><span><small>${missoes.length > 1 ? missoes.length + ' missões cumpridas' : 'Missão cumprida'} · prêmio na tela inicial</small><b>${missoes.length > 1 ? missoes.map(x => esc(x.txt)).join(' · ') : esc(missoes[0].txt)}</b></span></div>` : ''}
       ${molds.map(m => `<div class="fim-mold" style="animation-delay:.95s">${htmlAvatar(Dados.d.perfil.avatar, m.id, 46)}<span><small>Moldura nova!</small><b>${esc(m.nome)}</b><span class="sub" style="display:block;font-size:.78rem">Escolha no seu perfil</span></span></div>`).join('')}
-      ${conq.slice(0, molds.length ? 2 : 3).map((x, k) => `<div class="fim-conq" style="animation-delay:${(1.1 + k * .15).toFixed(2)}s"><span class="cq-ic">${x.ic}</span><span><small>${x.trofeu ? 'Troféu conquistado' : 'Conquista desbloqueada'}</small><b>${esc(x.nome)}</b></span>${x.moedas ? `<em>+${x.moedas}</em>` : ''}</div>`).join('')}
-      ${conq.length > (molds.length ? 2 : 3) ? `<p class="sub">e mais ${conq.length - (molds.length ? 2 : 3)} conquista${conq.length - (molds.length ? 2 : 3) > 1 ? 's' : ''} · veja em Troféus</p>` : ''}
+      ${conq.slice(0, Math.max(1, (molds.length ? 2 : 3) - niveis.slice(-1).length - (missoes.length ? 1 : 0))).map((x, k) => `<div class="fim-conq" style="animation-delay:${(1.1 + k * .15).toFixed(2)}s"><span class="cq-ic">${x.ic}</span><span><small>${x.trofeu ? 'Troféu conquistado' : 'Conquista desbloqueada'}</small><b>${esc(x.nome)}</b></span>${x.moedas ? `<em>+${x.moedas}</em>` : ''}</div>`).join('')}
+      ${(() => { const mx = Math.max(1, (molds.length ? 2 : 3) - niveis.slice(-1).length - (missoes.length ? 1 : 0)), r = conq.length - mx; return r > 0 ? `<p class="sub">e mais ${r} conquista${r > 1 ? 's' : ''} · veja em Conquistas</p>` : ''; })()}
       <div class="botoes anima-entra" style="animation-delay:.85s">${pri}${bts.length ? `<div class="fila">${bts.join('')}</div>` : ''}</div></div>`;
     m.classList.remove('oculto');
     if (conq.length) { Som.tocar('conquista'); vibrar([30, 40, 30]); }
@@ -4557,7 +5003,7 @@ function telaFim(o) {
     requestAnimationFrame(passo);
     m.onclick = e => {
       const b = e.target.closest('button[data-i]'); if (!b) return;
-      fecharModal(); Conquistas.retomar(conq); resolve(o.botoes[+b.dataset.i].val);
+      fecharModal(); Conquistas.retomar(conq.concat(niveis.map(k => ({ id: 'nivel-' + k })), missoes.map(x => ({ id: 'ms-' + x.id })))); resolve(o.botoes[+b.dataset.i].val);
     };
   });
 }
@@ -4929,7 +5375,7 @@ const Partida = {
   /* janela de fim de jogo (amigos) com opção de analisar */
   async modalFim(base, extras = []) {
     const res = base.modo === 'local' ? (base.vencedor ? 'v' : 'e') : base.vencedor == null ? 'e' : base.vencedor === base.cor ? 'v' : 'd';
-    const op = await telaFim({ res, titulo: base.titulo, motivo: base.motivo, foto: base.foto, botoes: [
+    const op = await telaFim({ res, titulo: base.titulo, motivo: base.motivo, foto: base.foto, pts: base.pts, botoes: [
       ...(base.lances.length ? [{ txt: 'Analisar a partida', cls: 'pri', val: 'analisar' }] : []),
       ...extras,
       { txt: base.modo === 'local' ? 'Jogar de novo' : 'Fechar', val: 'novo' }
@@ -5124,7 +5570,7 @@ const Analise = {
     if (p.historico) {                       // revendo uma partida antiga: não conta de novo nas estatísticas
       const reg = Dados.d.partidas.find(x => x.t === p.t);
       if (reg && reg.prec == null && p.cor !== 'ambos' && r.precisao != null) { reg.prec = Math.round(r.precisao); reg.cont = r.cont; Dados.salvar(); }
-      fecharModal(); App.ir('resumo', r); return;
+      fecharModal(); App.ir('resumo', r); Missoes.evento('rever'); return;
     }
     this.gravar(p, r);
     fecharModal();
@@ -5730,12 +6176,14 @@ const Aprender = {
     };
     const fim = () => {
       const est = erros === 0 ? 3 : erros <= 2 ? 2 : 1;
-      const antes = Dados.d.fases[id] || 0;
+      const antes = Dados.d.fases[id] || 0, xa = XP.total();
       let ganhou = 0;
       if (est > antes) { Dados.d.fases[id] = est; ganhou = antes ? 5 * (est - antes) : 15 + 5 * est; Dados.salvar(); }
+      Missoes.evento('fase', { est });
+      const xp = XP.contar(xa);
       const prox = t[pos + 1];
       $('#tela').innerHTML = `<div class="estreito"><div class="cartao final">
-        <h2>Fase concluída!</h2><div class="est-g">${this.htmlEstrelas(est)}</div>${ganhou ? `<p class="ganho-moedas">+${ganhou} moedas ${MOEDA}</p>` : ''}
+        <h2>Fase concluída!</h2><div class="est-g">${this.htmlEstrelas(est)}</div>${ganhou || xp ? `<p class="ganho-moedas">${ganhou ? `+${ganhou} moedas ${MOEDA}` : ''}${ganhou && xp ? ' · ' : ''}${xp ? `<span class="xp-txt">+${xp} XP</span>` : ''}</p>` : ''}
         <p class="sub" style="margin-bottom:16px">${est === 3 ? 'Sem nenhum erro. Excelente!' : est === 2 ? 'Muito bem! Refaça sem erros nem dicas para ganhar 3 estrelas.' : 'Fase completa. Repita para fixar e ganhar mais estrelas.'}</p>
         <div class="pilha">${prox ? `<button class="bt pri cheio" id="f-prox">Próxima fase: ${prox.fase.nome}</button>` : '<p><b>Você concluiu todas as fases. Parabéns!</b></p>'}
         <button class="bt cheio" id="f-rep">Repetir esta fase</button><button class="bt cheio" id="f-lista">Voltar às fases</button></div></div></div>`;
@@ -5833,6 +6281,7 @@ const Desafios = {
       erro: perder,
       resolvido: () => {
         resolvido = true;
+        const xa = XP.total();
         if (!jaFeito) {
           if (!errou && !usouDica) {
             const q = Math.max(4, Math.round(24 * (1 - esperado))); delta += q; d.pontos += q; d.hist.push(d.pontos); d.feitos[p.id] = 1;
@@ -5843,9 +6292,11 @@ const Desafios = {
           Moedas.ganhar(d.feitos[p.id] === 1 ? [8, 12, 16][this.faixa(p.r)] : 3, 'desafio resolvido');
           Conquistas.verificar();
         }
+        Missoes.evento('desafio', { primeira: !errou && !usouDica });
+        const xp = XP.contar(xa);
         Som.tocar('acerto');
         ret.className = 'retorno ok';
-        ret.innerHTML = `<b>${errou ? 'Resolvido!' : usouDica ? 'Resolvido com dica.' : 'Correto, de primeira!'}</b> ${esc(this.explicar(p))}`;
+        ret.innerHTML = `<b>${errou ? 'Resolvido!' : usouDica ? 'Resolvido com dica.' : 'Correto, de primeira!'}</b>${xp ? ` <span class="xp-txt">+${xp} XP</span>` : ''} ${esc(this.explicar(p))}`;
         pinta(); fechar();
       }
     });
@@ -5854,7 +6305,7 @@ const Desafios = {
     $('#b-sol').onclick = () => {
       if (resolvido) return;
       perder(); resolvido = true;
-      if (!jaFeito) { d.feitos[p.id] = 2; Dados.salvar(); Conquistas.verificar(); }
+      if (!jaFeito) { const xa = XP.total(); d.feitos[p.id] = 2; Dados.salvar(); XP.contar(xa); Conquistas.verificar(); }
       exe.solucao();
       ret.className = 'retorno info'; ret.innerHTML = `<b>Solução:</b> ${esc(this.explicar(p))}`;
       fechar();
@@ -5963,6 +6414,20 @@ const Nuvem = {
     Object.assign(r.extras.salas, a.extras.salas);
     r.extras.dicas = Math.max(r.extras.dicas || 0, a.extras.dicas || 0);
     r.perfil = maisNovo.perfil; r.tabuleiro = maisNovo.tabuleiro;
+    // sequência de dias: vale o lado que jogou por último
+    const sa = a.sequencia, sn = r.sequencia;
+    if ((sa.ultimo || '') > (sn.ultimo || '') || (sa.ultimo === sn.ultimo && (sa.atual || 0) > (sn.atual || 0))) { sn.atual = sa.atual; sn.ultimo = sa.ultimo; }
+    sn.melhor = Math.max(sn.melhor || 0, sa.melhor || 0);
+    // missões do dia: o mesmo dia junta o progresso; dias diferentes, vale o mais novo
+    const ma = a.missoes, mn = r.missoes;
+    if (ma && (!mn || ma.dia > mn.dia)) r.missoes = ma;
+    else if (ma && mn && ma.dia === mn.dia) {
+      for (const k in ma.prog) mn.prog[k] = Math.max(mn.prog[k] || 0, ma.prog[k]);
+      Object.assign(mn.pegas, ma.pegas); mn.bau = Math.max(mn.bau || 0, ma.bau || 0);
+    }
+    // pontos do online: vale o lado com mais partidas contadas
+    if ((a.ranque.n || 0) > (r.ranque.n || 0) || (a.ranque.n === r.ranque.n && (a.ranque.t || 0) > (r.ranque.t || 0))) r.ranque = a.ranque;
+    r.ranque.melhor = Math.max(r.ranque.melhor || 1000, a.ranque.melhor || 1000);
     r.ajustes = a.ajustes; r.cfg = a.cfg; r.cfgAmigo = a.cfgAmigo; r.cfgOnline = a.cfgOnline;   // preferências do aparelho
     r.atualizadoEm = Math.max(a.atualizadoEm, r.atualizadoEm);
     Livro.recalcular(r);                     // por último: depende do livro e das conquistas já juntados
@@ -6030,6 +6495,7 @@ const Nuvem = {
         Conquistas.verificar();
       }
       this.ultimaSync = Date.now(); this.erroSync = false;
+      Ranking.publicar();
     } catch (e) { this.erroSync = navigator.onLine !== false; this.pendente = true; }
     this.subindo = false;
     this.atualizarSync();
@@ -6104,7 +6570,7 @@ const Salas = {
   pronto() { return Nuvem.estado === 'pronta' && !!Nuvem.usuario; },
   ref(c) { return Nuvem.db.collection('salas').doc(c); },
   gerarCodigo() { const a = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c = ''; for (let i = 0; i < 5; i++) c += a[Math.floor(Math.random() * a.length)]; return c; },
-  perfilPublico() { const p = Dados.d.perfil; return { nome: nomeJogador(), avatar: p.avatar, moldura: p.moldura || '' }; },
+  perfilPublico() { const p = Dados.d.perfil; return { nome: nomeJogador(), avatar: p.avatar, moldura: p.moldura || '', pts: Dados.d.ranque.pts, nivel: XP.nivel(XP.total()).n }; },
   link(c) { return location.origin + location.pathname + '?sala=' + c; },
 
   async criar(cor, tempo) {
@@ -6248,6 +6714,8 @@ const Salas = {
       d.extras.salas[this.codigo] = Date.now();
       const chaves = Object.keys(d.extras.salas); if (chaves.length > 60) chaves.sort((a, b) => d.extras.salas[a] - d.extras.salas[b]).slice(0, chaves.length - 60).forEach(k => delete d.extras.salas[k]);
       base.registro = registrarPartida({ modo: 'online', cor: this.minhaCor, vencedor: base.vencedor, motivo: base.motivo, plies: base.lances.length, relogio: s.tempo, san: base.lances.map(m => m.san), adv: base.nomeAdv });
+      // pontos do online (só conta se a partida chegou a começar)
+      if (base.lances.length >= 2) base.pts = Ranque.aplicar(base.vencedor == null ? 'e' : base.vencedor === this.minhaCor ? 'v' : 'd', adv && adv.pts);
     }
     Partida.modalFim(base, [{ txt: 'Revanche', val: () => this.revanche() }]);
   },
@@ -6334,7 +6802,8 @@ const Salas = {
     else if (Nuvem.estado === 'offline') online = '<p class="sub">Você está sem internet. O jogo online precisa de conexão.</p>';
     else if (Nuvem.estado !== 'pronta') online = `<p class="sub">${Nuvem.estado === 'erro' ? 'Não foi possível conectar.' : 'Conectando…'}</p>`;
     else if (!Nuvem.usuario) online = '<p class="sub" style="margin-bottom:10px">Para jogar online, entre na sua conta (é grátis). Seu amigo também precisa de uma.</p><button class="bt pri cheio" id="a-conta">Entrar ou criar conta</button>';
-    else online = `<h4>Criar uma sala</h4>
+    else online = `<p class="pts-on">Seus pontos: <b>${Dados.d.ranque.pts}</b><small>${Dados.d.ranque.n ? 'vencer sobe, perder desce' : 'todo mundo começa com 1000'}</small></p>
+      <h4>Criar uma sala</h4>
       <div class="opcoes c3" id="a-cor">${[['w', 'Brancas'], ['b', 'Pretas'], ['a', 'Aleatório']].map(([v, t]) => `<button class="op${co.cor === v ? ' on' : ''}" data-cor="${v}">${t}</button>`).join('')}</div>
       <div class="opcoes c3" id="a-tempo-on" style="margin-top:8px">${tempos(co.relogio, 'tempo')}</div>
       <button class="bt pri cheio" id="a-criar" style="margin-top:10px">Criar sala e convidar</button>
@@ -6419,11 +6888,16 @@ const Dev = {
   /* ---------- ações do painel ---------- */
   definir(tipo, valor) {
     valor = Math.max(0, Math.round(+valor || 0));
+    if (tipo === 'xp') {                         // o XP só sobe (vem das partidas, fases e extras)
+      const dif = valor - XP.total();
+      if (dif < 0) { aviso('O XP não pode diminuir. Para recomeçar, zere o progresso.'); return false; }
+      XP.extra(dif); App.atualizarTopo(true); return true;
+    }
     const l = Livro.meu(), atual = tipo === 'gemas' ? Dados.d.gemas || 0 : Dados.d.moedas, dif = valor - atual;
     // o livro só aumenta (assim a sincronização entre aparelhos continua certa): subir = ganhar, descer = gastar
     if (tipo === 'gemas') { if (dif > 0) l.gg = (l.gg || 0) + dif; else l.gs = (l.gs || 0) - dif; }
     else { if (dif > 0) l.g += dif; else l.s += -dif; }
-    Livro.recalcular(); Dados.salvar(); App.atualizarTopo(true);
+    Livro.recalcular(); Dados.salvar(); App.atualizarTopo(true); return true;
   },
   todasConquistas() {
     const d = Dados.d, t = Date.now();
@@ -6442,7 +6916,7 @@ const Dev = {
       <h3>${nome}</h3>
       <div class="dev-valor">${ic}<b>${valor.toLocaleString('pt-BR')}</b></div>
       <div class="dev-def"><input class="campo" type="number" inputmode="numeric" min="0" step="1" placeholder="Novo valor" aria-label="Novo valor de ${nome.toLowerCase()}"><button class="bt pri" data-acao="definir">Definir</button></div>
-      <div class="fila dev-rapido">${[100, 1000, 10000].map(n => `<button class="bt peq" data-soma="${n}">+${n >= 10000 ? n / 1000 + ' mil' : n.toLocaleString('pt-BR')}</button>`).join('')}<button class="bt peq perigo" data-zerar="1">Zerar</button></div>
+      <div class="fila dev-rapido">${[100, 1000, 10000].map(n => `<button class="bt peq" data-soma="${n}">+${n >= 10000 ? n / 1000 + ' mil' : n.toLocaleString('pt-BR')}</button>`).join('')}${tipo === 'xp' ? '' : '<button class="bt peq perigo" data-zerar="1">Zerar</button>'}</div>
       ${nota ? `<p class="sub" style="margin-top:8px">${nota}</p>` : ''}</div>`;
     const atalho = (id, tit, sub) => `<button class="linha-menu cor-neutra" data-atalho="${id}"><span class="tx"><b>${tit}</b><small>${sub}</small></span>${SETA}</button>`;
     $('#tela').innerHTML = `<div class="pilha estreito">
@@ -6450,6 +6924,7 @@ const Dev = {
         <div class="sub">${esc((u && u.email) || 'sua conta')} · aparelho ${esc(Livro.id().slice(-6))}</div></div></div>
       ${bloco('moedas', 'Moedas', MOEDA, d.moedas)}
       ${bloco('gemas', 'Gemas', '<svg class="gema" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M12 21L8 9l4-6 4 6z"/></svg>', d.gemas || 0, 'As gemas ainda não aparecem no jogo. Quando essa função existir, o saldo definido aqui já vale.')}
+      ${bloco('xp', 'XP', XP.selo(XP.nivel(XP.total()).n, 30), XP.total(), 'Nível ' + XP.nivel(XP.total()).n + '. O XP só aumenta.')}
       <div class="cartao pilha" style="gap:4px"><h3>Desbloqueios</h3>
         <label class="chave"><span><b>Liberar tudo</b><small>Todos os tabuleiros, fotos, molduras e fases, sem comprar nem vencer. Desligue para ver o jogo como um jogador comum.</small></span><input type="checkbox" id="dev-tudo" ${o.tudo !== false ? 'checked' : ''}><i></i></label></div>
       <div class="cartao pilha"><h3>Atalhos de teste</h3>
@@ -6463,11 +6938,11 @@ const Dev = {
 
     $('#dev-tudo').onchange = e => { const x = this.op(); x.tudo = e.target.checked; this.salvarOp(x); aplicarVisual(); aviso(e.target.checked ? 'Tudo liberado' : 'Vendo como jogador comum'); };
     $('#tela').onclick = async e => {
-      const cx = e.target.closest('.dev-saldo'), tipo = cx && cx.dataset.tipo, atual = tipo === 'gemas' ? Dados.d.gemas || 0 : Dados.d.moedas;
+      const cx = e.target.closest('.dev-saldo'), tipo = cx && cx.dataset.tipo, atual = tipo === 'gemas' ? Dados.d.gemas || 0 : tipo === 'xp' ? XP.total() : Dados.d.moedas;
       if (e.target.closest('[data-acao="definir"]')) {
         const v = $('input', cx).value.trim();
         if (v === '' || !(+v >= 0)) { aviso('Digite um número (0 ou mais).'); return; }
-        this.definir(tipo, +v); aviso(`${tipo === 'gemas' ? 'Gemas' : 'Moedas'}: ${Math.round(+v).toLocaleString('pt-BR')}`); this.tela(); return;
+        if (this.definir(tipo, +v)) aviso(`${tipo === 'gemas' ? 'Gemas' : tipo === 'xp' ? 'XP' : 'Moedas'}: ${Math.round(+v).toLocaleString('pt-BR')}`); this.tela(); return;
       }
       const s = e.target.closest('[data-soma]'); if (s) { this.definir(tipo, atual + +s.dataset.soma); this.tela(); return; }
       if (e.target.closest('[data-zerar]')) { this.definir(tipo, 0); this.tela(); return; }
@@ -6541,12 +7016,14 @@ const App = {
       case 'loja': Loja.tela(); break;
       case 'ajustes': Ajustes.tela(); break;
       case 'dev': Dev.tela(); break;
+      case 'missoes': Missoes.tela(); break;
+      case 'ranking': Ranking.tela(); break;
       default: this.atual = 'menu'; telaMenu();
     }
     this.depois();
   },
   /* barra de navegação inferior e animação de entrada da tela */
-  ABAS: { menu: 'menu', aprender: 'aprender', config: 'config', conquistas: 'conquistas', perfil: 'perfil', desafios: 'menu', stats: 'menu', historico: 'menu', dev: 'perfil', loja: 'menu', ajustes: 'perfil', amigos: 'config' },
+  ABAS: { menu: 'menu', aprender: 'aprender', config: 'config', conquistas: 'conquistas', perfil: 'perfil', desafios: 'menu', stats: 'menu', historico: 'menu', dev: 'perfil', loja: 'menu', missoes: 'menu', ranking: 'menu', ajustes: 'perfil', amigos: 'config' },
   depois() {
     const t = this.atual, aba = this.ABAS[t], nav = $('#nav-inf');
     document.body.dataset.tela = t;
@@ -6604,15 +7081,24 @@ function telaMenu() {
       <span class="sub" style="font-size:.84rem">${NIVEIS.length} níveis, do iniciante ao mestre</span>
       <button class="bt pri pulsa" data-ir="config">${SVG('<path d="M7 4v16l13-8z" fill="currentColor" stroke="none"/>')}Jogar agora</button></div></section>`;
   }
+  const xp = XP.total(), nv = XP.nivel(xp), tit = XP.titulo(nv.n), seq = Sequencia.viva(), its = Missoes.itens();
+  const prontas = its.filter(x => x.feita && !x.pega).length;
   const pcSvg = t => `<svg viewBox="0 0 100 100" class="pc-ic" aria-hidden="true"><use href="#pc-${t}"/></svg>`;
   $('#tela').innerHTML = `<div class="home">
     <header class="home-cab">
-      <button class="perfil-topo" data-ir="perfil" aria-label="Meu perfil" style="width:56px;height:56px">${htmlAvatar(d.perfil.avatar, d.perfil.moldura, 52)}</button>
+      <button class="perfil-topo" data-ir="perfil" aria-label="Meu perfil" style="width:56px;height:56px">${htmlAvatar(d.perfil.avatar, d.perfil.moldura, 52)}${XP.selo(nv.n, 22)}</button>
       <div class="quem"><p>${saud}${Dev.ativo ? ' <button class="selo-dev" data-ir="dev" aria-label="Abrir painel do desenvolvedor">DEV</button>' : ''}</p><h1>${d.perfil.nome ? 'Olá, ' + esc(d.perfil.nome) + '!' : 'Olá, jogador!'}</h1></div>
       <button class="bt-ic" id="m-tema" aria-label="Trocar tema (agora: ${tema.nome})">${SVG('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>')}</button>
       <button class="moedas-topo" data-ir="loja" aria-label="Moedas — abrir loja">${MOEDA}${d.moedas}</button>
     </header>
+    <button class="nivel-home" data-ir="missoes" style="--nv:${tit.cor}" aria-label="Nível ${nv.n}, ${nv.atual} de ${nv.prox} XP. Sequência de ${seq} dias">
+      <span class="nh-tx"><b>Nível ${nv.n} · ${tit.nome}</b><small>${nv.atual}/${nv.prox} XP</small></span>
+      <span class="barra-xp"><i style="width:${Math.round(nv.frac * 100)}%"></i></span>
+      <span class="chama-chip${seq ? '' : ' apagada'}${seq && !Sequencia.hoje() ? ' risco' : ''}" title="Dias seguidos">🔥 ${seq}</span></button>
     ${hero}
+    <section class="cartao missoes-home">
+      <div class="ms-cab"><h3>Missões do dia</h3><button class="link-ver" data-ir="missoes">${prontas ? prontas + ' prêmio' + (prontas > 1 ? 's' : '') + ' para pegar' : 'Ver tudo'}</button></div>
+      ${Dados.d.missoes.bau ? `<p class="ms-fim">✓ Todas feitas e baú aberto. Novas missões em ${Missoes.faltaTxt()}.</p>` : `<div class="ms-lista">${its.map(x => Missoes.html(x)).join('')}${Missoes.podeBau() ? Missoes.htmlBau() : ''}</div>`}</section>
     <section class="aneis">${anel('Fases', ra.feitas, ra.total, 'cor-ok', 'aprender')}${anel('Desafios', feitos, PUZZLES.length, 'cor-info', 'desafios')}${anel('Conquistas', Conquistas.feitas(), Conquistas.total(), 'cor-dest', 'conquistas')}</section>
     <h2 class="secao">Jogar</h2>
     <section class="grade-jogar">
@@ -6625,6 +7111,7 @@ function telaMenu() {
     <section class="linhas-menu">
       <button class="linha-menu cor-ok" data-ir="aprender"><span class="ic2">${pcSvg('p')}</span><span class="tx"><span><b>Aprender</b><small>${ra.feitas} de ${ra.total} fases · ${ra.estrelas} ★</small></span><span class="barrinha"><i style="width:${Math.round(ra.feitas / ra.total * 100)}%"></i></span></span>${SETA}</button>
       <button class="linha-menu cor-info" data-ir="desafios"><span class="ic2">${SVG('<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>')}</span><span class="tx"><span><b>Desafios táticos</b><small>${feitos} de ${PUZZLES.length} · ${d.desafios.pontos} pts</small></span><span class="barrinha"><i style="width:${Math.round(feitos / PUZZLES.length * 100)}%"></i></span></span>${SETA}</button>
+      <button class="linha-menu cor-dest" data-ir="ranking"><span class="ic2">${SVG('<path d="M8 21V11H3v10zM15.5 21V5h-7v16zM21 21v-7h-5.5v7z"/>')}</span><span class="tx"><b>Ranking</b><small>${Nuvem.usuario ? 'Geral, da semana e do online' : 'Veja os melhores jogadores'}</small></span>${SETA}</button>
       <button class="linha-menu cor-neutra" data-ir="historico"><span class="ic2">${SVG('<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>')}</span><span class="tx"><b>Histórico de partidas</b><small>${d.partidas.length ? d.partidas.length + ' partida' + (d.partidas.length > 1 ? 's' : '') + ' · reveja e analise os lances' : 'Reveja e analise suas partidas'}</small></span>${SETA}</button>
       <button class="linha-menu cor-dest" data-ir="stats"><span class="ic2">${SVG('<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>')}</span><span class="tx"><b>Minhas estatísticas</b><small>${e.jogos} partidas · ${e.vitorias} vitórias</small></span>${SETA}</button>
     </section>
@@ -6633,7 +7120,11 @@ function telaMenu() {
       <button class="linha-menu cor-neutra" data-ir="ajustes"><span class="ic2">${SVG('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>')}</span><span class="tx"><b>Configurações</b><small>Tema, sons</small></span></button>
     </section>
   </div>`;
-  $('.home').onclick = ev => { const b = ev.target.closest('[data-ir]'); if (b && !modalAberto()) App.ir(b.dataset.ir); };
+  $('.home').onclick = ev => {
+    if (modalAberto()) return;
+    if (Missoes.clique(ev, () => App.ir('menu'))) return;
+    const b = ev.target.closest('[data-ir]'); if (b) App.ir(b.dataset.ir);
+  };
   if (salva) $('#m-continuar').onclick = () => App.ir('jogo', { modo: 'pc', retomar: salva });
   $('#m-tema').onclick = ev => {
     ev.stopPropagation();
