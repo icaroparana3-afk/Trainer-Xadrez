@@ -927,6 +927,78 @@ button.selo-dev:active{transform:scale(.92)}
 .chat-balao.baixo{top:auto;bottom:calc(100% + 4px);border-radius:16px 16px 16px 4px;background:var(--dest);color:var(--dest-tinta)}
 .chat-balao.sai{opacity:0;transform:translateY(-6px);transition:opacity .4s,transform .4s}
 
+/* ============================ NOVA NAVEGAÇÃO: INÍCIO SEM ROLAGEM, JOGAR, NOTIFICAÇÕES ============================ */
+.home{gap:12px}
+.home-cab{gap:8px}
+.home-cab .bt-ic{width:40px;height:40px;border-radius:13px;position:relative}
+.home-cab .quem h1{font-size:1.22rem}
+.home-cab .moedas-topo{height:40px;padding:0 11px 0 7px}
+.sino .selo-conv{top:-6px;right:-6px}
+.sino .selo-conv.oculto{display:none}
+.home .hero{padding:12px 14px}
+.home .mini-jogo{width:100px;height:100px}
+.home .hero .tit{font-size:1.05rem}
+.missoes-home{padding:12px 12px 10px}
+.missoes-home .ms-cab{margin-bottom:6px}
+.missoes-home .ms-lista{gap:6px}
+.missoes-home .ms-it,.missoes-home .ms-bau{padding:7px 9px;gap:10px}
+.missoes-home .ms-ic,.missoes-home .bau-ic{width:32px;height:32px;border-radius:10px;font-size:1rem}
+.home .anel-c{padding:8px 6px 7px;gap:3px}
+.home .anel-c .roda2,.home .anel-c .roda2 svg{width:50px;height:50px}
+/* telas baixas (celulares menores): tudo um pouco mais compacto */
+@media (max-height:780px){
+  .home{gap:9px}
+  .home .mini-jogo{width:78px;height:78px}
+  .home .hero .sub{display:none}
+  .home .hero .bt{padding:8px 14px}
+  .home .anel-c small{display:none}
+  .home .anel-c .roda2,.home .anel-c .roda2 svg{width:42px;height:42px}
+  .nivel-home{padding:8px 12px}
+  .missoes-home .ms-tx small{display:none}
+}
+@media (max-height:690px){
+  .home .mini-jogo{display:none}
+  .home .hero .tit{display:none}
+  .home .hero .etq{font-size:.95rem;letter-spacing:.02em;text-transform:none}
+  .home .hero .info{flex-direction:row;align-items:center;justify-content:space-between;width:100%}
+  .home .hero .bt{margin-top:0}
+  .home .aneis .anel-c b{font-size:.78rem}
+}
+
+/* tela Jogar */
+.modo-jogo{position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;text-align:left;min-height:118px;padding:18px;border-radius:22px;background:var(--sup);border:1px solid var(--linha);width:100%}
+.modo-jogo:active{transform:scale(.98)}
+.modo-jogo.forte{background:var(--dest);color:var(--dest-tinta);border-color:transparent}
+.modo-jogo .mj-ic{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;flex:none;background:rgba(255,255,255,.18)}
+.modo-jogo:not(.forte) .mj-ic{background:var(--info-bg);color:var(--info)}
+.modo-jogo .mj-ic svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.modo-jogo .mj-tx{position:relative;z-index:1;display:flex;flex-direction:column;gap:3px;padding-right:64px}
+.modo-jogo b{font-family:var(--tit);font-size:1.3rem;line-height:1.15}
+.modo-jogo small{font-size:.8rem;opacity:.85}
+.modo-jogo:not(.forte) small{color:var(--txt2);opacity:1}
+.modo-jogo .fundo-pc{position:absolute;right:-18px;bottom:-22px;width:110px;height:110px;opacity:.14;animation:flutua 3.4s ease-in-out infinite}
+.modo-jogo .fundo-pc svg{width:100%;height:100%;fill:currentColor;stroke:none}
+.modo-jogo .fundo-pc svg .det{stroke:transparent}
+.continuar-jg{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.continuar-jg b{display:block}
+.jogar-hub .duas-peq .linha-menu .tx small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* notificações */
+.av-lista{padding:6px;display:flex;flex-direction:column;gap:2px}
+.av-it{display:flex;gap:12px;padding:10px;border-radius:14px}
+.av-it.novo{background:var(--dest-bg)}
+.av-it .av-tx{flex:1;min-width:0}
+.av-it .av-tx p{font-size:.92rem;line-height:1.3}
+.av-it .av-tx small{font-size:.74rem;color:var(--txt2)}
+.av-it .fila{margin-top:8px;gap:8px}
+.tag-amigo.esp{color:var(--dest);background:var(--dest-bg)}
+
+/* trilha de desafios */
+.abas-apr{margin-bottom:2px}
+.no .no-num{font-family:var(--tit);font-size:1.5rem;font-weight:700}
+.no.feita.meio>button{background:var(--info);border-color:var(--info)}
+.trilha-des .no.feita>button,.trilha-des .no.atual>button{color:var(--dest-tinta)}
+
 </style>
 </head>
 <body>
@@ -1028,9 +1100,9 @@ button.selo-dev:active{transform:scale(.92)}
   <nav id="nav-inf" class="oculto" aria-label="Menu principal">
     <button data-ir="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Início</button>
     <button data-ir="aprender"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 7l10-4 10 4-10 4z"/><path d="M6 9v5c3 2 9 2 12 0V9"/></svg>Aprender</button>
-    <button data-ir="config" class="nav-jogar" aria-label="Jogar contra o computador"><svg viewBox="0 0 100 100" class="pcw" aria-hidden="true"><use href="#pc-n"/></svg></button>
+    <button data-ir="jogar" class="nav-jogar" aria-label="Jogar"><svg viewBox="0 0 100 100" class="pcw" aria-hidden="true"><use href="#pc-n"/></svg></button>
     <button data-ir="conquistas"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/></svg>Troféus</button>
-    <button data-ir="perfil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Perfil</button>
+    <button data-ir="loja"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>Loja</button>
   </nav>
 </div>
 <div id="modal" class="oculto"></div>
@@ -4266,7 +4338,7 @@ function estadoJogador() {
   return {
     jogos: pc.v + pc.e + pc.d + d.online.v + d.online.e + d.online.d + d.local,
     vitorias: pc.v + d.online.v, derrotas: pc.d + d.online.d, empates: pc.e + d.online.e,
-    vitNivel: d.porNivel.map(n => n.v), online: d.online.v + d.online.e + d.online.d, onlineV: d.online.v, local: d.local,
+    vitNivel: d.porNivel.map(n => n.v), online: d.online.v + d.online.e + d.online.d, onlineV: d.online.v, onlineD: d.online.d, local: d.local,
     fases, modulos, estrelas, totalFases: MODULOS.reduce((s, m) => s + m.fases.length, 0),
     desafios: Object.keys(d.desafios.feitos).length, pontos: d.desafios.pontos, seq: d.desafios.melhorSeq || 0,
     flags: d.extras.flags || {}, moedasTotal: d.moedasTotal, compras: Object.keys(d.itens).length,
@@ -4308,7 +4380,9 @@ const CONQUISTAS = [
   { id: 'loc1', g: 'amigos', ic: '📱', nome: 'Passa o celular', desc: 'Jogue com um amigo no mesmo aparelho.', moedas: 20, ...cont('local', 1) },
   { id: 'on1', g: 'amigos', ic: '🌐', nome: 'Bora de x1?', desc: 'Jogue sua primeira partida online contra um amigo.', moedas: 30, ...cont('online', 1) },
   { id: 'onv1', g: 'amigos', ic: '📣', nome: 'Zoeira liberada no grupo', desc: 'Vença um amigo numa partida online.', moedas: 40, ...cont('onlineV', 1) },
-  { id: 'amigo1', g: 'amigos', ic: '🫂', nome: 'Fazendo amizade', desc: 'Adicione alguém à sua lista de amigos.', moedas: 20, ...flag('amigo') },
+  { id: 'patinho', g: 'amigos', ic: '🐥', nome: 'Chame-o de patinho!', desc: 'Vença uma partida online.', moedas: 30, ...cont('onlineV', 1) },
+  { id: 'quack', g: 'amigos', ic: '🦆', nome: 'Quack-quack', desc: 'Perca uma partida online.', moedas: 15, ...cont('onlineD', 1) },
+  { id: 'amigo1', g: 'amigos', ic: '🫂', nome: 'Fazendo amizade', desc: 'Faça uma amizade (pedido aceito).', moedas: 20, ...flag('amigo') },
   { id: 'onv10', g: 'amigos', ic: '🏆', nome: 'Rei da resenha', desc: 'Vença 10 partidas online.', moedas: 120, ...cont('onlineV', 10) },
   // fases
   { id: 'f1', g: 'fases', ic: '🌱', nome: 'Iniciando uma nova jornada', desc: 'Conclua o primeiro tutorial.', moedas: 20, ...cont('fases', 1) },
@@ -4438,6 +4512,7 @@ const Conquistas = {
         <span class="cq-pr">${ok ? '✓' : `+${c.moedas}`}</span></div>`;
     };
     $('#tela').innerHTML = `<div class="pilha">
+      <button class="linha-menu cor-dest" data-ir-rk="1"><span class="ic2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21V11H3v10zM15.5 21V5h-7v16zM21 21v-7h-5.5v7z"/></svg></span><span class="tx"><b>Ranking</b><small>Veja sua posição entre os jogadores</small></span>${SETA}</button>
       <div class="cartao"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px"><b>${this.feitas()} de ${this.total()} conquistas</b><span class="sub">Cada conquista dá moedas para gastar na loja</span></div>
         <div class="progresso"><i style="width:${Math.round(this.feitas() / this.total() * 100)}%"></i></div></div>
       <div class="cartao"><h3>Troféus</h3><div class="trofeus">${TROFEUS.map(t => {
@@ -4446,6 +4521,8 @@ const Conquistas = {
       }).join('')}</div></div>
       ${GRUPOS_CONQ.map(g => `<section class="modulo"><header><h2>${g.nome}</h2><span>${CONQUISTAS.filter(c => c.g === g.id && d.conquistas[c.id]).length}/${CONQUISTAS.filter(c => c.g === g.id).length}</span></header>
         <div class="lista-conq">${CONQUISTAS.filter(c => c.g === g.id).map(htmlItem).join('')}</div></section>`).join('')}</div>`;
+    $('#tela').onclick = e => { if (e.target.closest('[data-ir-rk]')) App.ir('ranking'); };
+    App.aoSair = () => { $('#tela').onclick = null; };
   }
 };
 
@@ -4521,6 +4598,11 @@ const Perfil = {
       ${(() => { const xp = XP.total(), nv = XP.nivel(xp), t = XP.titulo(nv.n); return `<button class="cartao nv-cartao peq" data-ir-missoes="1" style="--nv:${t.cor}">${XP.selo(nv.n, 48)}
         <span class="nv-tx"><small>Nível ${nv.n} · ${t.nome}</small><span class="barra-xp"><i style="width:${Math.round(nv.frac * 100)}%"></i></span>
         <span class="sub">${nv.atual}/${nv.prox} XP · 🔥 ${Sequencia.viva()} ${Sequencia.viva() === 1 ? 'dia' : 'dias'}${d.ranque.n ? ` · ${d.ranque.pts} pts online` : ''}</span></span>${SETA}</button>`; })()}
+      <div class="linhas-menu">
+        <button class="linha-menu cor-ok" data-ir-tela="social"><span class="ic2">${SVG('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.8"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/>')}</span><span class="tx"><b>Amigos <i class="selo-n oculto" data-pedidos-n>0</i></b><small>${Nuvem.usuario ? (Amigos.todos().length ? Amigos.todos().length + (Amigos.todos().length > 1 ? ' amigos' : ' amigo') + ' · busca e pedidos' : 'Busque jogadores e mande pedidos de amizade') : 'Entre na conta para ter amigos'}</small></span>${SETA}</button>
+        <button class="linha-menu cor-neutra" data-ir-tela="historico"><span class="ic2">${SVG('<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>')}</span><span class="tx"><b>Histórico de partidas</b><small>${d.partidas.length ? d.partidas.length + ' partida' + (d.partidas.length > 1 ? 's' : '') + ' · reveja e analise' : 'Reveja e analise suas partidas'}</small></span>${SETA}</button>
+        <button class="linha-menu cor-dest" data-ir-tela="stats"><span class="ic2">${SVG('<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>')}</span><span class="tx"><b>Minhas estatísticas</b><small>${e.jogos} partidas · ${e.vitorias} vitória${e.vitorias === 1 ? '' : 's'}</small></span>${SETA}</button>
+      </div>
       ${Dev.ativo ? `<button class="linha-menu cor-dest" data-dev-abrir="1"><span class="ic2"><span class="selo-dev">DEV</span></span><span class="tx"><b>Painel do desenvolvedor</b><small>Moedas, gemas, desbloqueios e atalhos de teste</small></span>${SETA}</button>` : ''}
       <div class="cartao"><h3>Foto de perfil</h3><div class="grade-av">
         ${avs.map(a => `<button class="op-av${p.avatar === a.id ? ' on' : ''}" data-av="${a.id}" title="${a.nome}">${htmlAvatar(a.id, '', 54)}</button>`).join('')}
@@ -4535,6 +4617,7 @@ const Perfil = {
       <div class="cartao"><h3>Troféus</h3><div class="trofeus">${TROFEUS.map(t => { const ok = !!d.conquistas['tr-' + t.id]; return `<div class="trofeu${ok ? ' ok' : ''}">${svgTrofeu(t.id, ok, 48)}<b>${t.nome.replace('Troféu de ', '')}</b></div>`; }).join('')}</div></div>
       <div class="cartao" id="conta"></div></div>`;
     Nuvem.pintarConta($('#conta'));
+    Avisos.selos();
     const nome = $('#nome');
     nome.addEventListener('change', () => {
       p.nome = nome.value.trim().slice(0, 20); Dados.salvar(); App.atualizarTopo();
@@ -4544,6 +4627,7 @@ const Perfil = {
     $('#tela').onclick = ev => {
       const b = ev.target.closest('button'); if (!b) return;
       if (b.dataset.irMissoes) App.ir('missoes');
+      else if (b.dataset.irTela) { if (b.dataset.irTela === 'social') Social.volta = 'perfil'; App.ir(b.dataset.irTela, b.dataset.irTela === 'social' ? 'perfil' : undefined); }
       else if (b.dataset.loja) { Loja.aba = 'av'; App.ir('loja'); }
       else if (b.dataset.av) { p.avatar = b.dataset.av; Dados.salvar(); this.checarConquista(); App.atualizarTopo(); Nuvem.publicarPerfil(); this.tela(); }
       else if (b.dataset.mold != null && !b.disabled) { p.moldura = b.dataset.mold; Dados.salvar(); App.atualizarTopo(); Nuvem.publicarPerfil(); this.tela(); }
@@ -4857,9 +4941,17 @@ const Ranking = {
   async publicar() {
     if (!Nuvem.usuario || !Nuvem.db) return;
     const o = this.doc(), chave = JSON.stringify(Object.assign({}, o, { t: 0, visto: 0 }));
-    if (chave === this.enviado) return;
+    if (chave === this.enviado) { this.publicarHistorico(); return; }
     try { await Nuvem.db.collection('ranking').doc(Nuvem.usuario.uid).set(o); this.enviado = chave; this.erro = null; }
     catch (e) { this.erro = e && e.code; }
+    this.publicarHistorico();
+  },
+  /* histórico público (as 20 partidas mais recentes) */
+  async publicarHistorico() {
+    if (!Nuvem.usuario || !Nuvem.db) return;
+    const l = Historico.publico(), chave = l.length + ':' + (l.length ? l[l.length - 1].t + ':' + l[l.length - 1].p : '');
+    if (chave === this.histEnviado) return;
+    try { await Nuvem.db.collection('historicos').doc(Nuvem.usuario.uid).set({ l, t: Date.now() }); this.histEnviado = chave; } catch (e) { /* regras antigas */ }
   },
   campo(aba) { return aba === 'online' ? 'pts' : aba === 'semana' ? campoSemana() : 'xp'; },
   async buscar(aba) {
@@ -4874,7 +4966,7 @@ const Ranking = {
       <span class="rk-val">${(x.valor || 0).toLocaleString('pt-BR')}<small>${un}</small></span></div>`;
   },
   async tela() {
-    App.cabecalho('Ranking', 'menu');
+    App.cabecalho('Ranking', 'jogar');
     const abas = [['geral', 'Geral'], ['semana', 'Semana'], ['online', 'Online']];
     const expl = { geral: 'Quem tem mais XP no total.', semana: 'Quem ganhou mais XP desde segunda-feira. Zera toda semana.', online: 'Pontos das partidas online: sobem quando você vence e descem quando perde. Todo mundo começa com 1000.' };
     const u = Nuvem.usuario, d = Dados.d;
@@ -5069,7 +5161,7 @@ const Partida = {
   /* ---------- tela de configuração (contra o computador) ---------- */
   telaConfig() {
     const c = Dados.d.cfg, salva = Dados.lerPartida();
-    App.cabecalho('Jogar contra o computador', 'menu');
+    App.cabecalho('Jogar contra o computador', 'jogar');
     $('#tela').innerHTML = `<div class="estreito pilha">
       ${salva ? `<div class="cartao destaque"><b>Você tem uma partida em andamento</b><div class="sub">Nível ${NIVEIS[salva.nivel].nome} · de ${corNome(salva.cor)} · ${Math.ceil(salva.lances.length / 2)} lances</div>
         <div class="fila" style="margin-top:10px"><button class="bt pri" id="continuar" style="flex:1">Continuar partida</button><button class="bt" id="descartar">Descartar</button></div></div>` : ''}
@@ -5622,11 +5714,11 @@ const Analise = {
     try { r = await this.analisar(p, f => { const b = $('#an-barra'); if (b) b.style.width = Math.round(f * 100) + '%'; }); }
     catch (e) { r = { precisao: null, lados: {}, cont: { exc: 0, bom: 0, imp: 0, err: 0, gra: 0 }, itens: [], tags: {}, dicas: DICAS_GERAIS.slice(), fens: [], av: [], classe: {}, falhou: true }; }
     r.p = p;
-    if (!r.falhou) Historico.guardarAnalise(p.historico ? p.t : p.registro && p.registro.t, r.av);
+    if (!r.falhou && !p.alheio) Historico.guardarAnalise(p.historico ? p.t : p.registro && p.registro.t, r.av);
     if (p.historico) {                       // revendo uma partida antiga: não conta de novo nas estatísticas
-      const reg = Dados.d.partidas.find(x => x.t === p.t);
+      const reg = p.alheio ? null : Dados.d.partidas.find(x => x.t === p.t);
       if (reg && reg.prec == null && p.cor !== 'ambos' && r.precisao != null) { reg.prec = Math.round(r.precisao); reg.cont = r.cont; Dados.salvar(); }
-      fecharModal(); App.ir('resumo', r); Missoes.evento('rever'); return;
+      fecharModal(); App.ir('resumo', r); if (!p.alheio) Missoes.evento('rever'); return;
     }
     this.gravar(p, r);
     fecharModal();
@@ -5750,11 +5842,12 @@ const Analise = {
   /* ---------- tela de resumo + revisão lance a lance ---------- */
   telaResumo(r) {
     const p = r.p, N = p.lances.length, ambos = p.cor === 'ambos';
-    App.cabecalho('Resumo da partida', p.historico ? 'historico' : 'menu');
+    App.cabecalho('Resumo da partida', p.alheio ? () => App.ir('jogador', p.alheio.uid) : p.historico ? 'historico' : 'menu');
     const roda = (prec, rot) => `<div class="roda" style="--p:${prec == null ? 0 : Math.round(prec)}"><div><span><b>${prec == null ? '–' : Math.round(prec) + '%'}</b><small>${rot}</small></span></div></div>`;
     const chips = c => `<div class="chips">${Object.keys(CLASSES).map(k => `<span class="chip ${CLASSES[k].cls}"><i></i>${CLASSES[k].nome}: ${c ? c[k] : 0}</span>`).join('')}</div>`;
     const total = r.itens.length;
-    const sub = p.modo === 'pc' ? `Nível ${NIVEIS[p.nivel].nome} · você jogou de ${corNome(p.cor)}` : p.modo === 'online' ? `Partida online · você jogou de ${corNome(p.cor)}` : 'Partida com amigo no mesmo aparelho';
+    const quem = p.alheio ? esc(p.alheio.nome) : 'você';
+    const sub = p.modo === 'pc' ? `Nível ${NIVEIS[p.nivel].nome} · ${quem} jogou de ${corNome(p.cor)}` : p.modo === 'online' ? `Partida online · ${quem} jogou de ${corNome(p.cor)}` : 'Partida com amigo no mesmo aparelho';
     const placar = ambos
       ? `<div class="cartao"><h2>${esc(p.titulo)} <span class="sub" style="font-weight:500">· ${esc(p.motivo)}</span></h2><p class="sub" style="margin-bottom:10px">${sub} · ${Math.ceil(N / 2)} lances</p>
           <div class="duas">${['w', 'b'].map(c => `<div class="placar">${roda(r.lados[c] && r.lados[c].precisao, corNome(c))}<div style="flex:1;min-width:160px">${chips(r.lados[c] && r.lados[c].cont)}</div></div>`).join('')}</div></div>`
@@ -5905,30 +5998,33 @@ const Historico = {
     if (mesmoDia(d, ontem)) return 'Ontem, ' + h;
     return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).replace('.', '') + ', ' + h;
   },
+  ICS: {
+    pc: '<rect x="4" y="4" width="16" height="12" rx="2"/><path d="M9 20h6M12 16v4M9 10h.01M15 10h.01"/>',
+    on: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+    lo: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.8"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/>'
+  },
+  /* uma partida na lista (i = posição, para partidas de outro jogador) */
+  itemHtml(reg, i, cache) {
+    const r = this.resultado(reg), q = this.rotulo(reg), pode = !!reg.san, temCache = cache && !!cache[reg.t];
+    const cor = reg.modo === 'local' ? '' : ` · de ${corNome(reg.cor)}`;
+    return `<button class="hist-item res-${r.c}" ${i == null ? `data-t="${reg.t}"` : `data-i="${i}"`} ${pode ? '' : 'disabled'}>
+      <span class="hist-ic"><svg viewBox="0 0 24 24" aria-hidden="true">${this.ICS[q.ic]}</svg></span>
+      <span class="hist-tx"><b>${r.t}</b><span>${esc(q.quem)}${cor}</span><small>${this.dataTxt(reg.t)} · ${Math.ceil((reg.lances || 0) / 2)} lances${reg.motivo ? ' · ' + esc(reg.motivo) : ''}</small></span>
+      <span class="hist-dir">${reg.prec != null ? `<b>${reg.prec}%</b><small>precisão</small>` : pode ? `<small>${temCache ? 'ver análise' : 'analisar'}</small>` : '<small>sem lances</small>'}</span></button>`;
+  },
   tela() {
-    App.cabecalho('Histórico', 'menu');
+    App.cabecalho('Histórico', 'perfil');
     const todas = Dados.d.partidas.slice().reverse(), cache = this.lerCache();
     const F = { todas: () => true, pc: r => r.modo === 'pc', amigos: r => r.modo !== 'pc', vit: r => r.res === 'v' };
     const lista = todas.filter(F[this.filtro] || F.todas);
     const chip = (id, nome) => `<button class="chip-mod${this.filtro === id ? ' on' : ''}" data-f="${id}">${nome}</button>`;
-    const ICS = {
-      pc: '<rect x="4" y="4" width="16" height="12" rx="2"/><path d="M9 20h6M12 16v4M9 10h.01M15 10h.01"/>',
-      on: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
-      lo: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.8"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/>'
-    };
-    const item = reg => {
-      const r = this.resultado(reg), q = this.rotulo(reg), pode = !!reg.san, temCache = !!cache[reg.t];
-      const cor = reg.modo === 'local' ? '' : ` · de ${corNome(reg.cor)}`;
-      return `<button class="hist-item res-${r.c}" data-t="${reg.t}" ${pode ? '' : 'disabled'}>
-        <span class="hist-ic"><svg viewBox="0 0 24 24" aria-hidden="true">${ICS[q.ic]}</svg></span>
-        <span class="hist-tx"><b>${r.t}</b><span>${esc(q.quem)}${cor}</span><small>${this.dataTxt(reg.t)} · ${Math.ceil((reg.lances || 0) / 2)} lances${reg.motivo ? ' · ' + esc(reg.motivo) : ''}</small></span>
-        <span class="hist-dir">${reg.prec != null ? `<b>${reg.prec}%</b><small>precisão</small>` : pode ? `<small>${temCache ? 'ver análise' : 'analisar'}</small>` : '<small>sem lances</small>'}</span></button>`;
-    };
+    const item = reg => this.itemHtml(reg, null, cache);
     $('#tela').innerHTML = `<div class="pilha estreito">
       <div class="chips-mod">${chip('todas', 'Todas')}${chip('pc', 'Computador')}${chip('amigos', 'Amigos')}${chip('vit', 'Vitórias')}</div>
       ${lista.length ? `<div class="hist-lista">${lista.map(item).join('')}</div>`
-        : `<div class="cartao" style="text-align:center"><p class="sub">${todas.length ? 'Nenhuma partida neste filtro.' : 'Você ainda não terminou nenhuma partida. Quando terminar, ela aparece aqui para você rever os lances.'}</p>${todas.length ? '' : '<button class="bt pri" data-ir="config" style="margin-top:12px">Jogar agora</button>'}</div>`}
+        : `<div class="cartao" style="text-align:center"><p class="sub">${todas.length ? 'Nenhuma partida neste filtro.' : 'Você ainda não terminou nenhuma partida. Quando terminar, ela aparece aqui para você rever os lances.'}</p>${todas.length ? '' : '<button class="bt pri" data-ir="jogar" style="margin-top:12px">Jogar agora</button>'}</div>`}
       ${todas.some(r => !r.san) ? '<p class="sub" style="text-align:center">Partidas jogadas antes desta versão não guardaram os lances, por isso não dá para analisar.</p>' : ''}
+      ${todas.length ? `<p class="sub" style="text-align:center">${Nuvem.usuario ? 'Suas 20 partidas mais recentes aparecem no seu perfil, e outros jogadores podem vê-las.' : 'Entre na sua conta para suas partidas aparecerem no seu perfil.'}</p>` : ''}
       </div>`;
     $('#tela').onclick = e => {
       const f = e.target.closest('[data-f]'); if (f) { this.filtro = f.dataset.f; this.tela(); return; }
@@ -5944,6 +6040,20 @@ const Historico = {
     const r = this.resultado(reg), venc = reg.modo === 'local' ? (reg.res === 'e' ? null : reg.res) : reg.res === 'e' ? null : reg.res === 'v' ? reg.cor : outraCor(reg.cor);
     const titulo = reg.modo === 'local' ? (venc ? `Vitória das ${corNome(venc)}!` : 'Empate') : r.c === 'v' ? 'Você venceu!' : r.c === 'd' ? 'Você perdeu' : 'Empate';
     Analise.iniciar({ historico: true, t, lances, cor: reg.modo === 'local' ? 'ambos' : reg.cor, nivel: reg.nivel || 0, vencedor: venc, motivo: reg.motivo || 'fim de partida', titulo, modo: reg.modo, avPronto: this.lerAnalise(t) });
+  },
+  /* partida de outro jogador (vinda do perfil público) */
+  abrirAlheio(reg, dono) {
+    if (!reg || !reg.san) return;
+    const g = new Chess(), lances = [];
+    for (const s of reg.san.split(' ')) { const m = g.move(s); if (!m) break; lances.push(m); }
+    const r = this.resultado(reg), nome = (dono && dono.nome) || 'Jogador';
+    const venc = reg.modo === 'local' ? (reg.res === 'e' ? null : reg.res) : reg.res === 'e' ? null : reg.res === 'v' ? reg.cor : outraCor(reg.cor);
+    const titulo = reg.modo === 'local' ? (venc ? `Vitória das ${corNome(venc)}!` : 'Empate') : r.c === 'v' ? `${nome} venceu` : r.c === 'd' ? `${nome} perdeu` : 'Empate';
+    Analise.iniciar({ historico: true, alheio: { nome, uid: dono.uid }, t: reg.t, lances, cor: reg.modo === 'local' ? 'ambos' : reg.cor, nivel: reg.nivel || 0, vencedor: venc, motivo: reg.motivo || 'fim de partida', titulo, modo: reg.modo, avPronto: null });
+  },
+  /* resumo público: as 20 partidas mais recentes (vão para "historicos/{uid}") */
+  publico() {
+    return Dados.d.partidas.slice(-20).map(x => { const o = { t: x.t, m: x.modo, c: x.cor, r: x.res }; if (x.nivel != null) o.n = x.nivel; if (x.motivo) o.mo = String(x.motivo).slice(0, 40); if (x.adv) o.a = x.adv; if (x.san) o.s = x.san; if (x.prec != null) o.p = x.prec; return o; });
   }
 };
 
@@ -6142,9 +6252,60 @@ const Aprender = {
   },
   htmlEstrelas(n) { return [1, 2, 3].map(i => `<span class="${i <= n ? 'on' : ''}">★</span>`).join(''); },
 
-  modSel: null,
+  modSel: null, modo: 'modulos', fxSel: null,
+  abas() { return `<div class="abas-rk abas-apr" role="tablist">${[['modulos', 'Módulos'], ['desafios', 'Desafios']].map(([id, n]) => `<button role="tab" aria-selected="${this.modo === id}" class="${this.modo === id ? 'on' : ''}" data-modo="${id}">${n}</button>`).join('')}</div>`; },
+  /* caminho em zigue-zague (o mesmo desenho para módulos e desafios) */
+  geometria(n) {
+    const OFF = [0, 64, 0, -64], DY = 106, Y0 = 128, pts = Array.from({ length: n }, (_, k) => ({ x: OFF[k % 4], y: Y0 + k * DY }));
+    const caminho = lista => lista.map((p, k) => k === 0 ? `M${180 + p.x} ${p.y}` : `C${180 + lista[k - 1].x} ${lista[k - 1].y + DY / 2} ${180 + p.x} ${p.y - DY / 2} ${180 + p.x} ${p.y}`).join(' ');
+    return { pts, DY, fimY: Y0 + n * DY + 6, caminho };
+  },
+  /* trilha de desafios táticos, separada por dificuldade */
+  telaDesafios(fx) {
+    const d = Dados.d.desafios;
+    App.cabecalho('Aprender', 'menu', `${d.pontos} pts`);
+    const faixas = [0, 1, 2].map(f => PUZZLES.filter(p => Desafios.faixa(p.r) === f).sort((a, b) => a.r - b.r || a.id - b.id));
+    if (fx != null) this.fxSel = fx;
+    if (this.fxSel == null) { const k = faixas.findIndex(l => l.some(p => !d.feitos[p.id])); this.fxSel = k < 0 ? 2 : k; }
+    const fi = this.fxSel, lista = faixas[fi], feitas = lista.filter(p => d.feitos[p.id]).length, tudo = feitas === lista.length;
+    const chips = faixas.map((l, i) => { const ok = l.every(p => d.feitos[p.id]); return `<button class="chip-mod${i === fi ? ' on' : ''}${ok ? ' feito' : ''}" data-fx="${i}">${ok ? '✓ ' : ''}${Desafios.NOMES[i]} · ${l.filter(p => d.feitos[p.id]).length}/${l.length}</button>`; }).join('');
+    const G = this.geometria(lista.length), todos = G.pts.concat([{ x: 0, y: G.fimY }]), alt = G.fimY + (tudo && fi < 2 ? 200 : 120);
+    const atual = lista.findIndex(p => !d.feitos[p.id]);
+    const ateFeito = tudo ? todos : G.pts.slice(0, atual < 0 ? 1 : atual + 1);
+    const TIPO = { m1: 'Mate em 1', m2: 'Mate em 2', w: 'Tática' };
+    let nos = '';
+    lista.forEach((p, k) => {
+      const f = d.feitos[p.id], pt = G.pts[k], dir = pt.x <= 0, eAtual = k === atual;
+      const cls = f === 1 ? 'feita' : f === 2 ? 'feita meio' : eAtual ? 'atual' : 'livre';
+      nos += `<div class="no ${cls}" style="left:calc(50% + ${pt.x}px);top:${pt.y - 38}px;animation-delay:${(0.1 + k * 0.04).toFixed(2)}s">
+        ${eAtual ? '<span class="onda"></span><span class="onda"></span><button class="comecar" data-pz="' + p.id + '">Começar</button>' : ''}
+        <button data-pz="${p.id}" aria-label="Desafio ${k + 1}: ${TIPO[p.k] || 'Tática'}${f ? ' (resolvido)' : ''}"><span class="no-num">${k + 1}</span></button>
+        <div class="rot ${dir ? 'dir' : 'esq'}"><b>${TIPO[p.k] || 'Tática'}</b><span class="sub" style="font-size:.74rem">${f === 1 ? '<span class="est"><span class="on">★</span></span> de primeira' : f === 2 ? '✓ resolvido' : p.fen.split(' ')[1] === 'b' ? 'jogue de pretas' : 'jogue de brancas'}</span></div></div>`;
+    });
+    $('#tela').innerHTML = `<div class="pilha estreito">${this.abas()}
+      <div class="chips-mod" id="chips-mod">${chips}</div>
+      <section class="cab-mod"><div style="flex:1;min-width:0"><span class="etq">Desafios táticos</span><h2>${Desafios.NOMES[fi]}</h2>
+        <span class="barrinha cor-info"><i style="width:${Math.round(feitas / lista.length * 100)}%"></i></span></div>
+        <div class="num-g">${feitas}<small>/${lista.length}</small><div class="sub" style="font-family:Inter,sans-serif;font-size:.74rem;font-weight:500">resolvidos</div></div></section>
+      <p class="sub" style="margin-top:-4px">Sua pontuação: <b>${d.pontos}</b>. Ela sobe quando você acerta de primeira e desce quando erra.</p>
+      <div class="mapa trilha-des" style="height:${alt}px">
+        <svg viewBox="0 0 360 ${alt}" height="${alt}" aria-hidden="true"><path class="cam base" d="${G.caminho(todos)}"/>${ateFeito.length > 1 ? `<path class="cam feito" d="${G.caminho(ateFeito)}"/><path class="cam anda" d="${G.caminho(ateFeito)}"/>` : ''}</svg>
+        ${nos}
+        <div class="fim-mod${tudo ? ' ok' : ''}" style="left:50%;top:${G.fimY - 30}px"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/></svg></span>
+          <small>${tudo ? 'Trilha concluída!' : 'Fim da trilha'}</small>
+          ${tudo && fi < 2 ? `<button class="bt pri peq" data-fx="${fi + 1}">Próxima: ${Desafios.NOMES[fi + 1]}</button>` : ''}</div>
+      </div></div>`;
+    const ch = $('#chips-mod .on'); if (ch) ch.scrollIntoView({ block: 'nearest', inline: 'center' });
+    $('#tela').onclick = e => {
+      const m = e.target.closest('[data-modo]'); if (m) { this.modo = m.dataset.modo; this.telaLista(); window.scrollTo(0, 0); return; }
+      const f = e.target.closest('[data-fx]'); if (f) { this.telaDesafios(+f.dataset.fx); window.scrollTo(0, 0); return; }
+      const b = e.target.closest('[data-pz]'); if (b) App.ir('desafio', +b.dataset.pz);
+    };
+    App.aoSair = () => { $('#tela').onclick = null; };
+  },
   /* trilha de fases de um módulo, com caminho em zigue-zague */
   telaLista(mod) {
+    if (this.modo === 'desafios') return this.telaDesafios();
     const r = this.resumo(), t = this.todas();
     App.cabecalho('Aprender', 'menu', `${r.estrelas}/${r.maxEstrelas} ★`);
     // módulo mostrado: o escolhido, ou o da primeira fase ainda não concluída
@@ -6171,7 +6332,7 @@ const Aprender = {
         <div class="rot ${dir ? 'dir' : 'esq'}"><b>${esc(f.nome)}</b>${e ? `<span class="est">${[1, 2, 3].map(i => `<span class="${i <= e ? 'on' : ''}" style="animation-delay:${(0.45 + k * 0.07 + i * 0.1).toFixed(2)}s">★</span>`).join('')}</span>` : ''}</div></div>`;
     });
     const prox = mi + 1 < MODULOS.length ? MODULOS[mi + 1] : null;
-    $('#tela').innerHTML = `<div class="pilha estreito">
+    $('#tela').innerHTML = `<div class="pilha estreito">${this.abas()}
       <div class="chips-mod" id="chips-mod">${chips}</div>
       <section class="cab-mod"><div style="flex:1;min-width:0"><span class="etq">Módulo ${mi + 1}</span><h2>${m.nome}</h2>
         <span class="barrinha cor-ok"><i style="width:${Math.round(feitasMod / m.fases.length * 100)}%"></i></span></div>
@@ -6186,6 +6347,7 @@ const Aprender = {
       </div></div>`;
     const ch = $('#chips-mod .on'); if (ch) ch.scrollIntoView({ block: 'nearest', inline: 'center' });
     $('#tela').onclick = e => {
+      const md = e.target.closest('[data-modo]'); if (md) { this.modo = md.dataset.modo; this.telaLista(); window.scrollTo(0, 0); return; }
       const bm = e.target.closest('[data-mod]'); if (bm) { this.telaLista(+bm.dataset.mod); window.scrollTo(0, 0); return; }
       const b = e.target.closest('button[data-id]'); if (b && !b.disabled) App.ir('fase', b.dataset.id);
     };
@@ -6444,8 +6606,8 @@ const Nuvem = {
       await this.baixar();
       if (Conquistas.marcar('conta')) { Dados.salvar(); Conquistas.verificar(); }
       Salas.verificarPendente();
-      Convites.iniciar(); Perfis.pulso();
-    } else Convites.encerrar();
+      Convites.iniciar(); Pedidos.iniciar(); Perfis.pulso(); Avisos.vigiar();
+    } else { Convites.encerrar(); Pedidos.encerrar(); Avisos.parar(); }
     this.repintar();
   },
   /* junta o progresso deste aparelho com o da conta, sem perder nada */
@@ -6777,7 +6939,7 @@ const Salas = {
       if (base.lances.length >= 2) base.pts = Ranque.aplicar(base.vencedor == null ? 'e' : base.vencedor === this.minhaCor ? 'v' : 'd', adv && adv.pts);
     }
     const advUid = this.minhaCor === 'w' ? s.pretasUid : s.brancasUid, extras = [{ txt: 'Revanche', val: () => this.revanche() }];
-    if (advUid && !Amigos.tem(advUid)) extras.push({ txt: '＋ Amigo', val: () => { Amigos.adicionar(Object.assign({ uid: advUid }, adv || {})); } });
+    if (advUid && !Amigos.tem(advUid) && !Pedidos.enviados[advUid]) extras.push({ txt: '＋ Amigo', val: () => { Pedidos.enviar(Object.assign({ uid: advUid }, adv || {})); } });
     Partida.modalFim(base, extras);
   },
   async revanche() {
@@ -6867,7 +7029,7 @@ const Salas = {
 
   /* ---------- tela "Jogar com amigos" ---------- */
   telaAmigos() {
-    App.cabecalho('Jogar com amigos', 'menu');
+    App.cabecalho('Jogar com amigos', 'jogar');
     const ca = Dados.d.cfgAmigo, co = Dados.d.cfgOnline;
     const tempos = (sel, attr) => [[0, 'Sem tempo'], [600, '10 min'], [300, '5 min']].map(([v, t]) => `<button class="op${sel === v ? ' on' : ''}" data-${attr}="${v}">${t}</button>`).join('');
     let online;
@@ -6937,11 +7099,13 @@ const estaOnline = t => t && Date.now() - t < 4 * 60000;
 const Amigos = {
   todos() { const a = Dados.d.amigos || {}; return Object.keys(a).filter(k => !a[k].x).map(uid => Object.assign({ uid }, a[uid])); },
   tem(uid) { const x = (Dados.d.amigos || {})[uid]; return !!x && !x.x; },
-  adicionar(p) {
+  /* "adicionar" agora manda um pedido de amizade; a amizade só vale quando o outro aceita */
+  adicionar(p) { return Pedidos.enviar(p); },
+  /* entra na lista (quando um pedido é aceito, de um lado ou do outro) */
+  incluir(p) {
     if (!p || !p.uid || (Nuvem.usuario && p.uid === Nuvem.usuario.uid)) return;
     Dados.d.amigos[p.uid] = { n: String(p.nome || 'Jogador').slice(0, 20), a: p.avatar || 'wn', m: p.moldura || '', t: Date.now() };
     Dados.salvar(); Conquistas.marcar('amigo'); Conquistas.verificar();
-    aviso(`${p.nome || 'Jogador'} foi adicionado aos amigos`);
   },
   remover(uid) { const x = Dados.d.amigos[uid]; if (!x) return; x.x = 1; x.t = Date.now(); Dados.salvar(); },
   /* junta as listas de dois aparelhos: em cada amigo vale a mudança mais recente */
@@ -6966,6 +7130,10 @@ const Perfis = {
     if (cod.length === 6) juntar(await col.where('cod', '==', cod).limit(5).get());
     if (q.length >= 2) juntar(await col.orderBy('nomeB').startAt(q).endAt(q + '').limit(15).get());
     return Object.values(res).sort((a, b) => (b.xp || 0) - (a.xp || 0));
+  },
+  async historico(uid) {
+    const s = await Nuvem.db.collection('historicos').doc(uid).get();
+    return s.exists ? (s.data().l || []).map(x => ({ t: x.t, modo: x.m, nivel: x.n, cor: x.c, res: x.r, motivo: x.mo, adv: x.a, san: x.s, lances: x.s ? x.s.split(' ').length : 0, prec: x.p })).reverse() : [];
   },
   /* sinal de "estou online" enquanto o jogo está aberto */
   pulsoTimer: null,
@@ -7010,13 +7178,9 @@ const Convites = {
     const novo = this.lista.find(c => !this.vistos.has(c.id));
     if (novo) { this.lista.forEach(c => this.vistos.add(c.id)); this.avisar(novo); }
     if (App.atual === 'social') Social.pintarConvites();
+    if (App.atual === 'avisos') Avisos.tela();
   },
-  /* número de convites na tela inicial e na barra de baixo */
-  selos() {
-    const n = this.lista.length, b = $('#nav-inf [data-ir=config]');
-    if (b) { let s = $('.selo-conv', b); if (n && !s) { s = document.createElement('i'); s.className = 'selo-conv'; b.appendChild(s); } if (s) { if (n) s.textContent = n; else s.remove(); } }
-    $$('.home [data-conv-n]').forEach(el => { el.textContent = n; el.classList.toggle('oculto', !n); });
-  },
+  selos() { Avisos.selos(); },
   avisar(c) {
     Som.tocar('conquista'); vibrar([80, 60, 80]);
     const ocupado = (App.atual === 'jogo' && !Partida.fim) || modalAberto() || App.atual === 'sala';
@@ -7024,14 +7188,8 @@ const Convites = {
   },
   /* aviso discreto no alto da tela (quando está no meio de uma partida) */
   faixa(c) {
-    let f = $('#faixa-conv'); if (!f) { f = document.createElement('div'); f.id = 'faixa-conv'; document.body.appendChild(f); }
-    f.innerHTML = `${htmlAvatar(c.deAvatar, c.deMoldura, 34)}<span><b>${esc(c.deNome)}</b> te convidou para jogar</span><button class="bt peq pri" data-ver>Ver</button><button class="bt-x" data-fechar aria-label="Fechar">×</button>`;
-    f.className = 'entra';
-    f.onclick = e => {
-      if (e.target.closest('[data-ver]')) { f.className = ''; if (App.atual === 'jogo' && !Partida.fim) { aviso('Termine a partida atual primeiro. O convite fica em Amigos.'); return; } this.abrir(c); }
-      else if (e.target.closest('[data-fechar]')) f.className = '';
-    };
-    clearTimeout(this.timerFaixa); this.timerFaixa = setTimeout(() => { f.className = ''; }, 9000);
+    Avisos.faixa({ avatar: c.deAvatar, moldura: c.deMoldura, html: `<b>${esc(c.deNome)}</b> te convidou para jogar`, botao: 'Ver',
+      acao: () => { if (App.atual === 'jogo' && !Partida.fim) { aviso('Termine a partida atual primeiro. O convite fica nas notificações.'); return; } this.abrir(c); } });
   },
   async abrir(c) {
     if (Date.now() - c.criadoEm > VALIDADE_CONVITE) { aviso('Esse convite expirou.'); return; }
@@ -7106,11 +7264,169 @@ const Convites = {
   }
 };
 
+/* ---------- pedidos de amizade (coleção "pedidos/{de}_{para}") ---------- */
+const Pedidos = {
+  recebidos: [], enviados: {}, pararR: null, pararE: null,
+  col() { return Nuvem.db.collection('pedidos'); },
+  iniciar() {
+    this.encerrar();
+    if (!Nuvem.usuario || !Nuvem.db) return;
+    const uid = Nuvem.usuario.uid, lista = s => s.docs.map(x => Object.assign({ id: x.id }, x.data()));
+    try {
+      this.pararR = this.col().where('para', '==', uid).onSnapshot(s => this.aoReceber(lista(s)), () => {});
+      this.pararE = this.col().where('de', '==', uid).onSnapshot(s => this.aoEnviados(lista(s)), () => {});
+    } catch (e) { /* sem nuvem */ }
+  },
+  encerrar() { [this.pararR, this.pararE].forEach(f => { if (f) try { f(); } catch (e) { /* ignora */ } }); this.pararR = this.pararE = null; this.recebidos = []; this.enviados = {}; },
+  aoReceber(l) {
+    const pend = l.filter(p => p.status === 'pendente');
+    // quem já é amigo (ou a quem eu também pedi) é aceito na hora
+    pend.filter(p => Amigos.tem(p.de) || this.enviados[p.de]).forEach(p => this.aceitar(p, true));
+    const antes = new Set(this.recebidos.map(p => p.id));
+    this.recebidos = pend.filter(p => !Amigos.tem(p.de) && !this.enviados[p.de]).sort((a, b) => b.criadoEm - a.criadoEm);
+    const novos = this.recebidos.filter(p => !antes.has(p.id) && !Avisos.vistos.has('pd' + p.id));
+    novos.forEach(p => Avisos.vistos.add('pd' + p.id));
+    if (novos.length) {
+      const p = novos[0]; Som.tocar('moeda'); vibrar([40, 50, 40]);
+      Avisos.faixa({ avatar: p.deAvatar, moldura: p.deMoldura, html: `<b>${esc(p.deNome)}</b> te enviou um pedido de amizade`, botao: 'Ver', acao: () => App.ir('avisos') });
+    }
+    Avisos.atualizar();
+  },
+  aoEnviados(l) {
+    this.enviados = {};
+    l.forEach(p => {
+      if (p.status === 'pendente') this.enviados[p.para] = p.id;
+      else if (p.status === 'aceito') {           // o outro aceitou: entra na minha lista também
+        if (!Amigos.tem(p.para)) {
+          Amigos.incluir({ uid: p.para, nome: p.paraNome, avatar: p.paraAvatar, moldura: p.paraMoldura });
+          Avisos.add({ id: 'ac' + p.id, tipo: 'aceito', uid: p.para, nome: p.paraNome, avatar: p.paraAvatar, moldura: p.paraMoldura });
+          Avisos.faixa({ avatar: p.paraAvatar, moldura: p.paraMoldura, html: `<b>${esc(p.paraNome)}</b> aceitou seu pedido de amizade`, botao: 'Ver', acao: () => { Social.voltar = App.atual; App.ir('jogador', p.para); } });
+        }
+        this.col().doc(p.id).delete().catch(() => {});
+      } else this.col().doc(p.id).delete().catch(() => {});   // recusado: some sem avisar
+    });
+    Avisos.atualizar();
+  },
+  async enviar(p) {
+    if (!Nuvem.usuario) { aviso('Entre na sua conta para adicionar amigos.'); return false; }
+    if (!p || !p.uid || p.uid === Nuvem.usuario.uid || Amigos.tem(p.uid)) return false;
+    const rec = this.recebidos.find(x => x.de === p.uid);
+    if (rec) { await this.aceitar(rec); return true; }                  // ele já tinha pedido: vira amizade
+    if (this.enviados[p.uid]) { aviso('Você já mandou um pedido. Aguarde a resposta.'); return false; }
+    const eu = Nuvem.usuario.uid, pf = Dados.d.perfil, id = eu + '_' + p.uid;
+    try {
+      await this.col().doc(id).set({ de: eu, para: p.uid, status: 'pendente', criadoEm: Date.now(),
+        deNome: nomeJogador(), deAvatar: pf.avatar || 'wn', deMoldura: pf.moldura || '', deNivel: XP.nivel(XP.total()).n,
+        paraNome: String(p.nome || 'Jogador').slice(0, 20), paraAvatar: p.avatar || 'wn', paraMoldura: p.moldura || '' });
+      this.enviados[p.uid] = id;
+      aviso(`Pedido de amizade enviado para ${p.nome || 'o jogador'}`);
+      return true;
+    } catch (e) { aviso('Não foi possível enviar o pedido: ' + msgErro(e), 4000); return false; }
+  },
+  async cancelar(uid) { const id = this.enviados[uid]; if (!id) return; delete this.enviados[uid]; await this.col().doc(id).delete().catch(() => {}); },
+  async aceitar(p, quieto) {
+    this.recebidos = this.recebidos.filter(x => x.id !== p.id);
+    Amigos.incluir({ uid: p.de, nome: p.deNome, avatar: p.deAvatar, moldura: p.deMoldura });
+    if (this.enviados[p.de]) { const meu = this.enviados[p.de]; delete this.enviados[p.de]; this.col().doc(meu).delete().catch(() => {}); }
+    await this.col().doc(p.id).update({ status: 'aceito', resp: Date.now() }).catch(() => {});
+    if (!quieto) aviso(`Você e ${p.deNome} agora são amigos!`);
+    Avisos.atualizar();
+  },
+  async recusar(p) {
+    this.recebidos = this.recebidos.filter(x => x.id !== p.id);
+    await this.col().doc(p.id).update({ status: 'recusado', resp: Date.now() }).catch(() => {});
+    Avisos.atualizar();
+  }
+};
+
+/* ---------- notificações: pedidos, convites, amigos que ficaram online ---------- */
+const Avisos = {
+  itens: [], vistos: new Set(), online: {}, ultimoOnline: {}, timer: null, timerFaixa: null,
+  add(x) { if (this.itens.some(y => y.id === x.id)) return; x.t = x.t || Date.now(); this.itens.unshift(x); this.itens = this.itens.slice(0, 30); this.atualizar(); },
+  naoLidos() { return Pedidos.recebidos.length + Convites.lista.length + this.itens.filter(x => !x.lido).length; },
+  atualizar() { this.selos(); if (App.atual === 'avisos') this.tela(); else if (App.atual === 'social') Social.pintarConvites(); else if (App.atual === 'jogador') Social.pintarBotoes && Social.pintarBotoes(); },
+  /* números vermelhos: sino da tela inicial, botão Jogar (convites) e Amigos no perfil (pedidos) */
+  selos() {
+    const n = this.naoLidos(), c = Convites.lista.length, p = Pedidos.recebidos.length;
+    const pin = (el, v) => { if (!el) return; el.textContent = v; el.classList.toggle('oculto', !v); };
+    $$('[data-avisos-n]').forEach(el => pin(el, n));
+    $$('[data-pedidos-n]').forEach(el => pin(el, p));
+    const b = $('#nav-inf [data-ir=jogar]');
+    if (b) { let s = $('.selo-conv', b); if (c && !s) { s = document.createElement('i'); s.className = 'selo-conv'; b.appendChild(s); } if (s) { if (c) s.textContent = c; else s.remove(); } }
+  },
+  /* aviso que desce no alto da tela e some sozinho */
+  faixa(o) {
+    let f = $('#faixa-conv'); if (!f) { f = document.createElement('div'); f.id = 'faixa-conv'; document.body.appendChild(f); }
+    f.innerHTML = `${htmlAvatar(o.avatar || 'wn', o.moldura || '', 34)}<span>${o.html}</span>${o.botao ? `<button class="bt peq pri" data-ver>${esc(o.botao)}</button>` : ''}<button class="bt-x" data-fechar aria-label="Fechar">×</button>`;
+    f.className = 'entra';
+    f.onclick = e => {
+      if (e.target.closest('[data-ver]')) { f.className = ''; if (o.acao) o.acao(); }
+      else if (e.target.closest('[data-fechar]')) f.className = '';
+    };
+    clearTimeout(this.timerFaixa); this.timerFaixa = setTimeout(() => { f.className = ''; }, 9000);
+  },
+  /* de olho nos amigos: avisa quando alguém fica online */
+  vigiar() { clearInterval(this.timer); this.online = {}; if (!Nuvem.usuario) return; setTimeout(() => this.checarAmigos(), 4000); this.timer = setInterval(() => this.checarAmigos(), 90000); },
+  parar() { clearInterval(this.timer); this.timer = null; this.itens = []; this.online = {}; this.selos(); },
+  async checarAmigos() {
+    if (!Nuvem.usuario || !Nuvem.db || document.visibilityState === 'hidden' || navigator.onLine === false) return;
+    const lista = Amigos.todos().slice(0, 30); let novos = [];
+    await Promise.all(lista.map(async a => {
+      let p = null; try { p = await Perfis.ler(a.uid, true); } catch (e) { return; }
+      if (!p) return;
+      const on = estaOnline(p.visto), antes = this.online[a.uid];
+      this.online[a.uid] = on;
+      if (on && !antes && Date.now() - (this.ultimoOnline[a.uid] || 0) > 30 * 60000) { this.ultimoOnline[a.uid] = Date.now(); novos.push(p); }
+    }));
+    novos.forEach(p => this.add({ id: 'on' + p.uid + Date.now(), tipo: 'online', uid: p.uid, nome: p.nome, avatar: p.avatar, moldura: p.moldura }));
+    if (!novos.length) return;
+    const ocupado = App.atual === 'jogo' && !Partida.fim;
+    if (ocupado) return;
+    const p = novos[0], mais = novos.length - 1;
+    Avisos.faixa({ avatar: p.avatar, moldura: p.moldura, html: mais ? `<b>${esc(p.nome)}</b> e mais ${mais} amigo${mais > 1 ? 's' : ''} estão online!` : `<b>${esc(p.nome)}</b> está online! Vamos desafiá-lo?`,
+      botao: mais ? 'Ver' : 'Desafiar', acao: () => mais ? App.ir('avisos') : Convites.enviar(p) });
+  },
+  async desafiar(uid) { try { const p = await Perfis.ler(uid); if (p) Convites.enviar(p); } catch (e) { aviso(msgErro(e)); } },
+
+  /* tela de notificações */
+  tela() {
+    App.cabecalho('Notificações', 'menu');
+    const linha = (av, mol, html, quando, bts, cls = '') => `<div class="av-it ${cls}">${htmlAvatar(av || 'wn', mol || '', 42)}<div class="av-tx"><p>${html}</p><small>${quando}</small>${bts ? `<div class="fila">${bts}</div>` : ''}</div></div>`;
+    const qd = t => { const m = Math.floor((Date.now() - (t || Date.now())) / 60000); return m < 1 ? 'agora' : m < 60 ? `há ${m} min` : `há ${Math.floor(m / 60)} h`; };
+    const l = [];
+    Pedidos.recebidos.forEach(p => l.push({ t: p.criadoEm, h: linha(p.deAvatar, p.deMoldura, `<b>${esc(p.deNome)}</b> te enviou um pedido de amizade`, qd(p.criadoEm),
+      `<button class="bt peq" data-pd-nao="${esc(p.id)}">Recusar</button><button class="bt peq pri" data-pd-sim="${esc(p.id)}">Aceitar</button>`, 'novo') }));
+    Convites.lista.forEach(c => l.push({ t: c.criadoEm, h: linha(c.deAvatar, c.deMoldura, `<b>${esc(c.deNome)}</b> te convidou para uma partida <span class="sub">(${c.tempo ? c.tempo / 60 + ' min' : 'sem tempo'})</span>`, qd(c.criadoEm),
+      `<button class="bt peq" data-cv-nao="${esc(c.id)}">Recusar</button><button class="bt peq pri" data-cv-sim="${esc(c.id)}">Aceitar</button>`, 'novo') }));
+    this.itens.forEach(x => l.push({ t: x.t, h: x.tipo === 'online'
+      ? linha(x.avatar, x.moldura, `<b>${esc(x.nome)}</b> está online! Vamos desafiá-lo?`, qd(x.t), `<button class="bt peq pri" data-desafiar="${esc(x.uid)}">Desafiar</button>`, x.lido ? '' : 'novo')
+      : linha(x.avatar, x.moldura, `<b>${esc(x.nome)}</b> aceitou seu pedido de amizade`, qd(x.t), `<button class="bt peq" data-jogador="${esc(x.uid)}">Ver perfil</button>`, x.lido ? '' : 'novo') }));
+    l.sort((a, b) => b.t - a.t);
+    $('#tela').innerHTML = `<div class="pilha estreito">${!Nuvem.usuario ? '<div class="cartao final"><b>Entre na sua conta</b><p class="sub" style="margin:6px 0 12px">As notificações de amigos e convites precisam de uma conta.</p><button class="bt pri" data-ir-perfil>Entrar</button></div>'
+      : l.length ? `<div class="cartao av-lista">${l.map(x => x.h).join('')}</div>` : '<div class="cartao final"><span style="font-size:2.4rem">🔔</span><b>Nada por aqui</b><p class="sub">Pedidos de amizade, convites e avisos de amigos online aparecem aqui.</p></div>'}</div>`;
+    this.itens.forEach(x => { x.lido = true; }); this.selos();
+    $('#tela').onclick = e => {
+      const q = (a) => e.target.closest('[' + a + ']'), b = q('data-pd-sim') || q('data-pd-nao') || q('data-cv-sim') || q('data-cv-nao');
+      if (q('data-ir-perfil')) { App.ir('perfil'); return; }
+      if (b) {
+        const pd = Pedidos.recebidos.find(p => p.id === (b.dataset.pdSim || b.dataset.pdNao)), cv = Convites.lista.find(c => c.id === (b.dataset.cvSim || b.dataset.cvNao));
+        if (b.dataset.pdSim && pd) Pedidos.aceitar(pd); else if (b.dataset.pdNao && pd) Pedidos.recusar(pd);
+        else if (b.dataset.cvSim && cv) Convites.aceitar(cv); else if (b.dataset.cvNao && cv) Convites.responder(cv, false);
+        if (App.atual === 'avisos') this.tela(); return;
+      }
+      const d = q('data-desafiar'); if (d) { this.desafiar(d.dataset.desafiar); return; }
+      const j = q('data-jogador'); if (j) { Social.voltar = 'avisos'; App.ir('jogador', j.dataset.jogador); }
+    };
+  }
+};
+
 /* ---------- telas: Amigos e perfil de um jogador ---------- */
 const Social = {
   busca: '', resultados: null, voltar: 'menu',
-  tela() {
-    App.cabecalho('Amigos', 'menu');
+  volta: 'perfil',
+  tela(volta) {
+    if (volta) this.volta = volta;
+    App.cabecalho('Amigos', this.volta || 'perfil');
     const u = Nuvem.usuario, p = Dados.d.perfil, conv = p.conv || 'todos';
     if (!u) {
       $('#tela').innerHTML = `<div class="pilha estreito"><div class="cartao final"><h2>👋 Jogue com outras pessoas</h2>
@@ -7148,6 +7464,8 @@ const Social = {
     $('#tela').onkeydown = e => { if (e.key === 'Enter' && e.target.matches('[data-jogador]')) this.clique(e); };
   },
   clique(e) {
+    const pd = e.target.closest('[data-pd]');
+    if (pd) { const p = Pedidos.recebidos.find(x => x.id === pd.dataset.id); if (p) (pd.dataset.pd === 'sim' ? Pedidos.aceitar(p) : Pedidos.recusar(p)).then(() => { if (App.atual === 'social') { this.pintarConvites(); this.pintarAmigos(); } }); return; }
     const conv = e.target.closest('[data-conv]');
     if (conv) { const c = Convites.lista.find(x => x.id === conv.dataset.id); if (c) { if (conv.dataset.conv === 'sim') Convites.aceitar(c); else { Convites.responder(c, false); this.pintarConvites(); } } return; }
     const cv = e.target.closest('[data-convidar]');
@@ -7156,9 +7474,12 @@ const Social = {
   },
   pintarConvites() {
     const el = $('#sc-conv'); if (!el) return;
-    el.innerHTML = Convites.lista.length ? `<div class="cartao destaque"><h3>Convites recebidos</h3><div class="jg-lista">${Convites.lista.map(c =>
+    const pds = Pedidos.recebidos.length ? `<div class="cartao destaque"><h3>Pedidos de amizade</h3><div class="jg-lista">${Pedidos.recebidos.map(p =>
+      `<div class="jg-it conv-it">${htmlAvatar(p.deAvatar, p.deMoldura, 40)}<span class="rk-tx"><b>${esc(p.deNome)}</b><small>Nível ${p.deNivel || 1} · quer ser seu amigo</small></span>
+        <button class="bt peq" data-pd="nao" data-id="${esc(p.id)}">Recusar</button><button class="bt peq pri" data-pd="sim" data-id="${esc(p.id)}">Aceitar</button></div>`).join('')}</div></div>` : '';
+    el.innerHTML = pds + (Convites.lista.length ? `<div class="cartao destaque"><h3>Convites recebidos</h3><div class="jg-lista">${Convites.lista.map(c =>
       `<div class="jg-it conv-it">${htmlAvatar(c.deAvatar, c.deMoldura, 40)}<span class="rk-tx"><b>${esc(c.deNome)}</b><small>${c.tempo ? c.tempo / 60 + ' min' : 'sem tempo'} · você de ${corNome(c.corConvidado || 'b')}</small></span>
-        <button class="bt peq" data-conv="nao" data-id="${esc(c.id)}">Recusar</button><button class="bt peq pri" data-conv="sim" data-id="${esc(c.id)}">Aceitar</button></div>`).join('')}</div></div>` : '';
+        <button class="bt peq" data-conv="nao" data-id="${esc(c.id)}">Recusar</button><button class="bt peq pri" data-conv="sim" data-id="${esc(c.id)}">Aceitar</button></div>`).join('')}</div></div>` : '');
   },
   async buscar(txt) {
     this.busca = String(txt || '').trim();
@@ -7171,12 +7492,12 @@ const Social = {
   },
   pintarResultados() {
     const el = $('#sc-res'), u = Nuvem.usuario, l = (this.resultados || []).filter(p => !u || p.uid !== u.uid);
-    el.innerHTML = l.length ? l.map(p => linhaJogador(p, Amigos.tem(p.uid) ? '<span class="tag-amigo">amigo</span>' : '')).join('') : '<p class="sub">Ninguém encontrado. Confira o nome ou peça o código de amigo.</p>';
+    el.innerHTML = l.length ? l.map(p => linhaJogador(p, Amigos.tem(p.uid) ? '<span class="tag-amigo">amigo</span>' : Pedidos.enviados[p.uid] ? '<span class="tag-amigo esp">pedido enviado</span>' : '')).join('') : '<p class="sub">Ninguém encontrado. Confira o nome ou peça o código de amigo.</p>';
   },
   async pintarAmigos() {
     const el = $('#sc-amigos'), lista = Amigos.todos();
     $('#sc-n').textContent = lista.length ? lista.length + (lista.length > 1 ? ' amigos' : ' amigo') : '';
-    if (!lista.length) { el.innerHTML = '<p class="sub">Você ainda não tem amigos na lista. Busque pelo nome ou toque em alguém no Ranking.</p>'; return; }
+    if (!lista.length) { el.innerHTML = '<p class="sub">Você ainda não tem amigos. Busque alguém pelo nome ou toque num jogador do Ranking e envie um pedido de amizade.</p>'; return; }
     const base = lista.map(a => ({ uid: a.uid, nome: a.n, avatar: a.a, moldura: a.m }));
     const pinta = ps => { el.innerHTML = ps.sort((a, b) => (estaOnline(b.visto) - estaOnline(a.visto)) || (b.visto || 0) - (a.visto || 0)).map(p => linhaJogador(p, `<button class="bt peq pri" data-convidar="${esc(p.uid)}">Convidar</button>`)).join(''); };
     pinta(base);
@@ -7206,19 +7527,47 @@ const Social = {
         <span class="sub ${estaOnline(p.visto) ? 'txt-on' : ''}">${eu ? 'Este é você' : vistoTxt(p.visto) || ''}</span></div>
       ${p.semDados ? '' : `<div class="cartao jg-est">${est((p.xp || 0).toLocaleString('pt-BR'), 'XP')}${est(p.pts || '—', 'Pontos online')}${est(p.on || 0, 'Partidas online')}
         ${est(p.vit != null ? p.vit : '—', 'Vitórias')}${est(p.conq != null ? p.conq : '—', 'Conquistas')}${est(p.seq ? p.seq + ' 🔥' : '—', 'Melhor sequência')}</div>`}
-      ${eu ? '' : `<div class="pilha" style="gap:8px">
-        ${p.conv === 'ninguem' ? '<p class="sub" style="text-align:center">Este jogador não está recebendo convites.</p>' : `<button class="bt pri cheio" id="jg-conv">Convidar para partida</button>`}
-        <button class="bt cheio" id="jg-amigo">${amigo ? 'Remover dos amigos' : '＋ Adicionar aos amigos'}</button></div>`}</div>`;
-    const liga = (id, fn) => { const b = $(id); if (b) b.onclick = fn; };
-    liga('#jg-conv', () => { if (!u) { aviso('Entre na sua conta para convidar.'); App.ir('perfil'); return; } Convites.enviar(p); });
-    liga('#jg-amigo', async () => {
-      if (!u) { aviso('Entre na sua conta para adicionar amigos.'); App.ir('perfil'); return; }
-      if (Amigos.tem(uid)) {
-        const ok = await modal('Remover amigo?', `${p.nome || 'Jogador'} sai da sua lista de amigos.`, [{ txt: 'Cancelar', val: false }, { txt: 'Remover', cls: 'perigo', val: true }]);
-        if (ok) Amigos.remover(uid);
-      } else Amigos.adicionar(p);
-      this.telaJogador(uid);
-    });
+      ${eu ? '' : '<div class="pilha" style="gap:8px" id="jg-bts"></div>'}
+      <div class="cartao"><h3>Últimas partidas</h3><div id="jg-hist" class="hist-lista"><p class="sub">Carregando…</p></div></div></div>`;
+    this.jogadorAtual = p;
+    this.pintarBotoes();
+    $('#tela').onclick = async e => {
+      const b = e.target.closest('button[data-acao]');
+      if (b) {
+        const ac = b.dataset.acao;
+        if (!u) { aviso('Entre na sua conta para isso.'); App.ir('perfil'); return; }
+        if (ac === 'convidar') Convites.enviar(p);
+        else if (ac === 'pedir') { b.disabled = true; await Pedidos.enviar(p); this.pintarBotoes(); }
+        else if (ac === 'cancelar') { await Pedidos.cancelar(uid); aviso('Pedido cancelado'); this.pintarBotoes(); }
+        else if (ac === 'aceitar') { const r = Pedidos.recebidos.find(x => x.de === uid); if (r) await Pedidos.aceitar(r); this.pintarBotoes(); }
+        else if (ac === 'recusar') { const r = Pedidos.recebidos.find(x => x.de === uid); if (r) await Pedidos.recusar(r); this.pintarBotoes(); }
+        else if (ac === 'remover') {
+          const ok = await modal('Remover amigo?', `${p.nome || 'Jogador'} sai da sua lista de amigos.`, [{ txt: 'Cancelar', val: false }, { txt: 'Remover', cls: 'perigo', val: true }]);
+          if (ok) { Amigos.remover(uid); this.pintarBotoes(); }
+        }
+        return;
+      }
+      const h = e.target.closest('.hist-item[data-i]'); if (h && this.histAlheio) Historico.abrirAlheio(this.histAlheio[+h.dataset.i], p);
+    };
+    this.histAlheio = null;
+    let regs = [];
+    try { regs = await Perfis.historico(uid); } catch (e) { regs = null; }
+    if (App.atual !== 'jogador') return;
+    const el = $('#jg-hist');
+    if (regs === null) { el.innerHTML = '<p class="sub">Não consegui carregar as partidas.</p>'; return; }
+    this.histAlheio = regs;
+    el.innerHTML = regs.length ? regs.map((r, i) => Historico.itemHtml(r, i, null)).join('') : `<p class="sub">${eu ? 'Você ainda' : esc(p.nome || 'Este jogador') + ' ainda'} não tem partidas para mostrar.</p>`;
+  },
+  /* botões de amizade e convite no perfil de outro jogador */
+  pintarBotoes() {
+    const el = $('#jg-bts'), p = this.jogadorAtual; if (!el || !p || App.atual !== 'jogador') return;
+    const uid = p.uid, amigo = Amigos.tem(uid), rec = Pedidos.recebidos.find(x => x.de === uid), env = Pedidos.enviados[uid];
+    const b = (ac, txt, cls = '') => `<button class="bt cheio ${cls}" data-acao="${ac}">${txt}</button>`;
+    el.innerHTML = (p.conv === 'ninguem' ? '<p class="sub" style="text-align:center">Este jogador não está recebendo convites.</p>' : b('convidar', 'Convidar para partida', 'pri'))
+      + (amigo ? b('remover', 'Remover dos amigos')
+        : rec ? `<div class="cartao destaque" style="text-align:center"><b>${esc(p.nome)} te enviou um pedido de amizade</b><div class="fila" style="margin-top:10px;justify-content:center">${b('recusar', 'Recusar')}${b('aceitar', 'Aceitar', 'pri')}</div></div>`
+          : env ? `<p class="sub" style="text-align:center">✓ Pedido de amizade enviado. Aguardando ${esc(p.nome)} aceitar.</p>${b('cancelar', 'Cancelar pedido')}`
+            : b('pedir', '＋ Enviar pedido de amizade'));
   }
 };
 
@@ -7434,9 +7783,11 @@ const App = {
       case 'jogo': Partida.iniciar(param || { modo: 'pc' }); break;
       case 'resumo': Analise.telaResumo(param); break;
       case 'historico': Historico.tela(); break;
-      case 'aprender': Aprender.telaLista(); break;
+      case 'aprender': if (param === 'modulos' || param === 'desafios') { Aprender.modo = param; Aprender.telaLista(); } else Aprender.telaLista(param); break;
+      case 'jogar': telaJogar(); break;
+      case 'avisos': Avisos.tela(); break;
       case 'fase': Aprender.telaFase(param); break;
-      case 'desafios': Desafios.telaLista(); break;
+      case 'desafios': Aprender.modo = 'desafios'; Aprender.telaLista(); break;
       case 'desafio': Desafios.telaDesafio(param); break;
       case 'stats': Estatisticas.tela(); break;
       case 'amigos': Salas.telaAmigos(); break;
@@ -7448,14 +7799,15 @@ const App = {
       case 'dev': Dev.tela(); break;
       case 'missoes': Missoes.tela(); break;
       case 'ranking': Ranking.tela(); break;
-      case 'social': Social.tela(); break;
+      case 'social': Social.tela(param); break;
       case 'jogador': Social.telaJogador(param); break;
       default: this.atual = 'menu'; telaMenu();
     }
     this.depois();
   },
   /* barra de navegação inferior e animação de entrada da tela */
-  ABAS: { menu: 'menu', aprender: 'aprender', config: 'config', conquistas: 'conquistas', perfil: 'perfil', desafios: 'menu', stats: 'menu', historico: 'menu', dev: 'perfil', loja: 'menu', missoes: 'menu', ranking: 'menu', social: 'menu', jogador: 'menu', ajustes: 'perfil', amigos: 'config' },
+  ABAS: { menu: 'menu', aprender: 'aprender', desafios: 'aprender', jogar: 'jogar', config: 'jogar', amigos: 'jogar', ranking: 'jogar', conquistas: 'conquistas', loja: 'loja',
+    perfil: 'perfil', stats: 'perfil', historico: 'perfil', dev: 'perfil', social: 'perfil', jogador: 'perfil', ajustes: 'ajustes', missoes: 'menu', avisos: 'menu' },
   depois() {
     const t = this.atual, aba = this.ABAS[t], nav = $('#nav-inf');
     document.body.dataset.tela = t;
@@ -7499,9 +7851,8 @@ function telaMenu() {
   App.cabecalho('Trainer de Xadrez', null);
   const d = Dados.d, ra = Aprender.resumo(), e = estadoJogador(), feitos = Object.keys(d.desafios.feitos).length, salva = Dados.lerPartida();
   const hora = new Date().getHours(), saud = hora < 12 ? 'Bom dia' : hora < 18 ? 'Boa tarde' : 'Boa noite';
-  const tema = TEMAS.find(t => t.id === d.ajustes.tema) || TEMAS[0];
-  const anel = (nome, a, b, cor, ir) => { const p = b ? a / b : 0, C = 138.2;
-    return `<button class="anel-c ${cor}" data-ir="${ir}"><span class="roda2"><svg viewBox="0 0 58 58" aria-hidden="true"><circle class="f" cx="29" cy="29" r="22"/><circle class="v" cx="29" cy="29" r="22" style="stroke:var(--c);stroke-dashoffset:${(C * (1 - p)).toFixed(1)}"/></svg><span>${Math.round(p * 100)}%</span></span><b>${nome}</b><small>${a} de ${b}</small></button>`; };
+  const anel = (nome, a, b, cor, ir, param) => { const p = b ? a / b : 0, C = 138.2;
+    return `<button class="anel-c ${cor}" data-ir="${ir}"${param ? ` data-param="${param}"` : ''}><span class="roda2"><svg viewBox="0 0 58 58" aria-hidden="true"><circle class="f" cx="29" cy="29" r="22"/><circle class="v" cx="29" cy="29" r="22" style="stroke:var(--c);stroke-dashoffset:${(C * (1 - p)).toFixed(1)}"/></svg><span>${Math.round(p * 100)}%</span></span><b>${nome}</b><small>${a} de ${b}</small></button>`; };
   let hero;
   if (salva) {
     let fen = new Chess().fen(); try { const g = new Chess(); salva.lances.forEach(l => g.move(l)); fen = g.fen(); } catch (err) { /* usa a posição inicial */ }
@@ -7509,18 +7860,20 @@ function telaMenu() {
       <span class="sub" style="font-size:.84rem">Você está de ${corNome(salva.cor)} · lance ${Math.floor(salva.lances.length / 2) + 1}</span>
       <button class="bt pri pulsa" id="m-continuar">${SVG('<path d="M7 4v16l13-8z" fill="currentColor" stroke="none"/>')}Continuar</button></div></section>`;
   } else {
-    hero = `<section class="hero">${miniJogo(new Chess().fen(), 'w')}<div class="info"><span class="etq">Pronto para jogar?</span><span class="tit">Uma partida contra o computador</span>
-      <span class="sub" style="font-size:.84rem">${NIVEIS.length} níveis, do iniciante ao mestre</span>
-      <button class="bt pri pulsa" data-ir="config">${SVG('<path d="M7 4v16l13-8z" fill="currentColor" stroke="none"/>')}Jogar agora</button></div></section>`;
+    hero = `<section class="hero">${miniJogo(new Chess().fen(), 'w')}<div class="info"><span class="etq">Pronto para jogar?</span><span class="tit">Contra o computador ou online</span>
+      <span class="sub" style="font-size:.84rem">Escolha seu adversário</span>
+      <button class="bt pri pulsa" data-ir="jogar">${SVG('<path d="M7 4v16l13-8z" fill="currentColor" stroke="none"/>')}Jogar agora</button></div></section>`;
   }
   const xp = XP.total(), nv = XP.nivel(xp), tit = XP.titulo(nv.n), seq = Sequencia.viva(), its = Missoes.itens();
   const prontas = its.filter(x => x.feita && !x.pega).length;
-  const pcSvg = t => `<svg viewBox="0 0 100 100" class="pc-ic" aria-hidden="true"><use href="#pc-${t}"/></svg>`;
+  const ENGRENAGEM = '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>';
+  const SINO = '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.3 20a2 2 0 0 0 3.4 0"/>';
   $('#tela').innerHTML = `<div class="home">
     <header class="home-cab">
       <button class="perfil-topo" data-ir="perfil" aria-label="Meu perfil" style="width:56px;height:56px">${htmlAvatar(d.perfil.avatar, d.perfil.moldura, 52)}${XP.selo(nv.n, 22)}</button>
       <div class="quem"><p>${saud}${Dev.ativo ? ' <button class="selo-dev" data-ir="dev" aria-label="Abrir painel do desenvolvedor">DEV</button>' : ''}</p><h1>${d.perfil.nome ? 'Olá, ' + esc(d.perfil.nome) + '!' : 'Olá, jogador!'}</h1></div>
-      <button class="bt-ic" id="m-tema" aria-label="Trocar tema (agora: ${tema.nome})">${SVG('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>')}</button>
+      <button class="bt-ic sino" data-ir="avisos" aria-label="Notificações">${SVG(SINO)}<i class="selo-conv oculto" data-avisos-n>0</i></button>
+      <button class="bt-ic" data-ir="ajustes" aria-label="Configurações">${SVG(ENGRENAGEM)}</button>
       <button class="moedas-topo" data-ir="loja" aria-label="Moedas — abrir loja">${MOEDA}${d.moedas}</button>
     </header>
     <button class="nivel-home" data-ir="missoes" style="--nv:${tit.cor}" aria-label="Nível ${nv.n}, ${nv.atual} de ${nv.prox} XP. Sequência de ${seq} dias">
@@ -7530,43 +7883,45 @@ function telaMenu() {
     ${hero}
     <section class="cartao missoes-home">
       <div class="ms-cab"><h3>Missões do dia</h3><button class="link-ver" data-ir="missoes">${prontas ? prontas + ' prêmio' + (prontas > 1 ? 's' : '') + ' para pegar' : 'Ver tudo'}</button></div>
-      ${Dados.d.missoes.bau ? `<p class="ms-fim">✓ Todas feitas e baú aberto. Novas missões em ${Missoes.faltaTxt()}.</p>` : `<div class="ms-lista">${its.map(x => Missoes.html(x)).join('')}${Missoes.podeBau() ? Missoes.htmlBau() : ''}</div>`}</section>
-    <section class="aneis">${anel('Fases', ra.feitas, ra.total, 'cor-ok', 'aprender')}${anel('Desafios', feitos, PUZZLES.length, 'cor-info', 'desafios')}${anel('Conquistas', Conquistas.feitas(), Conquistas.total(), 'cor-dest', 'conquistas')}</section>
-    <h2 class="secao">Jogar</h2>
-    <section class="grade-jogar">
-      <button class="cartao-jogar forte" data-ir="config"><span class="fundo-pc"><svg viewBox="0 0 100 100"><use href="#pc-k"/></svg></span>
-        ${SVG('<rect x="4" y="4" width="16" height="12" rx="2"/><path d="M9 20h6M12 16v4M9 10h.01M15 10h.01"/>')}<span><b>Contra o computador</b><small>${NIVEIS.length} níveis · análise no final</small></span></button>
-      <button class="cartao-jogar" data-ir="amigos"><span class="fundo-pc"><svg viewBox="0 0 100 100"><use href="#pc-q"/></svg></span>
-        ${SVG('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.8"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/>')}<span><b>Com amigos</b><small>Mesmo aparelho ou online</small></span></button>
-    </section>
-    <h2 class="secao">Treinar</h2>
-    <section class="linhas-menu">
-      <button class="linha-menu cor-ok" data-ir="aprender"><span class="ic2">${pcSvg('p')}</span><span class="tx"><span><b>Aprender</b><small>${ra.feitas} de ${ra.total} fases · ${ra.estrelas} ★</small></span><span class="barrinha"><i style="width:${Math.round(ra.feitas / ra.total * 100)}%"></i></span></span>${SETA}</button>
-      <button class="linha-menu cor-info" data-ir="desafios"><span class="ic2">${SVG('<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>')}</span><span class="tx"><span><b>Desafios táticos</b><small>${feitos} de ${PUZZLES.length} · ${d.desafios.pontos} pts</small></span><span class="barrinha"><i style="width:${Math.round(feitos / PUZZLES.length * 100)}%"></i></span></span>${SETA}</button>
-      <button class="linha-menu cor-ok" data-ir="social"><span class="ic2">${SVG('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M19 8v6M16 11h6"/>')}</span><span class="tx"><b>Amigos <i class="selo-n oculto" data-conv-n>0</i></b><small>${Nuvem.usuario ? (Amigos.todos().length ? Amigos.todos().length + (Amigos.todos().length > 1 ? ' amigos' : ' amigo') + ' · convites e busca' : 'Busque jogadores e mande convites') : 'Adicione amigos e convide para jogar'}</small></span>${SETA}</button>
-      <button class="linha-menu cor-dest" data-ir="ranking"><span class="ic2">${SVG('<path d="M8 21V11H3v10zM15.5 21V5h-7v16zM21 21v-7h-5.5v7z"/>')}</span><span class="tx"><b>Ranking</b><small>${Nuvem.usuario ? 'Geral, da semana e do online' : 'Veja os melhores jogadores'}</small></span>${SETA}</button>
-      <button class="linha-menu cor-neutra" data-ir="historico"><span class="ic2">${SVG('<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>')}</span><span class="tx"><b>Histórico de partidas</b><small>${d.partidas.length ? d.partidas.length + ' partida' + (d.partidas.length > 1 ? 's' : '') + ' · reveja e analise os lances' : 'Reveja e analise suas partidas'}</small></span>${SETA}</button>
-      <button class="linha-menu cor-dest" data-ir="stats"><span class="ic2">${SVG('<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>')}</span><span class="tx"><b>Minhas estatísticas</b><small>${e.jogos} partidas · ${e.vitorias} vitórias</small></span>${SETA}</button>
-    </section>
-    <section class="duas-peq">
-      <button class="linha-menu cor-dest" data-ir="loja"><span class="ic2">${MOEDA}</span><span class="tx"><b>Loja</b><small>Tabuleiros e fotos</small></span></button>
-      <button class="linha-menu cor-neutra" data-ir="ajustes"><span class="ic2">${SVG('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>')}</span><span class="tx"><b>Configurações</b><small>Tema, sons</small></span></button>
-    </section>
+      ${Dados.d.missoes.bau ? `<p class="ms-fim">✓ Todas feitas e baú aberto. Novas missões em ${Missoes.faltaTxt()}.</p>` : Missoes.podeBau() ? `<div class="ms-lista">${Missoes.htmlBau()}</div>` : `<div class="ms-lista">${its.map(x => Missoes.html(x)).join('')}</div>`}</section>
+    <section class="aneis">${anel('Fases', ra.feitas, ra.total, 'cor-ok', 'aprender', 'modulos')}${anel('Desafios', feitos, PUZZLES.length, 'cor-info', 'desafios')}${anel('Conquistas', Conquistas.feitas(), Conquistas.total(), 'cor-dest', 'conquistas')}</section>
   </div>`;
   $('.home').onclick = ev => {
     if (modalAberto()) return;
     if (Missoes.clique(ev, () => App.ir('menu'))) return;
-    const b = ev.target.closest('[data-ir]'); if (b) App.ir(b.dataset.ir);
+    const b = ev.target.closest('[data-ir]'); if (b) App.ir(b.dataset.ir, b.dataset.param);
   };
-  Convites.selos();
+  Avisos.selos();
   if (salva) $('#m-continuar').onclick = () => App.ir('jogo', { modo: 'pc', retomar: salva });
-  $('#m-tema').onclick = ev => {
-    ev.stopPropagation();
-    const i = TEMAS.findIndex(t => t.id === d.ajustes.tema), nv = TEMAS[(i + 1) % TEMAS.length];
-    d.ajustes.tema = nv.id; Dados.salvar(); aplicarVisual();
-    $('#m-tema').classList.toggle('girou');
-    $('#m-tema').setAttribute('aria-label', 'Trocar tema (agora: ' + nv.nome + ')');
+}
+
+/* ---------- tela "Jogar": escolher contra quem ---------- */
+function telaJogar() {
+  App.cabecalho('Jogar', 'menu');
+  const d = Dados.d, salva = Dados.lerPartida(), u = Nuvem.usuario;
+  const onAgora = Object.keys(Avisos.online).filter(k => Avisos.online[k] && Amigos.tem(k)).length;
+  const fundo = t => `<span class="fundo-pc" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#pc-${t}"/></svg></span>`;
+  $('#tela').innerHTML = `<div class="pilha estreito jogar-hub">
+    ${salva ? `<div class="cartao destaque continuar-jg"><div><b>Partida em andamento</b><span class="sub">Contra o nível ${NIVEIS[salva.nivel].nome} · lance ${Math.floor(salva.lances.length / 2) + 1}</span></div><button class="bt pri" id="j-continuar">Continuar</button></div>` : ''}
+    <button class="modo-jogo forte" data-ir="config">${fundo('k')}
+      <span class="mj-ic">${SVG('<rect x="4" y="4" width="16" height="12" rx="2"/><path d="M9 20h6M12 16v4M9 10h.01M15 10h.01"/>')}</span>
+      <span class="mj-tx"><b>Contra o computador</b><small>${NIVEIS.length} níveis, do Iniciante ao Mestre · análise dos lances no final</small></span></button>
+    <button class="modo-jogo" data-ir="amigos">${fundo('q')}
+      <span class="mj-ic">${SVG('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>')}</span>
+      <span class="mj-tx"><b>Online</b><small>${u ? `Crie uma sala ou entre com um código · ${d.ranque.pts} pontos` : 'Jogue com amigos pela internet (precisa de conta)'}</small></span></button>
+    <div class="duas-peq">
+      <button class="linha-menu cor-ok" data-ir="social" data-param="jogar"><span class="ic2">${SVG('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M19 8v6M16 11h6"/>')}</span><span class="tx"><b>Convidar amigo</b><small>${onAgora ? onAgora + ' online agora' : 'Da sua lista'}</small></span></button>
+      <button class="linha-menu cor-neutra" data-local="1"><span class="ic2">${SVG('<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>')}</span><span class="tx"><b>Mesmo aparelho</b><small>Passa o celular</small></span></button>
+    </div>
+    <button class="linha-menu cor-dest" data-ir="ranking"><span class="ic2">${SVG('<path d="M8 21V11H3v10zM15.5 21V5h-7v16zM21 21v-7h-5.5v7z"/>')}</span><span class="tx"><b>Ranking</b><small>Os melhores no geral, na semana e no online</small></span>${SETA}</button>
+  </div>`;
+  $('#tela').onclick = e => {
+    if (modalAberto()) return;
+    if (e.target.closest('#j-continuar')) { App.ir('jogo', { modo: 'pc', retomar: salva }); return; }
+    if (e.target.closest('[data-local]')) { App.ir('jogo', { modo: 'local' }); return; }
+    const b = e.target.closest('[data-ir]'); if (b) App.ir(b.dataset.ir, b.dataset.param);
   };
+  App.aoSair = () => { $('#tela').onclick = null; };
 }
 
 /* ---------- estatísticas ---------- */
@@ -7584,7 +7939,7 @@ const Estatisticas = {
     return h;
   },
   tela() {
-    App.cabecalho('Minhas estatísticas', 'menu');
+    App.cabecalho('Minhas estatísticas', 'perfil');
     const d = Dados.d, e = estadoJogador();
     const comPrec = d.partidas.filter(p => p.prec != null), ult10 = comPrec.slice(-10), ult20 = comPrec.slice(-20);
     const media = ult10.length ? Math.round(ult10.reduce((s, p) => s + p.prec, 0) / ult10.length) : null;

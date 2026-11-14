@@ -25,6 +25,20 @@ service cloud.firestore {
       allow update: if request.auth != null && (resource.data.de == request.auth.uid || resource.data.para == request.auth.uid)
         && request.resource.data.de == resource.data.de && request.resource.data.para == resource.data.para;
     }
+    // pedidos de amizade: o id é "quemPede_quemRecebe"; só quem recebe responde
+    match /pedidos/{id} {
+      allow read, delete: if request.auth != null && (resource.data.de == request.auth.uid || resource.data.para == request.auth.uid);
+      allow create: if request.auth != null && request.resource.data.de == request.auth.uid
+        && request.resource.data.para is string && request.resource.data.para != request.auth.uid
+        && id == request.auth.uid + '_' + request.resource.data.para;
+      allow update: if request.auth != null && resource.data.para == request.auth.uid
+        && request.resource.data.de == resource.data.de && request.resource.data.para == resource.data.para;
+    }
+    // histórico público: as últimas partidas de cada jogador (todos veem, só o dono grava)
+    match /historicos/{uid} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
     // salas de partidas online: quem tem conta pode criar e entrar;
     // depois que a sala fecha, só os dois jogadores podem mexer nela
     match /salas/{codigo} {
