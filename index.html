@@ -54,6 +54,7 @@
 @keyframes barraCresce{from{width:0}}
 @keyframes pulsoDest{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--dest) 55%,transparent)}70%{box-shadow:0 0 0 14px transparent}100%{box-shadow:0 0 0 0 transparent}}
 @keyframes flutua{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes brilhoMoeda{0%,55%{transform:translateX(-110%)}100%{transform:translateX(110%)}}
 @keyframes brilho{0%,70%{transform:translateX(-140%) rotate(20deg)}100%{transform:translateX(260%) rotate(20deg)}}
 @keyframes onda{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.6);opacity:0}}
 @keyframes balao{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-5px)}}
@@ -96,7 +97,7 @@ body[data-tela="menu"] #topo{display:none}
 #topo .lado{font-size:.8rem;color:var(--txt2);white-space:nowrap}
 .moedas-topo{position:relative;overflow:hidden;display:flex;align-items:center;gap:6px;height:40px;padding:0 13px 0 8px;border-radius:999px;background:var(--sup);border:1px solid var(--linha);font-size:.95rem;font-weight:700;white-space:nowrap}
 .moedas-topo svg.moeda{width:24px;height:24px}
-.moedas-topo::after{content:"";position:absolute;top:-10px;bottom:-10px;left:0;width:16px;background:rgba(255,255,255,.28);animation:brilho 4s ease-in-out infinite;pointer-events:none}
+.moedas-topo::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.34) 50%,transparent 62%);transform:translateX(-110%);animation:brilhoMoeda 4s ease-in-out infinite;pointer-events:none}
 .moedas-topo.pulso{animation:pulso .6s}
 .moedas-topo:active{transform:scale(.95)}
 @keyframes pulso{40%{transform:scale(1.15);border-color:var(--dest)}}
@@ -905,9 +906,9 @@ button.selo-dev:active{transform:scale(.92)}
 .selo-n{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;margin-left:6px;border-radius:999px;background:var(--ruim);color:#fff;font-style:normal;font-size:.72rem;font-weight:800;vertical-align:2px}
 .selo-conv{position:absolute;top:-2px;right:-2px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--ruim);color:#fff;font-style:normal;font-size:.72rem;font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 2px var(--fundo);z-index:2}
 #nav-inf button{position:relative}
-#faixa-conv{position:fixed;left:50%;top:calc(10px + env(safe-area-inset-top));transform:translate(-50%,-140%);z-index:80;display:flex;align-items:center;gap:10px;
-  width:min(440px,calc(100vw - 20px));padding:10px 10px 10px 12px;border-radius:18px;background:var(--sup);border:1px solid var(--dest);box-shadow:0 12px 40px var(--sombra);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
-#faixa-conv.entra{transform:translate(-50%,0)}
+#faixa-conv{position:fixed;left:50%;top:calc(10px + env(safe-area-inset-top));transform:translate(-50%,calc(-100% - 90px - env(safe-area-inset-top)));opacity:0;visibility:hidden;pointer-events:none;z-index:80;display:flex;align-items:center;gap:10px;
+  width:min(440px,calc(100vw - 20px));padding:10px 10px 10px 12px;border-radius:18px;background:var(--sup);border:1px solid var(--dest);box-shadow:0 12px 40px var(--sombra);transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .25s,visibility 0s .35s}
+#faixa-conv.entra{transform:translate(-50%,0);opacity:1;visibility:visible;pointer-events:auto;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .2s,visibility 0s}
 #faixa-conv .avatar{flex:none}
 #faixa-conv>span{flex:1;min-width:0;font-size:.9rem;line-height:1.25}
 .bt-x{width:32px;height:32px;border-radius:10px;font-size:1.3rem;color:var(--txt2);flex:none}
