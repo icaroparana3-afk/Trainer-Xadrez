@@ -155,7 +155,11 @@ body.com-nav #tela{padding-bottom:calc(120px + env(safe-area-inset-bottom))}
 .home{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:18px;padding-top:calc(4px + env(safe-area-inset-top))}
 .home-cab{display:flex;align-items:center;gap:12px}
 .home-cab .quem{flex:1;min-width:0}
-.home-cab .quem p{font-size:.82rem;color:var(--txt2)}
+.home-cab .quem p{font-size:.82rem;color:var(--txt2);display:flex;align-items:center;gap:5px;white-space:nowrap;min-width:0}
+.home-cab .quem p .selo-rei,.home-cab .quem p .selo-dev{margin:0;flex:none}
+.home-cab .quem p .saud{overflow:hidden;text-overflow:ellipsis;min-width:0}
+.home-cab .quem p [data-selo-rei]{display:flex;flex:none}
+.home-cab .quem p [data-selo-rei]:empty{display:none}
 .home-cab .quem h1{font-size:1.4rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bt-ic{width:44px;height:44px;border-radius:14px;border:1px solid var(--linha);background:var(--sup);color:var(--txt);display:grid;place-items:center;flex:none}
 .bt-ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
@@ -1000,6 +1004,117 @@ button.selo-dev:active{transform:scale(.92)}
 .no.feita.meio>button{background:var(--info);border-color:var(--info)}
 .trilha-des .no.feita>button,.trilha-des .no.atual>button{color:var(--dest-tinta)}
 
+/* ===== telas sem rolagem (perfil e troféus) ===== */
+body.fixa #app{height:100vh;height:100dvh;min-height:0;overflow:hidden}
+body.fixa #tela{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;padding-top:10px;padding-bottom:calc(98px + env(safe-area-inset-bottom))}
+body.fixa #tela>.tela-fixa{flex:1;min-height:0;width:100%;display:flex;flex-direction:column;gap:10px}
+body.fixa #tela>.tela-fixa>*{flex:none}
+.cor-ruim{--c:var(--ruim);--c-bg:color-mix(in srgb,var(--ruim) 16%,var(--sup))}
+
+/* troféus */
+.cq-topo{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cq-rk{display:flex;align-items:center;gap:10px;padding:10px 12px;text-align:left;color:inherit}
+.cq-rk .ic2{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none;background:var(--dest-bg);color:var(--dest)}
+.cq-rk .ic2 svg{width:20px;height:20px;fill:currentColor}
+.cq-rk b{display:block;font-size:.95rem;line-height:1.2}.cq-rk small{color:var(--txt2);font-size:.74rem;line-height:1.2;display:block}
+.cq-total{padding:10px 12px;display:grid;grid-template-columns:auto 1fr;align-items:baseline;column-gap:6px}
+.cq-total>span{font-size:.9rem;color:var(--txt2)}.cq-total>span b{font-family:var(--tit);font-size:1.25rem;color:var(--txt)}
+.cq-total small{color:var(--txt2);font-size:.78rem}
+.cq-total .progresso{grid-column:1/-1;margin-top:6px;height:7px}
+.cq-trofeus{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;padding:8px 6px}
+.tr-mini{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 2px;border-radius:12px;min-width:0}
+.tr-mini svg{width:clamp(30px,9vw,42px);height:auto}
+.tr-mini small{font-size:.6rem;line-height:1.15;color:var(--txt2);text-align:center;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tr-mini.ok small{color:var(--txt);font-weight:600}
+.tr-mini:active{transform:scale(.92)}
+.cq-grupos{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.cq-grupos button{display:flex;align-items:center;justify-content:space-between;gap:4px;padding:7px 10px;border-radius:12px;background:var(--sup);border:1px solid var(--linha);font-size:.82rem;font-weight:600;min-width:0}
+.cq-grupos button i{font-style:normal;font-size:.72rem;color:var(--txt2);font-weight:600}
+.cq-grupos button.cheio i{color:var(--ok)}
+.cq-grupos button.on{background:var(--dest);border-color:var(--dest);color:var(--dest-tinta)}
+.cq-grupos button.on i{color:inherit;opacity:.8}
+body.fixa #tela>.tela-fixa>.cq-box{flex:1;min-height:0;overflow:hidden}
+.cq-grade{display:grid;gap:8px}
+.cq-grade.vira{animation:surge .3s ease}
+.cq-tile{position:relative;height:var(--alt,86px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px 4px;border-radius:14px;background:var(--sup);border:1px solid var(--linha);min-width:0}
+.cq-tile .cq-ic{font-size:1.55rem;line-height:1;filter:grayscale(1);opacity:.45}
+.cq-tile b{font-size:.64rem;line-height:1.2;font-weight:600;color:var(--txt2);text-align:center;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:normal;word-break:normal}
+.cq-tile.ok{border-color:color-mix(in srgb,var(--dest) 55%,var(--linha));background:color-mix(in srgb,var(--dest) 9%,var(--sup))}
+.cq-tile.ok .cq-ic{filter:none;opacity:1}.cq-tile.ok b{color:var(--txt)}
+.cq-tile .mini-prog{position:absolute;left:10px;right:10px;bottom:6px;height:3px;margin:0}
+.cq-tile .cq-ok{position:absolute;top:4px;right:6px;font-style:normal;font-size:.7rem;color:var(--ok);font-weight:800}
+.cq-tile:active{transform:scale(.95)}
+.cq-pag{display:none;align-items:center;justify-content:center;gap:8px;height:28px}
+.cq-pag.on{display:flex}
+.cq-pag button{width:30px;height:28px;border-radius:9px;background:var(--sup);border:1px solid var(--linha);font-size:1.1rem;line-height:1}
+.cq-pag button:disabled{opacity:.3}
+.cq-pag i{width:8px;height:8px;border-radius:50%;background:var(--sup3);cursor:pointer}
+.cq-pag i.on{background:var(--dest);width:18px;border-radius:4px}
+.cq-det{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.cq-det .cq-ic{font-size:3rem;line-height:1;filter:grayscale(1);opacity:.5}
+.cq-det.ok .cq-ic{filter:none;opacity:1}
+.cq-det .progresso{width:100%}
+.cq-det-pr{color:var(--dest)}.cq-det.ok .cq-det-pr{color:var(--ok)}
+.cq-det svg.moeda,.cq-det svg.gema,.pm-quadro svg.moeda,.pm-quadro svg.gema{width:18px;height:18px;vertical-align:-3px}
+@media (max-height:700px){.cq-rk,.cq-total{padding:8px 10px}.cq-trofeus{padding:4px}.cq-grupos button{padding:5px 8px}}
+
+/* perfil */
+.pf-tela .perfil-cab{display:flex;align-items:center;gap:14px;padding:14px}
+.pf-av{position:relative;flex:none;border-radius:50%;padding:6px}
+.pf-av:active{transform:scale(.95)}
+.pf-lapis{position:absolute;right:0;bottom:2px;width:28px;height:28px;border-radius:50%;background:var(--dest);color:var(--dest-tinta);display:grid;place-items:center;box-shadow:0 0 0 3px var(--sup);z-index:2}
+.pf-lapis svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linejoin:round}
+.pf-info{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px}
+.pf-info .selo-dev,.pf-info .selo-rei{margin:0}
+.pf-saldo{display:inline-flex;align-items:center;gap:4px;font-size:.85rem;font-weight:700;padding:2px 9px 2px 5px;border-radius:999px;background:var(--sup2)}
+.pf-saldo svg{width:18px;height:18px}
+svg.gema{fill:#7fd8ff;stroke:#1d6f99;stroke-width:1.4;stroke-linejoin:round}
+.pf-grade{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pf-tile{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:12px 6px;border-radius:18px;background:var(--sup);border:1px solid var(--linha);text-align:center;min-width:0}
+.pf-tile .ic2{position:relative;width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:var(--c-bg);color:var(--c);margin-bottom:3px}
+.pf-tile .ic2 svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pf-tile .ic2 .selo-n{position:absolute;top:-6px;right:-10px;margin:0}
+.pf-tile b{font-size:.86rem;line-height:1.2}
+.pf-tile small{font-size:.72rem;color:var(--txt2);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.pf-tile:active{transform:scale(.96)}
+@media (max-height:720px){.pf-tela .perfil-cab{padding:10px 12px}.pf-tela .perfil-cab .avatar{--av:68px!important}.pf-tile{padding:9px 4px}.pf-tile .ic2{width:36px;height:36px}}
+
+/* ícone e moldura */
+.vs-prev{display:flex;align-items:center;gap:16px;padding:14px 16px}
+.vs-prev .avatar{margin:8px}
+.vs-prev b{display:block;font-size:1.05rem}
+.vs-sub{font-size:.9rem;margin:4px 0 8px}
+.vs-sub:not(:first-child){margin-top:16px}
+.op-rei:not(.trancado) small{color:#c79bff;font-weight:700}
+
+/* selo do 1º lugar (como o DEV) */
+.selo-rei{display:inline-flex;align-items:center;gap:3px;padding:2px 8px 2px 6px;border-radius:7px;background:linear-gradient(135deg,#ffd75e,#f29f1d 45%,#9b4dff);color:#2a1300;font:800 .68rem/1.4 Inter,sans-serif;letter-spacing:.04em;vertical-align:1px;margin-left:4px;white-space:nowrap;box-shadow:0 0 10px rgba(255,200,80,.35);flex:none}
+.selo-rei svg{width:12px;height:12px;fill:currentColor}
+.molv-campeao{filter:drop-shadow(0 0 calc(var(--av)*.08) rgba(190,120,255,.55))}
+
+/* prêmios do ranking */
+.pm-quadro{padding:10px 12px}
+.pm-tit{display:block;font-size:.82rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.pm-lista{display:grid;gap:6px}
+.pm-it{display:flex;align-items:center;gap:10px;padding:6px 10px 6px 6px;border-radius:12px;background:var(--sup2);min-width:0}
+.pm-pos{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.8rem;color:#2a1300;background:#cfd6e0}
+.pm-it.p1 .pm-pos{background:linear-gradient(135deg,#ffe27a,#e6a21b)}
+.pm-it.p2 .pm-pos{background:linear-gradient(135deg,#f1f4f8,#9aa6b5)}
+.pm-it.p3 .pm-pos{background:linear-gradient(135deg,#f0b787,#a8622d)}
+.pm-tx{display:flex;flex-wrap:wrap;align-items:center;column-gap:10px;row-gap:1px;min-width:0;font-size:.84rem;line-height:1.3}
+.pm-tx b{display:flex;align-items:center;gap:3px;white-space:nowrap}
+.pm-tx small{flex-basis:100%;font-size:.72rem;color:var(--txt2);line-height:1.25}
+.pm-pop{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.pm-pop .avatar{margin:24px 0 16px}
+.pm-pop svg.moeda,.pm-pop svg.gema{width:22px;height:22px;vertical-align:-5px}
+.pm-ganhos{display:flex;gap:14px;font-size:1.25rem}
+.pm-ganhos b{display:flex;align-items:center;gap:5px}
+.pm-medalha{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;font:800 1.8rem var(--tit);color:#2a1300;background:linear-gradient(135deg,#f0b787,#a8622d)}
+.pm-medalha.p1{background:linear-gradient(135deg,#ffe27a,#9b4dff)}
+.saldo-gema{display:flex;align-items:center;gap:4px;font-size:.88rem;font-weight:600;color:var(--txt2)}
+.saldo-gema svg{width:18px;height:18px}
+.rk-tx b .selo-rei{vertical-align:1px}
+
 </style>
 </head>
 <body>
@@ -1085,6 +1200,7 @@ button.selo-dev:active{transform:scale(.92)}
 <path d="M-3 -9.5 L-1 -11 L0 -8Z" fill="#fff" opacity=".9"/>
 </g><path class="brilho-m" style="animation-delay:1.7s" d="M10 -19 Q10.8 -14.8 15 -14 Q10.8 -13.2 10 -9 Q9.2 -13.2 5 -14 Q9.2 -14.8 10 -19Z" fill="#fffbe0"/><path class="brilho-m" style="animation-delay:1.4s" d="M93 4 Q93.6 7.4 97 8 Q93.6 8.6 93 12 Q92.4 8.6 89 8 Q92.4 7.4 93 4Z" fill="#fffbe0"/><path class="brilho-m" style="animation-delay:1.2s" d="M-6 66.5 Q-5.4 69.4 -2.5 70 Q-5.4 70.6 -6 73.5 Q-6.6 70.6 -9.5 70 Q-6.6 69.4 -6 66.5Z" fill="#fffbe0"/><path class="brilho-m" style="animation-delay:1.5s" d="M104 71.5 Q104.7 75.3 108.5 76 Q104.7 76.7 104 80.5 Q103.3 76.7 99.5 76 Q103.3 75.3 104 71.5Z" fill="#fffbe0"/><path class="brilho-m" style="animation-delay:1s" d="M82 -27 Q82.5 -24.5 85 -24 Q82.5 -23.5 82 -21 Q81.5 -23.5 79 -24 Q81.5 -24.5 82 -27Z" fill="#fffbe0"/></symbol>
 
+<symbol id="mf-campeao" viewBox="-40 -40 180 180"><linearGradient id="mg-camp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c07bff"/><stop offset=".5" stop-color="#6a2bd8"/><stop offset="1" stop-color="#2f0f72"/></linearGradient><circle cx="50" cy="50" r="64" fill="none" stroke="#ffd96a" stroke-width="12" opacity=".4" filter="url(#mf-brilho)"/><g opacity=".85"><path d="M107.9 46.8L126.0 50.0L107.9 53.2ZM106.8 61.9L115.7 67.6L105.1 68.1ZM101.8 76.2L115.8 88.0L98.5 81.8ZM93.2 88.7L98.1 98.1L88.7 93.2ZM81.8 98.5L88.0 115.8L76.2 101.8ZM68.1 105.1L67.6 115.7L61.9 106.8ZM53.2 107.9L50.0 126.0L46.8 107.9ZM38.1 106.8L32.4 115.7L31.9 105.1ZM23.8 101.8L12.0 115.8L18.2 98.5ZM11.3 93.2L1.9 98.1L6.8 88.7ZM1.5 81.8L-15.8 88.0L-1.8 76.2ZM-5.1 68.1L-15.7 67.6L-6.8 61.9ZM-7.9 53.2L-26.0 50.0L-7.9 46.8ZM-6.8 38.1L-15.7 32.4L-5.1 31.9ZM-1.8 23.8L-15.8 12.0L1.5 18.2ZM6.8 11.3L1.9 1.9L11.3 6.8ZM18.2 1.5L12.0 -15.8L23.8 -1.8ZM31.9 -5.1L32.4 -15.7L38.1 -6.8ZM46.8 -7.9L50.0 -26.0L53.2 -7.9ZM61.9 -6.8L67.6 -15.7L68.1 -5.1ZM76.2 -1.8L88.0 -15.8L81.8 1.5ZM88.7 6.8L98.1 1.9L93.2 11.3ZM98.5 18.2L115.8 12.0L101.8 23.8ZM105.1 31.9L115.7 32.4L106.8 38.1Z" fill="url(#mg-ouro)"/><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="24s" repeatCount="indefinite"/></g><circle cx="50" cy="50" r="59.5" fill="none" stroke="url(#mg-ouro)" stroke-width="3"/><circle cx="50" cy="50" r="55" fill="none" stroke="url(#mg-camp)" stroke-width="8"/><circle cx="50" cy="50" r="50.6" fill="none" stroke="url(#mg-ouro)" stroke-width="2.2"/><g transform="translate(103.1 64.2) rotate(15)"><path d="M0 -3.4L2.6 0L0 3.4L-2.6 0Z" fill="#fff4c4" stroke="#8a5a00" stroke-width=".6"/></g><g transform="translate(88.9 88.9) rotate(45)"><path d="M0 -3.4L2.6 0L0 3.4L-2.6 0Z" fill="#fff4c4" stroke="#8a5a00" stroke-width=".6"/></g><g transform="translate(11.1 88.9) rotate(135)"><path d="M0 -3.4L2.6 0L0 3.4L-2.6 0Z" fill="#fff4c4" stroke="#8a5a00" stroke-width=".6"/></g><g transform="translate(-3.1 64.2) rotate(165)"><path d="M0 -3.4L2.6 0L0 3.4L-2.6 0Z" fill="#fff4c4" stroke="#8a5a00" stroke-width=".6"/></g><g transform="translate(-3.1 35.8) rotate(195)"><path d="M0 -3.4L2.6 0L0 3.4L-2.6 0Z" fill="#fff4c4" stroke="#8a5a00" stroke-width=".6"/></g><g transform="translate(11.1 11.1) rotate(225)"><path d="M0 -3.4L2.6 0L0 3.4L-2.6 0Z" fill="#fff4c4" stroke="#8a5a00" stroke-width=".6"/></g><g transform="translate(88.9 11.1) rotate(315)"><path d="M0 -3.4L2.6 0L0 3.4L-2.6 0Z" fill="#fff4c4" stroke="#8a5a00" stroke-width=".6"/></g><g transform="translate(103.1 35.8) rotate(345)"><path d="M0 -3.4L2.6 0L0 3.4L-2.6 0Z" fill="#fff4c4" stroke="#8a5a00" stroke-width=".6"/></g><g transform="translate(50 -9)"><path d="M-24 10L-28 -12L-14 -2L0 -20L14 -2L28 -12L24 10Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width="1.2" stroke-linejoin="round"/><rect x="-25" y="8" width="50" height="7" rx="2.5" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width="1.1"/><circle cx="-28" cy="-13" r="3" fill="#ffe680" stroke="#6a4706" stroke-width=".8"/><circle cx="28" cy="-13" r="3" fill="#ffe680" stroke="#6a4706" stroke-width=".8"/><circle cx="0" cy="-21" r="3.6" fill="#ffe680" stroke="#6a4706" stroke-width=".8"/><path d="M0 -6l4.5 5-4.5 5-4.5-5z" fill="url(#mg-camp)" stroke="#fff" stroke-width=".7"/><circle cx="-14" cy="3" r="2.6" fill="#e0315b"/><circle cx="14" cy="3" r="2.6" fill="#e0315b"/><circle cx="-15" cy="11.5" r="1.7" fill="#7b3df0"/><circle cx="0" cy="11.5" r="1.7" fill="#7b3df0"/><circle cx="15" cy="11.5" r="1.7" fill="#7b3df0"/></g><g transform="translate(50 109)"><path d="M-34 -4L-14 -7L-14 7L-34 4L-28 0Z" fill="url(#mg-camp)" stroke="#2a0a66" stroke-width=".9"/><path d="M34 -4L14 -7L14 7L34 4L28 0Z" fill="url(#mg-camp)" stroke="#2a0a66" stroke-width=".9"/><circle r="13" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width="1.3"/><circle r="9.6" fill="url(#mg-camp)" stroke="#ffe680" stroke-width="1"/><path d="M-1.6 -5.8L2.4 -6.5V5.4H4.4V7H-3.4V5.4H-1V-3.6L-3.6 -3Z" fill="#fff"/></g></symbol>
     <symbol id="ic-moeda" viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" fill="#f2b544"/><circle cx="13" cy="13" r="8.5" fill="none" stroke="#b97f12" stroke-width="1.6"/><path d="M13 8.5v9M10.5 11h4a1.6 1.6 0 0 1 0 3.2h-3" fill="none" stroke="#7a520a" stroke-width="1.7" stroke-linecap="round"/></symbol>
   </defs>
 </svg>
@@ -2888,6 +3004,8 @@ const limita = (x, a, b) => Math.max(a, Math.min(b, x));
 const sorteia = a => a[Math.floor(Math.random() * a.length)];
 const pecaSvg = (tipo, cor) => `<svg viewBox="0 0 100 100" class="pc${cor}"><use href="#pc-${tipo}"/></svg>`;
 const MOEDA = '<svg class="moeda" viewBox="0 0 26 26" aria-hidden="true"><use href="#ic-moeda"/></svg>';
+const GEMA = '<svg class="gema" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M12 21L8 9l4-6 4 6z"/></svg>';
+const SELO_REI = '<span class="selo-rei" title="1º lugar no ranking geral"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18L2 7l5.5 4L12 4l4.5 7L22 7l-1 11z"/></svg>Nº 1</span>';
 const maiuscula = s => s.charAt(0).toUpperCase() + s.slice(1);
 
 /* aviso rápido na parte de baixo da tela */
@@ -2943,6 +3061,7 @@ const Dados = {
       missoes: null,                                         // missões do dia: {dia, lista, prog, pegas, bau}
       ranque: { pts: 1000, n: 0, t: 0, melhor: 1000 },        // pontos das partidas online
       amigos: {},                                            // uid -> {n: nome, a: foto, m: moldura, t: quando mudou, x: removido}
+      premios: {},                                           // prêmios do ranking: 'w2026-W46' -> posição (1 a 3), 'm2026-11' -> 1
       atualizadoEm: 0
     };
   },
@@ -2955,7 +3074,7 @@ const Dados = {
     if (!Array.isArray(p.porNivel) || p.porNivel.length !== 6) p.porNivel = this.padrao().porNivel;
     if (!Array.isArray(p.partidas)) p.partidas = [];
     if (!Array.isArray(p.desafios.hist)) p.desafios.hist = [p.desafios.pontos];
-    ['fases', 'tags', 'itens', 'conquistas', 'livro', 'amigos'].forEach(k => { if (!p[k] || typeof p[k] !== 'object') p[k] = {}; });
+    ['fases', 'tags', 'itens', 'conquistas', 'livro', 'amigos', 'premios'].forEach(k => { if (!p[k] || typeof p[k] !== 'object') p[k] = {}; });
     if (!Object.keys(p.livro).length) Livro.migrar(p);
     if (!p.extras.salas || typeof p.extras.salas !== 'object') p.extras.salas = {};
     p.v = 2;
@@ -3001,6 +3120,7 @@ const Livro = {
     let b = comNiveis && typeof XP !== 'undefined' ? XP.bonusNiveis(d) : 0;      // prêmio de cada nível de XP alcançado
     if (typeof CONQUISTAS !== 'undefined') CONQUISTAS.forEach(c => { if (d.conquistas[c.id]) b += c.moedas; });
     if (typeof TROFEUS !== 'undefined') TROFEUS.forEach(t => { if (d.conquistas['tr-' + t.id]) b += t.moedas; });
+    if (typeof Premios !== 'undefined') b += Premios.soma(d).m;     // prêmios do ranking (cada um paga uma vez só)
     return b;
   },
   /* dados de versões antigas: os totais viram uma entrada "legado" */
@@ -3015,14 +3135,15 @@ const Livro = {
   meu(d = Dados.d) { const id = this.id(); if (!d.livro[id]) d.livro[id] = this.vazio(); return d.livro[id]; },
   /* refaz os totais (moedas, partidas por nível, online, local) somando todos os aparelhos */
   recalcular(d = Dados.d) {
-    let g = 0, s = 0, lo = 0, gg = 0, gs = 0, xe = 0, xs = 0; const pn = this.vazio().pn, on = { v: 0, e: 0, d: 0 }, sem = typeof semanaTxt === 'function' ? semanaTxt() : '';
+    let g = 0, s = 0, lo = 0, gg = 0, gs = 0, xe = 0, xs = 0, xa = 0; const pn = this.vazio().pn, on = { v: 0, e: 0, d: 0 }, sem = typeof semanaTxt === 'function' ? semanaTxt() : '', ant = typeof semanaAnterior === 'function' ? semanaAnterior() : '';
     for (const k in d.livro) {
       const l = d.livro[k]; g += (l.g || 0) + (l.aj || 0); s += l.s || 0; lo += l.lo || 0; gg += l.gg || 0; gs += l.gs || 0;
       xe += l.xe || 0; if (l.xs && l.xs.s === sem) xs += l.xs.v || 0;
+      if (l.xs && l.xs.s === ant) xa += l.xs.v || 0; else if (l.xa && l.xa.s === ant) xa += l.xa.v || 0;
       (l.pn || []).forEach((n, i) => { if (pn[i]) { pn[i].v += n.v || 0; pn[i].e += n.e || 0; pn[i].d += n.d || 0; } });
       if (l.on) { on.v += l.on.v || 0; on.e += l.on.e || 0; on.d += l.on.d || 0; }
     }
-    d.porNivel = pn; d.online = on; d.local = lo; d.gemas = Math.max(0, gg - gs); d.xpExtra = xe; d.xpSemana = xs;   // antes do bônus: o XP depende deles
+    d.porNivel = pn; d.online = on; d.local = lo; d.gemas = Math.max(0, gg + (typeof Premios !== 'undefined' ? Premios.soma(d).g : 0) - gs); d.xpExtra = xe; d.xpSemana = xs; d.xpSemanaAnt = xa;   // antes do bônus: o XP depende deles
     const b = this.bonus(d);
     let saldo = MOEDAS_INICIAIS + g + b - s;
     /* o saldo nunca fica negativo. Isso acontecia quando dois aparelhos gastavam o mesmo saldo
@@ -3043,8 +3164,12 @@ const Livro = {
       if (y.gg || x.gg) y.gg = Math.max(y.gg || 0, x.gg || 0);
       if (y.gs || x.gs) y.gs = Math.max(y.gs || 0, x.gs || 0);
       if (y.xe || x.xe) y.xe = Math.max(y.xe || 0, x.xe || 0);
+      const velhos = [y.xa, x.xa, y.xs, x.xs].filter(Boolean).map(c => ({ s: c.s, v: c.v || 0 }));
       if (x.xs && (!y.xs || x.xs.s > y.xs.s)) y.xs = Object.assign({}, x.xs);           // XP da semana: vale a semana mais nova
       else if (x.xs && y.xs && x.xs.s === y.xs.s) y.xs.v = Math.max(y.xs.v || 0, x.xs.v || 0);
+      let xa = null;                                   // XP da semana anterior (para os prêmios do ranking)
+      velhos.forEach(c => { if (y.xs && c.s >= y.xs.s) return; if (!xa || c.s > xa.s) xa = c; else if (c.s === xa.s) xa.v = Math.max(xa.v, c.v); });
+      if (xa) y.xa = xa;
       y.pn = (y.pn || this.vazio().pn).map((n, i) => { const m = (x.pn || [])[i] || {}; return { v: Math.max(n.v, m.v || 0), e: Math.max(n.e, m.e || 0), d: Math.max(n.d, m.d || 0) }; });
       const o = x.on || {}; y.on = { v: Math.max(y.on.v, o.v || 0), e: Math.max(y.on.e, o.e || 0), d: Math.max(y.on.d, o.d || 0) };
     }
@@ -4295,7 +4420,9 @@ const MOLDURAS = [
   { id: 'intermediario', nome: 'Elmo do Cavaleiro', nivel: 2, arte: true },
   { id: 'avancado', nome: 'Espadas de Prata', nivel: 3, arte: true },
   { id: 'expert', nome: 'Chamas do Expert', nivel: 4, arte: true },
-  { id: 'mestre', nome: 'Coroa do Mestre', nivel: 5, arte: true }
+  { id: 'mestre', nome: 'Coroa do Mestre', nivel: 5, arte: true },
+  /* exclusiva: só quem está em 1º no ranking geral */
+  { id: 'campeao', nome: 'Trono do Campeão', rei: true, arte: true }
 ];
 /* desenha a foto de perfil (avatar) com a moldura */
 function htmlAvatar(avatarId, moldura, tam = 44) {
@@ -4306,7 +4433,7 @@ function htmlAvatar(avatarId, moldura, tam = 44) {
 /* molduras de nível liberadas agora (para avisar na tela de fim de partida) */
 const moldurasNivel = () => MOLDURAS.filter(m => m.nivel && temMoldura(m.id)).map(m => m.id);
 const temAvatar = id => { const a = AVATARES.find(x => x.id === id); return !!a && (Dev.tudo || a.trofeu ? !!Dados.d.conquistas['tr-' + a.trofeu] : (a.preco === 0 || !!Dados.d.itens['av-' + id])); };
-const temMoldura = id => { const m = MOLDURAS.find(x => x.id === id); if (!m) return false; if (Dev.tudo) return true;
+const temMoldura = id => { const m = MOLDURAS.find(x => x.id === id); if (!m) return false; if (m.rei) return Premios.souRei(); if (Dev.tudo) return true;
   if (m.nivel) return ((Dados.d.porNivel[m.nivel] || {}).v || 0) >= 1;
   return !m.trofeu || !!Dados.d.conquistas['tr-' + m.trofeu]; };
 const temTabuleiro = id => { const t = TABULEIROS.find(x => x.id === id); return !!t && (Dev.tudo || t.preco === 0 || !!Dados.d.itens['tab-' + id]); };
@@ -4343,7 +4470,8 @@ function estadoJogador() {
     fases, modulos, estrelas, totalFases: MODULOS.reduce((s, m) => s + m.fases.length, 0),
     desafios: Object.keys(d.desafios.feitos).length, pontos: d.desafios.pontos, seq: d.desafios.melhorSeq || 0,
     flags: d.extras.flags || {}, moedasTotal: d.moedasTotal, compras: Object.keys(d.itens).length,
-    diasSeguidos: Math.max(d.sequencia.melhor || 0, d.sequencia.atual || 0), nivelXp: XP.nivel(XP.total(d)).n, ptsOnline: d.ranque.melhor || 1000
+    diasSeguidos: Math.max(d.sequencia.melhor || 0, d.sequencia.atual || 0), nivelXp: XP.nivel(XP.total(d)).n, ptsOnline: d.ranque.melhor || 1000,
+    semana1: Premios.vezes(d, 1), semana2: Premios.vezes(d, 2)
   };
 }
 const cont = (chave, meta) => ({ cond: e => e[chave] >= meta, prog: e => [Math.min(e[chave], meta), meta] });
@@ -4430,15 +4558,19 @@ const TROFEUS = [
   { id: 'bronze', nome: 'Troféu de Bronze', desc: 'Conclua o 1º módulo.', moedas: 100, cond: e => e.modulos >= 1, prog: e => [Math.min(e.modulos, 1), 1] },
   { id: 'prata', nome: 'Troféu de Prata', desc: 'Conclua 3 módulos.', moedas: 200, cond: e => e.modulos >= 3, prog: e => [Math.min(e.modulos, 3), 3] },
   { id: 'ouro', nome: 'Troféu de Ouro', desc: 'Conclua todos os módulos.', moedas: 400, cond: e => e.modulos >= MODULOS.length, prog: e => [e.modulos, MODULOS.length] },
-  { id: 'platina', nome: 'Troféu de Platina', desc: 'Conclua todos os módulos e todos os desafios.', moedas: 1000, cond: e => e.modulos >= MODULOS.length && e.desafios >= PUZZLES.length, prog: e => [e.modulos + e.desafios, MODULOS.length + PUZZLES.length] }
+  { id: 'platina', nome: 'Troféu de Platina', desc: 'Conclua todos os módulos e todos os desafios.', moedas: 1000, cond: e => e.modulos >= MODULOS.length && e.desafios >= PUZZLES.length, prog: e => [e.modulos + e.desafios, MODULOS.length + PUZZLES.length] },
+  /* troféus do ranking da semana (o prêmio em moedas e gemas vem do próprio ranking) */
+  { id: 'topo1', nome: 'Daqui de cima enxergo melhor!', curto: '1º da semana', desc: 'Termine uma semana em 1º lugar no ranking.', moedas: 0, rk: true, cond: e => e.semana1 >= 1, prog: e => [Math.min(e.semana1, 1), 1] },
+  { id: 'topo2', nome: 'Não vou desistir!', curto: '2º da semana', desc: 'Termine uma semana em 2º lugar no ranking.', moedas: 0, rk: true, cond: e => e.semana2 >= 1, prog: e => [Math.min(e.semana2, 1), 1] }
 ];
-const COR_TROFEU = { bronze: ['#e3a46b', '#9a5b2a'], prata: ['#eef2f6', '#8d97a5'], ouro: ['#ffe27a', '#c48b12'], platina: ['#e9fbff', '#7fc4d8'] };
+const COR_TROFEU = { bronze: ['#e3a46b', '#9a5b2a'], prata: ['#eef2f6', '#8d97a5'], ouro: ['#ffe27a', '#c48b12'], platina: ['#e9fbff', '#7fc4d8'], topo1: ['#ffe27a', '#9b4dff'], topo2: ['#bfe9ff', '#2f6fe0'] };
 function svgTrofeu(id, ativo = true, tam = 56) {
   const [c1, c2] = ativo ? COR_TROFEU[id] : ['#5a6170', '#3a404c'];
   return `<svg viewBox="0 0 64 64" width="${tam}" height="${tam}" aria-hidden="true"><defs><linearGradient id="gt-${id}${ativo ? 1 : 0}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs>
     <g fill="url(#gt-${id}${ativo ? 1 : 0})" stroke="rgba(0,0,0,.25)" stroke-width="1.2">
     <path d="M18 8h28v14c0 9-6 16-14 16S18 31 18 22z"/><path d="M18 12H9c0 9 4 14 11 15l1-4c-5-1-7-4-7-7h4zM46 12h9c0 9-4 14-11 15l-1-4c5-1 7-4 7-7h-4z"/>
     <path d="M28 37h8v8h-8z"/><path d="M20 45h24v6H20zM16 51h32v6H16z"/></g>
+    ${(id === 'topo1' || id === 'topo2') && ativo ? `<text x="32" y="29" text-anchor="middle" font-size="15" font-weight="800" font-family="Inter,sans-serif" fill="#fff" stroke="rgba(0,0,0,.35)" stroke-width=".8">${id === 'topo1' ? 1 : 2}º</text>` : ''}
     ${id === 'platina' && ativo ? '<path d="M32 15l2.4 5 5.4.6-4 3.7 1.1 5.3-4.9-2.7-4.9 2.7 1.1-5.3-4-3.7 5.4-.6z" fill="#fff" opacity=".85"/>' : ''}</svg>`;
 }
 
@@ -4490,7 +4622,7 @@ const Conquistas = {
     } else {
       const { c, tipo } = this.fila.shift(); longo = tipo === 'trofeu' || tipo === 'nivel';
       const rot = { trofeu: 'Troféu conquistado!', nivel: 'Subiu de nível!', missao: 'Missão cumprida!', seq: 'Sequência de dias' }[tipo] || 'Conquista desbloqueada!';
-      html = `<span class="cq-ic">${tipo === 'trofeu' ? svgTrofeu(c.id, true, 44) : c.ic}</span><span><small>${rot}</small><b>${esc(c.nome)}</b><em>${c.sub ? esc(c.sub) : '+' + c.moedas + ' moedas'}</em></span>`;
+      html = `<span class="cq-ic">${tipo === 'trofeu' ? svgTrofeu(c.id, true, 44) : c.ic}</span><span><small>${rot}</small><b>${esc(c.nome)}</b><em>${c.sub ? esc(c.sub) : c.moedas ? '+' + c.moedas + ' moedas' : 'Prêmio do ranking'}</em></span>`;
     }
     el.innerHTML = html;
     el.classList.remove('oculto'); el.classList.add('entra');
@@ -4503,27 +4635,75 @@ const Conquistas = {
   total() { return CONQUISTAS.length; },
   feitas() { return CONQUISTAS.filter(c => Dados.d.conquistas[c.id]).length; },
 
+  grupo: 'partidas', pag: 0,
+  CURTO: { partidas: 'Partidas', amigos: 'Amigos', fases: 'Aprender', desafios: 'Desafios', rotina: 'Rotina', extras: 'Extras' },
+  /* tela de troféus: tudo cabe na tela, sem rolar (as conquistas viram páginas quando não cabem) */
   tela() {
-    App.cabecalho('Conquistas', 'menu');
-    const d = Dados.d, e = estadoJogador();
-    const htmlItem = c => {
-      const ok = !!d.conquistas[c.id], p = !ok && c.prog ? c.prog(e) : null;
-      return `<div class="conq${ok ? ' ok' : ''}"><span class="cq-ic">${c.ic}</span><span class="cq-tx"><b>${esc(c.nome)}</b><span>${esc(c.desc)}</span>
-        ${p ? `<span class="mini-prog"><i style="width:${Math.round(p[0] / p[1] * 100)}%"></i></span><small>${p[0]}/${p[1]}</small>` : ''}</span>
-        <span class="cq-pr">${ok ? '✓' : `+${c.moedas}`}</span></div>`;
+    App.cabecalho('Troféus', 'menu');
+    const d = Dados.d, feitas = this.feitas(), tot = this.total();
+    const cnt = g => [CONQUISTAS.filter(c => c.g === g && d.conquistas[c.id]).length, CONQUISTAS.filter(c => c.g === g).length];
+    $('#tela').innerHTML = `<div class="pilha tela-fixa cq-tela">
+      <div class="cq-topo">
+        <button class="cartao cq-rk" data-ir-rk="1"><span class="ic2">${SVG('<path d="M8 21V11H3v10zM15.5 21V5h-7v16zM21 21v-7h-5.5v7z"/>')}</span><span><b>Ranking</b><small>Prêmios toda semana</small></span></button>
+        <div class="cartao cq-total"><span><b>${feitas}</b>/${tot}</span><small>conquistas</small><div class="progresso"><i style="width:${Math.round(feitas / tot * 100)}%"></i></div></div>
+      </div>
+      <div class="cartao cq-trofeus" role="list">${TROFEUS.map(t => { const ok = !!d.conquistas['tr-' + t.id];
+        return `<button class="tr-mini${ok ? ' ok' : ''}" data-tr="${t.id}" role="listitem" aria-label="${esc(t.nome)}${ok ? ' (conquistado)' : ''}">${svgTrofeu(t.id, ok, 40)}<small>${esc(t.curto || t.nome.replace('Troféu de ', ''))}</small></button>`; }).join('')}</div>
+      <div class="cq-grupos" role="tablist">${GRUPOS_CONQ.map(g => { const [a, b] = cnt(g.id);
+        return `<button role="tab" aria-selected="${this.grupo === g.id}" class="${this.grupo === g.id ? 'on' : ''}${a === b ? ' cheio' : ''}" data-gr="${g.id}">${this.CURTO[g.id] || g.nome}<i>${a}/${b}</i></button>`; }).join('')}</div>
+      <div class="cq-box" id="cq-box"><div class="cq-grade" id="cq-grade"></div></div>
+      <div class="cq-pag" id="cq-pag"></div></div>`;
+    const box = $('#cq-box');
+    requestAnimationFrame(() => this.pintarGrade());
+    const redim = () => { if (App.atual === 'conquistas') this.pintarGrade(); };
+    window.addEventListener('resize', redim);
+    let x0 = null;
+    box.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+    box.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 45) this.irPag(this.pag + (dx < 0 ? 1 : -1)); });
+    $('#tela').onclick = e => {
+      if (e.target.closest('[data-ir-rk]')) { App.ir('ranking'); return; }
+      const g = e.target.closest('[data-gr]'); if (g) { this.grupo = g.dataset.gr; this.pag = 0; $$('[data-gr]').forEach(b => { const on = b === g; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); }); this.pintarGrade(); return; }
+      const pg = e.target.closest('[data-pag]'); if (pg) { this.irPag(+pg.dataset.pag); return; }
+      const t = e.target.closest('[data-tr]'); if (t) { this.detalheTrofeu(t.dataset.tr); return; }
+      const c = e.target.closest('[data-cq]'); if (c) this.detalhe(c.dataset.cq);
     };
-    $('#tela').innerHTML = `<div class="pilha">
-      <button class="linha-menu cor-dest" data-ir-rk="1"><span class="ic2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21V11H3v10zM15.5 21V5h-7v16zM21 21v-7h-5.5v7z"/></svg></span><span class="tx"><b>Ranking</b><small>Veja sua posição entre os jogadores</small></span>${SETA}</button>
-      <div class="cartao"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px"><b>${this.feitas()} de ${this.total()} conquistas</b><span class="sub">Cada conquista dá moedas para gastar na loja</span></div>
-        <div class="progresso"><i style="width:${Math.round(this.feitas() / this.total() * 100)}%"></i></div></div>
-      <div class="cartao"><h3>Troféus</h3><div class="trofeus">${TROFEUS.map(t => {
-        const ok = !!d.conquistas['tr-' + t.id], p = t.prog(e);
-        return `<div class="trofeu${ok ? ' ok' : ''}">${svgTrofeu(t.id, ok)}<b>${t.nome.replace('Troféu de ', '')}</b><span>${esc(t.desc)}</span><small>${ok ? 'Libera a moldura ' + t.nome.replace('Troféu de ', '').toLowerCase() : p[0] + '/' + p[1]}</small></div>`;
-      }).join('')}</div></div>
-      ${GRUPOS_CONQ.map(g => `<section class="modulo"><header><h2>${g.nome}</h2><span>${CONQUISTAS.filter(c => c.g === g.id && d.conquistas[c.id]).length}/${CONQUISTAS.filter(c => c.g === g.id).length}</span></header>
-        <div class="lista-conq">${CONQUISTAS.filter(c => c.g === g.id).map(htmlItem).join('')}</div></section>`).join('')}</div>`;
-    $('#tela').onclick = e => { if (e.target.closest('[data-ir-rk]')) App.ir('ranking'); };
-    App.aoSair = () => { $('#tela').onclick = null; };
+    App.aoSair = () => { $('#tela').onclick = null; window.removeEventListener('resize', redim); };
+  },
+  irPag(n) { if (n < 0 || n >= (this.nPags || 1) || n === this.pag) return; this.pag = n; this.pintarGrade(true); },
+  /* mede o espaço livre e mostra só as conquistas que cabem; o resto vai para a próxima página */
+  pintarGrade(anima) {
+    const box = $('#cq-box'), grade = $('#cq-grade'), pag = $('#cq-pag'); if (!box) return;
+    const d = Dados.d, e = estadoJogador(), lista = CONQUISTAS.filter(c => c.g === this.grupo);
+    const gap = 8, W = box.clientWidth, cols = Math.max(3, Math.min(6, Math.floor((W + gap) / (74 + gap))));
+    pag.classList.remove('on');
+    let H = box.clientHeight, alt = 86;
+    let linhas = Math.max(1, Math.floor((H + gap) / (alt + gap))), por = cols * linhas;
+    if (lista.length > por) { pag.classList.add('on'); H = box.clientHeight; linhas = Math.max(1, Math.floor((H + gap) / (alt + gap))); por = cols * linhas; } else pag.classList.remove('on');
+    this.nPags = Math.max(1, Math.ceil(lista.length / por)); this.pag = Math.min(this.pag, this.nPags - 1);
+    alt = Math.min(104, Math.floor((H + gap) / Math.max(1, lista.length > por ? linhas : Math.ceil(lista.length / cols))) - gap);   // sobra espaço: quadros um pouco maiores
+    grade.style.gridTemplateColumns = `repeat(${cols},1fr)`; grade.style.setProperty('--alt', alt + 'px');
+    grade.innerHTML = lista.slice(this.pag * por, this.pag * por + por).map(c => {
+      const ok = !!d.conquistas[c.id], p = !ok && c.prog ? c.prog(e) : null;
+      return `<button class="cq-tile${ok ? ' ok' : ''}" data-cq="${c.id}" aria-label="${esc(c.nome)}${ok ? ' (conquistada)' : ''}"><span class="cq-ic">${c.ic}</span><b>${esc(c.nome)}</b>${p ? `<span class="mini-prog"><i style="width:${Math.round(p[0] / p[1] * 100)}%"></i></span>` : ok ? '<i class="cq-ok">✓</i>' : ''}</button>`;
+    }).join('');
+    if (anima) { grade.classList.remove('vira'); void grade.offsetWidth; grade.classList.add('vira'); }
+    pag.innerHTML = this.nPags > 1 ? `<button data-pag="${this.pag - 1}" ${this.pag ? '' : 'disabled'} aria-label="Página anterior">‹</button>${Array.from({ length: this.nPags }, (_, i) => `<i class="${i === this.pag ? 'on' : ''}" data-pag="${i}"></i>`).join('')}<button data-pag="${this.pag + 1}" ${this.pag < this.nPags - 1 ? '' : 'disabled'} aria-label="Próxima página">›</button>` : '';
+  },
+  detalhe(id) {
+    const c = CONQUISTAS.find(x => x.id === id); if (!c) return;
+    const d = Dados.d, ok = d.conquistas[c.id], p = !ok && c.prog ? c.prog(estadoJogador()) : null;
+    const quando = ok && ok > 1 ? new Date(ok).toLocaleDateString('pt-BR') : '';
+    modal(c.nome, `<div class="cq-det${ok ? ' ok' : ''}"><span class="cq-ic">${c.ic}</span><p>${esc(c.desc)}</p>
+      ${p ? `<div class="progresso"><i style="width:${Math.round(p[0] / p[1] * 100)}%"></i></div><small class="sub">${p[0]} de ${p[1]}</small>` : ''}
+      <b class="cq-det-pr">${ok ? '✓ Conquistada' + (quando ? ' em ' + quando : '') : `Prêmio: ${MOEDA} ${c.moedas}`}</b></div>`, [{ txt: 'Fechar', cls: 'pri', val: 1 }], true);
+  },
+  detalheTrofeu(id) {
+    const t = TROFEUS.find(x => x.id === id); if (!t) return;
+    const ok = !!Dados.d.conquistas['tr-' + t.id], p = t.prog(estadoJogador());
+    const extra = t.rk ? (t.id === 'topo1' ? `Também vale ${GEMA} 500 e ${MOEDA} 1.500.` : `Também vale ${GEMA} 100 e ${MOEDA} 500.`) : `Libera a moldura ${t.nome.replace('Troféu de ', '').toLowerCase()}${t.id === 'platina' ? ' e o ícone Rei de platina' : ''}. Prêmio: ${MOEDA} ${t.moedas}.`;
+    modal(t.nome, `<div class="cq-det${ok ? ' ok' : ''}">${svgTrofeu(t.id, ok, 84)}<p>${esc(t.desc)}</p>
+      ${ok ? '' : `<div class="progresso"><i style="width:${Math.round(p[0] / p[1] * 100)}%"></i></div><small class="sub">${p[0]} de ${p[1]}</small>`}
+      <p class="sub">${extra}</p>${ok ? '<b class="cq-det-pr">✓ Conquistado</b>' : ''}</div>`, [{ txt: 'Fechar', cls: 'pri', val: 1 }], true);
   }
 };
 
@@ -4552,11 +4732,11 @@ const Loja = {
         ${uso ? '<span class="tag-uso">Em uso</span>' : tem ? `<button class="bt peq" data-usar-av="${a.id}">Usar</button>` : `<button class="bt peq pri" data-comprar="av-${a.id}">${MOEDA} ${a.preco}</button>`}</div>`;
     }).join('');
     $('#tela').innerHTML = `<div class="pilha">
-      <div class="cartao saldo"><span class="moeda-g">${MOEDA}</span><div><div class="sub">Seu saldo</div><b>${d.moedas} moedas</b></div>
+      <div class="cartao saldo"><span class="moeda-g">${MOEDA}</span><div><div class="sub">Seu saldo</div><b>${d.moedas.toLocaleString('pt-BR')} moedas</b>${d.gemas ? `<div class="saldo-gema">${GEMA} ${d.gemas.toLocaleString('pt-BR')} gemas</div>` : ''}</div>
         <p class="sub" style="flex:1;min-width:200px">Ganhe moedas vencendo partidas, concluindo fases, resolvendo desafios e desbloqueando conquistas.</p></div>
-      <div class="abas"><button class="aba${this.aba === 'tab' ? ' on' : ''}" data-aba="tab">Tabuleiros</button><button class="aba${this.aba === 'av' ? ' on' : ''}" data-aba="av">Fotos de perfil</button></div>
+      <div class="abas"><button class="aba${this.aba === 'tab' ? ' on' : ''}" data-aba="tab">Tabuleiros</button><button class="aba${this.aba === 'av' ? ' on' : ''}" data-aba="av">Ícones</button></div>
       <div class="grade-loja">${this.aba === 'tab' ? itensTab : itensAv}</div>
-      ${this.aba === 'av' ? '<p class="sub">As molduras de bronze, prata, ouro e platina não são vendidas: elas são liberadas pelos troféus. O troféu de platina também libera a foto “Rei de platina”.</p>' : ''}</div>`;
+      ${this.aba === 'av' ? '<p class="sub">As molduras de bronze, prata, ouro e platina não são vendidas: elas são liberadas pelos troféus. O troféu de platina também libera o ícone “Rei de platina”.</p>' : ''}</div>`;
     $('#tela').onclick = e => {
       const b = e.target.closest('button'); if (!b) return;
       if (b.dataset.aba) { this.aba = b.dataset.aba; this.tela(); }
@@ -4583,41 +4763,33 @@ const Loja = {
 
 /* ---------- perfil ---------- */
 function opMold(m) {
-  const ok = temMoldura(m.id), p = Dados.d.perfil, dica = m.nivel ? 'Vença o nível ' + NIVEIS[m.nivel].nome : m.nome;
-  return `<button class="op-av${p.moldura === m.id ? ' on' : ''}${ok ? '' : ' trancado'}" data-mold="${m.id}" ${ok ? '' : 'disabled'} title="${ok ? m.nome : dica}">${htmlAvatar(p.avatar, m.id, 54)}<small>${ok ? m.nome : '🔒 ' + (m.nivel ? NIVEIS[m.nivel].nome : m.nome)}</small></button>`;
+  const ok = temMoldura(m.id), p = Dados.d.perfil, dica = m.rei ? 'Só o 1º do ranking geral' : m.nivel ? 'Vença o nível ' + NIVEIS[m.nivel].nome : m.nome;
+  return `<button class="op-av${p.moldura === m.id ? ' on' : ''}${ok ? '' : ' trancado'}${m.rei ? ' op-rei' : ''}" data-mold="${m.id}" ${ok ? '' : 'disabled'} title="${ok ? m.nome : dica}">${htmlAvatar(p.avatar, m.id, 54)}<small>${ok ? m.nome : '🔒 ' + (m.rei ? 'Só o nº 1' : m.nivel ? NIVEIS[m.nivel].nome : m.nome)}</small></button>`;
 }
 const Perfil = {
+  /* perfil: cabe na tela sem rolar; ícone, moldura e conta ficam em telas próprias */
   tela() {
     App.cabecalho('Meu perfil', 'menu');
-    const d = Dados.d, p = d.perfil, e = estadoJogador();
-    const avs = AVATARES.filter(a => temAvatar(a.id)), bloq = AVATARES.filter(a => !temAvatar(a.id));
-    $('#tela').innerHTML = `<div class="pilha estreito">
-      <div class="cartao perfil-cab">${htmlAvatar(p.avatar, p.moldura, 96)}
+    const d = Dados.d, p = d.perfil, e = estadoJogador(), u = Nuvem.usuario, na = Amigos.todos().length;
+    const xp = XP.total(), nv = XP.nivel(xp), t = XP.titulo(nv.n);
+    const tile = (attr, cor, ic, tit, sub) => `<button class="pf-tile ${cor}" ${attr}><span class="ic2">${ic}</span><b>${tit}</b><small>${sub}</small></button>`;
+    $('#tela').innerHTML = `<div class="pilha estreito tela-fixa pf-tela">
+      <div class="cartao perfil-cab">
+        <button class="pf-av" data-ir-tela="visual" aria-label="Trocar ícone e moldura">${htmlAvatar(p.avatar, p.moldura, 84)}<i class="pf-lapis">${SVG('<path d="M4 20h4L19 9l-4-4L4 16z"/>')}</i></button>
         <div style="flex:1;min-width:0"><label class="sub" for="nome">Nome de usuário</label>
           <input id="nome" class="campo" maxlength="20" value="${esc(p.nome)}" placeholder="Seu nome" autocomplete="nickname">
-          <div class="sub" style="margin-top:6px">${e.vitorias} vitória${e.vitorias === 1 ? '' : 's'} · ${e.fases} fase${e.fases === 1 ? '' : 's'} · ${e.desafios} desafio${e.desafios === 1 ? '' : 's'} · ${MOEDA} ${d.moedas}</div></div></div>
-      ${(() => { const xp = XP.total(), nv = XP.nivel(xp), t = XP.titulo(nv.n); return `<button class="cartao nv-cartao peq" data-ir-missoes="1" style="--nv:${t.cor}">${XP.selo(nv.n, 48)}
+          <div class="pf-info"><span data-selo-rei>${Premios.selo()}</span>${Dev.ativo ? '<button class="selo-dev" data-dev-abrir="1" aria-label="Abrir painel do desenvolvedor">DEV</button>' : ''}<span class="pf-saldo">${MOEDA}${d.moedas.toLocaleString('pt-BR')}</span><span class="pf-saldo">${GEMA}${(d.gemas || 0).toLocaleString('pt-BR')}</span></div></div></div>
+      <button class="cartao nv-cartao peq" data-ir-missoes="1" style="--nv:${t.cor}">${XP.selo(nv.n, 48)}
         <span class="nv-tx"><small>Nível ${nv.n} · ${t.nome}</small><span class="barra-xp"><i style="width:${Math.round(nv.frac * 100)}%"></i></span>
-        <span class="sub">${nv.atual}/${nv.prox} XP · 🔥 ${Sequencia.viva()} ${Sequencia.viva() === 1 ? 'dia' : 'dias'}${d.ranque.n ? ` · ${d.ranque.pts} pts online` : ''}</span></span>${SETA}</button>`; })()}
-      <div class="linhas-menu">
-        <button class="linha-menu cor-ok" data-ir-tela="social"><span class="ic2">${SVG('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.8"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/>')}</span><span class="tx"><b>Amigos <i class="selo-n oculto" data-pedidos-n>0</i></b><small>${Nuvem.usuario ? (Amigos.todos().length ? Amigos.todos().length + (Amigos.todos().length > 1 ? ' amigos' : ' amigo') + ' · busca e pedidos' : 'Busque jogadores e mande pedidos de amizade') : 'Entre na conta para ter amigos'}</small></span>${SETA}</button>
-        <button class="linha-menu cor-neutra" data-ir-tela="historico"><span class="ic2">${SVG('<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>')}</span><span class="tx"><b>Histórico de partidas</b><small>${d.partidas.length ? d.partidas.length + ' partida' + (d.partidas.length > 1 ? 's' : '') + ' · reveja e analise' : 'Reveja e analise suas partidas'}</small></span>${SETA}</button>
-        <button class="linha-menu cor-dest" data-ir-tela="stats"><span class="ic2">${SVG('<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>')}</span><span class="tx"><b>Minhas estatísticas</b><small>${e.jogos} partidas · ${e.vitorias} vitória${e.vitorias === 1 ? '' : 's'}</small></span>${SETA}</button>
-      </div>
-      ${Dev.ativo ? `<button class="linha-menu cor-dest" data-dev-abrir="1"><span class="ic2"><span class="selo-dev">DEV</span></span><span class="tx"><b>Painel do desenvolvedor</b><small>Moedas, gemas, desbloqueios e atalhos de teste</small></span>${SETA}</button>` : ''}
-      <div class="cartao"><h3>Foto de perfil</h3><div class="grade-av">
-        ${avs.map(a => `<button class="op-av${p.avatar === a.id ? ' on' : ''}" data-av="${a.id}" title="${a.nome}">${htmlAvatar(a.id, '', 54)}</button>`).join('')}
-        ${bloq.map(a => `<button class="op-av trancado" data-loja="1" title="${a.nome}">${htmlAvatar(a.id, '', 54)}<small>${a.trofeu ? '🏆' : MOEDA + a.preco}</small></button>`).join('')}</div>
-        <p class="sub" style="margin-top:8px">Fotos com cadeado podem ser compradas na loja.</p></div>
-      <div class="cartao"><h3>Molduras de troféu</h3><div class="grade-av">
-        ${MOLDURAS.filter(m => !m.nivel).map(opMold).join('')}</div>
-        <p class="sub" style="margin-top:8px">Bronze: conclua 1 módulo · Prata: 3 módulos · Ouro: todos os módulos · Platina: todos os módulos e todos os desafios.</p></div>
-      <div class="cartao"><h3>Molduras de nível</h3><div class="grade-av grade-molv">
-        ${MOLDURAS.filter(m => m.nivel).map(opMold).join('')}</div>
-        <p class="sub" style="margin-top:8px">Vença o computador em cada nível para liberar a moldura dele. A mais especial é a do Mestre.</p></div>
-      <div class="cartao"><h3>Troféus</h3><div class="trofeus">${TROFEUS.map(t => { const ok = !!d.conquistas['tr-' + t.id]; return `<div class="trofeu${ok ? ' ok' : ''}">${svgTrofeu(t.id, ok, 48)}<b>${t.nome.replace('Troféu de ', '')}</b></div>`; }).join('')}</div></div>
-      <div class="cartao" id="conta"></div></div>`;
-    Nuvem.pintarConta($('#conta'));
+        <span class="sub">${nv.atual}/${nv.prox} XP · 🔥 ${Sequencia.viva()} ${Sequencia.viva() === 1 ? 'dia' : 'dias'}${d.ranque.n ? ` · ${d.ranque.pts} pts` : ''}</span></span>${SETA}</button>
+      <div class="pf-grade">
+        ${tile('data-ir-tela="social"', 'cor-ok', SVG('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.8"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/>') + '<i class="selo-n oculto" data-pedidos-n>0</i>', 'Amigos', u ? (na ? na + (na > 1 ? ' amigos' : ' amigo') : 'Buscar') : 'Precisa de conta')}
+        ${tile('data-ir-tela="historico"', 'cor-neutra', SVG('<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>'), 'Histórico', d.partidas.length ? d.partidas.length + ' partida' + (d.partidas.length > 1 ? 's' : '') : 'Nenhuma ainda')}
+        ${tile('data-ir-tela="stats"', 'cor-dest', SVG('<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>'), 'Estatísticas', e.vitorias + ' vitória' + (e.vitorias === 1 ? '' : 's'))}
+        ${tile('data-ir-tela="visual"', 'cor-info', SVG('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.5a6.5 6.5 0 0 1 11 0"/>'), 'Ícone e moldura', 'Personalize')}
+        ${tile('data-ir-tela="ranking"', 'cor-dest', SVG('<path d="M8 21V11H3v10zM15.5 21V5h-7v16zM21 21v-7h-5.5v7z"/>'), 'Ranking', 'Prêmios semanais')}
+        ${tile('data-ir-tela="conta"', u ? 'cor-ok' : 'cor-ruim', SVG('<path d="M7 18a5 5 0 0 1-.7-9.95A6 6 0 0 1 18 9a4.5 4.5 0 0 1-.5 9z"/>'), 'Conta', u ? 'Conectada' : 'Entrar')}
+      </div></div>`;
     Avisos.selos();
     const nome = $('#nome');
     nome.addEventListener('change', () => {
@@ -4628,12 +4800,45 @@ const Perfil = {
     $('#tela').onclick = ev => {
       const b = ev.target.closest('button'); if (!b) return;
       if (b.dataset.irMissoes) App.ir('missoes');
-      else if (b.dataset.irTela) { if (b.dataset.irTela === 'social') Social.volta = 'perfil'; App.ir(b.dataset.irTela, b.dataset.irTela === 'social' ? 'perfil' : undefined); }
-      else if (b.dataset.loja) { Loja.aba = 'av'; App.ir('loja'); }
-      else if (b.dataset.av) { p.avatar = b.dataset.av; Dados.salvar(); this.checarConquista(); App.atualizarTopo(); Nuvem.publicarPerfil(); this.tela(); }
-      else if (b.dataset.mold != null && !b.disabled) { p.moldura = b.dataset.mold; Dados.salvar(); App.atualizarTopo(); Nuvem.publicarPerfil(); this.tela(); }
+      else if (b.dataset.devAbrir) App.ir('dev');
+      else if (b.dataset.irTela) { const t = b.dataset.irTela; if (t === 'social') Social.volta = 'perfil'; App.ir(t, t === 'social' ? 'perfil' : undefined); }
     };
     App.aoSair = () => { $('#tela').onclick = null; if (document.activeElement === nome) nome.blur(); };
+  },
+  aba: 'av',
+  /* trocar ícone e moldura */
+  telaVisual() {
+    App.cabecalho('Ícone e moldura', 'perfil');
+    const d = Dados.d, p = d.perfil, rei = Premios.souRei();
+    const avs = AVATARES.filter(a => temAvatar(a.id)), bloq = AVATARES.filter(a => !temAvatar(a.id));
+    const grupoMold = (tit, lista, cls = '') => `<h3 class="vs-sub">${tit}</h3><div class="grade-av ${cls}">${lista.map(opMold).join('')}</div>`;
+    $('#tela').innerHTML = `<div class="pilha estreito vs-tela">
+      <div class="cartao vs-prev">${htmlAvatar(p.avatar, p.moldura, 76)}<span><b>${esc(nomeJogador())}</b><small class="sub">${esc((AVATARES.find(a => a.id === p.avatar) || {}).nome || '')}${p.moldura ? ' · ' + esc((MOLDURAS.find(m => m.id === p.moldura) || {}).nome || '') : ''}</small></span></div>
+      <div class="abas"><button class="aba${this.aba === 'av' ? ' on' : ''}" data-aba="av">Ícones</button><button class="aba${this.aba === 'mold' ? ' on' : ''}" data-aba="mold">Molduras</button></div>
+      ${this.aba === 'av' ? `<div class="cartao"><div class="grade-av">
+        ${avs.map(a => `<button class="op-av${p.avatar === a.id ? ' on' : ''}" data-av="${a.id}" title="${a.nome}">${htmlAvatar(a.id, '', 54)}</button>`).join('')}
+        ${bloq.map(a => `<button class="op-av trancado" data-loja="1" title="${a.nome}">${htmlAvatar(a.id, '', 54)}<small>${a.trofeu ? '🏆' : MOEDA + a.preco}</small></button>`).join('')}</div>
+        <p class="sub" style="margin-top:8px">Ícones com cadeado podem ser comprados na loja.</p></div>`
+      : `<div class="cartao">
+        ${grupoMold('Exclusiva do nº 1', MOLDURAS.filter(m => m.rei), 'grade-molv')}
+        <p class="sub" style="margin-top:6px">${rei ? 'Você é o 1º do ranking geral! Ela fica com você enquanto estiver no topo.' : 'Só quem está em 1º no ranking geral pode usar.'}</p>
+        ${grupoMold('De troféu', MOLDURAS.filter(m => !m.nivel && !m.rei))}
+        ${grupoMold('De nível', MOLDURAS.filter(m => m.nivel), 'grade-molv')}
+        <p class="sub" style="margin-top:8px">Troféus: bronze (1 módulo), prata (3), ouro (todos), platina (todos os módulos e desafios). Nível: vença o computador naquele nível.</p></div>`}
+    </div>`;
+    $('#tela').onclick = ev => {
+      const b = ev.target.closest('button'); if (!b) return;
+      if (b.dataset.aba) { this.aba = b.dataset.aba; this.telaVisual(); }
+      else if (b.dataset.loja) { Loja.aba = 'av'; App.ir('loja'); }
+      else if (b.dataset.av) { p.avatar = b.dataset.av; Dados.salvar(); this.checarConquista(); App.atualizarTopo(); Nuvem.publicarPerfil(); this.telaVisual(); }
+      else if (b.dataset.mold != null && !b.disabled) { if (b.dataset.mold === 'campeao' && p.moldura !== 'campeao') p.moldAnt = p.moldura; p.moldura = b.dataset.mold; Dados.salvar(); App.atualizarTopo(); Nuvem.publicarPerfil(); this.telaVisual(); }
+    };
+    App.aoSair = () => { $('#tela').onclick = null; };
+  },
+  telaConta() {
+    App.cabecalho('Conta', 'perfil');
+    $('#tela').innerHTML = '<div class="pilha estreito"><div class="cartao" id="conta"></div></div>';
+    Nuvem.pintarConta($('#conta'));
   },
   /* conquista "Prazer, sou eu": escolheu um nome e trocou a foto padrão */
   checarConquista() {
@@ -4709,7 +4914,10 @@ function semanaTxt(t = new Date()) {
   const ano = d.getUTCFullYear(), n = Math.ceil(((d - Date.UTC(ano, 0, 1)) / 864e5 + 1) / 7);
   return ano + '-W' + String(n).padStart(2, '0');
 }
-const campoSemana = () => 's_' + semanaTxt().replace('-', '');
+const campoSemana = (s = semanaTxt()) => 's_' + s.replace('-', '');
+function semanaAnterior() { return semanaTxt(new Date(Date.now() - 7 * 864e5)); }
+const mesTxt = (t = new Date()) => t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0');
+const mesAnterior = () => { const t = new Date(); return mesTxt(new Date(t.getFullYear(), t.getMonth() - 1, 15)); };
 
 /* ---------- nível e XP ----------
    A maior parte do XP sai do que já está guardado (vitórias por nível, estrelas,
@@ -4750,7 +4958,7 @@ const XP = {
     const d = Dados.d, xb = this.total(d), ganho = xb - xa;
     if (!(ganho > 0)) return 0;
     const l = Livro.meu(d), s = semanaTxt();
-    if (!l.xs || l.xs.s !== s) l.xs = { s, v: 0 };
+    if (!l.xs || l.xs.s !== s) { if (l.xs && l.xs.v) l.xa = l.xs; l.xs = { s, v: 0 }; }
     l.xs.v += ganho;
     const na = this.nivel(xa).n, nb = this.nivel(xb).n;
     Livro.recalcular(d);                                      // nível novo = moedas do prêmio
@@ -4930,12 +5138,13 @@ const Ranking = {
   aba: 'geral', enviado: '', erro: null,
   doc() {
     const d = Dados.d, xp = XP.total(d), p = d.perfil;
-    const o = { nome: nomeJogador().slice(0, 20), avatar: p.avatar || 'wn', moldura: p.moldura || '', nivel: XP.nivel(xp).n, xp,
+    const o = { nome: nomeJogador().slice(0, 20), avatar: p.avatar || 'wn', moldura: p.moldura === 'campeao' && !Premios.souRei() ? '' : p.moldura || '', nivel: XP.nivel(xp).n, xp,
       on: (d.online.v || 0) + (d.online.e || 0) + (d.online.d || 0), t: Date.now(), visto: Date.now(),
       vit: estadoJogador().vitorias, conq: Object.keys(d.conquistas).length, seq: Math.max(d.sequencia.melhor || 0, d.sequencia.atual || 0),
       nomeB: normNome(nomeJogador()).slice(0, 20), cod: Nuvem.usuario ? codigoAmigo(Nuvem.usuario.uid) : '', conv: p.conv || 'todos' };
     if (d.ranque.n > 0) o.pts = d.ranque.pts;
     if (d.xpSemana > 0) o[campoSemana()] = d.xpSemana;
+    if (d.xpSemanaAnt > 0) o[campoSemana(semanaAnterior())] = d.xpSemanaAnt;   // a semana que acabou continua valendo para os prêmios
     return o;
   },
   /* envia o resumo público (nome, foto, nível, XP, pontos) — só quando algo mudou */
@@ -4962,23 +5171,23 @@ const Ranking = {
   linha(x, pos, eu) {
     const t = XP.titulo(x.nivel || 1), un = this.aba === 'online' ? 'pts' : 'XP';
     return `<div class="rk-it${eu ? ' eu' : ''}${pos && pos <= 3 ? ' top' + pos : ''}"${x.uid ? ` data-jogador="${esc(x.uid)}" role="button" tabindex="0"` : ''}><span class="rk-pos">${pos || '–'}</span>
-      <span class="rk-av">${htmlAvatar(x.avatar || 'wn', x.moldura || '', 40)}${XP.selo(x.nivel || 1, 20)}</span>
-      <span class="rk-tx"><b>${esc(x.nome || 'Jogador')}${eu ? ' <em>você</em>' : ''}</b><small>Nível ${x.nivel || 1} · ${t.nome}${this.aba === 'online' && x.on ? ' · ' + x.on + ' partidas' : ''}</small></span>
+      <span class="rk-av">${htmlAvatar(x.avatar || 'wn', Premios.moldDe(x), 40)}${XP.selo(x.nivel || 1, 20)}</span>
+      <span class="rk-tx"><b>${esc(x.nome || 'Jogador')}${Premios.ehRei(x.uid) ? ' ' + SELO_REI : ''}${eu ? ' <em>você</em>' : ''}</b><small>Nível ${x.nivel || 1} · ${t.nome}${this.aba === 'online' && x.on ? ' · ' + x.on + ' partidas' : ''}</small></span>
       <span class="rk-val">${(x.valor || 0).toLocaleString('pt-BR')}<small>${un}</small></span></div>`;
   },
   async tela() {
-    App.cabecalho('Ranking', 'jogar');
+    App.cabecalho('Ranking', this.volta || 'jogar');
     const abas = [['geral', 'Geral'], ['semana', 'Semana'], ['online', 'Online']];
-    const expl = { geral: 'Quem tem mais XP no total.', semana: 'Quem ganhou mais XP desde segunda-feira. Zera toda semana.', online: 'Pontos das partidas online: sobem quando você vence e descem quando perde. Todo mundo começa com 1000.' };
+    const expl = { geral: 'Quem tem mais XP no total. Quem está em 1º usa a moldura exclusiva e o selo Nº 1.', semana: `Quem ganhou mais XP desde segunda-feira. ${Premios.fimSemana()}`, online: 'Pontos das partidas online: sobem quando você vence e descem quando perde. Todo mundo começa com 1000.' };
     const u = Nuvem.usuario, d = Dados.d;
     $('#tela').innerHTML = `<div class="pilha estreito">
       <div class="abas-rk" role="tablist">${abas.map(([id, n]) => `<button role="tab" aria-selected="${this.aba === id}" class="${this.aba === id ? 'on' : ''}" data-aba="${id}">${n}</button>`).join('')}</div>
-      <p class="sub rk-exp">${expl[this.aba]}</p>
+      <p class="sub rk-exp">${expl[this.aba]}</p>${Premios.quadro(this.aba)}
       <div class="cartao rk-lista" id="rk-lista" aria-live="polite">${'<div class="rk-it esq"><span></span></div>'.repeat(5)}</div>
       ${u ? '' : '<div class="cartao destaque"><b>Entre com uma conta para aparecer no ranking</b><p class="sub" style="margin:4px 0 10px">É grátis e também salva seu progresso.</p><button class="bt pri" data-ir-perfil="1">Entrar na conta</button></div>'}</div>`;
     $('#tela').onclick = e => {
       const a = e.target.closest('[data-aba]'); if (a) { this.aba = a.dataset.aba; this.tela(); return; }
-      if (e.target.closest('[data-ir-perfil]')) App.ir('perfil');
+      if (e.target.closest('[data-ir-perfil]')) App.ir('conta');
       const j = e.target.closest('[data-jogador]'); if (j) { Social.voltar = 'ranking'; App.ir('jogador', j.dataset.jogador); }
     };
     const lista = $('#rk-lista'), msg = (tit, txt) => { lista.innerHTML = `<div class="rk-vazio"><b>${tit}</b><span class="sub">${txt}</span></div>`; };
@@ -4995,6 +5204,7 @@ const Ranking = {
       return e && e.code === 'permission-denied' ? msg('O ranking ainda não foi ativado', 'Falta atualizar as regras do banco de dados no Firebase.') : msg('Não consegui carregar o ranking', msgErro(e));
     }
     if (App.atual !== 'ranking' || this.aba !== aba) return;
+    if (aba === 'geral') { Premios.reiT = Date.now(); Premios.definirRei(l[0] ? l[0].uid : null); }
     const meu = u ? l.findIndex(x => x.uid === u.uid) : -1;
     let html = l.map((x, i) => this.linha(x, i + 1, u && x.uid === u.uid)).join('');
     if (!l.length) html = `<div class="rk-vazio"><b>${aba === 'semana' ? 'Ninguém pontuou nesta semana ainda' : aba === 'online' ? 'Ninguém jogou online ainda' : 'Ninguém no ranking ainda'}</b><span class="sub">Seja o primeiro!</span></div>`;
@@ -5005,6 +5215,121 @@ const Ranking = {
     lista.innerHTML = html;
   }
 };
+
+/* ---------- prêmios do ranking ----------
+   Semana: os 3 primeiros em XP da semana que acabou ganham prêmios (cada jogador confere
+   sozinho, na primeira vez que abre o app na semana seguinte). Mês: o 1º do ranking geral
+   na virada do mês ganha o prêmio grande; quem abrir o app primeiro no mês novo grava
+   quem era o 1º em "campeoes/{mês}". Cada prêmio fica em Dados.d.premios e paga uma vez só. */
+const PREMIOS_SEMANA = [{ g: 500, m: 1500, tr: 'topo1' }, { g: 100, m: 500, tr: 'topo2' }, { g: 0, m: 250 }];
+const PREMIO_MES = { g: 1500, m: 50000 };
+const INICIO_SEMANA = '2026-W46', INICIO_MES = '2026-11';      // primeiras semana e mês que valem prêmio
+const Premios = {
+  reiUid: (() => { try { return localStorage.getItem('trainer-xadrez-rei') || null; } catch (e) { return null; } })(), reiT: 0,
+  soma(d) {
+    let g = 0, m = 0;
+    for (const k in d.premios || {}) {
+      const v = d.premios[k];
+      if (k[0] === 'w' && v >= 1 && v <= 3) { g += PREMIOS_SEMANA[v - 1].g; m += PREMIOS_SEMANA[v - 1].m; }
+      else if (k[0] === 'm' && v === 1) { g += PREMIO_MES.g; m += PREMIO_MES.m; }
+    }
+    return { g, m };
+  },
+  vezes(d, pos) { return Object.keys(d.premios || {}).filter(k => k[0] === 'w' && d.premios[k] === pos).length; },
+  souRei() { return !!(Nuvem.usuario && this.reiUid === Nuvem.usuario.uid); },
+  ehRei(uid) { return !!uid && uid === this.reiUid; },
+  /* a moldura exclusiva só aparece em quem é o 1º agora */
+  moldDe(x) { return x && x.moldura === 'campeao' && !this.ehRei(x.uid) ? '' : (x && x.moldura) || ''; },
+  selo() { return this.souRei() ? SELO_REI : ''; },
+  pintar() { $$('[data-selo-rei]').forEach(el => { el.innerHTML = this.selo(); }); },
+  fimSemana() {
+    const dia = new Date().getDay(), falta = dia === 0 ? 1 : 8 - dia;
+    return falta === 1 ? 'Termina hoje à meia-noite.' : `Termina em ${falta} dias.`;
+  },
+  quadro(aba) {
+    const n = v => v.toLocaleString('pt-BR');
+    const it = (pos, g, m, tr) => `<div class="pm-it p${pos}"><span class="pm-pos">${pos}º</span><span class="pm-tx">${g ? `<b>${GEMA}${n(g)}</b>` : ''}<b>${MOEDA}${n(m)}</b>${tr ? `<small>🏆 ${esc(tr)}</small>` : ''}</span></div>`;
+    if (aba === 'semana') return `<div class="cartao pm-quadro"><b class="pm-tit">Prêmios da semana</b><div class="pm-lista">${it(1, 500, 1500, 'Daqui de cima enxergo melhor!')}${it(2, 100, 500, 'Não vou desistir!')}${it(3, 0, 250)}</div></div>`;
+    if (aba === 'geral') return `<div class="cartao pm-quadro"><b class="pm-tit">Prêmio do mês</b><div class="pm-lista um">${it(1, PREMIO_MES.g, PREMIO_MES.m, 'Moldura e selo Nº 1 enquanto estiver no topo')}</div></div>`;
+    return '';
+  },
+  /* quem é o 1º do ranking geral agora (consulta no máximo a cada 5 minutos) */
+  async atualizarRei(forcar) {
+    if (!Nuvem.db || navigator.onLine === false) return this.reiUid;
+    if (!forcar && Date.now() - this.reiT < 5 * 60000) return this.reiUid;
+    try { const s = await Nuvem.db.collection('ranking').orderBy('xp', 'desc').limit(1).get(); this.reiT = Date.now(); this.definirRei(s.docs[0] ? s.docs[0].id : null); } catch (e) { /* sem regras ou offline */ }
+    return this.reiUid;
+  },
+  definirRei(uid) {
+    const antes = this.souRei(); this.reiUid = uid || null;
+    try { localStorage.setItem('trainer-xadrez-rei', this.reiUid || ''); } catch (e) { /* ignora */ }
+    const agora = this.souRei(), p = Dados.d.perfil;
+    if (!agora && p.moldura === 'campeao') { p.moldura = p.moldAnt || ''; Dados.salvar(); App.atualizarTopo(); if (Nuvem.publicarPerfil) Nuvem.publicarPerfil(); if (App.atual === 'visual') Perfil.telaVisual(); }
+    let visto = ''; try { visto = localStorage.getItem('trainer-xadrez-rei-visto') || ''; } catch (e) { /* ignora */ }
+    if (agora && visto !== Nuvem.usuario.uid) { try { localStorage.setItem('trainer-xadrez-rei-visto', Nuvem.usuario.uid); } catch (e) { /* ignora */ } this.avisarRei(); }
+    if (!agora && Nuvem.usuario && visto === Nuvem.usuario.uid) { try { localStorage.removeItem('trainer-xadrez-rei-visto'); } catch (e) { /* ignora */ } }
+    if (agora !== antes) { this.pintar(); if (App.atual === 'visual') Perfil.telaVisual(); }
+  },
+  async avisarRei() {
+    for (let k = 0; k < 40 && modalAberto(); k++) await espera(500);
+    if (modalAberto() || !this.souRei()) return;
+    Som.tocar('conquista'); vibrar([40, 60, 40]);
+    const usar = await modal('Você é o nº 1!', `<div class="pm-pop">${htmlAvatar(Dados.d.perfil.avatar, 'campeao', 96)}<p>Você está em <b>1º lugar no ranking geral</b>. Enquanto ficar no topo, você usa a moldura exclusiva <b>Trono do Campeão</b> e o selo ${SELO_REI} aparece para todo mundo.</p></div>`,
+      [{ txt: 'Depois', val: false }, { txt: 'Usar a moldura', cls: 'pri', val: true }], true);
+    if (usar && this.souRei()) { const p = Dados.d.perfil; if (p.moldura !== 'campeao') p.moldAnt = p.moldura; p.moldura = 'campeao'; Dados.salvar(); App.atualizarTopo(); Nuvem.publicarPerfil(); if (App.atual === 'perfil') Perfil.tela(); }
+  },
+  /* confere se ganhou algum prêmio (chamado ao entrar na conta e ao voltar para o app) */
+  async conferir() {
+    if (this.conferindo || !Nuvem.usuario || !Nuvem.db || navigator.onLine === false) return;
+    this.conferindo = true;
+    try {
+      await Ranking.publicar();
+      await this.atualizarRei(true);
+      const d = Dados.d, uid = Nuvem.usuario.uid, ganhos = [];
+      const sem = semanaAnterior(), ks = 'w' + sem;
+      if (sem >= INICIO_SEMANA && !(ks in d.premios) && this.semanaVista !== sem) {
+        const c = campoSemana(sem), snap = await Nuvem.db.collection('ranking').orderBy(c, 'desc').limit(3).get();
+        this.semanaVista = sem;
+        const i = snap.docs.findIndex(x => x.id === uid);
+        if (i >= 0 && (snap.docs[i].data()[c] || 0) > 0 && !(ks in d.premios)) { d.premios[ks] = i + 1; ganhos.push({ tipo: 'semana', pos: i + 1 }); }
+      }
+      const mes = mesAnterior(), km = 'm' + mes;
+      if (mes >= INICIO_MES && !(km in d.premios) && this.mesVisto !== mes) {
+        const ref = Nuvem.db.collection('campeoes').doc(mes);
+        let doc = await ref.get();
+        if (!doc.exists) {
+          const top = await Nuvem.db.collection('ranking').orderBy('xp', 'desc').limit(1).get(), t = top.docs[0];
+          if (t) { try { await ref.set({ uid: t.id, nome: String(t.data().nome || '').slice(0, 24), xp: t.data().xp || 0, t: Date.now() }); } catch (e) { /* outro jogador gravou antes */ } doc = await ref.get(); }
+        }
+        this.mesVisto = mes;
+        if (doc.exists && doc.data().uid === uid && !(km in d.premios)) { d.premios[km] = 1; ganhos.push({ tipo: 'mes' }); }
+      }
+      if (ganhos.length) {
+        Livro.recalcular(); Dados.salvar(); App.atualizarTopo(true); Ranking.publicar();
+        for (const g of ganhos) await this.mostrar(g);
+        Conquistas.verificar();
+      }
+    } catch (e) { /* sem internet ou regras antigas: tenta de novo depois */ }
+    finally { this.conferindo = false; }
+  },
+  async mostrar(g) {
+    for (let k = 0; k < 40 && modalAberto(); k++) await espera(500);
+    const n = v => v.toLocaleString('pt-BR'), pr = g.tipo === 'mes' ? PREMIO_MES : PREMIOS_SEMANA[g.pos - 1];
+    const tr = g.tipo === 'semana' && pr.tr ? TROFEUS.find(t => t.id === pr.tr) : null;
+    Som.tocar('conquista'); vibrar([40, 60, 40]);
+    await modal(g.tipo === 'mes' ? 'Campeão do mês!' : `${g.pos}º lugar na semana!`,
+      `<div class="pm-pop">${tr ? svgTrofeu(tr.id, true, 80) : `<span class="pm-medalha p${g.tipo === 'mes' ? 1 : g.pos}">${g.tipo === 'mes' ? '👑' : g.pos + 'º'}</span>`}
+        <p>${g.tipo === 'mes' ? 'Você terminou o mês em <b>1º lugar no ranking geral</b>.' : `Você terminou a semana passada em <b>${g.pos}º lugar</b> no ranking.`}</p>
+        <div class="pm-ganhos">${pr.g ? `<b>${GEMA} +${n(pr.g)}</b>` : ''}<b>${MOEDA} +${n(pr.m)}</b></div>
+        ${tr ? `<p class="sub">E o troféu <b>“${esc(tr.nome)}”</b>!</p>` : ''}</div>`,
+      [{ txt: 'Oba!', cls: 'pri', val: 1 }], true);
+  }
+};
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState !== 'visible' || !Nuvem.usuario) return;
+  if (Date.now() - (Premios.ultima || 0) < 20 * 60000) return;
+  Premios.ultima = Date.now(); Premios.conferir();
+});
 
 /* ==========================================================================
    PARTIDA — contra o computador ('pc'), com amigo no mesmo aparelho ('local')
@@ -6608,6 +6933,7 @@ const Nuvem = {
       if (Conquistas.marcar('conta')) { Dados.salvar(); Conquistas.verificar(); }
       Salas.verificarPendente();
       Convites.iniciar(); Pedidos.iniciar(); Perfis.pulso(); Avisos.vigiar();
+      setTimeout(() => { Premios.ultima = Date.now(); Premios.conferir(); }, 2500);
     } else { Convites.encerrar(); Pedidos.encerrar(); Avisos.parar(); }
     this.repintar();
   },
@@ -6649,6 +6975,7 @@ const Nuvem = {
     if ((a.ranque.n || 0) > (r.ranque.n || 0) || (a.ranque.n === r.ranque.n && (a.ranque.t || 0) > (r.ranque.t || 0))) r.ranque = a.ranque;
     r.ranque.melhor = Math.max(r.ranque.melhor || 1000, a.ranque.melhor || 1000);
     r.amigos = Amigos.juntar(r.amigos, a.amigos);
+    for (const k in a.premios) r.premios[k] = Math.max(r.premios[k] || 0, a.premios[k]);
     r.ajustes = a.ajustes; r.cfg = a.cfg; r.cfgAmigo = a.cfgAmigo; r.cfgOnline = a.cfgOnline;   // preferências do aparelho
     r.atualizadoEm = Math.max(a.atualizadoEm, r.atualizadoEm);
     Livro.recalcular(r);                     // por último: depende do livro e das conquistas já juntados
@@ -7058,7 +7385,7 @@ const Salas = {
     $('#a-girar').onchange = e => { ca.girar = e.target.checked; Dados.salvar(); };
     $('#a-local').onclick = () => App.ir('jogo', { modo: 'local' });
     const liga = (id, fn) => { const b = $(id); if (b) b.onclick = fn; };
-    liga('#a-conta', () => App.ir('perfil'));
+    liga('#a-conta', () => App.ir('conta'));
     liga('#a-criar', async () => {
       $('#a-criar').disabled = true;
       try { const r = await this.criar(co.cor, co.relogio); this.ouvir(r.codigo, r.cor); App.ir('sala', r.codigo); }
@@ -7150,8 +7477,8 @@ const Perfis = {
 function linhaJogador(p, extra = '') {
   const nv = p.nivel || 1, on = estaOnline(p.visto);
   return `<div class="jg-it" data-jogador="${esc(p.uid)}" role="button" tabindex="0">
-    <span class="rk-av">${htmlAvatar(p.avatar || 'wn', p.moldura || '', 40)}${XP.selo(nv, 20)}${on ? '<i class="pt-on" title="Online agora"></i>' : ''}</span>
-    <span class="rk-tx"><b>${esc(p.nome || 'Jogador')}</b><small>Nível ${nv} · ${XP.titulo(nv).nome}${p.visto ? ' · <span class="' + (on ? 'txt-on' : '') + '">' + vistoTxt(p.visto) + '</span>' : ''}</small></span>${extra}</div>`;
+    <span class="rk-av">${htmlAvatar(p.avatar || 'wn', Premios.moldDe(p), 40)}${XP.selo(nv, 20)}${on ? '<i class="pt-on" title="Online agora"></i>' : ''}</span>
+    <span class="rk-tx"><b>${esc(p.nome || 'Jogador')}${Premios.ehRei(p.uid) ? ' ' + SELO_REI : ''}</b><small>Nível ${nv} · ${XP.titulo(nv).nome}${p.visto ? ' · <span class="' + (on ? 'txt-on' : '') + '">' + vistoTxt(p.visto) + '</span>' : ''}</small></span>${extra}</div>`;
 }
 
 /* ---------- convites de partida (coleção "convites/{código da sala}") ---------- */
@@ -7408,7 +7735,7 @@ const Avisos = {
     this.itens.forEach(x => { x.lido = true; }); this.selos();
     $('#tela').onclick = e => {
       const q = (a) => e.target.closest('[' + a + ']'), b = q('data-pd-sim') || q('data-pd-nao') || q('data-cv-sim') || q('data-cv-nao');
-      if (q('data-ir-perfil')) { App.ir('perfil'); return; }
+      if (q('data-ir-perfil')) { App.ir('conta'); return; }
       if (b) {
         const pd = Pedidos.recebidos.find(p => p.id === (b.dataset.pdSim || b.dataset.pdNao)), cv = Convites.lista.find(c => c.id === (b.dataset.cvSim || b.dataset.cvNao));
         if (b.dataset.pdSim && pd) Pedidos.aceitar(pd); else if (b.dataset.pdNao && pd) Pedidos.recusar(pd);
@@ -7433,7 +7760,7 @@ const Social = {
       $('#tela').innerHTML = `<div class="pilha estreito"><div class="cartao final"><h2>👋 Jogue com outras pessoas</h2>
         <p class="sub" style="margin:6px 0 14px">Entre na sua conta para adicionar amigos, ver o perfil dos jogadores e mandar convites de partida. É grátis.</p>
         <button class="bt pri cheio" data-ir-perfil>Entrar ou criar conta</button></div></div>`;
-      $('#tela').onclick = e => { if (e.target.closest('[data-ir-perfil]')) App.ir('perfil'); };
+      $('#tela').onclick = e => { if (e.target.closest('[data-ir-perfil]')) App.ir('conta'); };
       return;
     }
     const cod = codigoAmigo(u.uid);
@@ -7522,8 +7849,8 @@ const Social = {
     const u = Nuvem.usuario, eu = u && u.uid === uid, amigo = Amigos.tem(uid), nv = p.nivel || 1, t = XP.titulo(nv);
     const est = (v, n) => `<div><b>${v}</b><small>${n}</small></div>`;
     $('#tela').innerHTML = `<div class="pilha estreito">
-      <div class="cartao jg-cab" style="--nv:${t.cor}">${htmlAvatar(p.avatar || 'wn', p.moldura || '', 96)}
-        <h2>${esc(p.nome || 'Jogador')}</h2>
+      <div class="cartao jg-cab" style="--nv:${t.cor}">${htmlAvatar(p.avatar || 'wn', Premios.moldDe(Object.assign({ uid }, p)), 96)}
+        <h2>${esc(p.nome || 'Jogador')}${Premios.ehRei(uid) ? ' ' + SELO_REI : ''}</h2>
         <span class="jg-nv">${XP.selo(nv, 26)} Nível ${nv} · ${t.nome}</span>
         <span class="sub ${estaOnline(p.visto) ? 'txt-on' : ''}">${eu ? 'Este é você' : vistoTxt(p.visto) || ''}</span></div>
       ${p.semDados ? '' : `<div class="cartao jg-est">${est((p.xp || 0).toLocaleString('pt-BR'), 'XP')}${est(p.pts || '—', 'Pontos online')}${est(p.on || 0, 'Partidas online')}
@@ -7536,7 +7863,7 @@ const Social = {
       const b = e.target.closest('button[data-acao]');
       if (b) {
         const ac = b.dataset.acao;
-        if (!u) { aviso('Entre na sua conta para isso.'); App.ir('perfil'); return; }
+        if (!u) { aviso('Entre na sua conta para isso.'); App.ir('conta'); return; }
         if (ac === 'convidar') Convites.enviar(p);
         else if (ac === 'pedir') { b.disabled = true; await Pedidos.enviar(p); this.pintarBotoes(); }
         else if (ac === 'cancelar') { await Pedidos.cancelar(uid); aviso('Pedido cancelado'); this.pintarBotoes(); }
@@ -7772,6 +8099,7 @@ const App = {
     if (this.aoSair) { const f = this.aoSair; this.aoSair = null; try { f(); } catch (e) { /* ignora */ } }
     Motor.aoMudar = null;
     $('#tela').onclick = null;
+    const antes = this.atual;
     this.atual = tela;
     // o botão "voltar" do celular volta para a tela anterior em vez de fechar o app
     try {
@@ -7794,12 +8122,14 @@ const App = {
       case 'amigos': Salas.telaAmigos(); break;
       case 'sala': Salas.telaEspera(param); break;
       case 'perfil': Perfil.tela(); break;
+      case 'visual': Perfil.telaVisual(); break;
+      case 'conta': Perfil.telaConta(); break;
       case 'conquistas': Conquistas.tela(); break;
       case 'loja': Loja.tela(); break;
       case 'ajustes': Ajustes.tela(); break;
       case 'dev': Dev.tela(); break;
       case 'missoes': Missoes.tela(); break;
-      case 'ranking': Ranking.tela(); break;
+      case 'ranking': if (['perfil', 'conquistas', 'jogar', 'menu'].includes(antes)) Ranking.volta = antes; Ranking.tela(); break;
       case 'social': Social.tela(param); break;
       case 'jogador': Social.telaJogador(param); break;
       default: this.atual = 'menu'; telaMenu();
@@ -7808,10 +8138,11 @@ const App = {
   },
   /* barra de navegação inferior e animação de entrada da tela */
   ABAS: { menu: 'menu', aprender: 'aprender', desafios: 'aprender', jogar: 'jogar', config: 'jogar', amigos: 'jogar', ranking: 'jogar', conquistas: 'conquistas', loja: 'loja',
-    perfil: 'perfil', stats: 'perfil', historico: 'perfil', dev: 'perfil', social: 'perfil', jogador: 'perfil', ajustes: 'ajustes', missoes: 'menu', avisos: 'menu' },
+    perfil: 'perfil', visual: 'perfil', conta: 'perfil', stats: 'perfil', historico: 'perfil', dev: 'perfil', social: 'perfil', jogador: 'perfil', ajustes: 'ajustes', missoes: 'menu', avisos: 'menu' },
   depois() {
     const t = this.atual, aba = this.ABAS[t], nav = $('#nav-inf');
     document.body.dataset.tela = t;
+    document.body.classList.toggle('fixa', t === 'perfil' || t === 'conquistas');
     if (Conquistas.pausa && !modalAberto()) Conquistas.retomar([]);   // segurança: nunca deixa os avisos presos
     nav.classList.toggle('oculto', !aba);
     document.body.classList.toggle('com-nav', !!aba);
@@ -7872,7 +8203,7 @@ function telaMenu() {
   $('#tela').innerHTML = `<div class="home">
     <header class="home-cab">
       <button class="perfil-topo" data-ir="perfil" aria-label="Meu perfil" style="width:56px;height:56px">${htmlAvatar(d.perfil.avatar, d.perfil.moldura, 52)}${XP.selo(nv.n, 22)}</button>
-      <div class="quem"><p>${saud}${Dev.ativo ? ' <button class="selo-dev" data-ir="dev" aria-label="Abrir painel do desenvolvedor">DEV</button>' : ''}</p><h1>${d.perfil.nome ? 'Olá, ' + esc(d.perfil.nome) + '!' : 'Olá, jogador!'}</h1></div>
+      <div class="quem"><p><span class="saud">${saud}</span><span data-selo-rei>${Premios.selo()}</span>${Dev.ativo ? ' <button class="selo-dev" data-ir="dev" aria-label="Abrir painel do desenvolvedor">DEV</button>' : ''}</p><h1>${d.perfil.nome ? 'Olá, ' + esc(d.perfil.nome) + '!' : 'Olá, jogador!'}</h1></div>
       <button class="bt-ic sino" data-ir="avisos" aria-label="Notificações">${SVG(SINO)}<i class="selo-conv oculto" data-avisos-n>0</i></button>
       <button class="bt-ic" data-ir="ajustes" aria-label="Configurações">${SVG(ENGRENAGEM)}</button>
       <button class="moedas-topo" data-ir="loja" aria-label="Moedas — abrir loja">${MOEDA}${d.moedas}</button>

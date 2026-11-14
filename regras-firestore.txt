@@ -11,7 +11,7 @@ service cloud.firestore {
       allow read: if true;
       allow delete: if request.auth != null && request.auth.uid == uid;
       allow create, update: if request.auth != null && request.auth.uid == uid
-        && request.resource.data.size() <= 20
+        && request.resource.data.size() <= 24
         && request.resource.data.nome is string && request.resource.data.nome.size() <= 24
         && request.resource.data.xp is int && request.resource.data.xp >= 0
         && request.resource.data.nivel is int
@@ -38,6 +38,13 @@ service cloud.firestore {
     match /historicos/{uid} {
       allow read: if true;
       allow write: if request.auth != null && request.auth.uid == uid;
+    }
+    // campeões do mês: quem abre o app primeiro no mês novo grava quem era o 1º; ninguém muda depois
+    match /campeoes/{mes} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['uid', 'nome', 'xp', 't'])
+        && request.resource.data.uid is string && request.resource.data.xp is int;
     }
     // salas de partidas online: quem tem conta pode criar e entrar;
     // depois que a sala fecha, só os dois jogadores podem mexer nela
