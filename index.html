@@ -7400,19 +7400,24 @@ const Nuvem = {
   estado: 'desligada',          // desligada | offline | carregando | pronta | erro
   usuario: null, auth: null, db: null, timer: null, ultimaSync: 0, erroSync: false, pendente: false, subindo: false, vigiando: false,
   configurada() { const c = window.FIREBASE_CONFIG; return !!(c && c.apiKey && c.projectId); },
+  /* a tela de abertura espera esta promessa: ela resolve quando o login e o 1º download da nuvem terminam
+     (ou quando fica claro que não vai haver nuvem agora), para o menu não "piscar" ao ser refeito depois */
+  primeira: null, liberarPrimeira: null,
+  esperarPrimeira() { if (!this.primeira) this.primeira = new Promise(r => { this.liberarPrimeira = r; }); return this.primeira; },
   async iniciar() {
-    if (!this.configurada()) { this.estado = 'desligada'; return; }
+    this.esperarPrimeira();
+    if (!this.configurada()) { this.estado = 'desligada'; this.liberarPrimeira(); return; }
     this.vigiarConexao();
-    if (navigator.onLine === false) { this.estado = 'offline'; this.repintar(); return; }
+    if (navigator.onLine === false) { this.estado = 'offline'; this.repintar(); this.liberarPrimeira(); return; }
     if (this.estado === 'carregando' || this.estado === 'pronta') return;
     this.estado = 'carregando'; this.repintar();
     try { for (const u of SDK_FIREBASE) if (!window.firebase || !this.temModulo(u)) await carregarScript(u); }
-    catch (e) { this.estado = 'erro'; this.repintar(); return; }
+    catch (e) { this.estado = 'erro'; this.repintar(); this.liberarPrimeira(); return; }
     try {
       if (!firebase.apps.length) firebase.initializeApp(window.FIREBASE_CONFIG);
       this.auth = firebase.auth(); this.auth.languageCode = 'pt';
       this.db = firebase.firestore();
-    } catch (e) { this.estado = 'erro'; this.repintar(); return; }
+    } catch (e) { this.estado = 'erro'; this.repintar(); this.liberarPrimeira(); return; }
     this.estado = 'pronta';
     this.auth.onAuthStateChanged(u => this.aoMudarUsuario(u));
     try { await this.auth.getRedirectResult(); } catch (e) { if (e && e.code) aviso(msgErro(e), 4000); }
@@ -7440,13 +7445,13 @@ const Nuvem = {
     this.usuario = u || null;
     Dev.conferir(u);
     if (u) {
-      await this.baixar();
+      try { await this.baixar(); } finally { this.liberarPrimeira(); }
       if (Conquistas.marcar('conta')) { Dados.salvar(); Conquistas.verificar(); }
       Salas.verificarPendente();
       Convites.iniciar(); Pedidos.iniciar(); Perfis.pulso(); Avisos.vigiar();
       setTimeout(() => { Premios.ultima = Date.now(); Premios.conferir(); }, 2500);
       setTimeout(() => { Guilda.ultCarga = Date.now(); Guilda.carregar(); }, 3500);
-    } else { Convites.encerrar(); Pedidos.encerrar(); Avisos.parar(); Guilda.dados = null; Guilda.id = null; Guilda.carregou = false; Guilda.pedidos = []; }
+    } else { this.liberarPrimeira(); Convites.encerrar(); Pedidos.encerrar(); Avisos.parar(); Guilda.dados = null; Guilda.id = null; Guilda.carregou = false; Guilda.pedidos = []; }
     this.repintar();
   },
   /* junta o progresso deste aparelho com o da conta, sem perder nada */
@@ -9542,7 +9547,13 @@ const Estatisticas = {
   App.ir('menu');
   Conquistas.verificar();   // conquistas novas para quem já tinha progresso de versões anteriores
   Nuvem.iniciar();
-  if (window.Abertura) Abertura.fechar();   // some a tela de abertura (depois de pelo menos 3 s)
+  /* a abertura só some depois que a conta/nuvem terminou de carregar (no máximo 6 s) e as fontes estão prontas;
+     assim o menu não é redesenhado na frente do jogador (era isso que fazia a tela "piscar") */
+  if (window.Abertura) {
+    const teto = new Promise(r => setTimeout(r, 6000));
+    const fontes = (document.fonts && document.fonts.ready) ? document.fonts.ready.catch(() => 0) : Promise.resolve();
+    Promise.race([Promise.all([Nuvem.esperarPrimeira(), fontes]), teto]).then(() => Abertura.fechar());
+  }
   // modo sem internet: guarda o app no aparelho (só quando aberto por um site, ex.: GitHub Pages)
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
     window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => { /* sem modo offline neste navegador */ }); });
