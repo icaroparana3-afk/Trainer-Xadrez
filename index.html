@@ -1233,6 +1233,52 @@ body.com-nav[data-tela="menu"] #tela{padding-bottom:calc(84px + env(safe-area-in
 .gd-acoes .bt{padding-left:6px;padding-right:6px;white-space:nowrap}
 .gd-cores button{width:30px;height:30px}
 
+/* ===== desafio do dia e torneio ===== */
+.novo-dia .ic2{position:relative}
+.novo-dia .ic2::after{content:"";position:absolute;top:-2px;right:-2px;width:10px;height:10px;border-radius:50%;background:var(--ruim);box-shadow:0 0 0 2px var(--sup)}
+.dia-atalho{margin-bottom:2px}
+.dia-atalho .ic2{font-size:1.2rem}
+.dia-cab,.tn-cab{display:flex;align-items:center;gap:14px}
+.dia-cab>div,.tn-cab>div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.dia-ic{font-size:2.3rem}
+.dia-cab small{text-transform:capitalize}
+.dia-cab b,.tn-cab>div>b{font-size:1.05rem}
+.dia-regras ul{margin:10px 0 14px 18px;display:grid;gap:6px;color:var(--txt2);font-size:.9rem}
+.dia-regras ul b{color:var(--txt)}
+.dia-regras svg.moeda{width:16px;height:16px;vertical-align:-3px}
+.dia-res{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}
+.dia-res.ok{background:linear-gradient(180deg,color-mix(in srgb,var(--ok) 16%,var(--sup)),var(--sup))}
+.dia-pts{font:700 2.6rem/1 var(--tit);color:var(--dest)}
+.dia-res.ruim .dia-pts{color:var(--txt2)}
+.dia-res p{margin:6px 0}
+.dia-res svg.moeda{width:16px;height:16px;vertical-align:-3px}
+.dia-seq{font-weight:700;font-size:.9rem;padding:4px 12px;border-radius:999px;background:var(--sup2)}
+.prova-placar{display:flex;justify-content:space-between;gap:8px;padding:8px 12px;border-radius:12px;background:var(--sup);font-size:.85rem;color:var(--txt2)}
+.prova-placar b{color:var(--txt);font-variant-numeric:tabular-nums}
+.tn-ic svg{width:60px;height:auto}
+.tn-total{margin-top:4px;font-size:.9rem;color:var(--txt2)}
+.tn-total b{font:700 1.2rem var(--tit);color:var(--dest)}
+.tn-lista{display:grid;gap:8px}
+.tn-it{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;background:var(--sup2);border:1px solid transparent;text-align:left;width:100%}
+.tn-it:disabled{opacity:1;cursor:default}
+.tn-num{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:var(--sup3);flex:none}
+.tn-tx{flex:1;min-width:0;display:flex;flex-direction:column}
+.tn-tx b{font-size:.92rem;text-transform:capitalize}.tn-tx small{font-size:.75rem;color:var(--txt2)}
+.tn-pts{font-weight:800;text-align:right;display:flex;flex-direction:column;line-height:1.1}
+.tn-pts small{font-size:.66rem;color:var(--txt2);font-weight:600}
+.tn-it.prox{border-color:var(--dest);background:var(--dest-bg)}
+.tn-it.prox .tn-num{background:var(--dest);color:var(--dest-tinta)}
+.tn-it.prox .tn-pts{color:var(--dest)}
+.tn-it.ok .tn-num{background:var(--ok);color:#fff}
+.tn-it.ruim .tn-num{background:var(--ruim);color:#fff}
+.selo-torneio{background:linear-gradient(135deg,#7fd38a,#1f6b45)}
+.dia-cal{flex:none;width:52px;border-radius:12px;overflow:hidden;background:var(--sup2);display:flex;flex-direction:column;align-items:center;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.dia-cal i{display:block;width:100%;text-align:center;font:800 .62rem/1.6 Inter,sans-serif;font-style:normal;text-transform:uppercase;letter-spacing:.08em;background:var(--ruim);color:#fff}
+.dia-cal b{font:700 1.5rem/1.35 var(--tit)}
+.dia-cab b::first-letter,.tn-tx b::first-letter{text-transform:uppercase}
+.dia-cab small{text-transform:none}
+.dia-cab small::first-letter{text-transform:uppercase}
+
 </style>
 </head>
 <body>
@@ -1574,6 +1620,7 @@ body.com-nav[data-tela="menu"] #tela{padding-bottom:calc(84px + env(safe-area-in
 </g><path class="brilho-m" style="animation-delay:1.7s" d="M10 -19 Q10.8 -14.8 15 -14 Q10.8 -13.2 10 -9 Q9.2 -13.2 5 -14 Q9.2 -14.8 10 -19Z" fill="#fffbe0"/><path class="brilho-m" style="animation-delay:1.4s" d="M93 4 Q93.6 7.4 97 8 Q93.6 8.6 93 12 Q92.4 8.6 89 8 Q92.4 7.4 93 4Z" fill="#fffbe0"/><path class="brilho-m" style="animation-delay:1.2s" d="M-6 66.5 Q-5.4 69.4 -2.5 70 Q-5.4 70.6 -6 73.5 Q-6.6 70.6 -9.5 70 Q-6.6 69.4 -6 66.5Z" fill="#fffbe0"/><path class="brilho-m" style="animation-delay:1.5s" d="M104 71.5 Q104.7 75.3 108.5 76 Q104.7 76.7 104 80.5 Q103.3 76.7 99.5 76 Q103.3 75.3 104 71.5Z" fill="#fffbe0"/><path class="brilho-m" style="animation-delay:1s" d="M82 -27 Q82.5 -24.5 85 -24 Q82.5 -23.5 82 -21 Q81.5 -23.5 79 -24 Q81.5 -24.5 82 -27Z" fill="#fffbe0"/></symbol>
 
 <symbol id="mf-campeao" viewBox="-40 -40 180 180"><linearGradient id="mg-camp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c07bff"/><stop offset=".5" stop-color="#6a2bd8"/><stop offset="1" stop-color="#2f0f72"/></linearGradient><circle cx="50" cy="50" r="64" fill="none" stroke="#ffd96a" stroke-width="12" opacity=".4" filter="url(#mf-brilho)"/><g opacity=".85"><path d="M107.9 46.8L126.0 50.0L107.9 53.2ZM106.8 61.9L115.7 67.6L105.1 68.1ZM101.8 76.2L115.8 88.0L98.5 81.8ZM93.2 88.7L98.1 98.1L88.7 93.2ZM81.8 98.5L88.0 115.8L76.2 101.8ZM68.1 105.1L67.6 115.7L61.9 106.8ZM53.2 107.9L50.0 126.0L46.8 107.9ZM38.1 106.8L32.4 115.7L31.9 105.1ZM23.8 101.8L12.0 115.8L18.2 98.5ZM11.3 93.2L1.9 98.1L6.8 88.7ZM1.5 81.8L-15.8 88.0L-1.8 76.2ZM-5.1 68.1L-15.7 67.6L-6.8 61.9ZM-7.9 53.2L-26.0 50.0L-7.9 46.8ZM-6.8 38.1L-15.7 32.4L-5.1 31.9ZM-1.8 23.8L-15.8 12.0L1.5 18.2ZM6.8 11.3L1.9 1.9L11.3 6.8ZM18.2 1.5L12.0 -15.8L23.8 -1.8ZM31.9 -5.1L32.4 -15.7L38.1 -6.8ZM46.8 -7.9L50.0 -26.0L53.2 -7.9ZM61.9 -6.8L67.6 -15.7L68.1 -5.1ZM76.2 -1.8L88.0 -15.8L81.8 1.5ZM88.7 6.8L98.1 1.9L93.2 11.3ZM98.5 18.2L115.8 12.0L101.8 23.8ZM105.1 31.9L115.7 32.4L106.8 38.1Z" fill="url(#mg-ouro)"/><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="24s" repeatCount="indefinite"/></g><circle cx="50" cy="50" r="59.5" fill="none" stroke="url(#mg-ouro)" stroke-width="3"/><circle cx="50" cy="50" r="55" fill="none" stroke="url(#mg-camp)" stroke-width="8"/><circle cx="50" cy="50" r="50.6" fill="none" stroke="url(#mg-ouro)" stroke-width="2.2"/><g transform="translate(103.1 64.2) rotate(15)"><path d="M0 -3.4L2.6 0L0 3.4L-2.6 0Z" fill="#fff4c4" stroke="#8a5a00" stroke-width=".6"/></g><g transform="translate(88.9 88.9) rotate(45)"><path d="M0 -3.4L2.6 0L0 3.4L-2.6 0Z" fill="#fff4c4" stroke="#8a5a00" stroke-width=".6"/></g><g transform="translate(11.1 88.9) rotate(135)"><path d="M0 -3.4L2.6 0L0 3.4L-2.6 0Z" fill="#fff4c4" stroke="#8a5a00" stroke-width=".6"/></g><g transform="translate(-3.1 64.2) rotate(165)"><path d="M0 -3.4L2.6 0L0 3.4L-2.6 0Z" fill="#fff4c4" stroke="#8a5a00" stroke-width=".6"/></g><g transform="translate(-3.1 35.8) rotate(195)"><path d="M0 -3.4L2.6 0L0 3.4L-2.6 0Z" fill="#fff4c4" stroke="#8a5a00" stroke-width=".6"/></g><g transform="translate(11.1 11.1) rotate(225)"><path d="M0 -3.4L2.6 0L0 3.4L-2.6 0Z" fill="#fff4c4" stroke="#8a5a00" stroke-width=".6"/></g><g transform="translate(88.9 11.1) rotate(315)"><path d="M0 -3.4L2.6 0L0 3.4L-2.6 0Z" fill="#fff4c4" stroke="#8a5a00" stroke-width=".6"/></g><g transform="translate(103.1 35.8) rotate(345)"><path d="M0 -3.4L2.6 0L0 3.4L-2.6 0Z" fill="#fff4c4" stroke="#8a5a00" stroke-width=".6"/></g><g transform="translate(50 -9)"><path d="M-24 10L-28 -12L-14 -2L0 -20L14 -2L28 -12L24 10Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width="1.2" stroke-linejoin="round"/><rect x="-25" y="8" width="50" height="7" rx="2.5" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width="1.1"/><circle cx="-28" cy="-13" r="3" fill="#ffe680" stroke="#6a4706" stroke-width=".8"/><circle cx="28" cy="-13" r="3" fill="#ffe680" stroke="#6a4706" stroke-width=".8"/><circle cx="0" cy="-21" r="3.6" fill="#ffe680" stroke="#6a4706" stroke-width=".8"/><path d="M0 -6l4.5 5-4.5 5-4.5-5z" fill="url(#mg-camp)" stroke="#fff" stroke-width=".7"/><circle cx="-14" cy="3" r="2.6" fill="#e0315b"/><circle cx="14" cy="3" r="2.6" fill="#e0315b"/><circle cx="-15" cy="11.5" r="1.7" fill="#7b3df0"/><circle cx="0" cy="11.5" r="1.7" fill="#7b3df0"/><circle cx="15" cy="11.5" r="1.7" fill="#7b3df0"/></g><g transform="translate(50 109)"><path d="M-34 -4L-14 -7L-14 7L-34 4L-28 0Z" fill="url(#mg-camp)" stroke="#2a0a66" stroke-width=".9"/><path d="M34 -4L14 -7L14 7L34 4L28 0Z" fill="url(#mg-camp)" stroke="#2a0a66" stroke-width=".9"/><circle r="13" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width="1.3"/><circle r="9.6" fill="url(#mg-camp)" stroke="#ffe680" stroke-width="1"/><path d="M-1.6 -5.8L2.4 -6.5V5.4H4.4V7H-3.4V5.4H-1V-3.6L-3.6 -3Z" fill="#fff"/></g></symbol>
+<symbol id="mf-torneio" viewBox="-40 -40 180 180"><linearGradient id="mg-louro" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9ffa8"/><stop offset=".5" stop-color="#5fbf6a"/><stop offset="1" stop-color="#1f6b45"/></linearGradient><circle cx="50" cy="50" r="62" fill="none" stroke="#9ef0a0" stroke-width="8" opacity=".25" filter="url(#mf-brilho)"/><circle cx="50" cy="50" r="53.5" fill="none" stroke="url(#mg-ouro)" stroke-width="4"/><circle cx="50" cy="50" r="50.6" fill="none" stroke="#1f6b45" stroke-width="1.2"/><path d="M60.4 109.1 L46.9 109.9 L33.5 107.7 L20.9 102.5 L9.9 94.6 L0.9 84.4 L-5.6 72.5 L-9.3 59.4 L-9.9 45.8 L-7.4 32.5 L-2.0 20.0 L6.1 9.1 L16.4 0.3" fill="none" stroke="#2f6b3a" stroke-width="2" stroke-linecap="round"/><path d="M39.6 109.1 L53.1 109.9 L66.5 107.7 L79.1 102.5 L90.1 94.6 L99.1 84.4 L105.6 72.5 L109.3 59.4 L109.9 45.8 L107.4 32.5 L102.0 20.0 L93.9 9.1 L83.6 0.3" fill="none" stroke="#2f6b3a" stroke-width="2" stroke-linecap="round"/><ellipse cx="38.7" cy="114.0" rx="7.5" ry="3.1" transform="rotate(225 38.7 114.0)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="40.4" cy="104.2" rx="7.5" ry="3.1" transform="rotate(155 40.4 104.2)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="53.4" cy="114.9" rx="7.2" ry="3.0" transform="rotate(212 53.4 114.9)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="52.9" cy="104.9" rx="7.2" ry="3.0" transform="rotate(142 52.9 104.9)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="67.9" cy="112.5" rx="7.0" ry="2.9" transform="rotate(199 67.9 112.5)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="65.2" cy="102.9" rx="7.0" ry="2.9" transform="rotate(129 65.2 102.9)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="81.5" cy="106.9" rx="6.8" ry="2.8" transform="rotate(186 81.5 106.9)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="76.7" cy="98.1" rx="6.8" ry="2.8" transform="rotate(116 76.7 98.1)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="93.5" cy="98.3" rx="6.5" ry="2.7" transform="rotate(173 93.5 98.3)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="86.8" cy="90.9" rx="6.5" ry="2.7" transform="rotate(103 86.8 90.9)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="103.2" cy="87.3" rx="6.2" ry="2.6" transform="rotate(160 103.2 87.3)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="95.1" cy="81.5" rx="6.2" ry="2.6" transform="rotate(90 95.1 81.5)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="110.3" cy="74.3" rx="6.0" ry="2.5" transform="rotate(147 110.3 74.3)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="101.0" cy="70.6" rx="6.0" ry="2.5" transform="rotate(77 101.0 70.6)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="114.2" cy="60.2" rx="5.8" ry="2.4" transform="rotate(134 114.2 60.2)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="104.3" cy="58.6" rx="5.8" ry="2.4" transform="rotate(64 104.3 58.6)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="114.8" cy="45.5" rx="5.5" ry="2.3" transform="rotate(121 114.8 45.5)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="104.9" cy="46.2" rx="5.5" ry="2.3" transform="rotate(51 104.9 46.2)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="112.2" cy="31.0" rx="5.2" ry="2.2" transform="rotate(108 112.2 31.0)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="102.6" cy="33.9" rx="5.2" ry="2.2" transform="rotate(38 102.6 33.9)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="106.3" cy="17.5" rx="5.0" ry="2.1" transform="rotate(95 106.3 17.5)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="97.6" cy="22.5" rx="5.0" ry="2.1" transform="rotate(25 97.6 22.5)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="97.5" cy="5.7" rx="4.8" ry="2.0" transform="rotate(82 97.5 5.7)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="90.2" cy="12.5" rx="4.8" ry="2.0" transform="rotate(12 90.2 12.5)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="86.3" cy="-3.9" rx="4.5" ry="1.9" transform="rotate(69 86.3 -3.9)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="80.8" cy="4.4" rx="4.5" ry="1.9" transform="rotate(-1 80.8 4.4)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="61.3" cy="114.0" rx="7.5" ry="3.1" transform="rotate(135 61.3 114.0)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="59.6" cy="104.2" rx="7.5" ry="3.1" transform="rotate(205 59.6 104.2)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="46.6" cy="114.9" rx="7.2" ry="3.0" transform="rotate(148 46.6 114.9)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="47.1" cy="104.9" rx="7.2" ry="3.0" transform="rotate(218 47.1 104.9)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="32.1" cy="112.5" rx="7.0" ry="2.9" transform="rotate(161 32.1 112.5)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="34.8" cy="102.9" rx="7.0" ry="2.9" transform="rotate(231 34.8 102.9)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="18.5" cy="106.9" rx="6.8" ry="2.8" transform="rotate(174 18.5 106.9)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="23.3" cy="98.1" rx="6.8" ry="2.8" transform="rotate(244 23.3 98.1)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="6.5" cy="98.3" rx="6.5" ry="2.7" transform="rotate(187 6.5 98.3)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="13.2" cy="90.9" rx="6.5" ry="2.7" transform="rotate(257 13.2 90.9)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="-3.2" cy="87.3" rx="6.2" ry="2.6" transform="rotate(200 -3.2 87.3)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="4.9" cy="81.5" rx="6.2" ry="2.6" transform="rotate(270 4.9 81.5)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="-10.3" cy="74.3" rx="6.0" ry="2.5" transform="rotate(213 -10.3 74.3)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="-1.0" cy="70.6" rx="6.0" ry="2.5" transform="rotate(283 -1.0 70.6)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="-14.2" cy="60.2" rx="5.8" ry="2.4" transform="rotate(226 -14.2 60.2)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="-4.3" cy="58.6" rx="5.8" ry="2.4" transform="rotate(296 -4.3 58.6)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="-14.8" cy="45.5" rx="5.5" ry="2.3" transform="rotate(239 -14.8 45.5)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="-4.9" cy="46.2" rx="5.5" ry="2.3" transform="rotate(309 -4.9 46.2)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="-12.2" cy="31.0" rx="5.2" ry="2.2" transform="rotate(252 -12.2 31.0)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="-2.6" cy="33.9" rx="5.2" ry="2.2" transform="rotate(322 -2.6 33.9)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="-6.3" cy="17.5" rx="5.0" ry="2.1" transform="rotate(265 -6.3 17.5)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="2.4" cy="22.5" rx="5.0" ry="2.1" transform="rotate(335 2.4 22.5)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="2.5" cy="5.7" rx="4.8" ry="2.0" transform="rotate(278 2.5 5.7)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="9.8" cy="12.5" rx="4.8" ry="2.0" transform="rotate(348 9.8 12.5)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="13.7" cy="-3.9" rx="4.5" ry="1.9" transform="rotate(291 13.7 -3.9)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><ellipse cx="19.2" cy="4.4" rx="4.5" ry="1.9" transform="rotate(361 19.2 4.4)" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".7"/><g transform="translate(50 -9)"><path d="M0 -11L3.2 -3.4L11 -3.4L4.8 1.6L7.1 9.4L0 4.8L-7.1 9.4L-4.8 1.6L-11 -3.4L-3.2 -3.4Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width="1"/></g><g transform="translate(50 108)"><path d="M-30 -4L-12 -7L-12 6L-30 3L-25 -0.5Z" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".9"/><path d="M30 -4L12 -7L12 6L30 3L25 -0.5Z" fill="url(#mg-louro)" stroke="#164d31" stroke-width=".9"/><circle r="13" fill="#1f6b45" stroke="url(#mg-ouro)" stroke-width="2.2"/><path d="M-6 -7H6V-2A6 6 0 0 1-6 -2Z M-6 -5.5H-9A3 3 0 0 0-6 -0.5M6 -5.5H9A3 3 0 0 1 6 -0.5" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".8"/><path d="M-1.4 3.5H1.4V6H4V8.2H-4V6H-1.4Z" fill="url(#mg-ouro)" stroke="#6a4706" stroke-width=".6"/></g></symbol>
     <symbol id="ic-moeda" viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" fill="#f2b544"/><circle cx="13" cy="13" r="8.5" fill="none" stroke="#b97f12" stroke-width="1.6"/><path d="M13 8.5v9M10.5 11h4a1.6 1.6 0 0 1 0 3.2h-3" fill="none" stroke="#7a520a" stroke-width="1.7" stroke-linecap="round"/></symbol>
   </defs>
 </svg>
@@ -3434,6 +3481,8 @@ const Dados = {
       missoes: null,                                         // missões do dia: {dia, lista, prog, pegas, bau}
       ranque: { pts: 1000, n: 0, t: 0, melhor: 1000 },        // pontos das partidas online
       amigos: {},                                            // uid -> {n: nome, a: foto, m: moldura, t: quando mudou, x: removido}
+      diario: null,                                          // desafio do dia: {ult, res, seq, melhor, total, pend, comecou}
+      torneio: null,                                         // torneio da semana: {s, r: {i: resultado}, comecou, pend}
       guilda: null,                                          // {id, nome, tag, ic, cor, t} — a guilda do jogador
       guildaPedido: null,                                    // {g, nome, t} — pedido para entrar numa guilda fechada
       premios: {},                                           // prêmios do ranking: 'w2026-W46' -> posição (1 a 3), 'm2026-11' -> 1
@@ -4790,6 +4839,7 @@ const MOLDURAS = [
   { id: 'prata', nome: 'Prata', trofeu: 'prata' },
   { id: 'ouro', nome: 'Ouro', trofeu: 'ouro' },
   { id: 'platina', nome: 'Platina', trofeu: 'platina' },
+  { id: 'torneio', nome: 'Louros do Torneio', trofeu: 'torneio', arte: true },
   /* molduras de nível: liberadas ao vencer o computador naquele nível (o Iniciante não tem) */
   { id: 'aprendiz', nome: 'Cipós do Aprendiz', nivel: 1, arte: true },
   { id: 'intermediario', nome: 'Elmo do Cavaleiro', nivel: 2, arte: true },
@@ -4804,6 +4854,7 @@ const SELOS = [
   { id: 'rei', txt: 'Nº 1', ic: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18L2 7l5.5 4L12 4l4.5 7L22 7l-1 11z"/></svg>', desc: 'Está em 1º no ranking geral agora', tem: () => Premios.souRei() },
   { id: 'dev', txt: 'DEV', desc: 'Desenvolvedor do jogo', tem: () => Dev.ativo },
   { id: 'mes', txt: 'Campeão do mês', ic: '👑', desc: 'Terminou um mês em 1º no ranking geral', tem: d => Object.keys(d.premios || {}).some(k => k[0] === 'm') },
+  { id: 'torneio', txt: 'Campeão de torneio', ic: '🏅', desc: 'Venceu um torneio da semana', tem: d => !!d.conquistas['tr-torneio'] },
   { id: 'sem1', txt: '1º da semana', ic: '🥇', desc: 'Terminou uma semana em 1º no ranking', tem: d => !!d.conquistas['tr-topo1'] },
   { id: 'sem2', txt: '2º da semana', ic: '🥈', desc: 'Terminou uma semana em 2º no ranking', tem: d => !!d.conquistas['tr-topo2'] },
   { id: 'platina', txt: 'Platina', ic: '💎', desc: 'Ganhou o troféu de platina', tem: d => !!d.conquistas['tr-platina'] },
@@ -4879,7 +4930,7 @@ function estadoJogador() {
     desafios: Object.keys(d.desafios.feitos).length, pontos: d.desafios.pontos, seq: d.desafios.melhorSeq || 0,
     flags: d.extras.flags || {}, moedasTotal: d.moedasTotal, compras: Object.keys(d.itens).length,
     diasSeguidos: Math.max(d.sequencia.melhor || 0, d.sequencia.atual || 0), nivelXp: XP.nivel(XP.total(d)).n, ptsOnline: d.ranque.melhor || 1000,
-    semana1: Premios.vezes(d, 1), semana2: Premios.vezes(d, 2)
+    semana1: Premios.vezes(d, 1), semana2: Premios.vezes(d, 2), torneio1: Premios.vezes(d, 1, 't')
   };
 }
 const cont = (chave, meta) => ({ cond: e => e[chave] >= meta, prog: e => [Math.min(e[chave], meta), meta] });
@@ -4971,9 +5022,10 @@ const TROFEUS = [
   { id: 'platina', nome: 'Troféu de Platina', desc: 'Conclua todos os módulos e todos os desafios.', moedas: 1000, cond: e => e.modulos >= MODULOS.length && e.desafios >= PUZZLES.length, prog: e => [e.modulos + e.desafios, MODULOS.length + PUZZLES.length] },
   /* troféus do ranking da semana (o prêmio em moedas e gemas vem do próprio ranking) */
   { id: 'topo1', nome: 'Daqui de cima enxergo melhor!', curto: '1º da semana', desc: 'Termine uma semana em 1º lugar no ranking.', moedas: 0, rk: true, cond: e => e.semana1 >= 1, prog: e => [Math.min(e.semana1, 1), 1] },
+  { id: 'torneio', nome: 'Campeão do torneio', curto: 'Torneio', desc: 'Vença um torneio da semana (1º lugar).', moedas: 0, rk: true, cond: e => e.torneio1 >= 1, prog: e => [Math.min(e.torneio1, 1), 1] },
   { id: 'topo2', nome: 'Não vou desistir!', curto: '2º da semana', desc: 'Termine uma semana em 2º lugar no ranking.', moedas: 0, rk: true, cond: e => e.semana2 >= 1, prog: e => [Math.min(e.semana2, 1), 1] }
 ];
-const COR_TROFEU = { bronze: ['#e3a46b', '#9a5b2a'], prata: ['#eef2f6', '#8d97a5'], ouro: ['#ffe27a', '#c48b12'], platina: ['#e9fbff', '#7fc4d8'], topo1: ['#ffe27a', '#9b4dff'], topo2: ['#bfe9ff', '#2f6fe0'] };
+const COR_TROFEU = { bronze: ['#e3a46b', '#9a5b2a'], prata: ['#eef2f6', '#8d97a5'], ouro: ['#ffe27a', '#c48b12'], platina: ['#e9fbff', '#7fc4d8'], topo1: ['#ffe27a', '#9b4dff'], topo2: ['#bfe9ff', '#2f6fe0'], torneio: ['#c8f59a', '#2f8f5b'] };
 function svgTrofeu(id, ativo = true, tam = 56) {
   const [c1, c2] = ativo ? COR_TROFEU[id] : ['#5a6170', '#3a404c'];
   return `<svg viewBox="0 0 64 64" width="${tam}" height="${tam}" aria-hidden="true"><defs><linearGradient id="gt-${id}${ativo ? 1 : 0}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs>
@@ -5057,7 +5109,7 @@ const Conquistas = {
         <button class="cartao cq-rk" data-ir-rk="1"><span class="ic2">${SVG('<path d="M8 21V11H3v10zM15.5 21V5h-7v16zM21 21v-7h-5.5v7z"/>')}</span><span><b>Ranking</b><small>Prêmios toda semana</small></span></button>
         <div class="cartao cq-total"><span><b>${feitas}</b>/${tot}</span><small>conquistas</small><div class="progresso"><i style="width:${Math.round(feitas / tot * 100)}%"></i></div></div>
       </div>
-      <div class="cartao cq-trofeus" role="list">${TROFEUS.map(t => { const ok = !!d.conquistas['tr-' + t.id];
+      <div class="cartao cq-trofeus" role="list" style="grid-template-columns:repeat(${TROFEUS.length},1fr)">${TROFEUS.map(t => { const ok = !!d.conquistas['tr-' + t.id];
         return `<button class="tr-mini${ok ? ' ok' : ''}" data-tr="${t.id}" role="listitem" aria-label="${esc(t.nome)}${ok ? ' (conquistado)' : ''}">${svgTrofeu(t.id, ok, 40)}<small>${esc(t.curto || t.nome.replace('Troféu de ', ''))}</small></button>`; }).join('')}</div>
       <div class="cq-grupos" role="tablist">${GRUPOS_CONQ.map(g => { const [a, b] = cnt(g.id);
         return `<button role="tab" aria-selected="${this.grupo === g.id}" class="${this.grupo === g.id ? 'on' : ''}${a === b ? ' cheio' : ''}" data-gr="${g.id}">${this.CURTO[g.id] || g.nome}<i>${a}/${b}</i></button>`; }).join('')}</div>
@@ -5110,7 +5162,7 @@ const Conquistas = {
   detalheTrofeu(id) {
     const t = TROFEUS.find(x => x.id === id); if (!t) return;
     const ok = !!Dados.d.conquistas['tr-' + t.id], p = t.prog(estadoJogador());
-    const extra = t.rk ? (t.id === 'topo1' ? `Também vale ${GEMA} 500 e ${MOEDA} 1.500.` : `Também vale ${GEMA} 100 e ${MOEDA} 500.`) : `Libera a moldura ${t.nome.replace('Troféu de ', '').toLowerCase()}${t.id === 'platina' ? ' e o ícone Rei de platina' : ''}. Prêmio: ${MOEDA} ${t.moedas}.`;
+    const extra = t.id === 'torneio' ? `Também vale ${MOEDA} 1.000 e a moldura exclusiva Louros do Torneio.` : t.rk ? (t.id === 'topo1' ? `Também vale ${GEMA} 500 e ${MOEDA} 1.500.` : `Também vale ${GEMA} 100 e ${MOEDA} 500.`) : `Libera a moldura ${t.nome.replace('Troféu de ', '').toLowerCase()}${t.id === 'platina' ? ' e o ícone Rei de platina' : ''}. Prêmio: ${MOEDA} ${t.moedas}.`;
     modal(t.nome, `<div class="cq-det${ok ? ' ok' : ''}">${svgTrofeu(t.id, ok, 84)}<p>${esc(t.desc)}</p>
       ${ok ? '' : `<div class="progresso"><i style="width:${Math.round(p[0] / p[1] * 100)}%"></i></div><small class="sub">${p[0]} de ${p[1]}</small>`}
       <p class="sub">${extra}</p>${ok ? '<b class="cq-det-pr">✓ Conquistado</b>' : ''}</div>`, [{ txt: 'Fechar', cls: 'pri', val: 1 }], true);
@@ -5440,6 +5492,7 @@ const MISSOES = [
   { id: 'online', g: 'jogo', txt: 'Jogue uma partida online', alvo: 1, conta: true, ev: (t, o) => t === 'partida' && o.modo === 'online' },
   { id: 'desafios3', g: 'treino', txt: 'Resolva 3 desafios táticos', alvo: 3, ev: t => t === 'desafio' },
   { id: 'primeira2', g: 'treino', txt: 'Acerte 2 desafios de primeira', alvo: 2, ev: (t, o) => t === 'desafio' && o.primeira },
+  { id: 'diario', g: 'treino', txt: 'Resolva o desafio do dia', alvo: 1, ev: t => t === 'diario' },
   { id: 'fase', g: 'treino', txt: 'Conclua uma fase do Aprender', alvo: 1, ev: t => t === 'fase' },
   { id: 'fase3', g: 'treino', txt: 'Termine uma fase com 3 estrelas', alvo: 1, ev: (t, o) => t === 'fase' && o.est === 3 },
   { id: 'rever', g: 'treino', txt: 'Reveja uma partida do histórico', alvo: 1, hist: true, ev: t => t === 'rever' }
@@ -5680,10 +5733,11 @@ const Premios = {
       const v = d.premios[k];
       if (k[0] === 'w' && v >= 1 && v <= 3) { g += PREMIOS_SEMANA[v - 1].g; m += PREMIOS_SEMANA[v - 1].m; }
       else if (k[0] === 'm' && v === 1) { g += PREMIO_MES.g; m += PREMIO_MES.m; }
+      else if (k[0] === 't' && v >= 1 && v <= 3) m += TORNEIO_PREMIOS[v - 1];
     }
     return { g, m };
   },
-  vezes(d, pos) { return Object.keys(d.premios || {}).filter(k => k[0] === 'w' && d.premios[k] === pos).length; },
+  vezes(d, pos, tipo = 'w') { return Object.keys(d.premios || {}).filter(k => k[0] === tipo && d.premios[k] === pos).length; },
   souRei() { return !!(Nuvem.usuario && this.reiUid === Nuvem.usuario.uid); },
   ehRei(uid) { return !!uid && uid === this.reiUid; },
   /* a moldura exclusiva só aparece em quem é o 1º agora */
@@ -5741,6 +5795,13 @@ const Premios = {
         const i = snap.docs.findIndex(x => x.id === uid);
         if (i >= 0 && (snap.docs[i].data()[c] || 0) > 0 && !(ks in d.premios)) { d.premios[ks] = i + 1; ganhos.push({ tipo: 'semana', pos: i + 1 }); }
       }
+      const kt = 't' + sem;                              // torneio da semana que acabou
+      if (sem >= INICIO_TORNEIO && !(kt in d.premios) && this.torneioVisto !== sem) {
+        const snap = await Nuvem.db.collection('torneios/' + sem + '/r').orderBy('pts', 'desc').limit(3).get();
+        this.torneioVisto = sem;
+        const i = snap.docs.findIndex(x => x.id === uid);
+        if (i >= 0 && (snap.docs[i].data().pts || 0) > 0 && !(kt in d.premios)) { d.premios[kt] = i + 1; ganhos.push({ tipo: 'torneio', pos: i + 1 }); }
+      }
       const mes = mesAnterior(), km = 'm' + mes;
       if (mes >= INICIO_MES && !(km in d.premios) && this.mesVisto !== mes) {
         const ref = Nuvem.db.collection('campeoes').doc(mes);
@@ -5762,12 +5823,12 @@ const Premios = {
   },
   async mostrar(g) {
     for (let k = 0; k < 40 && modalAberto(); k++) await espera(500);
-    const n = v => v.toLocaleString('pt-BR'), pr = g.tipo === 'mes' ? PREMIO_MES : PREMIOS_SEMANA[g.pos - 1];
-    const tr = g.tipo === 'semana' && pr.tr ? TROFEUS.find(t => t.id === pr.tr) : null;
+    const n = v => v.toLocaleString('pt-BR'), pr = g.tipo === 'mes' ? PREMIO_MES : g.tipo === 'torneio' ? { g: 0, m: TORNEIO_PREMIOS[g.pos - 1], tr: g.pos === 1 ? 'torneio' : '' } : PREMIOS_SEMANA[g.pos - 1];
+    const tr = g.tipo !== 'mes' && pr.tr ? TROFEUS.find(t => t.id === pr.tr) : null;
     Som.tocar('conquista'); vibrar([40, 60, 40]);
-    await modal(g.tipo === 'mes' ? 'Campeão do mês!' : `${g.pos}º lugar na semana!`,
+    await modal(g.tipo === 'mes' ? 'Campeão do mês!' : g.tipo === 'torneio' ? `${g.pos}º lugar no torneio!` : `${g.pos}º lugar na semana!`,
       `<div class="pm-pop">${tr ? svgTrofeu(tr.id, true, 80) : `<span class="pm-medalha p${g.tipo === 'mes' ? 1 : g.pos}">${g.tipo === 'mes' ? '👑' : g.pos + 'º'}</span>`}
-        <p>${g.tipo === 'mes' ? 'Você terminou o mês em <b>1º lugar no ranking geral</b>.' : `Você terminou a semana passada em <b>${g.pos}º lugar</b> no ranking.`}</p>
+        <p>${g.tipo === 'mes' ? 'Você terminou o mês em <b>1º lugar no ranking geral</b>.' : g.tipo === 'torneio' ? `Você terminou o torneio da semana passada em <b>${g.pos}º lugar</b>.` : `Você terminou a semana passada em <b>${g.pos}º lugar</b> no ranking.`}</p>
         <div class="pm-ganhos">${pr.g ? `<b>${GEMA} +${n(pr.g)}</b>` : ''}<b>${MOEDA} +${n(pr.m)}</b></div>
         ${tr ? `<p class="sub">E o troféu <b>“${esc(tr.nome)}”</b>!</p>` : ''}</div>`,
       [{ txt: 'Oba!', cls: 'pri', val: 1 }], true);
@@ -7057,6 +7118,7 @@ const Aprender = {
         <div class="rot ${dir ? 'dir' : 'esq'}"><b>${TIPO[p.k] || 'Tática'}</b><span class="sub" style="font-size:.74rem">${f === 1 ? '<span class="est"><span class="on">★</span></span> de primeira' : f === 2 ? '✓ resolvido' : p.fen.split(' ')[1] === 'b' ? 'jogue de pretas' : 'jogue de brancas'}</span></div></div>`;
     });
     $('#tela').innerHTML = `<div class="pilha estreito">${this.abas()}
+      <button class="linha-menu cor-info dia-atalho" data-ir-dia="1"><span class="ic2">${SVG('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M9 15l2 2 4-4"/>')}</span><span class="tx"><b>Desafio do dia</b><small>${Diario.feito() ? 'Feito hoje · veja o ranking' : 'O mesmo problema para todos · vale pontos'}</small></span>${SETA}</button>
       <div class="chips-mod" id="chips-mod">${chips}</div>
       <section class="cab-mod"><div style="flex:1;min-width:0"><span class="etq">Desafios táticos</span><h2>${Desafios.NOMES[fi]}</h2>
         <span class="barrinha cor-info"><i style="width:${Math.round(feitas / lista.length * 100)}%"></i></span></div>
@@ -7073,6 +7135,7 @@ const Aprender = {
     $('#tela').onclick = e => {
       const m = e.target.closest('[data-modo]'); if (m) { this.modo = m.dataset.modo; this.telaLista(); window.scrollTo(0, 0); return; }
       const f = e.target.closest('[data-fx]'); if (f) { this.telaDesafios(+f.dataset.fx); window.scrollTo(0, 0); return; }
+      if (e.target.closest('[data-ir-dia]')) { App.ir('diario'); return; }
       const b = e.target.closest('[data-pz]'); if (b) App.ir('desafio', +b.dataset.pz);
     };
     App.aoSair = () => { $('#tela').onclick = null; };
@@ -7426,6 +7489,9 @@ const Nuvem = {
     r.amigos = Amigos.juntar(r.amigos, a.amigos);
     for (const k in a.premios) r.premios[k] = Math.max(r.premios[k] || 0, a.premios[k]);
     if (((a.guilda && a.guilda.t) || 0) > ((r.guilda && r.guilda.t) || 0)) r.guilda = a.guilda;
+    if (a.diario && (!r.diario || (a.diario.ult || '') > (r.diario.ult || ''))) r.diario = Object.assign({}, a.diario, r.diario && { melhor: Math.max(a.diario.melhor || 0, r.diario.melhor || 0), total: Math.max(a.diario.total || 0, r.diario.total || 0) });
+    if (a.torneio && (!r.torneio || a.torneio.s > r.torneio.s)) r.torneio = a.torneio;
+    else if (a.torneio && r.torneio && a.torneio.s === r.torneio.s) r.torneio.r = Object.assign({}, a.torneio.r, r.torneio.r);
     if (((a.guildaPedido && a.guildaPedido.t) || 0) > ((r.guildaPedido && r.guildaPedido.t) || 0)) r.guildaPedido = a.guildaPedido;
     r.ajustes = a.ajustes; r.cfg = a.cfg; r.cfgAmigo = a.cfgAmigo; r.cfgOnline = a.cfgOnline;   // preferências do aparelho
     r.atualizadoEm = Math.max(a.atualizadoEm, r.atualizadoEm);
@@ -8876,6 +8942,212 @@ document.addEventListener('visibilitychange', () => {
   Guilda.ultCarga = Date.now(); Guilda.carregar();
 });
 
+/* ==========================================================================
+   DESAFIO DO DIA (o mesmo problema para todos, ranking do dia)
+   e TORNEIO DA SEMANA (5 problemas, ranking da semana, troféu e moldura do campeão)
+   Nuvem: diarios/{AAAA-MM-DD}/r/{uid} e torneios/{AAAA-Wnn}/r/{uid}
+   ========================================================================== */
+const TORNEIO_N = 5, TORNEIO_PREMIOS = [1000, 500, 250], TORNEIO_PARTICIPA = 50, INICIO_TORNEIO = '2026-W46';
+const DIARIO_MOEDAS = 30, DIARIO_PERFEITO = 20, DIARIO_XP = 30, TORNEIO_XP = 15;
+function dataTxt(t = new Date()) { return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0'); }
+function hashTxt(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+/* pontos de uma tentativa: começa em 1000, perde 150 por erro e 3 por segundo; quem resolve leva no mínimo 100 */
+function pontosProva(ok, seg, err) { return ok ? Math.max(100, 1000 - 150 * err - 3 * Math.floor(seg)) : 0; }
+const tempoTxt = s => s < 60 ? `${Math.round(s)} s` : `${Math.floor(s / 60)} min ${String(Math.round(s % 60)).padStart(2, '0')} s`;
+const faltaTxt = ms => { const m = Math.max(1, Math.round(ms / 60000)); return m < 60 ? `${m} min` : m < 1440 ? `${Math.floor(m / 60)} h ${m % 60} min` : `${Math.floor(m / 1440)} dia${m >= 2880 ? 's' : ''} e ${Math.floor((m % 1440) / 60)} h`; };
+
+/* ---------- jogar um problema valendo pontos (sem dica, uma tentativa só) ---------- */
+const Prova = {
+  /* o: { p, titulo, volta, chave, aoFim(res) } — chave marca a tentativa como começada (sair no meio = 0 ponto) */
+  tela(o) {
+    const p = o.p;
+    App.cabecalho(o.titulo, o.volta);
+    const ex = p.k === 'w'
+      ? { t: 'seq', fen: p.fen, line: p.line, ok: '', err: 'Não é a melhor jogada. Procure xeques, capturas e ameaças.' }
+      : { t: 'mate', n: p.k === 'm1' ? 1 : 2, fen: p.fen, sol: p.line, ok: '', err: p.k === 'm1' ? 'Esse lance não dá xeque-mate. Procure outro xeque.' : 'Esse lance não força o mate em 2. Tente outro.' };
+    $('#tela').innerHTML = `<div class="exercicio prova">
+      <div class="enunciado"><small>${Desafios.tipo(p.k)} · dificuldade ${p.r}</small><span>${Desafios.enunciado(p)}</span></div>
+      <div class="prova-placar"><span>⏱ <b id="pv-tempo">0 s</b></span><span>✕ <b id="pv-err">0</b> erro(s)</span><span>★ <b id="pv-pts">1000</b> pts</span></div>
+      <div id="ex-host"></div>
+      <div class="retorno info" id="retorno">Encontre a melhor jogada das ${Desafios.lado(p).toLowerCase()}. Vale só esta tentativa!</div>
+      <div class="fila"><button class="bt" id="pv-desistir">Desistir</button><button class="bt pri oculto" id="pv-ok" style="flex:1">Ver resultado</button></div></div>`;
+    const t0 = Date.now(); let err = 0, fim = null;
+    const seg = () => (Date.now() - t0) / 1000;
+    const relogio = setInterval(() => { if (fim) return; $('#pv-tempo').textContent = tempoTxt(seg()); $('#pv-pts').textContent = pontosProva(true, seg(), err); }, 500);
+    const ret = $('#retorno');
+    const acabar = ok => {
+      if (fim) return; clearInterval(relogio);
+      fim = { ok, seg: Math.round(seg() * 10) / 10, err, pts: pontosProva(ok, seg(), err) };
+      $('#pv-pts').textContent = fim.pts; $('#pv-desistir').classList.add('oculto'); $('#pv-ok').classList.remove('oculto');
+      o.aoFim(fim);
+    };
+    const exe = criarExercicio(ex, $('#ex-host'), {
+      msg: (tipo, txt) => { if (!txt) return; ret.className = 'retorno ' + tipo; ret.textContent = txt; },
+      erro: () => { Som.tocar('erro'); vibrar(60); err++; $('#pv-err').textContent = err; if (err >= 3) { ret.className = 'retorno ruim'; ret.textContent = 'Três erros: a tentativa acabou.'; exe.solucao(); acabar(false); } },
+      resolvido: () => { Som.tocar('acerto'); ret.className = 'retorno ok'; ret.innerHTML = `<b>${err ? 'Resolvido!' : 'Correto, de primeira!'}</b> ${esc(Desafios.explicar(p))}`; acabar(true); }
+    });
+    $('#pv-desistir').onclick = async () => {
+      if (!await modal('Desistir?', 'Esta tentativa vale 0 ponto e não dá para tentar de novo.', [{ txt: 'Continuar', val: false }, { txt: 'Desistir', cls: 'perigo', val: true }])) return;
+      exe.solucao(); ret.className = 'retorno info'; ret.innerHTML = `<b>Solução:</b> ${esc(Desafios.explicar(p))}`; acabar(false);
+    };
+    $('#pv-ok').onclick = () => App.ir(o.volta);
+    App.aoSair = () => { clearInterval(relogio); exe.destruir(); if (!fim) acabar(false); };   // sair no meio conta como desistência
+  }
+};
+
+/* ---------- desafio do dia ---------- */
+const Diario = {
+  hoje: () => dataTxt(),
+  /* o problema do dia: sorteado pela data, nunca igual ao de ontem */
+  puzzle(data = this.hoje()) {
+    const n = PUZZLES.length, ont = new Date(data + 'T12:00:00'); ont.setDate(ont.getDate() - 1);
+    let i = hashTxt('dia' + data) % n; const j = hashTxt('dia' + dataTxt(ont)) % n;
+    if (i === j) i = (i + 1) % n;
+    return PUZZLES[i];
+  },
+  d() { const d = Dados.d; if (!d.diario) d.diario = { ult: '', res: null, seq: 0, melhor: 0, total: 0, pend: false }; return d.diario; },
+  feito() { const x = this.d(); return x.ult === this.hoje() && !!x.res; },
+  col(data = this.hoje()) { return Nuvem.db.collection('diarios/' + data + '/r'); },
+  /* tentativa começada e não terminada (app fechado no meio) vira desistência */
+  conferirAbandono() { const x = this.d(); if (x.comecou === this.hoje() && !this.feito()) this.registrar({ ok: false, seg: 0, err: 0, pts: 0 }); },
+  registrar(res) {
+    const d = Dados.d, x = this.d(), hoje = this.hoje(), xa = XP.total();
+    if (this.feito()) return;
+    const ont = new Date(); ont.setDate(ont.getDate() - 1);
+    if (res.ok) { x.seq = x.ultOk === dataTxt(ont) ? (x.seq || 0) + 1 : 1; x.melhor = Math.max(x.melhor || 0, x.seq); x.ultOk = hoje; x.total = (x.total || 0) + 1; }
+    x.ult = hoje; x.res = res; x.comecou = ''; x.pend = true;
+    if (res.ok) {
+      Moedas.ganhar(DIARIO_MOEDAS + (res.err ? 0 : DIARIO_PERFEITO), 'desafio do dia');
+      const l = Livro.meu(d); l.xe = (l.xe || 0) + DIARIO_XP; Livro.recalcular(d);
+      Missoes.evento('diario');
+    }
+    Dados.salvar(); XP.contar(xa); Conquistas.verificar(); this.enviar();
+  },
+  async enviar() {
+    const x = this.d(), u = Nuvem.usuario;
+    if (!x.pend || !x.res || !u || !Nuvem.db || x.ult !== this.hoje()) return;
+    const p = Dados.d.perfil, r = x.res;
+    try {
+      await this.col().doc(u.uid).set({ pts: r.pts, seg: r.seg, err: r.err, ok: !!r.ok, n: nomeJogador().slice(0, 20), a: p.avatar || 'wn', mo: Premios.moldDe({ uid: u.uid, moldura: p.moldura }), nv: XP.nivel(XP.total()).n, sl: Selos.meus().join(','), t: Date.now() });
+      x.pend = false; Dados.salvar();
+    } catch (e) { /* tenta de novo quando abrir a tela */ }
+  },
+  async ranking(data) { const s = await this.col(data).orderBy('pts', 'desc').limit(50).get(); return s.docs.map(x => Object.assign({ uid: x.id }, x.data())); },
+  tela() {
+    App.cabecalho('Desafio do dia', 'jogar');
+    this.conferirAbandono();
+    const x = this.d(), p = this.puzzle(), feito = this.feito(), r = x.res, amanha = new Date(); amanha.setHours(24, 0, 0, 0);
+    $('#tela').innerHTML = `<div class="pilha estreito">
+      <div class="cartao dia-cab"><span class="dia-cal" aria-hidden="true"><i>${new Date().toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '')}</i><b>${new Date().getDate()}</b></span><div><small class="sub">${new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}</small>
+        <b>${Desafios.tipo(p.k)} · dificuldade ${p.r}</b><span class="sub">Novo desafio em ${faltaTxt(amanha - Date.now())}</span></div></div>
+      ${feito ? `<div class="cartao dia-res ${r.ok ? 'ok' : 'ruim'}"><b class="dia-pts">${r.pts}</b><span>pontos</span>
+          <p class="sub">${r.ok ? `Resolvido em ${tempoTxt(r.seg)} com ${r.err} erro${r.err === 1 ? '' : 's'}.` : 'Não resolvido hoje.'} ${r.ok ? `Você ganhou ${MOEDA} ${DIARIO_MOEDAS + (r.err ? 0 : DIARIO_PERFEITO)} e +${DIARIO_XP} XP.` : ''}</p>
+          <div class="dia-seq">🔥 ${x.seq || 0} dia${x.seq === 1 ? '' : 's'} seguido${x.seq === 1 ? '' : 's'} · recorde ${x.melhor || 0}</div></div>`
+      : `<div class="cartao dia-regras"><b>Todo mundo recebe o mesmo problema hoje</b>
+          <ul><li>Vale só a <b>primeira tentativa</b> e não tem dica.</li><li>Começa com 1000 pontos: cada erro tira 150 e cada segundo tira 3. Três erros encerram.</li><li>Resolveu: ${MOEDA} ${DIARIO_MOEDAS} e +${DIARIO_XP} XP (sem erros: mais ${MOEDA} ${DIARIO_PERFEITO}).</li></ul>
+          <button class="bt pri cheio" id="dia-ir">Começar desafio</button></div>`}
+      <div class="cartao"><div class="ms-cab"><h3>Ranking de hoje</h3><span class="sub" id="dia-n"></span></div><div id="dia-lista" class="jg-lista"><p class="sub">Carregando…</p></div></div></div>`;
+    const b = $('#dia-ir'); if (b) b.onclick = () => App.ir('diarioJogar');
+    $('#tela').onclick = e => { const j = e.target.closest('[data-jogador]'); if (j) { Social.voltar = 'diario'; App.ir('jogador', j.dataset.jogador); } };
+    this.enviar().then(() => this.pintarRanking());
+  },
+  async pintarRanking() {
+    const el = $('#dia-lista'); if (!el) return;
+    if (!Nuvem.usuario) { el.innerHTML = '<p class="sub">Entre na sua conta para aparecer no ranking e ver os outros jogadores.</p>'; return; }
+    let l; try { l = await this.ranking(); } catch (e) { if ($('#dia-lista')) $('#dia-lista').innerHTML = `<p class="sub">${e && e.code === 'permission-denied' ? 'O ranking do desafio ainda não foi ativado (falta atualizar as regras do Firebase).' : 'Não consegui carregar o ranking.'}</p>`; return; }
+    if (App.atual !== 'diario') return;
+    $('#dia-n').textContent = l.length ? l.length + (l.length === 50 ? '+' : '') + ' jogador' + (l.length > 1 ? 'es' : '') : '';
+    $('#dia-lista').innerHTML = l.length ? l.map((x, i) => linhaProva(x, i, x.ok ? `${tempoTxt(x.seg)} · ${x.err} erro${x.err === 1 ? '' : 's'}` : 'não resolveu')).join('') : '<p class="sub">Ninguém jogou ainda hoje. Seja o primeiro!</p>';
+  },
+  jogar() {
+    if (this.feito()) { App.ir('diario'); return; }
+    const x = this.d(); x.comecou = this.hoje(); Dados.salvar();
+    Prova.tela({ p: this.puzzle(), titulo: 'Desafio do dia', volta: 'diario', aoFim: res => this.registrar(res) });
+  }
+};
+function linhaProva(x, i, sub) {
+  const eu = Nuvem.usuario && x.uid === Nuvem.usuario.uid;
+  return `<div class="jg-it rk-it${eu ? ' eu' : ''}${i < 3 ? ' top' + (i + 1) : ''}" data-jogador="${esc(x.uid)}" role="button" tabindex="0"><span class="rk-pos">${i + 1}</span>
+    <span class="rk-av">${htmlAvatar(x.a || 'wn', Premios.moldDe({ uid: x.uid, moldura: x.mo }), 38)}${XP.selo(x.nv || 1, 18)}</span>
+    <span class="rk-tx"><b>${esc(x.n || 'Jogador')}${eu ? ' <em>você</em>' : ''}</b><small>${sub}</small></span><span class="rk-val">${(x.pts || 0).toLocaleString('pt-BR')}<small>pts</small></span></div>`;
+}
+
+/* ---------- torneio da semana ---------- */
+const Torneio = {
+  semana: () => semanaTxt(),
+  /* 5 problemas da semana, sorteados pela semana entre os mais difíceis, do mais fácil para o mais difícil */
+  puzzles(s = this.semana()) {
+    /* embaralha a lista com um sorteio fixo da semana (todo mundo recebe os mesmos 5) */
+    const pool = PUZZLES.filter(p => p.r >= 850).slice();
+    let h = hashTxt('torneio' + s) || 1;
+    const rnd = () => { h = (h + 0x6D2B79F5) >>> 0; let t = h; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+    for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+    return pool.slice(0, TORNEIO_N).sort((a, b) => a.r - b.r);
+  },
+  d() { const d = Dados.d; if (!d.torneio || d.torneio.s !== this.semana()) d.torneio = { s: this.semana(), r: {}, comecou: null, pend: false }; return d.torneio; },
+  total() { const r = this.d().r; return Object.values(r).reduce((a, x) => a + (x.pts || 0), 0); },
+  feitos() { return Object.keys(this.d().r).length; },
+  col(s = this.semana()) { return Nuvem.db.collection('torneios/' + s + '/r'); },
+  fim() { const t = new Date(), dia = t.getDay(), f = new Date(t); f.setDate(t.getDate() + (dia === 0 ? 1 : 8 - dia)); f.setHours(0, 0, 0, 0); return f; },
+  conferirAbandono() { const x = this.d(); if (x.comecou != null && !x.r[x.comecou]) this.registrar(x.comecou, { ok: false, seg: 0, err: 0, pts: 0 }); },
+  registrar(i, res) {
+    const d = Dados.d, x = this.d(), xa = XP.total();
+    if (x.r[i]) return;
+    x.r[i] = res; x.comecou = null; x.pend = true;
+    if (res.ok) { const l = Livro.meu(d); l.xe = (l.xe || 0) + TORNEIO_XP; Livro.recalcular(d); }
+    if (this.feitos() === TORNEIO_N) Moedas.ganhar(TORNEIO_PARTICIPA, 'torneio completo');
+    Dados.salvar(); XP.contar(xa); Conquistas.verificar(); this.enviar();
+  },
+  async enviar() {
+    const x = this.d(), u = Nuvem.usuario;
+    if (!x.pend || !u || !Nuvem.db || !this.feitos()) return;
+    const p = Dados.d.perfil, f = {};
+    for (const k in x.r) f['p' + k] = x.r[k].pts || 0;
+    try {
+      await this.col().doc(u.uid).set(Object.assign({ pts: this.total(), feitos: this.feitos(), n: nomeJogador().slice(0, 20), a: p.avatar || 'wn', mo: Premios.moldDe({ uid: u.uid, moldura: p.moldura }), nv: XP.nivel(XP.total()).n, t: Date.now() }, f));
+      x.pend = false; Dados.salvar();
+    } catch (e) { /* tenta de novo depois */ }
+  },
+  async ranking(s) { const q = await this.col(s).orderBy('pts', 'desc').limit(50).get(); return q.docs.map(x => Object.assign({ uid: x.id }, x.data())); },
+  tela() {
+    App.cabecalho('Torneio da semana', 'jogar');
+    this.conferirAbandono();
+    const x = this.d(), ps = this.puzzles(), prox = ps.findIndex((_, i) => !x.r[i]);
+    const n = v => v.toLocaleString('pt-BR');
+    $('#tela').innerHTML = `<div class="pilha estreito">
+      <div class="cartao tn-cab"><span class="tn-ic">${svgTrofeu('torneio', true, 64)}</span><div><b>Torneio da semana</b><span class="sub">Termina em ${faltaTxt(this.fim() - Date.now())} · ${TORNEIO_N} problemas, uma tentativa cada</span>
+        <div class="tn-total"><b>${n(this.total())}</b> pts · ${this.feitos()}/${TORNEIO_N} feitos</div></div></div>
+      <div class="cartao"><div class="tn-lista">${ps.map((p, i) => { const r = x.r[i];
+        return `<button class="tn-it${r ? (r.ok ? ' ok' : ' ruim') : i === prox ? ' prox' : ''}" data-tn="${i}" ${r ? 'disabled' : ''}><span class="tn-num">${i + 1}</span><span class="tn-tx"><b>${Desafios.tipo(p.k)}</b><small>dificuldade ${p.r}</small></span>
+          <span class="tn-pts">${r ? `${n(r.pts)}<small>pts</small>` : i === prox ? 'Jogar' : '—'}</span></button>`; }).join('')}</div>
+        <p class="sub" style="margin-top:10px">Mesmas regras do desafio do dia: sem dica, cada erro tira 150 e cada segundo tira 3. Completar os ${TORNEIO_N} vale ${MOEDA} ${TORNEIO_PARTICIPA}.</p></div>
+      <div class="cartao pm-quadro"><b class="pm-tit">Prêmios do torneio</b><div class="pm-lista">
+        <div class="pm-it p1"><span class="pm-pos">1º</span><span class="pm-tx"><b>${MOEDA}${n(TORNEIO_PREMIOS[0])}</b><small>🏆 Troféu “Campeão do torneio” e a moldura exclusiva Louros do Torneio</small></span></div>
+        <div class="pm-it p2"><span class="pm-pos">2º</span><span class="pm-tx"><b>${MOEDA}${n(TORNEIO_PREMIOS[1])}</b></span></div>
+        <div class="pm-it p3"><span class="pm-pos">3º</span><span class="pm-tx"><b>${MOEDA}${n(TORNEIO_PREMIOS[2])}</b></span></div></div></div>
+      <div class="cartao"><div class="ms-cab"><h3>Classificação</h3><span class="sub" id="tn-n"></span></div><div id="tn-rk" class="jg-lista"><p class="sub">Carregando…</p></div></div></div>`;
+    $('#tela').onclick = e => {
+      const b = e.target.closest('[data-tn]'); if (b && !b.disabled) { App.ir('torneioJogar', +b.dataset.tn); return; }
+      const j = e.target.closest('[data-jogador]'); if (j) { Social.voltar = 'torneio'; App.ir('jogador', j.dataset.jogador); }
+    };
+    this.enviar().then(() => this.pintarRanking());
+  },
+  async pintarRanking() {
+    const el = $('#tn-rk'); if (!el) return;
+    if (!Nuvem.usuario) { el.innerHTML = '<p class="sub">Entre na sua conta para disputar o torneio com os outros jogadores.</p>'; return; }
+    let l; try { l = await this.ranking(); } catch (e) { if ($('#tn-rk')) $('#tn-rk').innerHTML = `<p class="sub">${e && e.code === 'permission-denied' ? 'O torneio ainda não foi ativado (falta atualizar as regras do Firebase).' : 'Não consegui carregar a classificação.'}</p>`; return; }
+    if (App.atual !== 'torneio') return;
+    $('#tn-n').textContent = l.length ? l.length + (l.length === 50 ? '+' : '') + ' jogando' : '';
+    $('#tn-rk').innerHTML = l.length ? l.map((x, i) => linhaProva(x, i, `${x.feitos || 0}/${TORNEIO_N} problemas`)).join('') : '<p class="sub">Ninguém jogou ainda nesta semana.</p>';
+  },
+  jogar(i) {
+    const x = this.d(), ps = this.puzzles();
+    if (x.r[i] || !ps[i]) { App.ir('torneio'); return; }
+    x.comecou = i; Dados.salvar();
+    Prova.tela({ p: ps[i], titulo: `Torneio · problema ${i + 1}`, volta: 'torneio', aoFim: res => this.registrar(i, res) });
+  }
+};
+
 /* =====================================================================
    MODO DESENVOLVEDOR
    Só liga para a conta do dono do jogo (entrada com Google, e-mail verificado).
@@ -9057,6 +9329,10 @@ const App = {
       case 'visual': if (param) Perfil.aba = param; Perfil.telaVisual(); break;
       case 'conta': Perfil.telaConta(); break;
       case 'guilda': Guilda.tela(); break;
+      case 'diario': Diario.tela(); break;
+      case 'diarioJogar': Diario.jogar(); break;
+      case 'torneio': Torneio.tela(); break;
+      case 'torneioJogar': Torneio.jogar(param); break;
       case 'guildaVer': if (antes === 'guilda' || antes === 'ranking') Guilda.voltarVer = antes; Guilda.telaVer(param); break;
       case 'guildaCriar': Guilda.telaCriar(param); break;
       case 'conquistas': Conquistas.tela(); break;
@@ -9073,7 +9349,7 @@ const App = {
   },
   /* barra de navegação inferior e animação de entrada da tela */
   ABAS: { menu: 'menu', aprender: 'aprender', desafios: 'aprender', jogar: 'jogar', config: 'jogar', amigos: 'jogar', ranking: 'jogar', conquistas: 'conquistas', loja: 'loja',
-    perfil: 'perfil', visual: 'perfil', conta: 'perfil', guilda: 'perfil', guildaVer: 'perfil', guildaCriar: 'perfil', stats: 'perfil', historico: 'perfil', dev: 'perfil', social: 'perfil', jogador: 'perfil', ajustes: 'ajustes', missoes: 'menu', avisos: 'menu' },
+    diario: 'jogar', diarioJogar: 'jogar', torneio: 'jogar', torneioJogar: 'jogar', perfil: 'perfil', visual: 'perfil', conta: 'perfil', guilda: 'perfil', guildaVer: 'perfil', guildaCriar: 'perfil', stats: 'perfil', historico: 'perfil', dev: 'perfil', social: 'perfil', jogador: 'perfil', ajustes: 'ajustes', missoes: 'menu', avisos: 'menu' },
   depois() {
     const t = this.atual, aba = this.ABAS[t], nav = $('#nav-inf');
     document.body.dataset.tela = t;
@@ -9177,6 +9453,10 @@ function telaJogar() {
     <button class="modo-jogo" data-ir="amigos">${fundo('q')}
       <span class="mj-ic">${SVG('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>')}</span>
       <span class="mj-tx"><b>Online</b><small>${u ? `Crie uma sala ou entre com um código · ${d.ranque.pts} pontos` : 'Jogue com amigos pela internet (precisa de conta)'}</small></span></button>
+    <div class="duas-peq">
+      <button class="linha-menu cor-info${Diario.feito() ? '' : ' novo-dia'}" data-ir="diario"><span class="ic2">${SVG('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M9 15l2 2 4-4"/>')}</span><span class="tx"><b>Desafio do dia</b><small>${Diario.feito() ? (Diario.d().res.ok ? '✓ ' + Diario.d().res.pts + ' pts hoje' : 'Volte amanhã') : 'Novo desafio!'}</small></span></button>
+      <button class="linha-menu cor-dest" data-ir="torneio"><span class="ic2">${SVG('<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v3M8 21h8M9 17h6v4H9z"/>')}</span><span class="tx"><b>Torneio</b><small>${Torneio.feitos()}/${TORNEIO_N} · ${Torneio.total().toLocaleString('pt-BR')} pts</small></span></button>
+    </div>
     <div class="duas-peq">
       <button class="linha-menu cor-ok" data-ir="social" data-param="jogar"><span class="ic2">${SVG('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M19 8v6M16 11h6"/>')}</span><span class="tx"><b>Convidar amigo</b><small>${onAgora ? onAgora + ' online agora' : 'Da sua lista'}</small></span></button>
       <button class="linha-menu cor-neutra" data-local="1"><span class="ic2">${SVG('<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>')}</span><span class="tx"><b>Mesmo aparelho</b><small>Passa o celular</small></span></button>

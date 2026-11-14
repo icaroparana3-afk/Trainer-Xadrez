@@ -71,6 +71,19 @@ service cloud.firestore {
       allow read, write: if request.auth != null
         && request.auth.uid in get(/databases/$(database)/documents/guildas/$(gid)).data.ids;
     }
+    // desafio do dia: cada jogador grava o próprio resultado uma vez só (não dá para mudar depois)
+    match /diarios/{data}/r/{uid} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == uid && request.resource.data.pts is int
+        && request.resource.data.pts >= 0 && request.resource.data.pts <= 1000;
+    }
+    // torneio da semana: cada jogador grava e atualiza só o próprio resultado
+    match /torneios/{semana}/r/{uid} {
+      allow read: if request.auth != null;
+      allow create, update: if request.auth != null && request.auth.uid == uid && request.resource.data.pts is int
+        && request.resource.data.pts >= 0 && request.resource.data.pts <= 5000
+        && (resource == null || request.resource.data.pts >= resource.data.pts);
+    }
     // salas de partidas online: quem tem conta pode criar e entrar;
     // depois que a sala fecha, só os dois jogadores podem mexer nela
     match /salas/{codigo} {
