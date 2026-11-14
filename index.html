@@ -1176,6 +1176,62 @@ svg.gema{fill:#7fd8ff;stroke:#1d6f99;stroke-width:1.4;stroke-linejoin:round}
 .home-cab .cab-dir .bt-ic{width:35px;height:35px;border-radius:11px}
 body.com-nav[data-tela="menu"] #tela{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
 
+/* ===== guildas ===== */
+.emblema{--t:44px;position:relative;flex:none;width:var(--t);height:calc(var(--t)*1.08);display:grid;place-items:center;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--g) 85%,#fff),var(--g) 45%,color-mix(in srgb,var(--g) 60%,#000));
+  clip-path:polygon(50% 0,100% 12%,100% 58%,50% 100%,0 58%,0 12%);filter:drop-shadow(0 2px 3px rgba(0,0,0,.3))}
+.emblema i{font-style:normal;font-size:calc(var(--t)*.5);line-height:1;margin-top:-8%;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.45)}
+.tag-g{display:inline-block;padding:0 5px;border-radius:5px;background:var(--sup3);color:var(--txt2);font:700 .68rem/1.5 Inter,sans-serif;letter-spacing:.05em;vertical-align:1px}
+.gd-it .rk-tx b{display:flex;align-items:center;gap:6px}
+.gd-hero{display:flex;gap:14px;align-items:center}
+.gd-hero-ic{font-size:2.4rem}
+.gd-hero b{font-size:1.05rem}
+.gd-pend{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.gd-cab{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;background:linear-gradient(180deg,color-mix(in srgb,var(--g) 16%,var(--sup)),var(--sup) 60%)}
+.gd-cab h2{font-size:1.3rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
+.gd-desc{color:var(--txt2);font-size:.9rem;max-width:420px}
+.gd-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;margin:6px 0 2px}
+.gd-nums div{background:var(--sup2);border-radius:12px;padding:8px 4px;display:flex;flex-direction:column}
+.gd-nums b{font-family:var(--tit);font-size:1.1rem}
+.gd-nums small{font-size:.72rem;color:var(--txt2)}
+.gd-cod{font-size:.78rem}
+.gd-acoes{flex-wrap:wrap;justify-content:center;gap:8px}
+.gd-lider{color:var(--dest)!important}
+.gd-mais{width:36px;height:36px;font-size:1.2rem;font-weight:800}
+.gd-escrever{display:flex;gap:8px;margin-bottom:12px}
+.gd-escrever .campo{flex:1}
+.gd-escrever .bt{width:48px;padding:0;flex:none}
+.gd-escrever svg{width:20px;height:20px;fill:currentColor}
+.gd-posts{display:flex;flex-direction:column;gap:10px}
+.gd-post{display:flex;gap:10px;align-items:flex-start}
+.gd-post>div{flex:1;min-width:0;background:var(--sup2);border-radius:4px 14px 14px 14px;padding:8px 12px}
+.gd-post.meu>div{background:color-mix(in srgb,var(--dest) 14%,var(--sup2))}
+.gd-quem{display:flex;align-items:baseline;gap:8px}
+.gd-quem b{font-size:.85rem}.gd-quem small{font-size:.72rem;color:var(--txt2);flex:1}
+.gd-post p{font-size:.92rem;overflow-wrap:anywhere;-webkit-user-select:text;user-select:text}
+.gd-apagar{color:var(--txt2);font-size:1.1rem;line-height:1;padding:0 4px}
+.gd-sis{text-align:center;font-size:.76rem;color:var(--txt2);padding:2px 0}
+.gd-prev{display:flex;align-items:center;gap:14px}
+.gd-prev b{font-size:1.1rem}
+.gd-form{display:flex;flex-direction:column;gap:8px}
+.gd-form label,.gd-form>span.sub{margin-top:6px}
+.gd-form textarea{resize:none;font:inherit}
+.gd-ics{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.gd-ics button{aspect-ratio:1;border-radius:10px;background:var(--sup2);font-size:1.25rem;border:2px solid transparent}
+.gd-ics button.on{border-color:var(--dest);background:var(--dest-bg)}
+.gd-cores{display:flex;gap:10px;flex-wrap:wrap}
+.gd-cores button{width:34px;height:34px;border-radius:50%;background:var(--c);border:3px solid transparent;box-shadow:0 0 0 1px var(--linha)}
+.gd-cores button.on{border-color:var(--txt)}
+.jg-guilda{margin-top:4px;padding:5px 12px;border-radius:999px;background:var(--sup2);font-size:.85rem;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.rk-sub{margin-top:-2px}
+.rk-g.eu{border:1px solid var(--dest);background:var(--dest-bg)}
+.pf-tile .ic2 .emblema{--t:26px}
+.gd-ics{grid-template-columns:repeat(8,minmax(0,1fr))}
+.gd-ics button{font-size:1.1rem;min-width:0;padding:0}
+.gd-acoes{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:6px}
+.gd-acoes .bt{padding-left:6px;padding-right:6px;white-space:nowrap}
+.gd-cores button{width:30px;height:30px}
+
 </style>
 </head>
 <body>
@@ -3122,6 +3178,8 @@ const Dados = {
       missoes: null,                                         // missões do dia: {dia, lista, prog, pegas, bau}
       ranque: { pts: 1000, n: 0, t: 0, melhor: 1000 },        // pontos das partidas online
       amigos: {},                                            // uid -> {n: nome, a: foto, m: moldura, t: quando mudou, x: removido}
+      guilda: null,                                          // {id, nome, tag, ic, cor, t} — a guilda do jogador
+      guildaPedido: null,                                    // {g, nome, t} — pedido para entrar numa guilda fechada
       premios: {},                                           // prêmios do ranking: 'w2026-W46' -> posição (1 a 3), 'm2026-11' -> 1
       atualizadoEm: 0
     };
@@ -4605,6 +4663,8 @@ const CONQUISTAS = [
   { id: 'onv1', g: 'amigos', ic: '📣', nome: 'Zoeira liberada no grupo', desc: 'Vença um amigo numa partida online.', moedas: 40, ...cont('onlineV', 1) },
   { id: 'patinho', g: 'amigos', ic: '🐥', nome: 'Chame-o de patinho!', desc: 'Vença uma partida online.', moedas: 30, ...cont('onlineV', 1) },
   { id: 'quack', g: 'amigos', ic: '🦆', nome: 'Quack-quack', desc: 'Perca uma partida online.', moedas: 15, ...cont('onlineD', 1) },
+  { id: 'guilda1', g: 'amigos', ic: '🛡️', nome: 'Juntos somos mais fortes', desc: 'Entre numa guilda.', moedas: 30, ...flag('guilda') },
+  { id: 'fundador', g: 'amigos', ic: '🏰', nome: 'Fundador', desc: 'Crie a sua própria guilda.', moedas: 50, ...flag('fundador') },
   { id: 'amigo1', g: 'amigos', ic: '🫂', nome: 'Fazendo amizade', desc: 'Faça uma amizade (pedido aceito).', moedas: 20, ...flag('amigo') },
   { id: 'onv10', g: 'amigos', ic: '🏆', nome: 'Rei da resenha', desc: 'Vença 10 partidas online.', moedas: 120, ...cont('onlineV', 10) },
   // fases
@@ -4881,7 +4941,7 @@ const Perfil = {
         ${tile('data-ir-tela="historico"', 'cor-neutra', SVG('<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>'), 'Histórico', d.partidas.length ? d.partidas.length + ' partida' + (d.partidas.length > 1 ? 's' : '') : 'Nenhuma ainda')}
         ${tile('data-ir-tela="stats"', 'cor-dest', SVG('<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>'), 'Estatísticas', e.vitorias + ' vitória' + (e.vitorias === 1 ? '' : 's'))}
         ${tile('data-ir-tela="visual"', 'cor-info', SVG('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.5a6.5 6.5 0 0 1 11 0"/>'), 'Visual', 'Ícone e selos')}
-        ${tile('data-ir-tela="ranking"', 'cor-dest', SVG('<path d="M8 21V11H3v10zM15.5 21V5h-7v16zM21 21v-7h-5.5v7z"/>'), 'Ranking', 'Prêmios semanais')}
+        ${tile('data-ir-tela="guilda"', 'cor-dest', d.guilda && d.guilda.id ? htmlEmblema(d.guilda, 30) : SVG('<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>'), 'Guilda', d.guilda && d.guilda.id ? esc(d.guilda.nome) : d.guildaPedido ? 'Pedido enviado' : 'Jogue em equipe')}
         ${tile('data-ir-tela="conta"', u ? 'cor-ok' : 'cor-ruim', SVG('<path d="M7 18a5 5 0 0 1-.7-9.95A6 6 0 0 1 18 9a4.5 4.5 0 0 1-.5 9z"/>'), 'Conta', u ? 'Conectada' : 'Entrar')}
       </div></div>`;
     Avisos.selos();
@@ -5260,6 +5320,7 @@ const Ranking = {
       vit: estadoJogador().vitorias, conq: Object.keys(d.conquistas).length, seq: Math.max(d.sequencia.melhor || 0, d.sequencia.atual || 0),
       nomeB: normNome(nomeJogador()).slice(0, 20), cod: Nuvem.usuario ? codigoAmigo(Nuvem.usuario.uid) : '', conv: p.conv || 'todos' };
     o.sl = Selos.meus(d).join(',');
+    if (d.guilda && d.guilda.id) { o.gid = d.guilda.id; o.gt = d.guilda.tag || ''; o.gn = (d.guilda.nome || '').slice(0, 24); }
     if (d.ranque.n > 0) o.pts = d.ranque.pts;
     if (d.xpSemana > 0) o[campoSemana()] = d.xpSemana;
     if (d.xpSemanaAnt > 0) o[campoSemana(semanaAnterior())] = d.xpSemanaAnt;   // a semana que acabou continua valendo para os prêmios
@@ -5270,7 +5331,7 @@ const Ranking = {
     if (!Nuvem.usuario || !Nuvem.db) return;
     const o = this.doc(), chave = JSON.stringify(Object.assign({}, o, { t: 0, visto: 0 }));
     if (chave === this.enviado) { this.publicarHistorico(); return; }
-    try { await Nuvem.db.collection('ranking').doc(Nuvem.usuario.uid).set(o); this.enviado = chave; this.erro = null; }
+    try { await Nuvem.db.collection('ranking').doc(Nuvem.usuario.uid).set(o); this.enviado = chave; this.erro = null; Guilda.sincronizar(); }
     catch (e) { this.erro = e && e.code; }
     this.publicarHistorico();
   },
@@ -5290,21 +5351,33 @@ const Ranking = {
     const t = XP.titulo(x.nivel || 1), un = this.aba === 'online' ? 'pts' : 'XP';
     return `<div class="rk-it${eu ? ' eu' : ''}${pos && pos <= 3 ? ' top' + pos : ''}"${x.uid ? ` data-jogador="${esc(x.uid)}" role="button" tabindex="0"` : ''}><span class="rk-pos">${pos || '–'}</span>
       <span class="rk-av">${htmlAvatar(x.avatar || 'wn', Premios.moldDe(x), 40)}${XP.selo(x.nivel || 1, 20)}</span>
-      <span class="rk-tx"><b>${esc(x.nome || 'Jogador')}${Selos.html(Selos.dePerfil(x))}${eu ? ' <em>você</em>' : ''}</b><small>Nível ${x.nivel || 1} · ${t.nome}${this.aba === 'online' && x.on ? ' · ' + x.on + ' partidas' : ''}</small></span>
+      <span class="rk-tx"><b>${esc(x.nome || 'Jogador')}${x.gt ? ' ' + tagG({ tag: x.gt }) : ''}${Selos.html(Selos.dePerfil(x))}${eu ? ' <em>você</em>' : ''}</b><small>Nível ${x.nivel || 1} · ${t.nome}${this.aba === 'online' && x.on ? ' · ' + x.on + ' partidas' : ''}</small></span>
       <span class="rk-val">${(x.valor || 0).toLocaleString('pt-BR')}<small>${un}</small></span></div>`;
+  },
+  async telaGuildas(lista, msg) {
+    const sub = Guilda.abaRk; let l;
+    try { l = await Guilda.ranking(sub); }
+    catch (e) { if (App.atual !== 'ranking' || this.aba !== 'guildas') return; return e && e.code === 'permission-denied' ? msg('O ranking de guildas ainda não foi ativado', 'Falta atualizar as regras do banco de dados no Firebase.') : msg('Não consegui carregar', msgErro(e)); }
+    if (App.atual !== 'ranking' || this.aba !== 'guildas' || Guilda.abaRk !== sub) return;
+    const meu = Guilda.meuId();
+    lista.innerHTML = l.length ? l.map((g, i) => Guilda.linhaG(g, `<span class="rk-val">${(g.valor || 0).toLocaleString('pt-BR')}<small>XP</small></span>`, i + 1).replace('class="jg-it gd-it"', `class="jg-it gd-it rk-g${g.id === meu ? ' eu' : ''}${i < 3 ? ' top' + (i + 1) : ''}"`)).join('')
+      : `<div class="rk-vazio"><b>${sub === 'semana' ? 'Nenhuma guilda pontuou nesta semana ainda' : 'Nenhuma guilda ainda'}</b><span class="sub">Crie ou entre numa guilda no seu perfil.</span></div>`;
   },
   async tela() {
     App.cabecalho('Ranking', this.volta || 'jogar');
-    const abas = [['geral', 'Geral'], ['semana', 'Semana'], ['online', 'Online']];
-    const expl = { geral: 'Quem tem mais XP no total. Quem está em 1º usa a moldura exclusiva e o selo Nº 1.', semana: `Quem ganhou mais XP desde segunda-feira. ${Premios.fimSemana()}`, online: 'Pontos das partidas online: sobem quando você vence e descem quando perde. Todo mundo começa com 1000.' };
+    const abas = [['geral', 'Geral'], ['semana', 'Semana'], ['online', 'Online'], ['guildas', 'Guildas']];
+    const expl = { geral: 'Quem tem mais XP no total. Quem está em 1º usa a moldura exclusiva e o selo Nº 1.', semana: `Quem ganhou mais XP desde segunda-feira. ${Premios.fimSemana()}`, online: 'Pontos das partidas online: sobem quando você vence e descem quando perde. Todo mundo começa com 1000.', guildas: 'Soma do XP de todos os membros de cada guilda.' };
     const u = Nuvem.usuario, d = Dados.d;
     $('#tela').innerHTML = `<div class="pilha estreito">
       <div class="abas-rk" role="tablist">${abas.map(([id, n]) => `<button role="tab" aria-selected="${this.aba === id}" class="${this.aba === id ? 'on' : ''}" data-aba="${id}">${n}</button>`).join('')}</div>
+      ${this.aba === 'guildas' ? `<div class="opcoes c2 rk-sub">${[['semana', 'Nesta semana'], ['geral', 'Total']].map(([v, n]) => `<button class="op${Guilda.abaRk === v ? ' on' : ''}" data-abag="${v}">${n}</button>`).join('')}</div>` : ''}
       <p class="sub rk-exp">${expl[this.aba]}</p>${Premios.quadro(this.aba)}
       <div class="cartao rk-lista" id="rk-lista" aria-live="polite">${'<div class="rk-it esq"><span></span></div>'.repeat(5)}</div>
       ${u ? '' : '<div class="cartao destaque"><b>Entre com uma conta para aparecer no ranking</b><p class="sub" style="margin:4px 0 10px">É grátis e também salva seu progresso.</p><button class="bt pri" data-ir-perfil="1">Entrar na conta</button></div>'}</div>`;
     $('#tela').onclick = e => {
       const a = e.target.closest('[data-aba]'); if (a) { this.aba = a.dataset.aba; this.tela(); return; }
+      const ag = e.target.closest('[data-abag]'); if (ag) { Guilda.abaRk = ag.dataset.abag; this.tela(); return; }
+      const vg = e.target.closest('[data-ver-guilda]'); if (vg) { App.ir('guildaVer', vg.dataset.verGuilda); return; }
       if (e.target.closest('[data-ir-perfil]')) App.ir('conta');
       const j = e.target.closest('[data-jogador]'); if (j) { Social.voltar = 'ranking'; App.ir('jogador', j.dataset.jogador); }
     };
@@ -5315,6 +5388,7 @@ const Ranking = {
     if (Nuvem.estado !== 'pronta' || !Nuvem.db) return msg('Ranking indisponível agora', 'Não consegui conectar. Tente de novo daqui a pouco.');
     const aba = this.aba;
     if (u) await this.publicar();
+    if (aba === 'guildas') return this.telaGuildas(lista, msg);
     let l;
     try { l = await this.buscar(aba); }
     catch (e) {
@@ -7052,7 +7126,8 @@ const Nuvem = {
       Salas.verificarPendente();
       Convites.iniciar(); Pedidos.iniciar(); Perfis.pulso(); Avisos.vigiar();
       setTimeout(() => { Premios.ultima = Date.now(); Premios.conferir(); }, 2500);
-    } else { Convites.encerrar(); Pedidos.encerrar(); Avisos.parar(); }
+      setTimeout(() => { Guilda.ultCarga = Date.now(); Guilda.carregar(); }, 3500);
+    } else { Convites.encerrar(); Pedidos.encerrar(); Avisos.parar(); Guilda.dados = null; Guilda.id = null; Guilda.carregou = false; Guilda.pedidos = []; }
     this.repintar();
   },
   /* junta o progresso deste aparelho com o da conta, sem perder nada */
@@ -7094,6 +7169,8 @@ const Nuvem = {
     r.ranque.melhor = Math.max(r.ranque.melhor || 1000, a.ranque.melhor || 1000);
     r.amigos = Amigos.juntar(r.amigos, a.amigos);
     for (const k in a.premios) r.premios[k] = Math.max(r.premios[k] || 0, a.premios[k]);
+    if (((a.guilda && a.guilda.t) || 0) > ((r.guilda && r.guilda.t) || 0)) r.guilda = a.guilda;
+    if (((a.guildaPedido && a.guildaPedido.t) || 0) > ((r.guildaPedido && r.guildaPedido.t) || 0)) r.guildaPedido = a.guildaPedido;
     r.ajustes = a.ajustes; r.cfg = a.cfg; r.cfgAmigo = a.cfgAmigo; r.cfgOnline = a.cfgOnline;   // preferências do aparelho
     r.atualizadoEm = Math.max(a.atualizadoEm, r.atualizadoEm);
     Livro.recalcular(r);                     // por último: depende do livro e das conquistas já juntados
@@ -7844,7 +7921,9 @@ const Avisos = {
       `<button class="bt peq" data-pd-nao="${esc(p.id)}">Recusar</button><button class="bt peq pri" data-pd-sim="${esc(p.id)}">Aceitar</button>`, 'novo') }));
     Convites.lista.forEach(c => l.push({ t: c.criadoEm, h: linha(c.deAvatar, c.deMoldura, `<b>${esc(c.deNome)}</b> te convidou para uma partida <span class="sub">(${c.tempo ? c.tempo / 60 + ' min' : 'sem tempo'})</span>`, qd(c.criadoEm),
       `<button class="bt peq" data-cv-nao="${esc(c.id)}">Recusar</button><button class="bt peq pri" data-cv-sim="${esc(c.id)}">Aceitar</button>`, 'novo') }));
-    this.itens.forEach(x => l.push({ t: x.t, h: x.tipo === 'online'
+    this.itens.forEach(x => l.push({ t: x.t, h: x.tipo === 'guilda'
+      ? `<div class="av-it ${x.lido ? '' : 'novo'}">${x.avatar ? htmlAvatar(x.avatar, x.moldura || '', 42) : htmlEmblema(x.g, 42)}<div class="av-tx"><p>${x.html}</p><small>${qd(x.t)}</small><div class="fila"><button class="bt peq" data-ir-guilda>Ver guilda</button></div></div></div>`
+      : x.tipo === 'online'
       ? linha(x.avatar, x.moldura, `<b>${esc(x.nome)}</b> está online! Vamos desafiá-lo?`, qd(x.t), `<button class="bt peq pri" data-desafiar="${esc(x.uid)}">Desafiar</button>`, x.lido ? '' : 'novo')
       : linha(x.avatar, x.moldura, `<b>${esc(x.nome)}</b> aceitou seu pedido de amizade`, qd(x.t), `<button class="bt peq" data-jogador="${esc(x.uid)}">Ver perfil</button>`, x.lido ? '' : 'novo') }));
     l.sort((a, b) => b.t - a.t);
@@ -7861,6 +7940,7 @@ const Avisos = {
         if (App.atual === 'avisos') this.tela(); return;
       }
       const d = q('data-desafiar'); if (d) { this.desafiar(d.dataset.desafiar); return; }
+      if (q('data-ir-guilda')) { if (/pedidos|quer entrar/.test(e.target.closest('.av-it').textContent)) Guilda.aba = 'pedidos'; App.ir('guilda'); return; }
       const j = q('data-jogador'); if (j) { Social.voltar = 'avisos'; App.ir('jogador', j.dataset.jogador); }
     };
   }
@@ -7970,6 +8050,7 @@ const Social = {
       <div class="cartao jg-cab" style="--nv:${t.cor}">${htmlAvatar(p.avatar || 'wn', Premios.moldDe(Object.assign({ uid }, p)), 96)}
         <h2>${esc(p.nome || 'Jogador')}</h2>${(s => s ? `<span class="jg-selo">${s}</span>` : '')(Selos.html(Selos.dePerfil(Object.assign({}, p, { uid }))))}
         <span class="jg-nv">${XP.selo(nv, 26)} Nível ${nv} · ${t.nome}</span>
+        ${p.gid ? `<button class="jg-guilda" data-ver-guilda="${esc(p.gid)}">🛡️ ${esc(p.gn || 'Guilda')} ${tagG({ tag: p.gt })}</button>` : ''}
         <span class="sub ${estaOnline(p.visto) ? 'txt-on' : ''}">${eu ? 'Este é você' : vistoTxt(p.visto) || ''}</span></div>
       ${p.semDados ? '' : `<div class="cartao jg-est">${est((p.xp || 0).toLocaleString('pt-BR'), 'XP')}${est(p.pts || '—', 'Pontos online')}${est(p.on || 0, 'Partidas online')}
         ${est(p.vit != null ? p.vit : '—', 'Vitórias')}${est(p.conq != null ? p.conq : '—', 'Conquistas')}${est(p.seq ? p.seq + ' 🔥' : '—', 'Melhor sequência')}</div>`}
@@ -7978,6 +8059,7 @@ const Social = {
     this.jogadorAtual = p;
     this.pintarBotoes();
     $('#tela').onclick = async e => {
+      const vg = e.target.closest('[data-ver-guilda]'); if (vg) { Guilda.voltarVer = () => App.ir('jogador', uid); App.ir('guildaVer', vg.dataset.verGuilda); return; }
       const b = e.target.closest('button[data-acao]');
       if (b) {
         const ac = b.dataset.acao;
@@ -8061,6 +8143,482 @@ const Chat = {
     bar.appendChild(el); setTimeout(() => el.classList.add('sai'), 3200); setTimeout(() => el.remove(), 3700);
   }
 };
+
+/* ==========================================================================
+   GUILDAS — criar, entrar (aberta ou com pedido), membros, mural e ranking
+   Coleções: guildas/{código}, guildaPedidos/{código_uid}, murais/{código}
+   ========================================================================== */
+const EMBLEMAS = ['♞', '♜', '♝', '♛', '♚', '⚔️', '🛡️', '🔥', '⚡', '🐉', '🦁', '🦅', '🐺', '🌙', '⭐', '👑'];
+const CORES_G = ['#f2b544', '#e2442f', '#9b4dff', '#2f6fe0', '#3fb27f', '#e85d9e', '#1fb5c9', '#7a8699'];
+const GUILDA_MAX = 30, GUILDA_PRECO = 300;
+function htmlEmblema(g, tam = 44) {
+  return `<span class="emblema" style="--g:${esc((g && g.cor) || '#f2b544')};--t:${tam}px" aria-hidden="true"><i>${esc((g && g.ic) || '♞')}</i></span>`;
+}
+const tagG = g => g && g.tag ? `<span class="tag-g">${esc(g.tag)}</span>` : '';
+const codigoGuilda = () => { const a = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c = ''; for (let i = 0; i < 6; i++) c += a[Math.floor(Math.random() * a.length)]; return c; };
+
+const Guilda = {
+  dados: null, id: null, mural: [], pedidos: [], aba: 'mural', abaRk: 'semana', vistosPedidos: new Set(),
+  col(n = 'guildas') { return Nuvem.db.collection(n); },
+  uid() { return Nuvem.usuario ? Nuvem.usuario.uid : null; },
+  meuId() { const g = Dados.d.guilda; return (g && g.id) || null; },
+  souLider() { return !!(this.dados && this.dados.lider === this.uid()); },
+  /* o que cada membro mostra de si dentro da guilda */
+  minhaEntrada() {
+    const d = Dados.d, p = d.perfil;
+    return { n: nomeJogador().slice(0, 20), a: p.avatar || 'wn', mo: p.moldura === 'campeao' && !Premios.souRei() ? '' : p.moldura || '',
+      nv: XP.nivel(XP.total(d)).n, xp: XP.total(d), s: { s: semanaTxt(), v: d.xpSemana || 0 }, sl: Selos.meus(d).join(',') };
+  },
+  /* pontos da guilda: XP total e XP da semana somados de todos os membros */
+  somar(g) {
+    const s = semanaTxt(), c = campoSemana(s), ant = campoSemana(semanaAnterior());
+    let xp = 0, sv = 0;
+    g.ids.forEach(u => { const m = g.m[u]; if (!m) return; xp += m.xp || 0; if (m.s && m.s.s === s) sv += m.s.v || 0; });
+    for (const k in g) if (k.startsWith('s_') && k !== c && k !== ant) delete g[k];
+    g.xp = xp; g[c] = sv; g.n = g.ids.length; g.t = Date.now();
+    return g;
+  },
+  ptsSemana(g) { return (g && g[campoSemana()]) || 0; },
+  guardarLocal(g, id) {
+    const d = Dados.d;
+    d.guilda = g ? { id, nome: g.nome, tag: g.tag, ic: g.ic, cor: g.cor, t: Date.now() } : { id: null, t: Date.now() };
+    Dados.salvar(); Ranking.publicar();
+  },
+  /* uma transação no documento da guilda: fn recebe os dados e devolve os novos (ou null para não gravar) */
+  async mexer(id, fn) {
+    const ref = this.col().doc(id); let res = null;
+    await Nuvem.db.runTransaction(async t => {
+      const s = await t.get(ref); if (!s.exists) throw { code: 'sumiu' };
+      const g = s.data(); g.m = g.m || {}; g.ids = g.ids || [];
+      res = fn(g); if (res) t.set(ref, this.somar(res));
+    });
+    return res;
+  },
+  async postar(id, post) {
+    const ref = this.col('murais').doc(id);
+    await Nuvem.db.runTransaction(async t => {
+      const s = await t.get(ref), l = (s.exists && s.data().l) || [];
+      l.push(Object.assign({ t: Date.now() }, post)); t.set(ref, { l: l.slice(-60) });
+    });
+  },
+  sistema(id, txt) { return this.postar(id, { s: 1, txt }).catch(() => {}); },
+
+  /* ao entrar na conta e ao voltar ao app: confere se ainda é membro, se um pedido foi aceito
+     e (para o líder) se chegaram pedidos novos */
+  async carregar() {
+    const u = this.uid(); if (!u || !Nuvem.db || navigator.onLine === false) return;
+    const d = Dados.d;
+    try {
+      let id = this.meuId(), g = null;
+      if (id) {
+        const s = await this.col().doc(id).get();
+        g = s.exists ? s.data() : null;
+        if (!g || !(g.ids || []).includes(u)) {
+          const nome = (d.guilda && d.guilda.nome) || 'a guilda';
+          this.dados = null; this.id = null; this.guardarLocal(null);
+          Avisos.add({ id: 'g-fora-' + id, tipo: 'guilda', g: d.guilda || {}, html: g ? `Você não faz mais parte da guilda <b>${esc(nome)}</b>.` : `A guilda <b>${esc(nome)}</b> foi desfeita.` });
+          return;
+        }
+      } else {
+        const q = await this.col().where('ids', 'array-contains', u).limit(1).get();
+        if (q.docs[0]) {
+          id = q.docs[0].id; g = q.docs[0].data();
+          this.guardarLocal(g, id);
+          if (d.guildaPedido && d.guildaPedido.g === id) {
+            Avisos.add({ id: 'g-ok-' + id, tipo: 'guilda', g, html: `Seu pedido foi aceito! Agora você faz parte da guilda <b>${esc(g.nome)}</b>.` });
+            Avisos.faixa({ html: `Você entrou na guilda <b>${esc(g.nome)}</b>!`, botao: 'Ver', acao: () => App.ir('guilda') });
+            Conquistas.marcar('guilda'); Conquistas.verificar();
+          }
+          d.guildaPedido = null; Dados.salvar();
+        } else if (d.guildaPedido) {
+          const p = await this.col('guildaPedidos').doc(d.guildaPedido.g + '_' + u).get();
+          if (!p.exists) { d.guildaPedido = null; Dados.salvar(); }       // recusado
+        }
+      }
+      this.dados = g; this.id = id;
+      if (g) {
+        const loc = d.guilda || {};
+        if (loc.nome !== g.nome || loc.tag !== g.tag || loc.ic !== g.ic || loc.cor !== g.cor) this.guardarLocal(g, id);
+        if (g.lider === u) await this.lerPedidos(true);
+        this.sincronizar();
+      }
+    } catch (e) { /* sem internet ou regras antigas */ }
+  },
+  async lerPedidos(avisar) {
+    if (!this.id) return;
+    try {
+      const s = await this.col('guildaPedidos').where('g', '==', this.id).get();
+      this.pedidos = s.docs.map(x => Object.assign({ id: x.id }, x.data())).sort((a, b) => a.t - b.t);
+    } catch (e) { this.pedidos = []; }
+    if (avisar) {
+      const novos = this.pedidos.filter(p => !this.vistosPedidos.has(p.id));
+      novos.forEach(p => { this.vistosPedidos.add(p.id); Avisos.add({ id: 'g-pd-' + p.id, tipo: 'guilda', g: this.dados, avatar: p.a, moldura: p.mo, html: `<b>${esc(p.n)}</b> quer entrar na sua guilda` }); });
+      if (novos.length && App.atual !== 'guilda') Avisos.faixa({ avatar: novos[0].a, moldura: novos[0].mo, html: novos.length > 1 ? `${novos.length} pedidos para entrar na guilda` : `<b>${esc(novos[0].n)}</b> quer entrar na sua guilda`, botao: 'Ver', acao: () => { this.aba = 'pedidos'; App.ir('guilda'); } });
+    }
+  },
+  /* atualiza a linha do jogador dentro da guilda (XP, nível, foto) e os totais */
+  async sincronizar() {
+    const id = this.meuId(), u = this.uid(); if (!id || !u || !Nuvem.db) return;
+    const e = this.minhaEntrada(), chave = JSON.stringify(e);
+    if (chave === this.enviado || this.sincronizando) return;
+    this.sincronizando = true;
+    try {
+      const g = await this.mexer(id, g => {
+        if (!g.ids.includes(u)) return null;
+        g.m[u] = Object.assign({}, g.m[u] || {}, e);
+        return g;
+      });
+      if (g) { this.dados = g; this.enviado = chave; }
+    } catch (err) { /* tenta de novo depois */ }
+    this.sincronizando = false;
+  },
+
+  /* ---------- ações ---------- */
+  async criar(f) {
+    const u = this.uid(), d = Dados.d;
+    if (!u) throw { msg: 'Entre na sua conta para criar uma guilda.' };
+    if (this.meuId()) throw { msg: 'Você já está numa guilda.' };
+    if (d.moedas < GUILDA_PRECO) throw { msg: `Criar uma guilda custa ${GUILDA_PRECO} moedas. Faltam ${GUILDA_PRECO - d.moedas}.` };
+    let id = codigoGuilda();
+    for (let k = 0; k < 4 && (await this.col().doc(id).get()).exists; k++) id = codigoGuilda();
+    const g = { nome: f.nome, nomeB: normNome(f.nome).slice(0, 24), tag: f.tag, ic: f.ic, cor: f.cor, desc: f.desc, aberta: f.aberta,
+      lider: u, ids: [u], m: { [u]: Object.assign(this.minhaEntrada(), { e: Date.now(), cg: 'lider' }) }, criada: Date.now() };
+    await this.col().doc(id).set(this.somar(g));
+    Moedas.gastar(GUILDA_PRECO);
+    await this.sistema(id, `${nomeJogador()} fundou a guilda`);
+    this.dados = g; this.id = id; d.guildaPedido = null; this.guardarLocal(g, id);
+    Conquistas.marcar('guilda'); Conquistas.marcar('fundador'); Dados.salvar(); Conquistas.verificar();
+    return id;
+  },
+  async entrar(id) {
+    const u = this.uid(), d = Dados.d;
+    if (!u) throw { msg: 'Entre na sua conta para entrar numa guilda.' };
+    if (this.meuId()) throw { msg: 'Saia da sua guilda antes de entrar em outra.' };
+    const s = await this.col().doc(id).get(); if (!s.exists) throw { msg: 'Essa guilda não existe mais.' };
+    const info = s.data();
+    if ((info.ids || []).length >= GUILDA_MAX) throw { msg: 'Essa guilda está cheia (30 membros).' };
+    if (!info.aberta) {
+      const e = this.minhaEntrada();
+      await this.col('guildaPedidos').doc(id + '_' + u).set({ g: id, uid: u, n: e.n, a: e.a, mo: e.mo, nv: e.nv, xp: e.xp, sl: e.sl, t: Date.now() });
+      d.guildaPedido = { g: id, nome: info.nome, t: Date.now() }; Dados.salvar();
+      return 'pedido';
+    }
+    const g = await this.mexer(id, g => {
+      if (g.ids.includes(u)) return g;
+      if (g.ids.length >= GUILDA_MAX) throw { msg: 'Essa guilda acabou de lotar.' };
+      if (!g.aberta) throw { msg: 'Essa guilda passou a aceitar só por pedido. Tente de novo.' };
+      g.ids.push(u); g.m[u] = Object.assign(this.minhaEntrada(), { e: Date.now(), cg: 'membro' });
+      return g;
+    });
+    this.dados = g; this.id = id; d.guildaPedido = null; this.guardarLocal(g, id);
+    await this.sistema(id, `${nomeJogador()} entrou na guilda`);
+    Conquistas.marcar('guilda'); Dados.salvar(); Conquistas.verificar();
+    return 'dentro';
+  },
+  async cancelarPedido() {
+    const d = Dados.d, p = d.guildaPedido; if (!p) return;
+    await this.col('guildaPedidos').doc(p.g + '_' + this.uid()).delete().catch(() => {});
+    d.guildaPedido = null; Dados.salvar();
+  },
+  async responderPedido(p, sim) {
+    if (sim) {
+      const g = await this.mexer(this.id, g => {
+        if (g.ids.includes(p.uid)) return g;
+        if (g.ids.length >= GUILDA_MAX) throw { msg: 'A guilda está cheia (30 membros).' };
+        g.ids.push(p.uid); g.m[p.uid] = { n: p.n, a: p.a, mo: p.mo, nv: p.nv, xp: p.xp, sl: p.sl || '', s: { s: '', v: 0 }, e: Date.now(), cg: 'membro' };
+        return g;
+      });
+      this.dados = g;
+      await this.sistema(this.id, `${p.n} entrou na guilda`);
+    }
+    await this.col('guildaPedidos').doc(p.id).delete().catch(() => {});
+    this.pedidos = this.pedidos.filter(x => x.id !== p.id);
+  },
+  async remover(uid) {
+    const nome = (this.dados.m[uid] || {}).n || 'Jogador';
+    this.dados = await this.mexer(this.id, g => { g.ids = g.ids.filter(x => x !== uid); delete g.m[uid]; return g; });
+    await this.sistema(this.id, `${nome} foi removido da guilda`);
+  },
+  async passarLideranca(uid) {
+    const nome = (this.dados.m[uid] || {}).n || 'Jogador';
+    this.dados = await this.mexer(this.id, g => {
+      if (!g.ids.includes(uid)) throw { msg: 'Esse jogador não está mais na guilda.' };
+      if (g.m[g.lider]) g.m[g.lider].cg = 'membro';
+      g.lider = uid; g.m[uid].cg = 'lider'; return g;
+    });
+    await this.sistema(this.id, `${nome} agora é o líder`);
+  },
+  async sair() {
+    const u = this.uid(), id = this.id || this.meuId(), d = Dados.d;
+    if (!id) return;
+    const g = this.dados;
+    if (g && g.ids.length <= 1) return this.desfazer();
+    let novo = null;
+    await this.mexer(id, g => {
+      g.ids = g.ids.filter(x => x !== u); delete g.m[u];
+      if (g.lider === u) {                            // o líder saiu: passa para o membro mais antigo
+        novo = g.ids.slice().sort((a, b) => ((g.m[a] || {}).e || 0) - ((g.m[b] || {}).e || 0))[0];
+        g.lider = novo; if (g.m[novo]) g.m[novo].cg = 'lider';
+      }
+      return g;
+    }).catch(e => { if (!e || e.code !== 'sumiu') throw e; });
+    await this.sistema(id, `${nomeJogador()} saiu da guilda` + (novo && g && g.m[novo] ? ` · ${g.m[novo].n} agora é o líder` : ''));
+    this.dados = null; this.id = null; this.guardarLocal(null); d.guildaPedido = null; Dados.salvar();
+  },
+  async desfazer() {
+    const id = this.id;
+    await this.col('murais').doc(id).delete().catch(() => {});
+    await this.col().doc(id).delete();
+    this.dados = null; this.id = null; this.guardarLocal(null);
+  },
+  async editar(f) {
+    this.dados = await this.mexer(this.id, g => Object.assign(g, { nome: f.nome, nomeB: normNome(f.nome).slice(0, 24), tag: f.tag, ic: f.ic, cor: f.cor, desc: f.desc, aberta: f.aberta }));
+    this.guardarLocal(this.dados, this.id);
+  },
+  async buscar(txt) {
+    const q = normNome(txt), cod = String(txt).trim().toUpperCase().replace(/[^A-Z0-9]/g, ''), res = {};
+    const junta = snap => snap.docs.forEach(x => { res[x.id] = Object.assign({ id: x.id }, x.data()); });
+    if (cod.length === 6) { const s = await this.col().doc(cod).get(); if (s.exists) res[cod] = Object.assign({ id: cod }, s.data()); }
+    if (q.length >= 2) junta(await this.col().orderBy('nomeB').startAt(q).endAt(q + '').limit(15).get());
+    return Object.values(res);
+  },
+  async ranking(aba) {
+    const c = aba === 'geral' ? 'xp' : campoSemana();
+    const s = await this.col().orderBy(c, 'desc').limit(50).get();
+    return s.docs.map(x => Object.assign({ id: x.id }, x.data(), { valor: x.data()[c] || 0 }));
+  },
+
+  /* ---------- telas ---------- */
+  linhaG(g, extra = '', pos) {
+    return `<div class="jg-it gd-it" data-ver-guilda="${esc(g.id)}" role="button" tabindex="0">${pos ? `<span class="rk-pos">${pos}</span>` : ''}${htmlEmblema(g, 42)}
+      <span class="rk-tx"><b>${esc(g.nome)} ${tagG(g)}</b><small>${g.n || (g.ids || []).length}/${GUILDA_MAX} membros · ${g.aberta ? 'aberta' : 'com pedido'}</small></span>${extra}</div>`;
+  },
+  msg(tit, txt, bt) {
+    $('#tela').innerHTML = `<div class="pilha estreito"><div class="cartao final"><span style="font-size:2.4rem">🛡️</span><b>${tit}</b><p class="sub" style="margin:6px 0 12px">${txt}</p>${bt || ''}</div></div>`;
+  },
+  async tela() {
+    App.cabecalho('Guilda', 'perfil');
+    if (!Nuvem.configurada()) return this.msg('Guildas indisponíveis', 'Este aparelho não está ligado à nuvem do jogo.');
+    for (let k = 0; k < 40 && Nuvem.estado === 'carregando'; k++) await espera(150);
+    if (!this.uid()) { this.msg('Entre na sua conta', 'As guildas precisam de uma conta para juntar os jogadores.', '<button class="bt pri" data-ir-conta>Entrar ou criar conta</button>'); $('#tela').onclick = e => { if (e.target.closest('[data-ir-conta]')) App.ir('conta'); }; return; }
+    if (navigator.onLine === false) return this.msg('Sem internet', 'As guildas precisam de internet.');
+    if (!this.carregou || this.meuId() !== this.id) { $('#tela').innerHTML = '<div class="pilha estreito"><div class="cartao final"><p class="sub">Carregando…</p></div></div>'; await this.carregar(); this.carregou = true; if (App.atual !== 'guilda') return; }
+    if (this.id && this.dados) this.telaMinha(); else this.telaSem();
+  },
+  /* sem guilda: criar, buscar e guildas em destaque */
+  async telaSem() {
+    const d = Dados.d, p = d.guildaPedido;
+    $('#tela').innerHTML = `<div class="pilha estreito">
+      <div class="cartao gd-hero"><span class="gd-hero-ic">🛡️</span><div><b>Jogue em equipe</b><p class="sub">Numa guilda, todo XP que você ganha soma pontos para o time no ranking de guildas. Até ${GUILDA_MAX} membros.</p></div></div>
+      ${p ? `<div class="cartao destaque gd-pend"><div><b>Pedido enviado</b><p class="sub">Aguardando o líder da guilda <b>${esc(p.nome)}</b> aceitar.</p></div><button class="bt peq" data-cancelar-pd>Cancelar</button></div>` : ''}
+      <button class="linha-menu cor-dest" data-criar><span class="ic2">${SVG('<path d="M12 5v14M5 12h14"/>')}</span><span class="tx"><b>Criar guilda</b><small>Custa ${MOEDA} ${GUILDA_PRECO} · você vira o líder</small></span>${SETA}</button>
+      <div class="cartao"><h3>Buscar guilda</h3>
+        <div class="fila"><input class="campo" id="gd-busca" placeholder="Nome ou código da guilda" autocomplete="off" enterkeyhint="search" style="flex:1"><button class="bt pri" id="gd-ir">Buscar</button></div>
+        <div id="gd-res" class="jg-lista"></div></div>
+      <div class="cartao"><div class="ms-cab"><h3>Em destaque nesta semana</h3></div><div id="gd-top" class="jg-lista"><p class="sub">Carregando…</p></div></div></div>`;
+    const ir = async () => {
+      const t = $('#gd-busca').value.trim(), el = $('#gd-res');
+      if (t.length < 2) { el.innerHTML = '<p class="sub">Digite pelo menos 2 letras.</p>'; return; }
+      el.innerHTML = '<p class="sub">Buscando…</p>';
+      try { const l = await this.buscar(t); el.innerHTML = l.length ? l.map(g => this.linhaG(g, SETA)).join('') : '<p class="sub">Nenhuma guilda encontrada.</p>'; }
+      catch (e) { el.innerHTML = `<p class="sub">${e && e.code === 'permission-denied' ? 'As guildas ainda não foram ativadas (falta atualizar as regras do Firebase).' : 'Não consegui buscar: ' + esc(msgErro(e))}</p>`; }
+    };
+    $('#gd-ir').onclick = ir;
+    $('#gd-busca').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); ir(); } });
+    $('#tela').onclick = async e => {
+      if (e.target.closest('[data-criar]')) { App.ir('guildaCriar'); return; }
+      if (e.target.closest('[data-cancelar-pd]')) { await this.cancelarPedido(); aviso('Pedido cancelado.'); this.telaSem(); return; }
+      const v = e.target.closest('[data-ver-guilda]'); if (v) App.ir('guildaVer', v.dataset.verGuilda);
+    };
+    try {
+      let l = await this.ranking('semana'); if (l.length < 5) { const g = await this.ranking('geral'); g.forEach(x => { if (!l.some(y => y.id === x.id)) l.push(x); }); }
+      if (App.atual !== 'guilda') return;
+      $('#gd-top').innerHTML = l.length ? l.slice(0, 15).map(g => this.linhaG(g, `<span class="rk-val">${this.ptsSemana(g).toLocaleString('pt-BR')}<small>XP sem.</small></span>`)).join('') : '<p class="sub">Ainda não existe nenhuma guilda. Que tal criar a primeira?</p>';
+    } catch (e) { if ($('#gd-top')) $('#gd-top').innerHTML = `<p class="sub">${e && e.code === 'permission-denied' ? 'As guildas ainda não foram ativadas (falta atualizar as regras do Firebase).' : 'Não consegui carregar as guildas.'}</p>`; }
+  },
+  /* guilda de outra pessoa (ou uma que você ainda não entrou) */
+  async telaVer(id) {
+    App.cabecalho('Guilda', this.voltarVer || 'guilda');
+    $('#tela').innerHTML = '<div class="pilha estreito"><div class="cartao final"><p class="sub">Carregando…</p></div></div>';
+    let g = null; try { const s = await this.col().doc(id).get(); g = s.exists ? s.data() : null; } catch (e) { g = null; }
+    if (App.atual !== 'guildaVer') return;
+    if (!g) return this.msg('Guilda não encontrada', 'Ela pode ter sido desfeita.');
+    if (id === this.meuId()) { App.ir('guilda'); return; }
+    const d = Dados.d, cheia = g.ids.length >= GUILDA_MAX, pend = d.guildaPedido && d.guildaPedido.g === id;
+    let bt = '';
+    if (!this.uid()) bt = '<button class="bt pri cheio" data-ir-conta>Entre na conta para participar</button>';
+    else if (this.meuId()) bt = '<p class="sub" style="text-align:center">Você já está numa guilda. Saia dela para entrar nesta.</p>';
+    else if (pend) bt = '<button class="bt cheio" data-cancelar-pd>Pedido enviado · cancelar</button>';
+    else if (cheia) bt = '<p class="sub" style="text-align:center">Esta guilda está cheia.</p>';
+    else bt = `<button class="bt pri cheio" data-entrar>${g.aberta ? 'Entrar na guilda' : 'Pedir para entrar'}</button>`;
+    $('#tela').innerHTML = `<div class="pilha estreito">${this.htmlCab(g, id)}${bt}
+      <div class="cartao"><div class="ms-cab"><h3>Membros</h3><span class="sub">${g.ids.length}/${GUILDA_MAX}</span></div><div class="jg-lista">${this.htmlMembros(g, false)}</div></div></div>`;
+    $('#tela').onclick = async e => {
+      if (e.target.closest('[data-ir-conta]')) { App.ir('conta'); return; }
+      if (e.target.closest('[data-cancelar-pd]')) { await this.cancelarPedido(); aviso('Pedido cancelado.'); this.telaVer(id); return; }
+      const b = e.target.closest('[data-entrar]');
+      if (b) {
+        b.disabled = true;
+        try { const r = await this.entrar(id); if (r === 'pedido') { aviso('Pedido enviado! Espere o líder aceitar.'); this.telaVer(id); } else { aviso(`Bem-vindo à guilda ${g.nome}!`); App.ir('guilda'); } }
+        catch (err) { b.disabled = false; aviso(err.msg || msgErro(err)); }
+        return;
+      }
+      const j = e.target.closest('[data-jogador]'); if (j) { Social.voltar = () => App.ir('guildaVer', id); App.ir('jogador', j.dataset.jogador); }
+    };
+  },
+  htmlCab(g, id) {
+    return `<div class="cartao gd-cab" style="--g:${esc(g.cor || '#f2b544')}">${htmlEmblema(g, 76)}
+      <h2>${esc(g.nome)} ${tagG(g)}</h2>${g.desc ? `<p class="gd-desc">${esc(g.desc)}</p>` : ''}
+      <div class="gd-nums"><div><b>${g.ids.length}/${GUILDA_MAX}</b><small>membros</small></div><div><b>${this.ptsSemana(g).toLocaleString('pt-BR')}</b><small>XP na semana</small></div><div><b>${(g.xp || 0).toLocaleString('pt-BR')}</b><small>XP total</small></div></div>
+      <span class="sub gd-cod">Código: <b>${esc(id)}</b> · ${g.aberta ? 'qualquer um pode entrar' : 'entrada com pedido'}</span></div>`;
+  },
+  htmlMembros(g, gerenciar) {
+    const s = semanaTxt(), sem = m => (m.s && m.s.s === s ? m.s.v || 0 : 0);
+    return g.ids.filter(u => g.m[u]).sort((a, b) => (b === g.lider) - (a === g.lider) || sem(g.m[b]) - sem(g.m[a])).map(u => {
+      const m = g.m[u], eu = u === this.uid();
+      return `<div class="jg-it" data-jogador="${esc(u)}" role="button" tabindex="0"><span class="rk-av">${htmlAvatar(m.a || 'wn', Premios.moldDe({ uid: u, moldura: m.mo }), 40)}${XP.selo(m.nv || 1, 20)}</span>
+        <span class="rk-tx"><b>${esc(m.n || 'Jogador')}${u === g.lider ? ' <em class="gd-lider">líder</em>' : ''}${eu ? ' <em>você</em>' : ''}</b><small>Nível ${m.nv || 1} · ${sem(m).toLocaleString('pt-BR')} XP na semana</small></span>
+        ${gerenciar && !eu ? `<button class="bt-ic gd-mais" data-gerenciar="${esc(u)}" aria-label="Opções para ${esc(m.n)}">⋯</button>` : ''}</div>`;
+    }).join('');
+  },
+  /* minha guilda: mural, membros e pedidos */
+  telaMinha() {
+    const g = this.dados, id = this.id, lider = this.souLider();
+    if (!lider && this.aba === 'pedidos') this.aba = 'mural';
+    const abas = [['mural', 'Mural'], ['membros', 'Membros']].concat(lider ? [['pedidos', 'Pedidos' + (this.pedidos.length ? ` <i class="selo-n">${this.pedidos.length}</i>` : '')]] : []);
+    $('#tela').innerHTML = `<div class="pilha estreito">${this.htmlCab(g, id)}
+      <div class="fila gd-acoes"><button class="bt peq" data-rk-g>🏆 Ranking</button><button class="bt peq" data-copiar>Código</button>${lider ? '<button class="bt peq" data-editar>Editar</button>' : ''}<button class="bt peq perigo" data-sair>Sair</button></div>
+      <div class="abas">${abas.map(([a, n]) => `<button class="aba${this.aba === a ? ' on' : ''}" data-aba="${a}">${n}</button>`).join('')}</div>
+      <div id="gd-corpo"></div></div>`;
+    this.pintarCorpo();
+    $('#tela').onclick = e => this.clique(e);
+    App.aoSair = () => { if (this.pararMural) { this.pararMural(); this.pararMural = null; } $('#tela').onclick = null; };
+    if (!this.pararMural) {
+      try { this.pararMural = this.col('murais').doc(id).onSnapshot(s => { this.mural = (s.exists && s.data().l) || []; if (App.atual === 'guilda' && this.aba === 'mural') this.pintarCorpo(); }, () => {}); } catch (e) { /* sem mural */ }
+    }
+    if (lider) this.lerPedidos(false).then(() => { if (App.atual === 'guilda') { const b = $('[data-aba=pedidos]'); if (b) b.innerHTML = 'Pedidos' + (this.pedidos.length ? ` <i class="selo-n">${this.pedidos.length}</i>` : ''); if (this.aba === 'pedidos') this.pintarCorpo(); } });
+  },
+  pintarCorpo() {
+    const el = $('#gd-corpo'); if (!el) return;
+    const g = this.dados, lider = this.souLider(), u = this.uid();
+    if (this.aba === 'membros') { el.innerHTML = `<div class="cartao"><div class="jg-lista">${this.htmlMembros(g, lider)}</div></div>`; return; }
+    if (this.aba === 'pedidos') {
+      el.innerHTML = `<div class="cartao">${this.pedidos.length ? `<div class="jg-lista">${this.pedidos.map(p => `<div class="jg-it conv-it">${htmlAvatar(p.a || 'wn', p.mo || '', 40)}<span class="rk-tx"><b>${esc(p.n)}</b><small>Nível ${p.nv || 1} · ${(p.xp || 0).toLocaleString('pt-BR')} XP</small></span>
+        <button class="bt peq" data-pd-g="nao" data-id="${esc(p.id)}">Recusar</button><button class="bt peq pri" data-pd-g="sim" data-id="${esc(p.id)}">Aceitar</button></div>`).join('')}</div>` : '<p class="sub">Nenhum pedido agora. Quando alguém pedir para entrar, aparece aqui.</p>'}</div>`;
+      return;
+    }
+    const qd = t => { const m = Math.floor((Date.now() - t) / 60000); return m < 1 ? 'agora' : m < 60 ? `${m} min` : m < 1440 ? `${Math.floor(m / 60)} h` : new Date(t).toLocaleDateString('pt-BR'); };
+    const posts = this.mural.slice().reverse();
+    el.innerHTML = `<div class="cartao gd-mural">
+      <div class="gd-escrever"><input class="campo" id="gd-txt" maxlength="140" placeholder="Escreva para a guilda…" autocomplete="off" enterkeyhint="send"><button class="bt pri" id="gd-env" aria-label="Enviar">${SVG('<path d="M4 12l16-8-6 16-3-7z"/>')}</button></div>
+      <div class="gd-posts">${posts.length ? posts.map(p => p.s ? `<p class="gd-sis">${esc(p.txt)} · ${qd(p.t)}</p>`
+        : `<div class="gd-post${p.u === u ? ' meu' : ''}">${htmlAvatar(p.a || 'wn', '', 34)}<div><span class="gd-quem"><b>${esc(p.n || 'Jogador')}</b><small>${qd(p.t)}</small>${p.u === u || lider ? `<button class="gd-apagar" data-apagar="${p.t}" aria-label="Apagar mensagem">×</button>` : ''}</span><p>${esc(p.txt)}</p></div></div>`).join('')
+        : '<p class="sub">Nenhuma mensagem ainda. Dê um oi para a guilda!</p>'}</div></div>`;
+    const env = async () => {
+      const i = $('#gd-txt'), txt = i.value.trim().slice(0, 140); if (!txt) return;
+      if (Date.now() - (this.ultPost || 0) < 4000) { aviso('Espere um pouquinho para mandar outra.'); return; }
+      this.ultPost = Date.now(); i.value = '';
+      const e = this.minhaEntrada();
+      try { await this.postar(this.id, { u, n: e.n, a: e.a, txt }); } catch (err) { aviso('Não consegui enviar: ' + msgErro(err)); i.value = txt; }
+    };
+    $('#gd-env').onclick = env;
+    $('#gd-txt').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); env(); } });
+  },
+  async clique(e) {
+    const q = a => e.target.closest('[' + a + ']');
+    const a = q('data-aba'); if (a) { this.aba = a.dataset.aba; $$('.abas .aba').forEach(b => b.classList.toggle('on', b === a)); this.pintarCorpo(); return; }
+    if (q('data-rk-g')) { Ranking.aba = 'guildas'; App.ir('ranking'); return; }
+    if (q('data-copiar')) { try { await navigator.clipboard.writeText(this.id); aviso('Código copiado!'); } catch (err) { aviso('Código da guilda: ' + this.id, 5000); } return; }
+    if (q('data-editar')) { App.ir('guildaCriar', 'editar'); return; }
+    if (q('data-sair')) {
+      const g = this.dados, so = g.ids.length <= 1, lider = this.souLider();
+      const ok = await modal(so ? 'Desfazer a guilda?' : 'Sair da guilda?', so ? 'Você é o único membro. Se sair, a guilda e o mural serão apagados.' : lider ? 'Você é o líder. Se sair, a liderança passa para o membro mais antigo.' : `Você vai deixar a guilda ${g.nome}. Pode entrar de novo depois, se ela aceitar.`,
+        [{ txt: 'Cancelar', val: false }, { txt: so ? 'Desfazer' : 'Sair', cls: 'perigo', val: true }]);
+      if (!ok) return;
+      try { await this.sair(); aviso(so ? 'Guilda desfeita.' : 'Você saiu da guilda.'); if (this.pararMural) { this.pararMural(); this.pararMural = null; } this.telaSem(); } catch (err) { aviso(err.msg || msgErro(err)); }
+      return;
+    }
+    const ap = q('data-apagar');
+    if (ap) {
+      const t = +ap.dataset.apagar;
+      try { await Nuvem.db.runTransaction(async tr => { const ref = this.col('murais').doc(this.id), s = await tr.get(ref); tr.set(ref, { l: ((s.exists && s.data().l) || []).filter(p => p.t !== t) }); }); } catch (err) { aviso(msgErro(err)); }
+      return;
+    }
+    const pd = q('data-pd-g');
+    if (pd) {
+      const p = this.pedidos.find(x => x.id === pd.dataset.id); if (!p) return;
+      try { await this.responderPedido(p, pd.dataset.pdG === 'sim'); aviso(pd.dataset.pdG === 'sim' ? `${p.n} entrou na guilda!` : 'Pedido recusado.'); } catch (err) { aviso(err.msg || msgErro(err)); }
+      if (App.atual === 'guilda') this.telaMinha();
+      return;
+    }
+    const gm = q('data-gerenciar');
+    if (gm) {
+      const uid = gm.dataset.gerenciar, m = this.dados.m[uid] || {};
+      const r = await modal(m.n || 'Jogador', 'O que você quer fazer?', [{ txt: 'Ver perfil', val: 'ver' }, { txt: 'Passar liderança', val: 'lider' }, { txt: 'Remover da guilda', cls: 'perigo', val: 'rem' }, { txt: 'Fechar', val: null }]);
+      try {
+        if (r === 'ver') { Social.voltar = 'guilda'; App.ir('jogador', uid); }
+        else if (r === 'lider' && await modal('Passar a liderança?', `${m.n} vai virar o líder e você vira membro.`, [{ txt: 'Cancelar', val: false }, { txt: 'Passar', cls: 'pri', val: true }])) { await this.passarLideranca(uid); aviso(`${m.n} agora é o líder.`); this.aba = 'membros'; this.telaMinha(); }
+        else if (r === 'rem' && await modal('Remover da guilda?', `${m.n} vai sair da guilda.`, [{ txt: 'Cancelar', val: false }, { txt: 'Remover', cls: 'perigo', val: true }])) { await this.remover(uid); aviso(`${m.n} foi removido.`); this.pintarCorpo(); }
+      } catch (err) { aviso(err.msg || msgErro(err)); }
+      return;
+    }
+    const j = q('data-jogador'); if (j) { Social.voltar = 'guilda'; App.ir('jogador', j.dataset.jogador); }
+  },
+  /* criar ou editar */
+  telaCriar(modo) {
+    const ed = modo === 'editar' && this.dados, g = ed ? this.dados : null;
+    App.cabecalho(ed ? 'Editar guilda' : 'Criar guilda', 'guilda');
+    const f = this.form = ed ? { nome: g.nome, tag: g.tag, ic: g.ic, cor: g.cor, desc: g.desc || '', aberta: !!g.aberta } : (this.form && !this.form.ed ? this.form : { nome: '', tag: '', ic: '♞', cor: CORES_G[0], desc: '', aberta: true });
+    f.ed = !!ed;
+    $('#tela').innerHTML = `<div class="pilha estreito">
+      <div class="cartao gd-prev" id="gd-prev"></div>
+      <div class="cartao gd-form">
+        <label class="sub" for="gd-nome">Nome da guilda</label><input class="campo" id="gd-nome" maxlength="24" value="${esc(f.nome)}" placeholder="Ex.: Cavaleiros da Bahia" autocomplete="off">
+        <label class="sub" for="gd-tag">Sigla (2 a 4 letras ou números)</label><input class="campo" id="gd-tag" maxlength="4" value="${esc(f.tag)}" placeholder="Ex.: CAV" autocomplete="off" style="text-transform:uppercase">
+        <span class="sub">Emblema</span><div class="gd-ics">${EMBLEMAS.map(i => `<button class="${f.ic === i ? 'on' : ''}" data-ic="${i}">${i}</button>`).join('')}</div>
+        <span class="sub">Cor</span><div class="gd-cores">${CORES_G.map(c => `<button class="${f.cor === c ? 'on' : ''}" data-cor="${c}" style="--c:${c}" aria-label="Cor ${c}"></button>`).join('')}</div>
+        <label class="sub" for="gd-desc">Descrição (opcional)</label><textarea class="campo" id="gd-desc" maxlength="120" rows="2" placeholder="Ex.: Partidas toda noite, todos os níveis são bem-vindos">${esc(f.desc)}</textarea>
+        <span class="sub">Quem pode entrar</span><div class="opcoes c2" id="gd-ab"><button class="op${f.aberta ? ' on' : ''}" data-ab="1">Qualquer um</button><button class="op${f.aberta ? '' : ' on'}" data-ab="0">Só com pedido</button></div>
+        <p class="sub" id="gd-erro" role="alert"></p>
+        <button class="bt pri cheio" id="gd-ok">${ed ? 'Salvar' : `Criar guilda · ${MOEDA} ${GUILDA_PRECO}`}</button>
+        ${ed && g.ids.length > 1 ? '' : ed ? '<button class="bt perigo cheio" id="gd-desfazer">Desfazer guilda</button>' : ''}</div></div>`;
+    const prev = () => { $('#gd-prev').innerHTML = `${htmlEmblema(f, 64)}<div><b>${esc(f.nome || 'Nome da guilda')}</b> ${tagG({ tag: f.tag || 'TAG' })}<p class="sub">${esc(f.desc || (f.aberta ? 'Aberta para todos' : 'Entrada com pedido'))}</p></div>`; };
+    prev();
+    $('#gd-nome').oninput = e => { f.nome = e.target.value; prev(); };
+    $('#gd-tag').oninput = e => { e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); f.tag = e.target.value; prev(); };
+    $('#gd-desc').oninput = e => { f.desc = e.target.value; prev(); };
+    $('#tela').onclick = async e => {
+      const ic = e.target.closest('[data-ic]'); if (ic) { f.ic = ic.dataset.ic; $$('[data-ic]').forEach(b => b.classList.toggle('on', b === ic)); prev(); return; }
+      const c = e.target.closest('[data-cor]'); if (c) { f.cor = c.dataset.cor; $$('[data-cor]').forEach(b => b.classList.toggle('on', b === c)); prev(); return; }
+      const ab = e.target.closest('[data-ab]'); if (ab) { f.aberta = ab.dataset.ab === '1'; $$('[data-ab]').forEach(b => b.classList.toggle('on', b === ab)); prev(); return; }
+      if (e.target.closest('#gd-desfazer')) {
+        if (!await modal('Desfazer a guilda?', 'A guilda e o mural serão apagados.', [{ txt: 'Cancelar', val: false }, { txt: 'Desfazer', cls: 'perigo', val: true }])) return;
+        try { await this.desfazer(); aviso('Guilda desfeita.'); App.ir('guilda'); } catch (err) { aviso(msgErro(err)); } return;
+      }
+      const ok = e.target.closest('#gd-ok'); if (!ok) return;
+      const erro = t => { $('#gd-erro').textContent = t; Som.tocar('erro'); };
+      f.nome = f.nome.trim().replace(/\s+/g, ' '); f.desc = f.desc.trim();
+      if (f.nome.length < 3) return erro('O nome precisa ter pelo menos 3 letras.');
+      if (!/^[A-Z0-9]{2,4}$/.test(f.tag)) return erro('A sigla precisa ter de 2 a 4 letras ou números.');
+      const dados = { nome: f.nome, tag: f.tag, ic: f.ic, cor: f.cor, desc: f.desc, aberta: f.aberta };
+      ok.disabled = true;
+      try {
+        if (ed) { await this.editar(dados); aviso('Guilda atualizada.'); }
+        else {
+          if (!await modal('Criar a guilda?', `Custa ${GUILDA_PRECO} moedas. Você ficará com ${Dados.d.moedas - GUILDA_PRECO}.`, [{ txt: 'Cancelar', val: false }, { txt: 'Criar', cls: 'pri', val: true }])) { ok.disabled = false; return; }
+          await this.criar(dados); this.form = null; Som.tocar('acerto'); aviso(`Guilda ${dados.nome} criada!`);
+        }
+        App.ir('guilda');
+      } catch (err) { ok.disabled = false; erro(err.msg || 'Não consegui salvar: ' + msgErro(err)); }
+    };
+    App.aoSair = () => { $('#tela').onclick = null; };
+  }
+};
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState !== 'visible' || !Nuvem.usuario) return;
+  if (Date.now() - (Guilda.ultCarga || 0) < 5 * 60000) return;
+  Guilda.ultCarga = Date.now(); Guilda.carregar();
+});
 
 /* =====================================================================
    MODO DESENVOLVEDOR
@@ -8242,6 +8800,9 @@ const App = {
       case 'perfil': Perfil.tela(); break;
       case 'visual': if (param) Perfil.aba = param; Perfil.telaVisual(); break;
       case 'conta': Perfil.telaConta(); break;
+      case 'guilda': Guilda.tela(); break;
+      case 'guildaVer': if (antes === 'guilda' || antes === 'ranking') Guilda.voltarVer = antes; Guilda.telaVer(param); break;
+      case 'guildaCriar': Guilda.telaCriar(param); break;
       case 'conquistas': Conquistas.tela(); break;
       case 'loja': Loja.tela(); break;
       case 'ajustes': Ajustes.tela(); break;
@@ -8256,7 +8817,7 @@ const App = {
   },
   /* barra de navegação inferior e animação de entrada da tela */
   ABAS: { menu: 'menu', aprender: 'aprender', desafios: 'aprender', jogar: 'jogar', config: 'jogar', amigos: 'jogar', ranking: 'jogar', conquistas: 'conquistas', loja: 'loja',
-    perfil: 'perfil', visual: 'perfil', conta: 'perfil', stats: 'perfil', historico: 'perfil', dev: 'perfil', social: 'perfil', jogador: 'perfil', ajustes: 'ajustes', missoes: 'menu', avisos: 'menu' },
+    perfil: 'perfil', visual: 'perfil', conta: 'perfil', guilda: 'perfil', guildaVer: 'perfil', guildaCriar: 'perfil', stats: 'perfil', historico: 'perfil', dev: 'perfil', social: 'perfil', jogador: 'perfil', ajustes: 'ajustes', missoes: 'menu', avisos: 'menu' },
   depois() {
     const t = this.atual, aba = this.ABAS[t], nav = $('#nav-inf');
     document.body.dataset.tela = t;

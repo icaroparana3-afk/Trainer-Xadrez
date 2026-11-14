@@ -46,6 +46,31 @@ service cloud.firestore {
         && request.resource.data.keys().hasOnly(['uid', 'nome', 'xp', 't'])
         && request.resource.data.uid is string && request.resource.data.xp is int;
     }
+    // guildas: todos veem; os membros atualizam; quem não é membro só pode se incluir numa guilda aberta
+    match /guildas/{gid} {
+      allow read: if true;
+      allow create: if request.auth != null && request.resource.data.lider == request.auth.uid
+        && request.resource.data.ids == [request.auth.uid];
+      allow update: if request.auth != null && request.resource.data.ids.size() <= 30 && (
+        request.auth.uid in resource.data.ids ||
+        (resource.data.aberta == true && request.resource.data.lider == resource.data.lider
+          && request.resource.data.ids.toSet().difference(resource.data.ids.toSet()) == [request.auth.uid].toSet()
+          && resource.data.ids.toSet().difference(request.resource.data.ids.toSet()).size() == 0));
+      allow delete: if request.auth != null && resource.data.lider == request.auth.uid;
+    }
+    // pedidos para entrar numa guilda: o id é "guilda_quemPede"; o líder aceita ou recusa
+    match /guildaPedidos/{id} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid
+        && id == request.resource.data.g + '_' + request.auth.uid;
+      allow delete: if request.auth != null && (resource.data.uid == request.auth.uid
+        || get(/databases/$(database)/documents/guildas/$(resource.data.g)).data.lider == request.auth.uid);
+    }
+    // mural de cada guilda: só os membros leem e escrevem
+    match /murais/{gid} {
+      allow read, write: if request.auth != null
+        && request.auth.uid in get(/databases/$(database)/documents/guildas/$(gid)).data.ids;
+    }
     // salas de partidas online: quem tem conta pode criar e entrar;
     // depois que a sala fecha, só os dois jogadores podem mexer nela
     match /salas/{codigo} {
