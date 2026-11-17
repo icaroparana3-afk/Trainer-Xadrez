@@ -1279,6 +1279,16 @@ body.com-nav[data-tela="menu"] #tela{padding-bottom:calc(84px + env(safe-area-in
 .dia-cab small{text-transform:none}
 .dia-cab small::first-letter{text-transform:uppercase}
 
+/* ---------- modo treino e trava do tabuleiro virado (online) ---------- */
+.treino-info{display:flex;gap:12px;align-items:center;border-color:color-mix(in srgb,var(--ok) 45%,var(--linha))}
+.treino-info .ic2{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.treino-info .ic2 svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.treino-info p{margin:0;font-size:.88rem;color:var(--txt2)}.treino-info p b{display:block;color:var(--txt);font-size:1rem;margin-bottom:2px}
+.aviso-virado{display:flex;gap:8px;align-items:center;padding:8px 10px;margin-bottom:6px;border-radius:10px;background:color-mix(in srgb,var(--alerta) 18%,transparent);border:1px solid color-mix(in srgb,var(--alerta) 50%,transparent);font-size:.86rem;line-height:1.3}
+.aviso-virado svg{flex:none;width:20px;height:20px;fill:none;stroke:var(--alerta);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bt.on-virado{background:color-mix(in srgb,var(--alerta) 22%,var(--sup2));border-color:var(--alerta);color:var(--alerta)}
+#tab-linha.travado .tabuleiro{filter:saturate(.55) brightness(.85);transition:filter .2s}
+
 </style>
 </head>
 <body>
@@ -4891,7 +4901,7 @@ function htmlAvatar(avatarId, moldura, tam = 44) {
 }
 /* molduras de nível liberadas agora (para avisar na tela de fim de partida) */
 const moldurasNivel = () => MOLDURAS.filter(m => m.nivel && temMoldura(m.id)).map(m => m.id);
-const temAvatar = id => { const a = AVATARES.find(x => x.id === id); return !!a && (Dev.tudo || a.trofeu ? !!Dados.d.conquistas['tr-' + a.trofeu] : (a.preco === 0 || !!Dados.d.itens['av-' + id])); };
+const temAvatar = id => { const a = AVATARES.find(x => x.id === id); if (!a) return false; if (Dev.tudo || a.preco === 0 || Dados.d.itens['av-' + id]) return true; return !!(a.trofeu && Dados.d.conquistas['tr-' + a.trofeu]); };
 const temMoldura = id => { const m = MOLDURAS.find(x => x.id === id); if (!m) return false; if (m.rei) return Premios.souRei(); if (Dev.tudo) return true;
   if (m.nivel) return ((Dados.d.porNivel[m.nivel] || {}).v || 0) >= 1;
   return !m.trofeu || !!Dados.d.conquistas['tr-' + m.trofeu]; };
@@ -5213,6 +5223,11 @@ const Loja = {
     const item = tipo === 'tab' ? TABULEIROS.find(t => t.id === id) : AVATARES.find(a => a.id === id);
     if (!item) return;
     const d = Dados.d;
+    if (!item.preco || d.itens[chave]) {          // grátis ou já comprado: só usar
+      d.itens[chave] = 1;
+      if (tipo === 'tab') { d.tabuleiro = id; aplicarVisual(); } else d.perfil.avatar = id;
+      Dados.salvar(); aviso('Pronto! Já está em uso.'); App.atualizarTopo(); this.tela(); return;
+    }
     if (d.moedas < item.preco) { Som.tocar('erro'); await modal('Moedas insuficientes', `Faltam ${item.preco - d.moedas} moedas para comprar “${item.nome}”. Jogue, estude e resolva desafios para ganhar mais!`, [{ txt: 'Ok', cls: 'pri', val: 1 }]); return; }
     const ok = await modal('Comprar ' + item.nome + '?', `Custa ${item.preco} moedas. Você ficará com ${d.moedas - item.preco}.`, [{ txt: 'Cancelar', val: false }, { txt: 'Comprar e usar', cls: 'pri', val: true }]);
     if (!ok || !Moedas.gastar(item.preco)) return;
@@ -5910,6 +5925,7 @@ function registrarPartida(op) {
   const reg = { t: Date.now(), modo: op.modo, nivel: op.nivel, cor: op.cor, res, motivo: op.motivo, prec: null, cont: null, lances: op.plies, dicas: op.dicas || 0 };
   if (op.san && op.san.length) reg.san = op.san.join(' ');     // lances da partida: permitem rever e analisar depois (histórico)
   if (op.adv) reg.adv = String(op.adv).slice(0, 20);
+  if (op.treino) reg.treino = 1;
   d.partidas.push(reg); if (d.partidas.length > 80) d.partidas = d.partidas.slice(-80);
   let moedas = 0;
   const valeu = op.plies >= 10;                              // partidas muito curtas não dão moedas
@@ -5991,14 +6007,15 @@ function telaFim(o) {
 
 const Partida = {
   modo: 'pc', g: null, cor: 'w', nivel: 1, relogio: 0, tempos: null, tab: null, fim: true, ficha: 0, pensando: false,
-  av: { cp: 20, mate: null }, timer: null, ultTick: 0, dicas: 0, textoFim: '', sala: null,
+  av: { cp: 20, mate: null }, timer: null, ultTick: 0, dicas: 0, textoFim: '', sala: null, treino: false,
 
   /* ---------- tela de configuração (contra o computador) ---------- */
-  telaConfig() {
+  telaConfig(treino) {
     const c = Dados.d.cfg, salva = Dados.lerPartida();
-    App.cabecalho('Jogar contra o computador', 'jogar');
+    App.cabecalho(treino ? 'Treino' : 'Jogar contra o computador', 'jogar');
     $('#tela').innerHTML = `<div class="estreito pilha">
-      ${salva ? `<div class="cartao destaque"><b>Você tem uma partida em andamento</b><div class="sub">Nível ${NIVEIS[salva.nivel].nome} · de ${corNome(salva.cor)} · ${Math.ceil(salva.lances.length / 2)} lances</div>
+      ${treino ? `<div class="cartao treino-info"><span class="ic2">${ICONES.dica}</span><p><b>Modo treino</b>Jogue sem pressão: aqui você pode pedir dica da melhor jogada e desfazer lances.</p></div>` : ''}
+      ${salva ? `<div class="cartao destaque"><b>Você tem uma partida em andamento</b><div class="sub">${salva.treino ? 'Treino · ' : ''}Nível ${NIVEIS[salva.nivel].nome} · de ${corNome(salva.cor)} · ${Math.ceil(salva.lances.length / 2)} lances</div>
         <div class="fila" style="margin-top:10px"><button class="bt pri" id="continuar" style="flex:1">Continuar partida</button><button class="bt" id="descartar">Descartar</button></div></div>` : ''}
       <div class="cartao"><h3>Dificuldade</h3><div class="opcoes c6" id="op-nivel">
         ${NIVEIS.map((n, i) => `<button class="op${i === c.nivel ? ' on' : ''}" data-v="${i}">${n.nome}<small>${n.desc} · ${MOEDA}${n.moedas}</small></button>`).join('')}</div></div>
@@ -6010,7 +6027,7 @@ const Partida = {
         <button class="op${c.relogio === 0 ? ' on' : ''}" data-v="0">Sem tempo<small>jogue com calma</small></button>
         <button class="op${c.relogio === 600 ? ' on' : ''}" data-v="600">10 min<small>para cada lado</small></button>
         <button class="op${c.relogio === 300 ? ' on' : ''}" data-v="300">5 min<small>para cada lado</small></button></div></div>
-      <button class="bt pri cheio" id="comecar">${salva ? 'Começar nova partida' : 'Começar partida'}</button></div>`;
+      <button class="bt pri cheio" id="comecar">${salva ? (treino ? 'Começar novo treino' : 'Começar nova partida') : treino ? 'Começar treino' : 'Começar partida'}</button></div>`;
     const grupo = (id, chave, conv) => $(id).addEventListener('click', e => {
       const b = e.target.closest('.op'); if (!b) return;
       $$('.op', $(id)).forEach(x => x.classList.toggle('on', x === b));
@@ -6019,11 +6036,11 @@ const Partida = {
     grupo('#op-nivel', 'nivel', Number); grupo('#op-cor', 'cor', String); grupo('#op-rel', 'relogio', Number);
     $('#comecar').onclick = async () => {
       if (salva && !(await modal('Começar outra partida?', 'A partida em andamento será descartada.', [{ txt: 'Voltar', val: false }, { txt: 'Começar nova', cls: 'pri', val: true }]))) return;
-      Dados.gravarPartida(null); App.ir('jogo', { modo: 'pc' });
+      Dados.gravarPartida(null); App.ir('jogo', { modo: 'pc', treino: !!treino });
     };
     if (salva) {
       $('#continuar').onclick = () => App.ir('jogo', { modo: 'pc', retomar: salva });
-      $('#descartar').onclick = () => { Dados.gravarPartida(null); this.telaConfig(); };
+      $('#descartar').onclick = () => { Dados.gravarPartida(null); this.telaConfig(treino); };
     }
   },
 
@@ -6033,6 +6050,7 @@ const Partida = {
     this.modo = op.modo || 'pc';
     this.g = new Chess(); this.dicas = 0; this.sala = null;
     this.fim = false; this.pensando = false; this.ficha++; this.av = { cp: 20, mate: null }; this.textoFim = '';
+    this.treino = this.modo === 'pc' && !!(op.retomar ? op.retomar.treino : op.treino);
     if (this.modo === 'pc') {
       const r = op.retomar;
       if (r) { this.cor = r.cor; this.nivel = r.nivel; this.relogio = r.relogio; this.tempos = Object.assign({}, r.tempos); this.dicas = r.dicas || 0; r.lances.forEach(s => this.g.move(s)); }
@@ -6048,11 +6066,12 @@ const Partida = {
       this.tempos = { w: this.relogio, b: this.relogio };
       (op.sala.lances || []).forEach(s => this.g.move(s));
     }
-    const titulo = this.modo === 'pc' ? 'Partida · ' + NIVEIS[this.nivel].nome : this.modo === 'local' ? 'Partida com amigo' : 'Online · sala ' + op.sala.codigo;
+    const titulo = this.modo === 'pc' ? (this.treino ? 'Treino · ' : 'Partida · ') + NIVEIS[this.nivel].nome : this.modo === 'local' ? 'Partida com amigo' : 'Online · sala ' + op.sala.codigo;
     App.cabecalho(titulo, () => this.sair());
     const btn = (id, ic, txt) => `<button class="bt" id="${id}">${ICONES[ic]}${txt}</button>`;
+    // partida normal contra o computador não tem dica; a dica fica no modo treino
     const controles = this.modo === 'pc'
-      ? btn('b-desfazer', 'desfazer', 'Desfazer') + btn('b-dica', 'dica', 'Dica') + btn('b-virar', 'virar', 'Virar') + btn('b-desistir', 'desistir', 'Desistir') + btn('b-nova', 'nova', 'Nova')
+      ? btn('b-desfazer', 'desfazer', 'Desfazer') + (this.treino ? btn('b-dica', 'dica', 'Dica') : '') + btn('b-virar', 'virar', 'Virar') + btn('b-desistir', 'desistir', 'Desistir') + btn('b-nova', 'nova', 'Nova')
       : this.modo === 'local'
         ? btn('b-desfazer', 'desfazer', 'Desfazer') + btn('b-virar', 'virar', 'Virar') + btn('b-empate', 'empate', 'Empate') + btn('b-desistir', 'desistir', 'Desistir') + btn('b-nova', 'nova', 'Nova')
         : btn('b-virar', 'virar', 'Virar') + btn('b-empate', 'empate', 'Empate') + btn('b-desistir', 'desistir', 'Desistir') + btn('b-sair', 'sair', 'Sair');
@@ -6062,7 +6081,7 @@ const Partida = {
         <div class="tab-linha" id="tab-linha">${this.modo === 'pc' ? '<div class="barra-av" id="barra"><i></i><span></span></div>' : ''}</div>
         <div class="jogador" id="j-baixo"><span class="foto"></span><span class="nome"></span>${this.modo === 'online' ? Chat.botao() : ''}<span class="relogio${this.relogio ? '' : ' oculto'}"></span></div>
         ${this.modo === 'online' ? Chat.painel() : ''}
-        <div class="controles${this.modo === 'pc' || this.modo === 'local' ? '' : ' c4'}">${controles}</div>
+        <div class="controles${this.treino || this.modo === 'local' ? '' : ' c4'}">${controles}</div>
       </div>
       <div class="lateral">
         <div class="cartao"><div class="status" id="status"></div><div class="sub" id="motor-rot" style="margin-top:4px;font-size:.8rem"></div></div>
@@ -6080,7 +6099,7 @@ const Partida = {
     const liga = (id, fn) => { const b = $(id); if (b) b.onclick = fn; };
     liga('#b-desfazer', () => this.desfazer());
     liga('#b-dica', () => this.dica());
-    liga('#b-virar', () => { this.tab.orientar(this.tab.ori === 'w' ? 'b' : 'w'); this.pintar(); });
+    liga('#b-virar', () => this.virar());
     liga('#b-desistir', () => this.desistir());
     liga('#b-nova', () => this.nova());
     liga('#b-empate', () => this.empate());
@@ -6103,13 +6122,21 @@ const Partida = {
   salvarAndamento() {
     if (this.modo !== 'pc' || this.fim) return;
     if (!this.g.history().length) { Dados.gravarPartida(null); return; }
-    Dados.gravarPartida({ cor: this.cor, nivel: this.nivel, relogio: this.relogio, tempos: this.tempos, lances: this.g.history(), dicas: this.dicas, t: Date.now() });
+    Dados.gravarPartida({ cor: this.cor, nivel: this.nivel, relogio: this.relogio, tempos: this.tempos, lances: this.g.history(), dicas: this.dicas, treino: this.treino, t: Date.now() });
   },
+  /* virar o tabuleiro. No online, com o tabuleiro virado as jogadas ficam travadas
+     (assim um toque sem querer no tabuleiro de cabeça para baixo não vira um lance) */
+  virar() {
+    this.tab.orientar(this.tab.ori === 'w' ? 'b' : 'w');
+    if (this.modo === 'online') { this.tab.limparSelecao(); this.tab.redesenhar(); }
+    this.pintar();
+  },
+  travadoVirado() { return this.modo === 'online' && !!this.tab && this.tab.ori !== this.cor; },
   /* é a vez de alguém que joga neste aparelho? */
   minhaVez() {
     if (this.fim) return false;
     if (this.modo === 'local') return true;
-    if (this.modo === 'online') return this.g.turn() === this.cor && this.sala && this.sala.status === 'jogando';
+    if (this.modo === 'online') return !this.travadoVirado() && this.g.turn() === this.cor && this.sala && this.sala.status === 'jogando';
     return this.g.turn() === this.cor && !this.pensando;
   },
 
@@ -6138,12 +6165,15 @@ const Partida = {
       const sl = this.sala;
       if (!sl || sl.status === 'esperando') s = 'Aguardando seu amigo entrar na sala…';
       else s = xeque + (g.turn() === this.cor ? 'Sua vez de jogar.' : 'Vez do seu amigo…');
+      if (this.travadoVirado() && !this.fim) s = `<div class="aviso-virado">${ICONES.virar}<span><b>Tabuleiro virado: jogadas travadas.</b> Toque em <b>Virar</b> de novo para voltar a jogar.</span></div>` + s;
       if (sl && sl.empate && sl.empate !== this.cor && sl.status === 'jogando') s += `<div class="pedido-empate">Seu amigo propôs empate. <button class="bt peq" id="emp-sim">Aceitar</button> <button class="bt peq" id="emp-nao">Recusar</button></div>`;
       else if (sl && sl.empate === this.cor) s += '<div class="sub">Você propôs empate. Aguardando resposta…</div>';
     }
     else if (g.turn() === this.cor) s = xeque + 'Sua vez de jogar.';
     else s = 'O computador está pensando…';
     $('#status').innerHTML = s;
+    const bv = $('#b-virar'); if (bv) bv.classList.toggle('on-virado', this.travadoVirado());
+    if ($('#tab-linha')) $('#tab-linha').classList.toggle('travado', this.travadoVirado() && !this.fim);
     if ($('#emp-sim')) { $('#emp-sim').onclick = () => Salas.responderEmpate(true); $('#emp-nao').onclick = () => Salas.responderEmpate(false); }
   },
   pintarRelogios() {
@@ -6268,7 +6298,7 @@ const Partida = {
     if (this.modo === 'pc') { this.salvarAndamento(); if (g.turn() !== this.cor) this.lanceComputador(); else this.pedirAvaliacao(); }
   },
   async dica() {
-    if (this.fim) return;
+    if (this.fim || !this.treino) return;
     if (this.g.turn() !== this.cor || this.pensando) { aviso('Espere a sua vez para pedir uma dica.'); return; }
     const ficha = ++this.ficha; Motor.cancelar();
     $('#status').textContent = 'Procurando a melhor jogada…';
@@ -6339,7 +6369,7 @@ const Partida = {
     this.tab.limparSelecao(); this.pintar();
     Som.tocar('fim'); vibrar(80);
     fecharDica();
-    const base = { lances, cor: this.cor, nivel: this.nivel, vencedor, motivo, titulo, modo: this.modo, foto: Conquistas.foto() };
+    const base = { lances, cor: this.cor, nivel: this.nivel, vencedor, motivo, titulo, modo: this.modo, treino: this.treino, foto: Conquistas.foto() };
     Conquistas.pausa = true;                       // os avisos de conquista aparecem juntos na tela de fim
     // fim no tabuleiro (mate, afogamento...): espera a animação aparecer antes de abrir a tela de fim
     const espera = efeitosLigados() && /xeque-mate|afogamento|insuficiente|repetição|50 lances/.test(motivo) ? 1500 : 0;
@@ -6347,7 +6377,7 @@ const Partida = {
     if (this.modo === 'pc') {
       base.mostrarFim = true;
       Dados.gravarPartida(null);
-      base.registro = registrarPartida({ modo: 'pc', nivel: this.nivel, cor: this.cor, vencedor, motivo, plies: lances.length, relogio: this.relogio, dicas: this.dicas, san: lances.map(m => m.san) });
+      base.registro = registrarPartida({ modo: 'pc', nivel: this.nivel, cor: this.cor, vencedor, motivo, plies: lances.length, relogio: this.relogio, dicas: this.dicas, treino: this.treino, san: lances.map(m => m.san) });
       ui(() => Analise.iniciar(base));
     } else if (this.modo === 'local') {
       base.cor = 'ambos';
@@ -6682,7 +6712,7 @@ const Analise = {
     const chips = c => `<div class="chips">${Object.keys(CLASSES).map(k => `<span class="chip ${CLASSES[k].cls}"><i></i>${CLASSES[k].nome}: ${c ? c[k] : 0}</span>`).join('')}</div>`;
     const total = r.itens.length;
     const quem = p.alheio ? esc(p.alheio.nome) : 'você';
-    const sub = p.modo === 'pc' ? `Nível ${NIVEIS[p.nivel].nome} · ${quem} jogou de ${corNome(p.cor)}` : p.modo === 'online' ? `Partida online · ${quem} jogou de ${corNome(p.cor)}` : 'Partida com amigo no mesmo aparelho';
+    const sub = p.modo === 'pc' ? `${p.treino || (p.registro && p.registro.treino) ? 'Treino · ' : ''}Nível ${NIVEIS[p.nivel].nome} · ${quem} jogou de ${corNome(p.cor)}` : p.modo === 'online' ? `Partida online · ${quem} jogou de ${corNome(p.cor)}` : 'Partida com amigo no mesmo aparelho';
     const placar = ambos
       ? `<div class="cartao"><h2>${esc(p.titulo)} <span class="sub" style="font-weight:500">· ${esc(p.motivo)}</span></h2><p class="sub" style="margin-bottom:10px">${sub} · ${Math.ceil(N / 2)} lances</p>
           <div class="duas">${['w', 'b'].map(c => `<div class="placar">${roda(r.lados[c] && r.lados[c].precisao, corNome(c))}<div style="flex:1;min-width:160px">${chips(r.lados[c] && r.lados[c].cont)}</div></div>`).join('')}</div></div>`
@@ -6763,7 +6793,7 @@ const Analise = {
     $('#r-prox').onclick = () => mostra(idx + 1); $('#r-fim').onclick = () => mostra(N);
     $('#r-rever').onclick = () => { mostra(0); irTopo(); };
     $('#r-pgn').onclick = () => this.copiarPgn(p);
-    $('#r-nova').onclick = () => App.ir(p.modo === 'pc' ? 'config' : p.modo === 'local' ? 'jogo' : 'amigos', p.modo === 'local' ? { modo: 'local' } : undefined);
+    $('#r-nova').onclick = () => App.ir(p.modo === 'pc' ? 'config' : p.modo === 'local' ? 'jogo' : 'amigos', p.modo === 'local' ? { modo: 'local' } : p.modo === 'pc' && (p.treino || (p.registro && p.registro.treino)) ? 'treino' : undefined);
     $('#r-menu').onclick = () => App.ir('menu');
     $('#lista-erros').onclick = e => { const b = e.target.closest('.erro-item'); if (b) abreErro(+b.dataset.j); };
     $('#lances').onclick = e => { const b = e.target.closest('button[data-ply]'); if (b) mostra(+b.dataset.ply + 1); };
@@ -6818,7 +6848,7 @@ const Historico = {
     return x.map(a => a && { nota: a[0], mate: a[1], best: a[2], pv: a[3] ? a[3].split(' ') : [] });
   },
   rotulo(reg) {
-    if (reg.modo === 'pc') return { quem: 'Computador · ' + (NIVEIS[reg.nivel] || NIVEIS[0]).nome, ic: 'pc' };
+    if (reg.modo === 'pc') return { quem: (reg.treino ? 'Treino · ' : 'Computador · ') + (NIVEIS[reg.nivel] || NIVEIS[0]).nome, ic: 'pc' };
     if (reg.modo === 'online') return { quem: 'Online' + (reg.adv ? ' · ' + reg.adv : ''), ic: 'on' };
     return { quem: 'Amigo no mesmo aparelho', ic: 'lo' };
   },
@@ -9317,7 +9347,7 @@ const App = {
     } catch (e) { /* histórico indisponível */ }
     window.scrollTo(0, 0);
     switch (tela) {
-      case 'config': Partida.telaConfig(); break;
+      case 'config': Partida.telaConfig(param === 'treino'); break;
       case 'jogo': Partida.iniciar(param || { modo: 'pc' }); break;
       case 'resumo': Analise.telaResumo(param); break;
       case 'historico': Historico.tela(); break;
@@ -9404,7 +9434,7 @@ function telaMenu() {
   let hero;
   if (salva) {
     let fen = new Chess().fen(); try { const g = new Chess(); salva.lances.forEach(l => g.move(l)); fen = g.fen(); } catch (err) { /* usa a posição inicial */ }
-    hero = `<section class="hero">${miniJogo(fen, salva.cor)}<div class="info"><span class="etq">Partida em andamento</span><span class="tit">Contra o nível ${NIVEIS[salva.nivel].nome}</span>
+    hero = `<section class="hero">${miniJogo(fen, salva.cor)}<div class="info"><span class="etq">Partida em andamento</span><span class="tit">${salva.treino ? 'Treino · nível ' : 'Contra o nível '}${NIVEIS[salva.nivel].nome}</span>
       <span class="sub" style="font-size:.84rem">Você está de ${corNome(salva.cor)} · lance ${Math.floor(salva.lances.length / 2) + 1}</span>
       <button class="bt pri pulsa" id="m-continuar">${SVG('<path d="M7 4v16l13-8z" fill="currentColor" stroke="none"/>')}Continuar</button></div></section>`;
   } else {
@@ -9451,10 +9481,11 @@ function telaJogar() {
   const onAgora = Object.keys(Avisos.online).filter(k => Avisos.online[k] && Amigos.tem(k)).length;
   const fundo = t => `<span class="fundo-pc" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#pc-${t}"/></svg></span>`;
   $('#tela').innerHTML = `<div class="pilha estreito jogar-hub">
-    ${salva ? `<div class="cartao destaque continuar-jg"><div><b>Partida em andamento</b><span class="sub">Contra o nível ${NIVEIS[salva.nivel].nome} · lance ${Math.floor(salva.lances.length / 2) + 1}</span></div><button class="bt pri" id="j-continuar">Continuar</button></div>` : ''}
+    ${salva ? `<div class="cartao destaque continuar-jg"><div><b>Partida em andamento</b><span class="sub">${salva.treino ? 'Treino · nível ' : 'Contra o nível '}${NIVEIS[salva.nivel].nome} · lance ${Math.floor(salva.lances.length / 2) + 1}</span></div><button class="bt pri" id="j-continuar">Continuar</button></div>` : ''}
     <button class="modo-jogo forte" data-ir="config">${fundo('k')}
       <span class="mj-ic">${SVG('<rect x="4" y="4" width="16" height="12" rx="2"/><path d="M9 20h6M12 16v4M9 10h.01M15 10h.01"/>')}</span>
       <span class="mj-tx"><b>Contra o computador</b><small>${NIVEIS.length} níveis, do Iniciante ao Mestre · análise dos lances no final</small></span></button>
+    <button class="linha-menu cor-ok" data-ir="config" data-param="treino"><span class="ic2">${SVG('<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>')}</span><span class="tx"><b>Treino</b><small>Contra o computador, com dicas e desfazer</small></span>${SETA}</button>
     <button class="modo-jogo" data-ir="amigos">${fundo('q')}
       <span class="mj-ic">${SVG('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>')}</span>
       <span class="mj-tx"><b>Online</b><small>${u ? `Crie uma sala ou entre com um código · ${d.ranque.pts} pontos` : 'Jogue com amigos pela internet (precisa de conta)'}</small></span></button>
