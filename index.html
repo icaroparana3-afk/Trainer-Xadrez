@@ -1566,6 +1566,46 @@ body:is([data-tela="menu"],[data-tela="aprender"],[data-tela="desafios"],[data-t
     repeating-linear-gradient(45deg,var(--fx-losango) 0 22px,transparent 22px 44px),
     repeating-linear-gradient(-45deg,var(--fx-losango) 0 22px,transparent 22px 44px),linear-gradient(var(--fx-f1),var(--fx-f2))}
 
+/* ---------- tela de entrada: criar conta / entrar / convidado (mesmas cores da abertura) ---------- */
+html.na-entrada,html.na-entrada body{overflow:hidden}
+#entrada{position:fixed;inset:0;z-index:45;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;color:#f5ebe0;
+  background-color:#2c1810;
+  background-image:linear-gradient(45deg,rgba(255,255,255,.035) 25%,transparent 25%,transparent 75%,rgba(255,255,255,.035) 75%),linear-gradient(45deg,rgba(255,255,255,.035) 25%,transparent 25%,transparent 75%,rgba(255,255,255,.035) 75%);
+  background-size:56px 56px;background-position:0 0,28px 28px;
+  display:flex;justify-content:center;padding:calc(22px + env(safe-area-inset-top)) 18px calc(22px + env(safe-area-inset-bottom));transition:opacity .4s ease}
+#entrada::before{content:"";position:fixed;inset:0;background:radial-gradient(110% 60% at 50% 0%,rgba(240,180,65,.16),transparent 62%);pointer-events:none}
+#entrada.sai{opacity:0;pointer-events:none}
+.en-cx{position:relative;width:100%;max-width:400px;margin:auto 0;display:flex;flex-direction:column;align-items:center;gap:16px;animation:enEntra .55s cubic-bezier(.2,.8,.2,1) both}
+@keyframes enEntra{from{opacity:0;transform:translateY(16px)}}
+.en-topo{display:flex;flex-direction:column;align-items:center;text-align:center}
+.en-cavalo{width:62px;height:62px;fill:#f0b441;filter:drop-shadow(0 6px 14px rgba(0,0,0,.45));margin-bottom:6px}
+.en-topo h1{font:700 1.5rem/1.2 Inter,system-ui,sans-serif;letter-spacing:.28em;text-transform:uppercase;margin:0 0 0 .28em;color:#f5ebe0}
+.en-topo h1 span{color:#f0b441}
+.en-topo small{font:300 11px/1.4 Inter,system-ui,sans-serif;letter-spacing:.35em;text-transform:uppercase;color:#a38b7d;margin:4px 0 0 .35em}
+.en-cartao{width:100%;background:rgba(59,36,27,.94);border:1px solid rgba(213,189,175,.18);border-radius:22px;padding:18px;box-shadow:0 18px 50px rgba(0,0,0,.45);display:flex;flex-direction:column;gap:10px}
+.en-boas{margin:0 0 2px;text-align:center;color:#e9d9cc;font-size:.93rem;line-height:1.4}
+.en-abas{display:grid;grid-template-columns:1fr 1fr;background:rgba(0,0,0,.28);border-radius:14px;padding:4px;gap:4px;margin-bottom:2px}
+.en-abas button{border:0;background:transparent;color:#d5bdaf;font:700 .95rem Inter,system-ui,sans-serif;padding:10px;border-radius:10px;cursor:pointer;transition:background .2s,color .2s}
+.en-abas button.on{background:#f5ebe0;color:#2c1810}
+.en-form{display:flex;flex-direction:column;gap:10px}
+#entrada .campo{background:rgba(0,0,0,.3);border:1px solid rgba(213,189,175,.28);color:#f5ebe0;font-size:16px}
+#entrada .campo::placeholder{color:#a38b7d}
+#entrada .campo:focus{border-color:#f0b441}
+#entrada .bt{border-radius:14px}
+#entrada .bt.pri{background:#f0b441;color:#2c1810;border-color:#f0b441;box-shadow:0 6px 18px rgba(240,180,65,.25)}
+#entrada .en-google{background:#fff;color:#1f1f1f;border:1px solid #fff;font-weight:700}
+#entrada .en-conv{background:transparent;color:#f5ebe0;border:1px solid rgba(213,189,175,.45);font-weight:700}
+#entrada .link{color:#e9d9cc}
+.en-ou{display:flex;align-items:center;gap:10px;color:#a38b7d;font-size:.75rem;text-transform:uppercase;letter-spacing:.18em}
+.en-ou::before,.en-ou::after{content:"";flex:1;height:1px;background:rgba(213,189,175,.22)}
+.en-nota{font-size:.8rem;color:#a38b7d;text-align:center;margin:-2px 0 0;line-height:1.35}
+.en-msg{font-size:.9rem;color:#ffd08a;text-align:center;margin:0;line-height:1.4}
+.en-msg:empty{display:none}
+#entrada.ocupado button{opacity:.55;pointer-events:none}
+/* aviso para o convidado salvar o progresso numa conta */
+.aviso-conv{display:flex;flex-direction:column;gap:4px;padding:12px 14px;margin:0 0 12px;border-radius:14px;background:color-mix(in srgb,var(--alerta) 14%,transparent);border:1px solid color-mix(in srgb,var(--alerta) 45%,transparent)}
+.aviso-conv span{font-size:.88rem;opacity:.9;line-height:1.4}
+
 </style>
 </head>
 <body>
@@ -5613,9 +5653,10 @@ const Ajustes = {
         ${chave('pontos', 'Mostrar lances possíveis', 'Pontinhos nas casas para onde a peça pode ir')}</div>
       <div class="cartao"><h3>Usar sem internet</h3><p class="sub" id="aj-inst-txt">${this.textoInstalar()}</p>
         <button class="bt pri cheio${pedidoInstalacao ? '' : ' oculto'}" id="aj-instalar" style="margin-top:10px">Instalar o aplicativo</button></div>
-      <div class="cartao" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-        <div><b>Zerar progresso</b><div class="sub">Apaga fases, moedas, conquistas, histórico e estatísticas deste aparelho${Nuvem.usuario ? ' e da sua conta' : ''}.</div></div>
-        <button class="bt perigo" id="zerar">Zerar tudo</button></div>
+      ${Nuvem.configurada() ? `<div class="cartao" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div><b>Conta</b><div class="sub">${Nuvem.usuario ? (Nuvem.usuario.isAnonymous ? 'Jogando como convidado.' : 'Conectado como ' + esc(Nuvem.nomeConta()) + '.')
+          : Entrada.convidadoPendente() ? 'Jogando como convidado. A conta é criada quando a internet voltar.' : 'Sua conta conecta sozinha quando a internet voltar.'}</div></div>
+        ${Nuvem.usuario ? `<button class="bt perigo" id="aj-sair">${Nuvem.usuario.isAnonymous ? 'Sair do modo convidado' : 'Sair da conta'}</button>` : ''}</div>` : ''}
       <p class="sub" style="text-align:center;font-size:.8rem">Motor Stockfish 10 (GPL-3) · regras chess.js (BSD) · ${Motor.rotulo().replace(/<[^>]+>/g, '')}</p></div>`;
     $('#aj-tema').onclick = e => { const b = e.target.closest('.op'); if (!b) return; a.tema = b.dataset.v; Dados.salvar(); aplicarVisual(); this.tela(); };
     $('#aj-tab').onclick = e => { const b = e.target.closest('[data-tab]'); if (!b) return; Dados.d.tabuleiro = b.dataset.tab; Dados.salvar(); aplicarVisual(); this.tela(); };
@@ -5627,11 +5668,7 @@ const Ajustes = {
       try { await pedidoInstalacao.userChoice; } catch (e) { /* ignora */ }
       pedidoInstalacao = null; $('#aj-instalar').classList.add('oculto');
     };
-    $('#zerar').onclick = async () => {
-      const ok = await modal('Zerar todo o progresso?', 'Fases, estrelas, moedas, itens da loja, conquistas, troféus, pontuação dos desafios, histórico de partidas e estatísticas serão apagados. Não dá para desfazer.', [{ txt: 'Cancelar', val: false }, { txt: 'Sim, zerar tudo', cls: 'perigo', val: true }]);
-      if (!ok) return;
-      Dados.zerar(); Dados.salvar(); aplicarVisual(); App.atualizarTopo(); aviso('Progresso zerado.'); this.tela();
-    };
+    const sair = $('#aj-sair'); if (sair) sair.onclick = () => Nuvem.sair();
   },
   textoInstalar() {
     const instalado = window.matchMedia && matchMedia('(display-mode: standalone)').matches;
@@ -8128,8 +8165,13 @@ const ERROS_AUTH = {
   'auth/cancelled-popup-request': 'A janela do Google foi fechada antes de terminar.',
   'auth/operation-not-allowed': 'Esse tipo de login ainda não foi ativado no Firebase (veja as instruções).',
   'auth/unauthorized-domain': 'Este endereço ainda não foi autorizado no Firebase (veja as instruções).',
-  'auth/operation-not-supported-in-this-environment': 'Abra o jogo pelo endereço do site (não pelo arquivo) para entrar com o Google.'
+  'auth/operation-not-supported-in-this-environment': 'Abra o jogo pelo endereço do site (não pelo arquivo) para entrar com o Google.',
+  'auth/admin-restricted-operation': 'O modo convidado ainda não foi ativado no Firebase.',
+  'auth/credential-already-in-use': 'Essa conta do Google já existe no TrainerX. Para usá-la, saia do modo convidado e entre com ela (o progresso de convidado não vai junto).',
+  'auth/provider-already-linked': 'Esta conta já está ligada a esse tipo de login.',
+  'auth/requires-recent-login': 'Por segurança, saia e entre de novo para fazer isso.'
 };
+const SVG_GOOGLE = '<svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>';
 const msgErro = e => ERROS_AUTH[e && e.code] || ((e && e.code === 'permission-denied') ? 'Sem permissão no banco de dados (confira as regras do Firestore).' : 'Algo deu errado. Tente de novo.');
 
 const Nuvem = {
@@ -8175,19 +8217,27 @@ const Nuvem = {
     else if (this.usuario && this.pendente) this.subir();
   },
   temModulo(u) { return /app-compat/.test(u) ? !!window.firebase : /auth/.test(u) ? !!(window.firebase && firebase.auth) : !!(window.firebase && firebase.firestore); },
-  repintar() { const el = $('#conta'); if (el) this.pintarConta(el); App.atualizarTopo(); },
+  repintar() { const el = $('#conta'); if (el) this.pintarConta(el); App.atualizarTopo(); if (typeof Entrada !== 'undefined') Entrada.atualizar(); },
 
   async aoMudarUsuario(u) {
-    this.usuario = u || null;
+    this.usuario = u || null; this.authPronta = true;
     Dev.conferir(u);
     if (u) {
-      try { await this.baixar(); } finally { this.liberarPrimeira(); }
+      Entrada.marcarConvidado(false);
+      try { await this.baixar(); } finally { this.liberarPrimeira(); Entrada.fechar(); }
       if (Conquistas.marcar('conta')) { Dados.salvar(); Conquistas.verificar(); }
       Salas.verificarPendente();
       Convites.iniciar(); Pedidos.iniciar(); Perfis.pulso(); Avisos.vigiar();
       setTimeout(() => { Premios.ultima = Date.now(); Premios.conferir(); }, 2500);
       setTimeout(() => { Guilda.ultCarga = Date.now(); Guilda.carregar(); }, 3500);
-    } else { this.liberarPrimeira(); Convites.encerrar(); Pedidos.encerrar(); Avisos.parar(); Guilda.dados = null; Guilda.id = null; Guilda.carregou = false; Guilda.pedidos = []; }
+    } else {
+      Convites.encerrar(); Pedidos.encerrar(); Avisos.parar(); Guilda.dados = null; Guilda.id = null; Guilda.carregou = false; Guilda.pedidos = [];
+      if (this.saindo) { /* saindo da conta: a página vai recarregar */ }
+      else if (Entrada.convidadoPendente() && navigator.onLine !== false) {
+        // escolheu "convidado" sem internet: agora que conectou, cria a conta de convidado (o progresso do aparelho vai junto)
+        this.auth.signInAnonymously().catch(() => { this.liberarPrimeira(); });
+      } else { this.liberarPrimeira(); Entrada.conferir(); }
+    }
     this.repintar();
   },
   /* junta o progresso deste aparelho com o da conta, sem perder nada */
@@ -8252,15 +8302,15 @@ const Nuvem = {
         const nuv = Dados.completar(JSON.parse(snap.data().json));
         let final;
         if (this.donoLocal() === uid) final = this.mesclar(Dados.d, nuv);          // mesmo dono: junta sem perguntar (inclui o que foi feito offline)
-        else if (this.temProgresso(Dados.d)) {
+        else if (!this.donoLocal() && this.temProgresso(Dados.d)) {      // progresso antigo, de antes das contas (sem dono)
           const juntar = await modal('Progresso encontrado na conta', 'Este aparelho já tem progresso salvo, e a sua conta também. O que você quer fazer?', [{ txt: 'Usar só o da conta', val: false }, { txt: 'Juntar os dois', cls: 'pri', val: true }]);
           final = juntar ? this.mesclar(Dados.d, nuv) : Object.assign(nuv, { ajustes: Dados.d.ajustes });
-        } else final = Object.assign(nuv, { ajustes: Dados.d.ajustes });
+        } else final = Object.assign(nuv, { ajustes: Dados.d.ajustes });              // conta diferente: vale só o que é da conta
         Dados.d = Dados.completar(final); Livro.recalcular();
       } else if (this.donoLocal() && this.donoLocal() !== uid) {
         // a conta nova não tem nada na nuvem, e este aparelho era de OUTRA conta: a conta nova começa do zero
         // (não herda fases, moedas, itens nem nada da outra conta — inclusive da conta de desenvolvedor)
-        Dados.d = Dados.completar({ ajustes: Dados.d.ajustes, perfil: { nome: Dados.d.perfil.nome || '' } }); Livro.recalcular();
+        Dados.d = Dados.completar({ ajustes: Dados.d.ajustes }); Livro.recalcular();
       }
       this.definirDono(uid);
       if (!Dados.d.perfil.nome && this.usuario.displayName) Dados.d.perfil.nome = this.usuario.displayName.slice(0, 20);
@@ -8270,7 +8320,7 @@ const Nuvem = {
     } catch (e) { this.erroSync = true; aviso('Não consegui baixar seu progresso da nuvem: ' + msgErro(e), 4500); }
   },
   /* envia o progresso para a nuvem (alguns segundos depois da última mudança) */
-  agendar() { this.pendente = true; if (!this.usuario) return; clearTimeout(this.timer); this.timer = setTimeout(() => { this.timer = null; this.subir(); }, 2500); },
+  agendar() { this.pendente = true; if (!this.usuario || this.saindo) return; clearTimeout(this.timer); this.timer = setTimeout(() => { this.timer = null; this.subir(); }, 2500); },
   /* adota o resultado da junção sem trocar os objetos que as telas abertas estão usando */
   adotar(final) {
     const d = Dados.d;
@@ -8282,7 +8332,7 @@ const Nuvem = {
   },
   /* lê a conta, junta com o que há neste aparelho (nada se perde) e grava a junção nos dois lugares */
   async subir() {
-    if (!this.usuario || !this.db) return;
+    if (!this.usuario || !this.db || this.saindo) return;
     if (navigator.onLine === false) { this.pendente = true; this.atualizarSync(); return; }
     if (this.subindo) { this.pendente = true; return; }
     this.subindo = true; this.pendente = false;
@@ -8323,24 +8373,35 @@ const Nuvem = {
   },
 
   /* ---------- cartão "Conta" do perfil ---------- */
+  /* nome que aparece para a conta conectada */
+  nomeConta(u = this.usuario) { return !u ? '' : u.isAnonymous ? 'Convidado' : (u.email || u.displayName || 'sua conta'); },
+
+  /* ---------- cartão "Conta" do perfil ---------- */
   pintarConta(el) {
     let h = '<h3>Conta</h3>';
+    const u = this.usuario, convidado = !!(u && u.isAnonymous);
+    const form = (txtBotao, txtGoogle, esqueci) => `<div class="pilha" style="gap:8px">
+          <input class="campo" id="c-email" type="email" placeholder="E-mail" autocomplete="email" inputmode="email">
+          <input class="campo" id="c-senha" type="password" placeholder="Senha (mínimo 6 caracteres)" autocomplete="${convidado ? 'new-password' : 'current-password'}">
+          ${txtBotao}
+          <button class="bt cheio" id="${convidado ? 'c-ligar-google' : 'c-google'}">${SVG_GOOGLE}${txtGoogle}</button>
+          ${esqueci ? '<button class="link" id="c-esqueci">Esqueci minha senha</button>' : ''}
+          <p class="sub" id="c-msg" role="alert"></p></div>`;
     if (!this.configurada()) h += '<p class="sub">As contas e o jogo online ainda não foram ativados neste site. Enquanto isso, seu progresso fica salvo neste aparelho.</p>';
-    else if (this.estado === 'offline') h += `<p class="sub">📴 Sem internet agora. Pode jogar à vontade: conquistas, troféus, fases, desafios e moedas ficam salvos neste aparelho${this.donoLocal() ? ' e vão para a sua conta sozinhos quando a internet voltar' : ''}.</p>`;
+    else if (this.estado === 'offline') h += `<p class="sub">📴 Sem internet agora. Pode jogar à vontade: tudo fica salvo neste aparelho${this.donoLocal() || Entrada.convidadoPendente() ? ' e vai para a sua conta sozinho quando a internet voltar' : ''}.</p>`;
     else if (this.estado === 'carregando') h += '<p class="sub">Conectando…</p>';
     else if (this.estado === 'erro') h += '<p class="sub">Não foi possível conectar à nuvem.</p><button class="bt" id="c-tentar">Tentar de novo</button>';
-    else if (this.usuario) {
-      h += `<p>Conectado como <b>${esc(this.usuario.email || this.usuario.displayName || 'sua conta')}</b>.</p><p class="sub" id="sync-txt" style="margin:4px 0 10px">${this.textoSync()}</p>
+    else if (convidado) {
+      h += `<p>Você está jogando como <b>convidado</b>.</p><p class="sub" id="sync-txt" style="margin:4px 0 10px">${this.textoSync()}</p>
+        <div class="aviso-conv"><b>Não perca seu progresso</b><span>Como convidado, ele só fica neste aparelho: se sair, trocar de celular ou limpar o navegador, perde tudo. Salve numa conta (é grátis) para guardar moedas, gemas, itens e fases e jogar em qualquer aparelho.</span></div>
+        ${form('<button class="bt pri cheio" id="c-ligar">Salvar com e-mail e senha</button>', 'Salvar com o Google', false)}
+        <button class="bt perigo cheio" id="c-sair" style="margin-top:6px">Sair do modo convidado</button>`;
+    } else if (u) {
+      h += `<p>Conectado como <b>${esc(this.nomeConta())}</b>.</p><p class="sub" id="sync-txt" style="margin:4px 0 10px">${this.textoSync()}</p>
         <div class="fila"><button class="bt" id="c-sync">Sincronizar agora</button><button class="bt perigo" id="c-sair">Sair da conta</button></div>`;
     } else {
       h += `<p class="sub" style="margin-bottom:10px">Crie uma conta para salvar seu progresso e continuar em qualquer aparelho, e para jogar online com amigos.</p>
-        <div class="pilha" style="gap:8px">
-          <input class="campo" id="c-email" type="email" placeholder="E-mail" autocomplete="email" inputmode="email">
-          <input class="campo" id="c-senha" type="password" placeholder="Senha (mínimo 6 caracteres)" autocomplete="current-password">
-          <div class="fila"><button class="bt pri" id="c-entrar" style="flex:1">Entrar</button><button class="bt" id="c-criar" style="flex:1">Criar conta</button></div>
-          <button class="bt cheio" id="c-google"><svg viewBox="0 0 48 48" width="20" height="20"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Entrar com o Google</button>
-          <button class="link" id="c-esqueci">Esqueci minha senha</button>
-          <p class="sub" id="c-msg" role="alert"></p></div>`;
+        ${form('<div class="fila"><button class="bt pri" id="c-entrar" style="flex:1">Entrar</button><button class="bt" id="c-criar" style="flex:1">Criar conta</button></div>', 'Entrar com o Google', true)}`;
     }
     el.innerHTML = h;
     const liga = (id, fn) => { const b = $(id, el); if (b) b.onclick = fn; };
@@ -8349,10 +8410,17 @@ const Nuvem = {
     const ocupado = async (fn) => { $$('button', el).forEach(b => { b.disabled = true; }); try { await fn(); } catch (e) { msg(msgErro(e)); } $$('button', el).forEach(b => { b.disabled = false; }); };
     liga('#c-tentar', () => { this.estado = 'desligada'; this.iniciar(); });
     liga('#c-sync', async () => { await this.subir(); aviso(this.erroSync ? 'Não foi possível sincronizar.' : 'Progresso sincronizado!'); });
-    liga('#c-sair', async () => {
-      const ok = await modal('Sair da conta?', 'Seu progresso continua salvo na conta. Neste aparelho ele também continua, até você zerar.', [{ txt: 'Cancelar', val: false }, { txt: 'Sair', cls: 'perigo', val: true }]);
-      if (ok) { await this.subir(); await this.auth.signOut(); aviso('Você saiu da conta.'); }
-    });
+    liga('#c-sair', () => this.sair());
+    liga('#c-ligar', () => ocupado(async () => {
+      const [e, s] = dados(); if (!e) { msg('Digite o seu e-mail.'); return; } if (!s) { msg('Crie uma senha.'); return; }
+      msg('Salvando na conta…'); await this.usuario.linkWithCredential(firebase.auth.EmailAuthProvider.credential(e, s)); await this.depoisDeLigar();
+    }));
+    liga('#c-ligar-google', () => ocupado(async () => {
+      const prov = new firebase.auth.GoogleAuthProvider();
+      try { await this.usuario.linkWithPopup(prov); }
+      catch (e) { if (e && /popup-blocked|operation-not-supported/.test(e.code || '')) { await this.usuario.linkWithRedirect(prov); return; } throw e; }
+      await this.depoisDeLigar();
+    }));
     liga('#c-entrar', () => ocupado(async () => { const [e, s] = dados(); msg('Entrando…'); await this.auth.signInWithEmailAndPassword(e, s); msg(''); aviso('Bem-vindo de volta!'); }));
     liga('#c-criar', () => ocupado(async () => {
       const [e, s] = dados(); msg('Criando conta…');
@@ -8369,6 +8437,48 @@ const Nuvem = {
       const [e] = dados(); if (!e) { msg('Digite seu e-mail no campo acima e toque de novo em “Esqueci minha senha”.'); return; }
       await this.auth.sendPasswordResetEmail(e); msg('Enviamos um e-mail para você criar uma nova senha (confira também o spam).');
     }));
+  },
+  /* o convidado virou conta de verdade (mesmo progresso, mesmo jogador) */
+  async depoisDeLigar() {
+    try { await this.auth.currentUser.reload(); } catch (e) { /* ignora */ }
+    this.usuario = this.auth.currentUser || this.usuario;
+    Dev.conferir(this.usuario);
+    if (!Dados.d.perfil.nome && this.usuario.displayName) Dados.d.perfil.nome = this.usuario.displayName.slice(0, 20);
+    Dados.salvar(); this.repintar();
+    aviso('Pronto! Seu progresso agora está guardado na sua conta.', 3500);
+  },
+
+  /* ---------- sair da conta ----------
+     O progresso é da conta: antes de sair ele é enviado para a nuvem, depois este aparelho
+     é limpo e volta para a tela de entrada. Para continuar, é só entrar de novo. */
+  async sair() {
+    const u = this.usuario; if (!u || this.saindo) return;
+    if (u.isAnonymous) {
+      const r = await modal('Sair do modo convidado?', 'Se você sair, o progresso de convidado (moedas, gemas, itens, fases e tudo mais) não poderá ser recuperado, nem neste aparelho nem em outro. Para não perder, salve numa conta com e-mail ou Google antes.',
+        [{ txt: 'Salvar numa conta', cls: 'pri', val: 'salvar' }, { txt: 'Cancelar', val: false }, { txt: 'Sair e perder tudo', cls: 'perigo', val: 'sair' }]);
+      if (r === 'salvar') { App.ir('conta'); return; }
+      if (r !== 'sair') return;
+    } else {
+      if (navigator.onLine === false) { await modal('Sem internet', 'Para sair da conta, conecte-se à internet. Assim tudo o que você fez é guardado na conta antes de sair.', [{ txt: 'Entendi', cls: 'pri', val: 1 }]); return; }
+      const ok = await modal('Sair da conta?', 'Seu progresso fica guardado na conta. Para continuar de onde parou, é só entrar de novo, neste ou em outro aparelho.', [{ txt: 'Cancelar', val: false }, { txt: 'Sair', cls: 'perigo', val: true }]);
+      if (!ok) return;
+      aviso('Guardando seu progresso na conta…');
+      for (let i = 0; this.subindo && i < 50; i++) await new Promise(r => setTimeout(r, 200));
+      clearTimeout(this.timer); this.timer = null;
+      await this.subir();
+      if (this.erroSync) { aviso('Não consegui guardar o progresso na nuvem agora. Tente sair de novo daqui a pouco.', 4500); return; }
+    }
+    this.saindo = true; clearTimeout(this.timer); this.timer = null;
+    try { await this.auth.signOut(); } catch (e) { this.saindo = false; aviso(msgErro(e), 4000); return; }
+    this.usuario = null;
+    this.limparAparelho();
+    location.reload();
+  },
+  /* tira deste aparelho tudo o que era da conta (fica só o tema, o som e as outras preferências do aparelho) */
+  limparAparelho() {
+    const aj = Dados.d.ajustes;
+    try { ['trainer-xadrez-uid', Dados.CHAVE_PARTIDA, 'trainer-xadrez-analises', 'trainer-xadrez-rei', 'trainer-xadrez-rei-visto', Dev.CHAVE + '-uid', Entrada.CONVIDADO].forEach(k => localStorage.removeItem(k)); } catch (e) { /* ignora */ }
+    Dados.d = Dados.completar({ ajustes: aj }); Livro.recalcular(); Dados.salvar(false);
   }
 };
 
@@ -8660,6 +8770,151 @@ const Salas = {
       $('#a-entrar').disabled = true; await this.entrarPorCodigo(c); const b = $('#a-entrar'); if (b) b.disabled = false;
     });
     const cod = $('#a-codigo'); if (cod) cod.addEventListener('keydown', e => { if (e.key === 'Enter') $('#a-entrar').click(); });
+  }
+};
+
+/* ==========================================================================
+   ENTRADA — aparece depois do carregamento quando este aparelho não tem
+   conta conectada: criar conta (e-mail ou Google), entrar, ou jogar como
+   convidado (conta anônima do Firebase, sem cadastro).
+   Depois da primeira vez o Firebase lembra a conta e o jogo entra direto.
+   ========================================================================== */
+const Entrada = {
+  el: null, aba: 'criar', ocupado: false, email: '',
+  CONVIDADO: 'trainer-xadrez-convidado',      // escolheu "convidado" sem internet: a conta é criada quando a internet voltar
+  convidadoPendente() { try { return localStorage.getItem(this.CONVIDADO) === '1'; } catch (e) { return false; } },
+  marcarConvidado(v) { try { if (v) localStorage.setItem(this.CONVIDADO, '1'); else localStorage.removeItem(this.CONVIDADO); } catch (e) { /* ignora */ } },
+  /* testes automáticos (navegador robô) pulam a tela, a não ser que peçam ?entrada no endereço — igual à abertura */
+  pular() { return !!navigator.webdriver && !/entrada/.test(location.search); },
+  /* precisa mostrar a tela? */
+  precisa() {
+    if (!Nuvem.configurada() || Nuvem.usuario || Nuvem.saindo || this.convidadoPendente() || this.pular()) return false;
+    if (Nuvem.authPronta) return true;          // a nuvem respondeu: ninguém conectado neste aparelho
+    return !Nuvem.donoLocal();                  // sem resposta (ex.: sem internet): se o aparelho já tem conta, entra com o que está salvo nele
+  },
+  conferir() { if (this.precisa()) this.abrir(); },
+
+  abrir() {
+    if (this.el) { this.atualizar(); return; }
+    const el = document.createElement('div');
+    el.id = 'entrada'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', 'Entrar no TrainerX');
+    document.body.appendChild(el); this.el = el;
+    document.documentElement.classList.add('na-entrada');
+    el.addEventListener('click', e => this.clique(e));
+    el.addEventListener('submit', e => { e.preventDefault(); this.enviar(); });
+    this.pintar();
+  },
+  fechar() {
+    const el = this.el; if (!el) return;
+    this.el = null; this.ocupado = false;
+    document.documentElement.classList.remove('na-entrada');
+    el.classList.add('sai'); setTimeout(() => el.remove(), 450);
+  },
+
+  semInternet() { return navigator.onLine === false || Nuvem.estado === 'offline' || Nuvem.estado === 'erro'; },
+  txtSemInternet() { return '📴 Sem internet agora. Para criar conta ou entrar, conecte-se. Como convidado você já pode jogar.'; },
+  pintar() {
+    const el = this.el; if (!el) return;
+    const ant = $('#en-email', el); if (ant) this.email = ant.value;
+    const criar = this.aba === 'criar';
+    el.innerHTML = `<div class="en-cx">
+      <header class="en-topo">
+        <svg class="en-cavalo" viewBox="0 0 100 100" aria-hidden="true"><use href="#pc-n"/></svg>
+        <h1>Trainer<span>X</span></h1><small>Trainer Xadrez</small>
+      </header>
+      <div class="en-cartao">
+        <p class="en-boas">${criar ? 'Crie sua conta para guardar seu progresso e jogar com amigos em qualquer aparelho.' : 'Que bom te ver de novo! Entre para continuar de onde parou.'}</p>
+        <div class="en-abas" role="tablist">
+          <button type="button" role="tab" aria-selected="${criar}" class="${criar ? 'on' : ''}" data-aba="criar">Criar conta</button>
+          <button type="button" role="tab" aria-selected="${!criar}" class="${criar ? '' : 'on'}" data-aba="entrar">Entrar</button>
+        </div>
+        <form class="en-form" novalidate>
+          <input class="campo" id="en-email" type="email" placeholder="E-mail" autocomplete="email" inputmode="email" value="${esc(this.email)}">
+          <input class="campo" id="en-senha" type="password" placeholder="${criar ? 'Crie uma senha (mínimo 6 caracteres)' : 'Senha'}" autocomplete="${criar ? 'new-password' : 'current-password'}">
+          <button class="bt pri cheio" type="submit" id="en-enviar">${criar ? 'Criar conta' : 'Entrar'}</button>
+          ${criar ? '' : '<button type="button" class="link" data-esqueci>Esqueci minha senha</button>'}
+        </form>
+        <div class="en-ou"><span>ou</span></div>
+        <button type="button" class="bt cheio en-google" data-google>${SVG_GOOGLE}${criar ? 'Criar com o Google' : 'Entrar com o Google'}</button>
+        <button type="button" class="bt cheio en-conv" data-convidado>Jogar como convidado</button>
+        <p class="en-nota">Como convidado você joga sem cadastro. Depois dá para salvar o progresso numa conta.</p>
+        <p class="en-msg" id="en-msg" role="alert">${this.semInternet() ? this.txtSemInternet() : ''}</p>
+      </div></div>`;
+  },
+  /* a conexão mudou: só troca o aviso (não apaga o que a pessoa já digitou) */
+  atualizar() {
+    if (!this.el || this.ocupado) return;
+    const m = $('#en-msg', this.el); if (!m) return;
+    if (this.semInternet()) m.textContent = this.txtSemInternet();
+    else if (m.textContent === this.txtSemInternet()) m.textContent = '';
+  },
+  msg(t) { const m = this.el && $('#en-msg', this.el); if (m) m.textContent = t; },
+  dados() { return [($('#en-email', this.el).value || '').trim(), $('#en-senha', this.el).value || '']; },
+
+  clique(e) {
+    if (this.ocupado) return;
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.aba) { if (b.dataset.aba !== this.aba) { this.aba = b.dataset.aba; this.pintar(); } return; }
+    if (b.hasAttribute('data-esqueci')) return this.esqueci();
+    if (b.hasAttribute('data-google')) return this.google();
+    if (b.hasAttribute('data-convidado')) return this.convidado();
+  },
+  /* faz a ação de login; se der certo, a tela fecha sozinha quando o progresso da conta terminar de carregar */
+  async acao(fn, txt) {
+    if (this.ocupado) return;
+    if (!Nuvem.auth) {
+      if (this.semInternet()) this.msg('Sem internet. Conecte-se para entrar, ou jogue como convidado.');
+      else { this.msg('Conectando ao servidor… tente de novo em alguns segundos.'); Nuvem.aoReconectar(); }
+      return;
+    }
+    this.ocupado = true; this.el.classList.add('ocupado'); this.msg(txt);
+    try { await fn(); }
+    catch (e) {
+      this.ocupado = false;
+      if (this.el) { this.el.classList.remove('ocupado'); this.msg(msgErro(e)); }
+    }
+  },
+  enviar() {
+    if (this.ocupado) return;
+    const [e, s] = this.dados();
+    if (!e) { this.msg('Digite o seu e-mail.'); return; }
+    if (!s) { this.msg(this.aba === 'criar' ? 'Crie uma senha.' : 'Digite a senha.'); return; }
+    if (this.aba === 'criar') this.acao(async () => {
+      const c = await Nuvem.auth.createUserWithEmailAndPassword(e, s);
+      if (Dados.d.perfil.nome && !Nuvem.donoLocal() && c && c.user) { try { await c.user.updateProfile({ displayName: Dados.d.perfil.nome }); } catch (er) { /* opcional */ } }
+      aviso('Conta criada! Bem-vindo ao TrainerX.', 3000);
+    }, 'Criando sua conta…');
+    else this.acao(async () => { await Nuvem.auth.signInWithEmailAndPassword(e, s); aviso('Bem-vindo de volta!'); }, 'Entrando…');
+  },
+  google() {
+    this.acao(async () => {
+      const prov = new firebase.auth.GoogleAuthProvider();
+      try { await Nuvem.auth.signInWithPopup(prov); }
+      catch (er) { if (er && /popup-blocked|operation-not-supported/.test(er.code || '')) await Nuvem.auth.signInWithRedirect(prov); else throw er; }
+    }, 'Abrindo o Google…');
+  },
+  async esqueci() {
+    const [e] = this.dados();
+    if (!e) { this.msg('Digite seu e-mail no campo acima e toque de novo em “Esqueci minha senha”.'); return; }
+    if (!Nuvem.auth) { this.msg('Sem internet. Conecte-se e tente de novo.'); return; }
+    try { await Nuvem.auth.sendPasswordResetEmail(e); this.msg('Enviamos um e-mail para você criar uma nova senha (confira também o spam).'); }
+    catch (er) { this.msg(msgErro(er)); }
+  },
+  convidado() {
+    if (this.ocupado) return;
+    if (Nuvem.auth && !this.semInternet()) {
+      this.acao(async () => {
+        try { await Nuvem.auth.signInAnonymously(); }
+        catch (er) { if (er && er.code === 'auth/network-request-failed') this.convidadoSemInternet(); else throw er; }
+      }, 'Preparando seu jogo…');
+      return;
+    }
+    this.convidadoSemInternet();
+  },
+  /* sem internet: joga neste aparelho e a conta de convidado é criada quando a internet voltar */
+  convidadoSemInternet() {
+    this.marcarConvidado(true); this.fechar(); App.ir('menu');
+    aviso('Jogando como convidado. Seu progresso vai para a nuvem quando a internet voltar.', 4000);
   }
 };
 
@@ -9985,7 +10240,7 @@ const Dev = {
       <div class="cartao pilha" style="gap:4px"><h3>Desbloqueios</h3>
         <label class="chave"><span><b>Liberar tudo</b><small>Todos os tabuleiros, fotos, molduras e fases, sem comprar nem vencer. Desligue para ver o jogo como um jogador comum.</small></span><input type="checkbox" id="dev-tudo" ${o.tudo !== false ? 'checked' : ''}><i></i></label></div>
       <div class="cartao pilha"><h3>Atalhos de teste</h3>
-        <p class="sub" style="margin-top:-6px">Estes mudam o progresso de verdade (e na sua conta). Para voltar ao começo, use Configurações → Zerar progresso.</p>
+        <p class="sub" style="margin-top:-6px">Estes mudam o progresso de verdade (e na sua conta).</p>
         ${atalho('conq', 'Ganhar todas as conquistas e troféus', 'Inclui as moedas de cada conquista')}
         ${atalho('fases', 'Concluir todas as fases', '3 estrelas em todas')}
         ${atalho('desafios', 'Concluir todos os desafios', 'Marca os 55 como resolvidos')}
@@ -10269,7 +10524,7 @@ const Estatisticas = {
           <p style="margin-top:10px">Pontuação nos desafios: <b style="color:var(--dest)">${d.desafios.pontos}</b> · Melhor sequência: <b>${d.desafios.melhorSeq || 0}</b></p>
           <p>Moedas ganhas no total: <b>${MOEDA} ${d.moedasTotal}</b> · Dicas usadas: <b>${d.extras.dicas || 0}</b></p></div>
       </div>
-      <p class="sub" style="text-align:center">Para apagar tudo, vá em Configurações → Zerar progresso.</p></div>`;
+</div>`;
     $('[data-hist]').onclick = () => App.ir('historico');
   }
 };
@@ -10294,8 +10549,10 @@ const Estatisticas = {
   if (window.Abertura) {
     const teto = new Promise(r => setTimeout(r, 6000));
     const fontes = (document.fonts && document.fonts.ready) ? document.fonts.ready.catch(() => 0) : Promise.resolve();
-    Promise.race([Promise.all([Nuvem.esperarPrimeira(), fontes]), teto]).then(() => Abertura.fechar());
+    Promise.race([Promise.all([Nuvem.esperarPrimeira(), fontes]), teto]).then(() => { Entrada.conferir(); Abertura.fechar(); });
   }
+  // sem conta neste aparelho: depois do carregamento aparece a tela de criar conta / entrar / convidado
+  Nuvem.esperarPrimeira().then(() => Entrada.conferir());
   // modo sem internet: guarda o app no aparelho (só quando aberto por um site, ex.: GitHub Pages)
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
     window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => { /* sem modo offline neste navegador */ }); });
