@@ -1,7 +1,7 @@
 /* Service worker do Trainer de Xadrez: guarda o app no aparelho para funcionar sem internet.
    Estratégia: tenta a internet primeiro (para pegar atualizações) e, se não houver conexão,
    usa a cópia guardada. */
-const CACHE = 'trainer-xadrez-v22';
+const CACHE = 'trainer-xadrez-v23';
 const ARQUIVOS = ['./', './index.html', './manifest.json', './icone-192.png', './icone-512.png', './config.js'];
 
 self.addEventListener('install', e => {

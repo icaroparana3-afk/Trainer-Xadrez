@@ -8257,6 +8257,10 @@ const Nuvem = {
           final = juntar ? this.mesclar(Dados.d, nuv) : Object.assign(nuv, { ajustes: Dados.d.ajustes });
         } else final = Object.assign(nuv, { ajustes: Dados.d.ajustes });
         Dados.d = Dados.completar(final); Livro.recalcular();
+      } else if (this.donoLocal() && this.donoLocal() !== uid) {
+        // a conta nova não tem nada na nuvem, e este aparelho era de OUTRA conta: a conta nova começa do zero
+        // (não herda fases, moedas, itens nem nada da outra conta — inclusive da conta de desenvolvedor)
+        Dados.d = Dados.completar({ ajustes: Dados.d.ajustes, perfil: { nome: Dados.d.perfil.nome || '' } }); Livro.recalcular();
       }
       this.definirDono(uid);
       if (!Dados.d.perfil.nome && this.usuario.displayName) Dados.d.perfil.nome = this.usuario.displayName.slice(0, 20);
