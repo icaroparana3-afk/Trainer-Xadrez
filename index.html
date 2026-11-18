@@ -6564,6 +6564,11 @@ const Ranking = {
   /* envia o resumo público (nome, foto, nível, XP, pontos) — só quando algo mudou */
   async publicar() {
     if (!Nuvem.usuario || !Nuvem.db) return;
+    try { await Dev.pronto; } catch (e) { /* segue */ }
+    if (Dev.ativo) {                       // a conta de dev não aparece em nenhum ranking: apaga o registro público dela
+      if (this.devLimpo !== Nuvem.usuario.uid) { this.devLimpo = Nuvem.usuario.uid; try { await Nuvem.db.collection('ranking').doc(Nuvem.usuario.uid).delete(); } catch (e) { /* segue */ } }
+      return;
+    }
     const o = this.doc(), chave = JSON.stringify(Object.assign({}, o, { t: 0, visto: 0 }));
     if (chave === this.enviado) { this.publicarHistorico(); return; }
     try { await Nuvem.db.collection('ranking').doc(Nuvem.usuario.uid).set(o); this.enviado = chave; this.erro = null; Guilda.sincronizar(); }
@@ -9831,7 +9836,7 @@ const Guilda = {
   },
   /* atualiza a linha do jogador dentro da guilda (XP, nível, foto) e os totais */
   async sincronizar() {
-    const id = this.meuId(), u = this.uid(); if (!id || !u || !Nuvem.db) return;
+    const id = this.meuId(), u = this.uid(); if (!id || !u || !Nuvem.db || Dev.ativo) return;
     const e = this.minhaEntrada(), chave = JSON.stringify(e);
     if (chave === this.enviado || this.sincronizando) return;
     this.sincronizando = true;
@@ -10426,7 +10431,8 @@ const Dev = {
   get tudo() { return this.ativo && this.op().tudo !== false; },
 
   /* chamada sempre que a conta muda (entrar, sair, abrir o app já conectado) */
-  async conferir(u) {
+  conferir(u) { return this.pronto = this.conferirAsync(u); },
+  async conferirAsync(u) {
     let ok = false;
     try {
       if (u && u.email && u.emailVerified && window.crypto && crypto.subtle) ok = DEV_CONTAS.includes(await sha256(u.email.trim().toLowerCase()));
