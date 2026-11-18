@@ -1627,6 +1627,85 @@ input,textarea,select,[contenteditable="true"]{-webkit-user-select:text;user-sel
 .lj-fita h2{line-height:1.3;padding:.14em 0 .06em}
 .excluir-conta{display:block;margin:14px auto 0;color:var(--ruim)!important;font-size:.85rem}
 
+/* ---------- quadro do perfil (abre ao tocar no ícone do jogador) ---------- */
+html.quadro-aberto,html.quadro-aberto body{overflow:hidden}
+#quadro{position:fixed;inset:0;z-index:48;display:grid;place-items:center;padding:calc(18px + env(safe-area-inset-top)) 14px calc(14px + env(safe-area-inset-bottom));
+  background:rgba(12,7,3,.66);animation:qpFundo .22s ease both;-webkit-tap-highlight-color:transparent}
+#quadro.sai{animation:qpSai .22s ease both;pointer-events:none}
+@keyframes qpFundo{from{opacity:0}}
+@keyframes qpSai{to{opacity:0}}
+.qp{--qp-p:#f8ead8;--qp-borda:#c08c5f;--qp-esc:#6b4428;--qp-tx:#5a3a22;--qp-tan:#d8b391;
+  position:relative;width:min(100%,430px);max-height:100%;display:flex;flex-direction:column;gap:10px;padding:14px 14px 12px;
+  background:var(--qp-p);border:4px solid #fff7ec;border-radius:24px;box-shadow:0 0 0 3px var(--qp-borda),0 24px 60px rgba(0,0,0,.55);
+  color:var(--qp-tx);font-family:Nunito,Inter,system-ui,sans-serif;animation:qpEntra .34s cubic-bezier(.2,.9,.25,1.15) both}
+@keyframes qpEntra{from{opacity:0;transform:scale(.88) translateY(14px)}}
+.qp-x{position:absolute;top:-16px;right:-14px;z-index:3;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;cursor:pointer;
+  background:linear-gradient(#f2645f,#c62f2b);border:3px solid #fff;box-shadow:0 4px 0 #8e1f1c,0 6px 14px rgba(0,0,0,.35)}
+.qp-x svg{width:24px;height:24px;stroke:#fff;stroke-width:3.4;fill:none;stroke-linecap:round}
+.qp-x:active{transform:translateY(2px);box-shadow:0 2px 0 #8e1f1c}
+/* cabeçalho: foto, nome com lápis e o nível na fita */
+.qp-cab{position:relative;display:flex;gap:12px;align-items:center;padding:12px 74px 12px 12px;border-radius:18px;
+  background:linear-gradient(160deg,#fffaf3,#f3dcc2);border:3px solid #ead2b6;box-shadow:inset 0 0 0 2px #fff}
+.qp-foto{flex:none;filter:drop-shadow(0 4px 6px rgba(90,58,34,.3))}
+.qp-quem{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.qp-conta{font:800 .72rem/1 Nunito,Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#a77b55}
+.qp-nome{display:flex;align-items:center;gap:6px;background:linear-gradient(#c79b74,#b5875f);border-radius:12px;padding:3px 4px 3px 10px;box-shadow:inset 0 2px 3px rgba(0,0,0,.18)}
+.qp-nome input{flex:1;min-width:0;border:0;background:transparent;color:#fff;font:800 1.05rem/1.4 Nunito,Inter,sans-serif;outline:none;text-shadow:0 1px 0 rgba(0,0,0,.35);padding:4px 0}
+.qp-nome input::placeholder{color:#fbe8d4}
+.qp-nome input:not([readonly]){background:rgba(255,255,255,.18);border-radius:8px;padding:4px 6px}
+.qp-lapis{position:relative;flex:none;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:#fff7ec;cursor:pointer;box-shadow:0 2px 0 #8d5f3a}
+.qp-lapis svg{width:18px;height:18px;stroke:var(--qp-esc);stroke-width:2.2;fill:none;stroke-linejoin:round}
+.qp-lapis i{position:absolute;top:-7px;right:-7px;min-width:17px;height:17px;border-radius:9px;background:#3fbf5f;color:#fff;font:800 10px/17px Inter,sans-serif;font-style:normal;padding:0 4px;border:2px solid #fff}
+.qp-selos:empty{display:none}
+.qp-xp{position:relative;display:block;height:16px;border-radius:9px;background:#e2c6a8;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.2)}
+.qp-xp i{position:absolute;inset:0 auto 0 0;background:linear-gradient(#7ad1ff,#2e8fe0);border-radius:9px}
+.qp-xp b{position:relative;display:block;text-align:center;font:800 .68rem/16px Nunito,Inter,sans-serif;color:#fff;text-shadow:0 1px 1px rgba(0,0,0,.5)}
+.qp-fita{position:absolute;top:-10px;right:10px;width:64px;padding:10px 4px 16px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;
+  background:linear-gradient(#d23a3a,#a3201f);border:3px solid #f2c14e;border-top:0;clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%);filter:drop-shadow(0 4px 4px rgba(0,0,0,.3))}
+.qp-fita b{font:800 .66rem/1.05 Nunito,Inter,sans-serif;color:#fff;text-align:center;text-shadow:0 1px 0 rgba(0,0,0,.5)}
+/* abas */
+.qp-abas{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:2px;border-bottom:3px solid var(--qp-tan);padding-bottom:0}
+.qp-abas button{position:relative;padding:9px 2px 8px;border-radius:12px 12px 0 0;cursor:pointer;
+  background:linear-gradient(#f2d9bd,#e3bf9c);color:#b07f57;font:800 .9rem/1 Nunito,Inter,sans-serif;box-shadow:inset 0 2px 0 #fff3e4}
+.qp-abas button.on{background:linear-gradient(#ffe066,#f5a623);color:#fff;text-shadow:0 1px 0 #b36b00,0 0 2px #b36b00;box-shadow:inset 0 2px 0 #fff6c2,0 -2px 0 #e08e12}
+.qp-abas button.on::after{content:"";position:absolute;left:50%;bottom:4px;transform:translateX(-50%);border:5px solid transparent;border-top-color:#fff;opacity:.9}
+/* grade de itens */
+.qp-grade{flex:1;min-height:140px;overflow-y:auto;overscroll-behavior:contain;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-content:start;
+  padding:10px;border-radius:0 0 16px 16px;background:#c9a283;box-shadow:inset 0 3px 8px rgba(80,45,20,.35)}
+.qp-it{position:relative;aspect-ratio:1;display:grid;place-items:center;border-radius:18px;cursor:pointer;background:transparent;transition:transform .12s}
+.qp-it:active{transform:scale(.93)}
+.qp-it .avatar{box-shadow:0 0 0 4px #e9eef3,0 0 0 6px #9aa4ae,0 4px 8px rgba(0,0,0,.3)}
+.qp-it.sel{background:#4fd06a;box-shadow:0 0 0 3px #2ea84a,inset 0 0 0 3px #9cf0ad}
+.qp-ok{position:absolute;right:2px;bottom:2px;width:20px;height:20px;border-radius:50%;background:#2ea84a;color:#fff;font:900 12px/20px Inter,sans-serif;font-style:normal;text-align:center;border:2px solid #fff}
+.qp-cad{position:absolute;right:0;top:0;font-style:normal;font-size:16px}
+.qp-it.tranca>:first-child{filter:grayscale(1) brightness(.85)}
+.qp-sem{opacity:.55}
+.qp-it .lj-mt .mini-tab{border-radius:10px;box-shadow:0 0 0 3px #e9eef3,0 0 0 5px #9aa4ae}
+.qp-grade.selos{grid-template-columns:repeat(3,1fr)}
+.qp-grade.selos .qp-it{aspect-ratio:auto;min-height:56px;padding:8px 4px;background:rgba(255,255,255,.25)}
+.qp-grade.selos .qp-it.sel{background:#4fd06a}
+.qp-nada{font:800 .85rem Nunito,Inter,sans-serif;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.35)}
+/* informação do item e botão */
+.qp-info{display:flex;flex-direction:column;gap:6px}
+.qp-linha{display:flex;align-items:center;gap:10px;min-height:42px;padding:8px 12px;border-radius:12px;background:#e7c8a8;box-shadow:inset 0 -3px 0 #d1aa86;font:800 1rem/1.25 Nunito,Inter,sans-serif;color:var(--qp-tx)}
+.qp-como{min-height:36px;font-size:.88rem;color:#9a6b45}
+.qp-rar{flex:none;padding:3px 12px;border-radius:9px;color:#fff;font:800 .85rem/1.3 Nunito,Inter,sans-serif;text-shadow:0 1px 0 rgba(0,0,0,.35);border:2px solid rgba(0,0,0,.25)}
+.qp-rar.r-comum{background:#4f8fd8}.qp-rar.r-raro{background:#8a4be0}.qp-rar.r-epico{background:#d8436a}.qp-rar.r-lendario{background:#e79a10}.qp-rar.r-selo{background:#3a9c6b}
+.qp-acao{display:grid;place-items:center;min-height:52px}
+.qp-usar{min-width:180px;padding:12px 24px;border-radius:14px;cursor:pointer;font:800 1.1rem/1 Nunito,Inter,sans-serif;color:#fff;text-shadow:0 1px 0 #2a7a3c,0 0 2px #2a7a3c;
+  background:linear-gradient(#7fe08f,#3fb35a);border:2px solid #fff;box-shadow:0 4px 0 #2a7a3c,0 6px 12px rgba(0,0,0,.2)}
+.qp-usar:active{transform:translateY(2px);box-shadow:0 2px 0 #2a7a3c}
+.qp-uso{font:900 1.15rem/1 Nunito,Inter,sans-serif;color:#8a5a36}
+.qp-uso.trancado{font-size:.95rem;color:#a77b55}
+.qp-rodape{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-top:2px dashed #dcbfa0;padding-top:10px}
+.qp-rodape button{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 6px;border-radius:12px;cursor:pointer;background:#fff7ec;color:var(--qp-esc);
+  font:800 .85rem/1 Nunito,Inter,sans-serif;box-shadow:0 2px 0 #d1aa86}
+.qp-rodape svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+@media (max-height:700px){.qp{gap:8px;padding-top:12px}.qp-foto .avatar{--av:76px!important;width:76px!important;height:76px!important}.qp-grade{min-height:110px}}
+#quadro{display:flex;align-items:center;justify-content:center}
+.qp{width:100%;max-width:430px;min-width:0}
+.qp-abas button.on::after{bottom:-13px;border:6px solid transparent;border-top-color:#f5a623;opacity:1;z-index:2}
+
 </style>
 </head>
 <body>
@@ -5559,6 +5638,20 @@ const Nome = {
   itens() { const p = Dados.d.perfil; return p.nomeItens == null ? 1 : Math.max(0, p.nomeItens); },
   ganhar(n = 1) { Dados.d.perfil.nomeItens = this.itens() + n; },
   usarItem() { Dados.d.perfil.nomeItens = Math.max(0, this.itens() - 1); },
+  /* salva o nome seguindo as regras (1ª vez grátis; depois só com o pagamento escolhido em pedir()). Devolve true se mudou */
+  salvar(novo) {
+    const p = Dados.d.perfil; novo = (novo || '').trim().slice(0, 20);
+    if (!p.nome) {
+      if (!novo) return false;
+      p.nome = novo; Dados.salvar(); App.atualizarTopo(); Perfil.checarConquista(); Nuvem.publicarPerfil();
+      aviso('Nome salvo! Você ganhou 1 item de mudar nome, para usar se quiser trocar depois.', 4000); return true;
+    }
+    const pago = this.pago; this.pago = null;
+    if (!pago || !novo || novo === p.nome) return false;
+    if (pago === 'gemas' && !Gemas.gastar(this.PRECO)) { aviso('Diamantes insuficientes.'); return false; }
+    if (pago === 'item') this.usarItem();
+    p.nome = novo; Dados.salvar(); App.atualizarTopo(); Nuvem.publicarPerfil(); aviso('Nome trocado para ' + novo + '.'); return true;
+  },
   /* pergunta como pagar; o pagamento só acontece quando o nome novo é salvo */
   async pedir() {
     const n = this.itens(), g = Dados.d.gemas || 0;
@@ -5584,7 +5677,7 @@ const Perfil = {
     const tile = (attr, cor, ic, tit, sub) => `<button class="pf-tile ${cor}" ${attr}><span class="ic2">${ic}</span><b>${tit}</b><small>${sub}</small></button>`;
     $('#tela').innerHTML = `<div class="pilha estreito tela-fixa pf-tela">
       <div class="cartao perfil-cab">
-        <button class="pf-av" data-ir-tela="visual" aria-label="Trocar ícone e moldura">${htmlAvatar(p.avatar, p.moldura, 84)}<i class="pf-lapis">${SVG('<path d="M4 20h4L19 9l-4-4L4 16z"/>')}</i></button>
+        <button class="pf-av" data-quadro="av" aria-label="Trocar ícone e moldura">${htmlAvatar(p.avatar, p.moldura, 84)}<i class="pf-lapis">${SVG('<path d="M4 20h4L19 9l-4-4L4 16z"/>')}</i></button>
         <div style="flex:1;min-width:0"><label class="sub" for="nome">Nome de usuário</label>
           <div class="nome-linha"><input id="nome" class="campo" maxlength="20" value="${esc(p.nome)}" placeholder="Escolha seu nome" autocomplete="nickname"${p.nome ? ' readonly' : ''}>
             ${p.nome ? `<button class="bt peq nome-mudar" id="nome-mudar" aria-label="Mudar nome">${SVG('<path d="M4 20h4L19 9l-4-4L4 16z"/>')}<span>Mudar</span>${Nome.itens() ? `<i class="nome-n">${Nome.itens()}</i>` : ''}</button>` : ''}</div>
@@ -5596,24 +5689,15 @@ const Perfil = {
         ${tile('data-ir-tela="social"', 'cor-ok', SVG('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.8"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/>') + '<i class="selo-n oculto" data-pedidos-n>0</i>', 'Amigos', u ? (na ? na + (na > 1 ? ' amigos' : ' amigo') : 'Buscar') : 'Precisa de conta')}
         ${tile('data-ir-tela="historico"', 'cor-neutra', SVG('<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>'), 'Histórico', d.partidas.length ? d.partidas.length + ' partida' + (d.partidas.length > 1 ? 's' : '') : 'Nenhuma ainda')}
         ${tile('data-ir-tela="stats"', 'cor-dest', SVG('<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>'), 'Estatísticas', e.vitorias + ' vitória' + (e.vitorias === 1 ? '' : 's'))}
-        ${tile('data-ir-tela="visual"', 'cor-info', SVG('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.5a6.5 6.5 0 0 1 11 0"/>'), 'Visual', 'Ícone e selos')}
+        ${tile('data-quadro="av"', 'cor-info', SVG('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.5a6.5 6.5 0 0 1 11 0"/>'), 'Visual', 'Ícone e selos')}
         ${tile('data-ir-tela="guilda"', 'cor-dest', d.guilda && d.guilda.id ? htmlEmblema(d.guilda, 30) : SVG('<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>'), 'Guilda', d.guilda && d.guilda.id ? esc(d.guilda.nome) : d.guildaPedido ? 'Pedido enviado' : 'Jogue em equipe')}
         ${tile('data-ir-tela="conta"', u ? 'cor-ok' : 'cor-ruim', SVG('<path d="M7 18a5 5 0 0 1-.7-9.95A6 6 0 0 1 18 9a4.5 4.5 0 0 1-.5 9z"/>'), 'Conta', u ? 'Conectada' : 'Entrar')}
       </div></div>`;
     Avisos.selos();
     const nome = $('#nome');
     nome.addEventListener('change', () => {
-      const novo = nome.value.trim().slice(0, 20);
-      if (!p.nome) {                                   // a primeira escolha do nome é grátis
-        if (!novo) return;
-        p.nome = novo; Dados.salvar(); App.atualizarTopo(); this.checarConquista(); Nuvem.publicarPerfil();
-        aviso('Nome salvo! Você ganhou 1 item de mudar nome, para usar se quiser trocar depois.', 4000); this.tela(); return;
-      }
-      if (!Nome.pago || !novo || novo === p.nome) { nome.value = p.nome; nome.readOnly = true; Nome.pago = null; return; }
-      if (Nome.pago === 'gemas' && !Gemas.gastar(Nome.PRECO)) { nome.value = p.nome; nome.readOnly = true; Nome.pago = null; aviso('Diamantes insuficientes.'); return; }
-      if (Nome.pago === 'item') Nome.usarItem();
-      Nome.pago = null; p.nome = novo; Dados.salvar(); App.atualizarTopo(); Nuvem.publicarPerfil();
-      aviso('Nome trocado para ' + novo + '.'); this.tela();
+      if (Nome.salvar(nome.value)) { this.tela(); return; }
+      nome.value = p.nome; nome.readOnly = !!p.nome;
     });
     nome.addEventListener('keydown', ev => { if (ev.key === 'Enter') nome.blur(); });
     nome.addEventListener('blur', () => { if (p.nome && nome.value.trim() === p.nome) { nome.readOnly = true; Nome.pago = null; } });
@@ -5623,7 +5707,8 @@ const Perfil = {
     };
     $('#tela').onclick = ev => {
       const b = ev.target.closest('button'); if (!b) return;
-      if (b.dataset.irMissoes) App.ir('missoes');
+      if (b.dataset.quadro) QuadroPerfil.abrir(b.dataset.quadro);
+      else if (b.dataset.irMissoes) App.ir('missoes');
       else if (b.dataset.devAbrir) App.ir('dev');
       else if (b.dataset.irTela) { const t = b.dataset.irTela; if (t === 'social') Social.volta = 'perfil'; App.ir(t, t === 'social' ? 'perfil' : undefined); }
     };
@@ -10440,6 +10525,172 @@ const Dev = {
 document.addEventListener('click', e => { if (e.target.closest('[data-dev-abrir]') && Dev.ativo && !modalAberto()) App.ir('dev'); });
 
 /* ==========================================================================
+   QUADRO DO PERFIL — abre por cima da tela ao tocar no ícone do jogador
+   (inspirado nos jogos de celular): foto com moldura, nome com lápis,
+   nível no canto e abas Ícone · Moldura · Selo · Tabuleiro só com o que
+   o jogador tem. Toca num item para ver de onde veio e usar.
+   ========================================================================== */
+const RAR_TROFEU = { bronze: 'raro', prata: 'raro', ouro: 'epico', platina: 'lendario', torneio: 'lendario' };
+const RAR_NIVEL = ['comum', 'raro', 'raro', 'epico', 'epico', 'lendario'];
+const NOME_TROFEU = { bronze: 'Troféu de Bronze', prata: 'Troféu de Prata', ouro: 'Troféu de Ouro', platina: 'Troféu de Platina', torneio: 'Campeão do torneio' };
+
+const QuadroPerfil = {
+  el: null, aba: 'av', sel: null, mudou: false, empilhou: false,
+  ABAS: [['av', 'Ícone'], ['mold', 'Moldura'], ['selo', 'Selo'], ['tab', 'Tabuleiro']],
+
+  abrir(aba) {
+    if (modalAberto()) return;
+    if (aba) this.aba = aba;
+    this.sel = this.emUso(this.aba);
+    if (!this.el) {
+      const el = document.createElement('div');
+      el.id = 'quadro'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', 'Meu perfil');
+      document.body.appendChild(el); this.el = el;
+      document.documentElement.classList.add('quadro-aberto');
+      el.addEventListener('click', e => this.clique(e));
+      try { history.pushState({ q: 1 }, ''); this.empilhou = true; } catch (e) { this.empilhou = false; }
+    }
+    this.pintar();
+  },
+  /* viaVoltar: fechado pelo botão "voltar" do celular (o histórico já voltou) */
+  fechar(viaVoltar) {
+    const el = this.el; if (!el) return;
+    this.el = null; Nome.pago = null;
+    document.documentElement.classList.remove('quadro-aberto');
+    el.classList.add('sai'); setTimeout(() => el.remove(), 260);
+    if (this.empilhou && !viaVoltar) { App.ignorarPop = true; try { history.back(); } catch (e) { App.ignorarPop = false; } }
+    this.empilhou = false;
+    if (this.mudou) { this.mudou = false; App.atualizarTopo(); if (['menu', 'perfil'].includes(App.atual)) { const y = window.scrollY; App.ir(App.atual); window.scrollTo(0, y); } }
+  },
+
+  /* ---------- o que aparece em cada aba ---------- */
+  emUso(aba) {
+    const d = Dados.d;
+    if (aba === 'av') return d.perfil.avatar;
+    if (aba === 'mold') return d.perfil.moldura || '';
+    if (aba === 'tab') return d.tabuleiro;
+    const m = Selos.meus(d); return m.length ? m[0] : '';
+  },
+  lista(aba) {
+    const d = Dados.d;
+    if (aba === 'av') return AVATARES.filter(a => temAvatar(a.id)).map(a => a.id);
+    if (aba === 'mold') return [''].concat(MOLDURAS.filter(m => m.id && !m.rei && temMoldura(m.id)).map(m => m.id), MOLDURAS.filter(m => m.rei).map(m => m.id));
+    if (aba === 'tab') return TABULEIROS.filter(t => temTabuleiro(t.id)).map(t => t.id);
+    const g = Selos.ganhos(d); return [''].concat(SELOS.filter(s => g.includes(s.id)).map(s => s.id));
+  },
+  /* raridade, nome e de onde veio */
+  info(aba, id) {
+    const d = Dados.d;
+    if (aba === 'av') {
+      const a = AVATARES.find(x => x.id === id) || {};
+      return { nome: a.nome, rar: a.trofeu ? 'lendario' : a.rar || rarPorPreco(a.preco || 0), como: a.trofeu ? 'Ganho com o ' + NOME_TROFEU[a.trofeu] : a.bau ? 'Saiu num baú da loja' : !a.preco ? 'Grátis para todos' : 'Comprado na loja' };
+    }
+    if (aba === 'mold') {
+      if (!id) return { nome: 'Sem moldura', rar: null, como: 'Só a foto, sem moldura' };
+      const m = MOLDURAS.find(x => x.id === id) || {};
+      if (m.rei) return { nome: m.nome, rar: 'lendario', como: 'Exclusiva de quem está em 1º no ranking geral', tranca: !Premios.souRei() };
+      if (m.trofeu) return { nome: m.nome, rar: RAR_TROFEU[m.trofeu] || 'raro', como: 'Ganha com o ' + (NOME_TROFEU[m.trofeu] || 'troféu') };
+      if (m.nivel) return { nome: m.nome, rar: RAR_NIVEL[m.nivel], como: 'Ganha ao vencer o computador no nível ' + NIVEIS[m.nivel].nome };
+      return { nome: m.nome, rar: m.rar, como: m.bau ? 'Saiu num baú da loja' : 'Comprada na loja' };
+    }
+    if (aba === 'tab') {
+      const t = TABULEIROS.find(x => x.id === id) || {};
+      return { nome: t.nome, rar: t.rar || rarPorPreco(t.preco || 0), como: t.bau ? 'Saiu num baú da loja' : !t.preco ? 'Grátis para todos' : 'Comprado na loja' };
+    }
+    if (!id) return { nome: 'Sem selo', rar: null, como: 'Nenhum selo aparece ao lado do seu nome' };
+    const s = SELOS.find(x => x.id === id) || {};
+    return { nome: s.txt, rar: 'selo', como: s.desc };
+  },
+  arte(aba, id, tam = 58) {
+    const p = Dados.d.perfil;
+    if (aba === 'av') return htmlAvatar(id, '', tam);
+    if (aba === 'mold') return id ? htmlAvatar(p.avatar, id, tam) : `<span class="qp-sem">${htmlAvatar(p.avatar, '', Math.round(tam * .82))}</span>`;
+    if (aba === 'tab') { const t = TABULEIROS.find(x => x.id === id); return t ? `<span class="lj-mt" style="--mt:${tam}px">${Loja.miniTabuleiro(t)}</span>` : ''; }
+    return id ? Selos.um(id) : '<span class="qp-nada">Nenhum</span>';
+  },
+
+  /* ---------- desenho ---------- */
+  pintar() {
+    const el = this.el; if (!el) return;
+    const d = Dados.d, p = d.perfil, nv = XP.nivel(XP.total()), tit = XP.titulo(nv.n), aba = this.aba;
+    const ids = this.lista(aba); if (!ids.includes(this.sel)) this.sel = this.emUso(aba);
+    const sel = this.sel, inf = this.info(aba, sel), uso = this.emUso(aba) === sel;
+    // prévia no topo: a foto e a moldura que estão selecionadas
+    const fotoPrev = aba === 'av' ? sel : p.avatar, moldPrev = aba === 'mold' && !inf.tranca ? sel : p.moldura;
+    const u = Nuvem.usuario, conta = !u ? (Nuvem.configurada() ? 'Sem conta conectada' : '') : u.isAnonymous ? 'Convidado' : 'Conta conectada';
+    let bt;
+    if (inf.tranca) bt = '<span class="qp-uso trancado">🔒 Só para o 1º do ranking</span>';
+    else if (uso) bt = '<span class="qp-uso">Em uso</span>';
+    else bt = `<button class="qp-usar" data-qp-usar="1">${aba === 'mold' && !sel ? 'Usar sem moldura' : aba === 'selo' && !sel ? 'Não usar selo' : 'Usar'}</button>`;
+    el.innerHTML = `<div class="qp">
+      <button class="qp-x" data-qp-fechar="1" aria-label="Fechar">${SVG('<path d="M6 6l12 12M18 6L6 18"/>')}</button>
+      <div class="qp-cab">
+        <div class="qp-foto">${htmlAvatar(fotoPrev, moldPrev, 92)}</div>
+        <div class="qp-quem">
+          <small class="qp-conta">${esc(conta)}</small>
+          <div class="qp-nome"><input id="qp-nome" maxlength="20" value="${esc(p.nome)}" placeholder="Escolha seu nome" autocomplete="nickname"${p.nome ? ' readonly' : ''}>
+            <button class="qp-lapis" data-qp-nome="1" aria-label="Mudar nome">${SVG('<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>')}${p.nome && Nome.itens() ? `<i>${Nome.itens()}</i>` : ''}</button></div>
+          <span class="qp-selos" data-selo-rei>${Premios.selo()}</span>
+          <span class="qp-xp"><i style="width:${Math.round(nv.frac * 100)}%"></i><b>${fmtN(nv.atual)}/${fmtN(nv.prox)} XP</b></span>
+        </div>
+        <button class="qp-fita" data-qp-ir="missoes" style="--nv:${tit.cor}" aria-label="Nível ${nv.n}, ${tit.nome}">${XP.selo(nv.n, 44)}<b>${esc(tit.nome)}</b></button>
+      </div>
+      <div class="qp-abas" role="tablist">${this.ABAS.map(([k, n]) => `<button role="tab" aria-selected="${k === aba}" class="${k === aba ? 'on' : ''}" data-qp-aba="${k}">${n}</button>`).join('')}</div>
+      <div class="qp-grade${aba === 'selo' ? ' selos' : ''}">${ids.map(id => {
+        const i = this.info(aba, id);
+        return `<button class="qp-it${id === sel ? ' sel' : ''}${this.emUso(aba) === id ? ' uso' : ''}${i.tranca ? ' tranca' : ''}" data-qp-it="${esc(id)}" aria-label="${esc(i.nome || '')}">${this.arte(aba, id)}${this.emUso(aba) === id ? '<i class="qp-ok">✓</i>' : ''}${i.tranca ? '<i class="qp-cad">🔒</i>' : ''}</button>`;
+      }).join('')}</div>
+      <div class="qp-info">
+        <div class="qp-linha">${inf.rar ? `<span class="qp-rar r-${inf.rar}">${inf.rar === 'selo' ? 'Selo' : RARIDADES[inf.rar].nome}</span>` : ''}<b>${esc(inf.nome || '')}</b></div>
+        <div class="qp-linha qp-como">${esc(inf.como || '')}</div>
+      </div>
+      <div class="qp-acao">${bt}</div>
+      <div class="qp-rodape">
+        <button data-qp-ir="perfil">${SVG('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>')}Perfil completo</button>
+        ${aba === 'selo' ? `<button data-qp-ir="visual">${SVG('<path d="M4 7h16M4 12h16M4 17h10"/>')}Alternar selos</button>` : `<button data-qp-ir="loja">${SVG('<path d="M4 7h16l-1.5 12h-13z"/><path d="M9 7a3 3 0 0 1 6 0"/>')}Mais na loja</button>`}
+      </div>
+    </div>`;
+    const nome = $('#qp-nome', el);
+    nome.addEventListener('change', () => { if (Nome.salvar(nome.value)) { this.mudou = true; this.pintar(); } else { nome.value = Dados.d.perfil.nome; nome.readOnly = !!Dados.d.perfil.nome; } });
+    nome.addEventListener('keydown', ev => { if (ev.key === 'Enter') nome.blur(); });
+    nome.addEventListener('blur', () => { const pp = Dados.d.perfil; if (pp.nome && nome.value.trim() === pp.nome) { nome.readOnly = true; Nome.pago = null; } });
+  },
+
+  /* ---------- toques ---------- */
+  async clique(e) {
+    if (e.target === this.el) { this.fechar(); return; }               // tocou fora do quadro
+    const b = e.target.closest('button'); if (!b || !this.el) return;
+    const ds = b.dataset;
+    if (ds.qpFechar) this.fechar();
+    else if (ds.qpAba) { this.aba = ds.qpAba; this.sel = this.emUso(this.aba); this.pintar(); }
+    else if (ds.qpIt != null) { this.sel = ds.qpIt; this.pintar(); }
+    else if (ds.qpUsar) this.usar();
+    else if (ds.qpNome) {
+      const nome = $('#qp-nome', this.el);
+      if (Dados.d.perfil.nome && !(await Nome.pedir())) return;
+      const n2 = this.el && $('#qp-nome', this.el); if (!n2) return;
+      n2.readOnly = false; n2.focus(); n2.select();
+    }
+    else if (ds.qpIr) {
+      const ir = ds.qpIr; this.fechar(true);
+      if (ir === 'loja') Loja.aba = 'itens';
+      if (ir === 'visual') { App.ir('visual', 'selo'); return; }
+      App.ir(ir);
+    }
+  },
+  usar() {
+    const d = Dados.d, p = d.perfil, aba = this.aba, id = this.sel, inf = this.info(aba, id);
+    if (inf.tranca) return;
+    if (aba === 'av') { p.avatar = id; Perfil.checarConquista(); }
+    else if (aba === 'mold') { if (id === 'campeao' && p.moldura !== 'campeao') p.moldAnt = p.moldura; p.moldura = id; }
+    else if (aba === 'tab') { d.tabuleiro = id; aplicarVisual(); }
+    else { const c = Perfil.confSelos(); p.selos = id ? Object.assign({}, c, { modo: 'um', um: id }) : Object.assign({}, c, { modo: 'nenhum' }); Ranking.publicar(); }
+    Dados.salvar(); Nuvem.publicarPerfil(); App.atualizarTopo(); Som.tocar('acerto'); vibrar(15);
+    this.mudou = true; this.pintar();
+  }
+};
+
+/* ==========================================================================
    APP — navegação entre telas, menu inicial, estatísticas e inicialização
    ========================================================================== */
 const App = {
@@ -10531,9 +10782,10 @@ const App = {
 $('#nav-inf').onclick = e => { const b = e.target.closest('button[data-ir]'); if (b && !modalAberto() && (b.dataset.ir !== App.atual)) App.ir(b.dataset.ir); };
 $('#voltar').onclick = () => App.voltar();
 $('#topo-moedas').onclick = () => { if (!modalAberto()) App.ir('loja'); };
-$('#topo-perfil').onclick = () => { if (!modalAberto()) App.ir('perfil'); };
+$('#topo-perfil').onclick = () => { if (!modalAberto()) QuadroPerfil.abrir(); };
 window.addEventListener('popstate', () => {
   if (App.ignorarPop) { App.ignorarPop = false; return; }
+  if (QuadroPerfil.el) { QuadroPerfil.fechar(true); return; }     // "voltar" do celular fecha o quadro do perfil
   App.empilhado = false;
   if (modalAberto()) { try { history.pushState({ x: 1 }, ''); App.empilhado = true; } catch (e) { /* ignora */ } return; }
   if (App.atual !== 'menu') {
@@ -10579,7 +10831,7 @@ function telaMenu() {
   const SINO = '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.3 20a2 2 0 0 0 3.4 0"/>';
   $('#tela').innerHTML = `<div class="home">
     <header class="home-cab">
-      <button class="perfil-topo" data-ir="perfil" aria-label="Meu perfil" style="width:56px;height:56px">${htmlAvatar(d.perfil.avatar, d.perfil.moldura, 52)}${XP.selo(nv.n, 22)}</button>
+      <button class="perfil-topo" data-quadro="av" aria-label="Meu perfil" style="width:56px;height:56px">${htmlAvatar(d.perfil.avatar, d.perfil.moldura, 52)}${XP.selo(nv.n, 22)}</button>
       <div class="quem" data-ir="perfil" role="button" tabindex="0" aria-label="Abrir meu perfil"><p class="saud">${saud}</p><h1>${d.perfil.nome ? 'Olá, ' + esc(d.perfil.nome) + '!' : 'Olá, jogador!'}</h1><button class="selo-linha" data-ir="perfil" aria-label="Abrir meu perfil" data-selo-rei>${Premios.selo()}</button></div>
       <div class="cab-dir">
         <button class="moedas-topo" data-ir="loja" aria-label="Moedas — abrir loja">${MOEDA}${d.moedas.toLocaleString('pt-BR')}</button>
@@ -10599,6 +10851,7 @@ function telaMenu() {
   $('.home').onclick = ev => {
     if (modalAberto()) return;
     if (Missoes.clique(ev, () => App.ir('menu'))) return;
+    const q = ev.target.closest('[data-quadro]'); if (q) { QuadroPerfil.abrir(q.dataset.quadro); return; }
     const b = ev.target.closest('[data-ir]'); if (b) App.ir(b.dataset.ir, b.dataset.param);
   };
   Avisos.selos();
