@@ -10832,7 +10832,7 @@ function telaMenu() {
   $('#tela').innerHTML = `<div class="home">
     <header class="home-cab">
       <button class="perfil-topo" data-quadro="av" aria-label="Meu perfil" style="width:56px;height:56px">${htmlAvatar(d.perfil.avatar, d.perfil.moldura, 52)}${XP.selo(nv.n, 22)}</button>
-      <div class="quem" data-ir="perfil" role="button" tabindex="0" aria-label="Abrir meu perfil"><p class="saud">${saud}</p><h1>${d.perfil.nome ? 'Olá, ' + esc(d.perfil.nome) + '!' : 'Olá, jogador!'}</h1><button class="selo-linha" data-ir="perfil" aria-label="Abrir meu perfil" data-selo-rei>${Premios.selo()}</button></div>
+      <div class="quem" data-quadro="av" role="button" tabindex="0" aria-label="Abrir meu perfil"><p class="saud">${saud}</p><h1>${d.perfil.nome ? 'Olá, ' + esc(d.perfil.nome) + '!' : 'Olá, jogador!'}</h1><button class="selo-linha" data-quadro="av" aria-label="Abrir meu perfil" data-selo-rei>${Premios.selo()}</button></div>
       <div class="cab-dir">
         <button class="moedas-topo" data-ir="loja" aria-label="Moedas — abrir loja">${MOEDA}${d.moedas.toLocaleString('pt-BR')}</button>
         <div class="cab-bts"><button class="bt-ic sino" data-ir="avisos" aria-label="Notificações">${SVG(SINO)}<i class="selo-conv oculto" data-avisos-n>0</i></button>
