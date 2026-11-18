@@ -1,7 +1,7 @@
 /* Service worker do Trainer de Xadrez: guarda o app no aparelho para funcionar sem internet.
    Estratégia: tenta a internet primeiro (para pegar atualizações) e, se não houver conexão,
    usa a cópia guardada. */
-const CACHE = 'trainer-xadrez-v24';
+const CACHE = 'trainer-xadrez-v26';
 const ARQUIVOS = ['./', './index.html', './manifest.json', './icone-192.png', './icone-512.png', './config.js'];
 
 self.addEventListener('install', e => {
@@ -16,7 +16,8 @@ self.addEventListener('fetch', e => {
   e.respondWith((async () => {
     const cache = await caches.open(CACHE);
     try {
-      const resp = await Promise.race([fetch(req), new Promise((_, rej) => setTimeout(() => rej(new Error('lento')), 5000))]);
+      // cache: 'no-cache' pergunta ao site se há versão nova (sem isso o navegador usava a cópia velha por até 10 min)
+      const resp = await Promise.race([fetch(req, { cache: 'no-cache' }), new Promise((_, rej) => setTimeout(() => rej(new Error('lento')), 5000))]);
       if (resp && resp.ok) cache.put(req, resp.clone());
       return resp;
     } catch (err) {

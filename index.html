@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-tema="escuro">
+<html lang="pt-BR" data-tema="marrom">
 <head>
 <meta charset="utf-8">
 <!-- maximum-scale=1 e user-scalable=no impedem o zoom ao tocar no tabuleiro do celular -->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#0f1218">
+<meta name="theme-color" content="#1e150e">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -1605,6 +1605,27 @@ html.na-entrada,html.na-entrada body{overflow:hidden}
 /* aviso para o convidado salvar o progresso numa conta */
 .aviso-conv{display:flex;flex-direction:column;gap:4px;padding:12px 14px;margin:0 0 12px;border-radius:14px;background:color-mix(in srgb,var(--alerta) 14%,transparent);border:1px solid color-mix(in srgb,var(--alerta) 45%,transparent)}
 .aviso-conv span{font-size:.88rem;opacity:.9;line-height:1.4}
+
+/* ---------- textos do jogo não podem ser selecionados (só os campos de digitar) ---------- */
+html,body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,textarea,select,[contenteditable="true"]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+/* tela inicial: saudação, nome e selo levam ao perfil */
+.home-cab .quem{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.home-cab .quem:active{opacity:.75}
+/* perfil: nome com botão "Mudar" (item de mudar nome ou diamantes) */
+.nome-linha{display:flex;gap:8px;align-items:center}
+.nome-linha .campo{flex:1;min-width:0}
+.nome-linha .campo[readonly]{background:transparent;border-color:transparent;padding-left:2px;font-weight:700;font-size:1.05rem;cursor:default}
+.nome-mudar{position:relative;flex:none;gap:6px;min-height:40px;padding:6px 12px}
+.nome-mudar svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
+.nome-n{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;border-radius:9px;background:var(--dest);color:var(--dest-tinta);font:800 11px/18px Inter,sans-serif;font-style:normal;text-align:center;padding:0 4px}
+.svg-nome{width:64px;height:64px}
+.bc-arte .svg-nome{width:min(110px,60%);height:auto}
+.bc-res.varios .bc-arte .svg-nome{width:44px}
+.lj-conf .svg-nome{width:72px;height:72px;margin:0 auto 6px;display:block}
+/* loja: o acento do "Í" de Ícones era cortado (altura de linha justa demais) */
+.lj-fita h2{line-height:1.3;padding:.14em 0 .06em}
+.excluir-conta{display:block;margin:14px auto 0;color:var(--ruim)!important;font-size:.85rem}
 
 </style>
 </head>
@@ -3801,8 +3822,8 @@ const Dados = {
       itens: {},                                             // itens comprados na loja: id -> 1
       tabuleiro: 'classico',
       conquistas: {},                                        // id -> data em que foi desbloqueada
-      ajustes: { tema: 'escuro', som: true, vibrar: true, coords: true, pontos: true, efeitos: true },
-      extras: { dicas: 0, viradas: 0, salas: {}, zeradoEm: 0 },
+      ajustes: { tema: 'marrom', som: true, vibrar: true, coords: true, pontos: true, efeitos: true },
+      extras: { dicas: 0, viradas: 0, salas: {}, zeradoEm: 0, flags: { xp2: 1 } },
       livro: {},                                             // contagens de cada aparelho (moedas e partidas) — ver Livro
       sequencia: { atual: 0, melhor: 0, ultimo: '' },         // dias seguidos jogando
       missoes: null,                                         // missões do dia: {dia, lista, prog, pegas, bau}
@@ -3828,6 +3849,10 @@ const Dados = {
     if (!Array.isArray(p.desafios.hist)) p.desafios.hist = [p.desafios.pontos];
     ['fases', 'tags', 'itens', 'conquistas', 'livro', 'amigos', 'premios', 'loja'].forEach(k => { if (!p[k] || typeof p[k] !== 'object') p[k] = {}; });
     if (!Object.keys(p.livro).length) Livro.migrar(p);
+    if (!(o.extras && o.extras.flags && o.extras.flags.xp2)) { p.extras.flags = Object.assign({}, p.extras.flags); delete p.extras.flags.xp2; }   // dados de antes da curva nova
+    if (typeof XP !== 'undefined') XP.migrar(p);                       // curva de níveis nova (mantém as moedas já ganhas)
+    // o peão e o cavalo pretos eram grátis: quem já usa um deles continua com ele
+    if (['bp', 'bn'].includes(p.perfil.avatar)) p.itens['av-' + p.perfil.avatar] = 1;
     if (!p.extras.salas || typeof p.extras.salas !== 'object') p.extras.salas = {};
     p.v = 2;
     return p;
@@ -4138,20 +4163,20 @@ const TEMAS = [
 /* clara/escura aceitam cores ou gradientes; pecas (opcional) muda as cores das peças */
 const TABULEIROS = [
   { id: 'classico', nome: 'Clássico', preco: 0, clara: '#ebe6d6', escura: '#6b8f71' },
-  { id: 'torneio', nome: 'Torneio', preco: 120, clara: '#dee3e6', escura: '#8ca2ad' },
-  { id: 'madeira', nome: 'Madeira', preco: 200,
+  { id: 'torneio', nome: 'Torneio', preco: 250, rar: 'comum', clara: '#dee3e6', escura: '#8ca2ad' },
+  { id: 'madeira', nome: 'Madeira', preco: 250, rar: 'comum',
     clara: 'repeating-linear-gradient(100deg,rgba(120,72,30,.06) 0 2px,transparent 2px 9px),linear-gradient(135deg,#f3dfbd,#e8cb9c)',
     escura: 'repeating-linear-gradient(100deg,rgba(60,30,10,.12) 0 2px,transparent 2px 8px),linear-gradient(135deg,#b98a5f,#9c6c43)' },
-  { id: 'oceano', nome: 'Oceano', preco: 250, clara: '#d9eef2', escura: '#3f7fa0' },
-  { id: 'doce', nome: 'Algodão-doce', preco: 250, clara: '#fbe4ef', escura: '#c49ad6' },
-  { id: 'marmore', nome: 'Mármore', preco: 350,
+  { id: 'oceano', nome: 'Oceano', preco: 250, rar: 'comum', clara: '#d9eef2', escura: '#3f7fa0' },
+  { id: 'doce', nome: 'Algodão-doce', preco: 150, moeda: 'g', rar: 'raro', clara: '#fbe4ef', escura: '#c49ad6' },
+  { id: 'marmore', nome: 'Mármore', preco: 150, moeda: 'g', rar: 'raro',
     clara: 'radial-gradient(circle at 25% 20%,#fff 0,#eeeef2 45%,#dcdce3 100%)',
     escura: 'radial-gradient(circle at 75% 80%,#a3a9b5 0,#868d9b 50%,#6f7685 100%)' },
-  { id: 'neon', nome: 'Neon', preco: 450, clara: '#33365a', escura: '#1d1f3a',
+  { id: 'neon', nome: 'Neon', preco: 350, moeda: 'g', rar: 'epico', clara: '#33365a', escura: '#1d1f3a',
     pecas: { wf: '#f4f7ff', ws: '#2ad4ff', wd: '#1a8fb0', bf: '#191b2e', bs: '#ff4fa3', bd: '#ff4fa3' }, coordClara: '#8d92c9', coordEscura: '#8d92c9' },
-  { id: 'icones', nome: 'Ícones', preco: 150, clara: '#e9e4d4', escura: '#6b8f71', estilo: 'icones',
+  { id: 'icones', nome: 'Ícones', preco: 250, rar: 'comum', clara: '#e9e4d4', escura: '#6b8f71', estilo: 'icones',
     pecas: { wf: '#ffffff', ws: '#1d1f24', wd: '#1d1f24', bf: '#1d1f24', bs: '#1d1f24', bd: '#1d1f24' } },
-  { id: 'real', nome: 'Real dourado', preco: 800,
+  { id: 'real', nome: 'Real dourado', preco: 500, moeda: 'g', rar: 'lendario',
     clara: 'linear-gradient(135deg,#f8ebc0,#ecd48f)', escura: 'linear-gradient(135deg,#bd8b33,#93671c)' },
   /* só saem nos baús da loja */
   { id: 'jade', nome: 'Jade', bau: true, rar: 'epico', clara: 'linear-gradient(135deg,#eef8ec,#d6ecd3)', escura: 'linear-gradient(135deg,#3f9a6e,#2b7552)', coordClara: '#2b7552', coordEscura: '#eef8ec' },
@@ -5156,17 +5181,19 @@ const AVATARES = [
   { id: 'wn', peca: 'n', cor: 'w', nome: 'Cavalo branco', preco: 0 },
   { id: 'wb', peca: 'b', cor: 'w', nome: 'Bispo branco', preco: 0 },
   { id: 'wr', peca: 'r', cor: 'w', nome: 'Torre branca', preco: 0 },
-  { id: 'bp', peca: 'p', cor: 'b', nome: 'Peão preto', preco: 0 },
-  { id: 'bn', peca: 'n', cor: 'b', nome: 'Cavalo preto', preco: 0 },
-  { id: 'bb', peca: 'b', cor: 'b', nome: 'Bispo preto', preco: 60 },
-  { id: 'br', peca: 'r', cor: 'b', nome: 'Torre preta', preco: 60 },
-  { id: 'wq', peca: 'q', cor: 'w', nome: 'Dama branca', preco: 150 },
-  { id: 'bq', peca: 'q', cor: 'b', nome: 'Dama preta', preco: 150 },
-  { id: 'wk', peca: 'k', cor: 'w', nome: 'Rei branco', preco: 250 },
-  { id: 'bk', peca: 'k', cor: 'b', nome: 'Rei preto', preco: 250 },
-  { id: 'gn', peca: 'n', cor: 'g', nome: 'Cavalo dourado', preco: 500 },
-  { id: 'gq', peca: 'q', cor: 'g', nome: 'Dama dourada', preco: 700 },
-  { id: 'gk', peca: 'k', cor: 'g', nome: 'Rei dourado', preco: 900 },
+  /* comuns (moedas): preço pelo valor da peça */
+  { id: 'bp', peca: 'p', cor: 'b', nome: 'Peão preto', preco: 200, rar: 'comum' },
+  { id: 'bn', peca: 'n', cor: 'b', nome: 'Cavalo preto', preco: 300, rar: 'comum' },
+  { id: 'bb', peca: 'b', cor: 'b', nome: 'Bispo preto', preco: 300, rar: 'comum' },
+  { id: 'br', peca: 'r', cor: 'b', nome: 'Torre preta', preco: 400, rar: 'comum' },
+  /* raros, épicos e lendários (diamantes) */
+  { id: 'wq', peca: 'q', cor: 'w', nome: 'Dama branca', preco: 150, moeda: 'g', rar: 'raro' },
+  { id: 'bq', peca: 'q', cor: 'b', nome: 'Dama preta', preco: 150, moeda: 'g', rar: 'raro' },
+  { id: 'wk', peca: 'k', cor: 'w', nome: 'Rei branco', preco: 200, moeda: 'g', rar: 'raro' },
+  { id: 'bk', peca: 'k', cor: 'b', nome: 'Rei preto', preco: 200, moeda: 'g', rar: 'raro' },
+  { id: 'gn', peca: 'n', cor: 'g', nome: 'Cavalo dourado', preco: 350, moeda: 'g', rar: 'epico' },
+  { id: 'gq', peca: 'q', cor: 'g', nome: 'Dama dourada', preco: 400, moeda: 'g', rar: 'epico' },
+  { id: 'gk', peca: 'k', cor: 'g', nome: 'Rei dourado', preco: 500, moeda: 'g', rar: 'lendario' },
   { id: 'pk', peca: 'k', cor: 'x', nome: 'Rei de platina', preco: 0, trofeu: 'platina' },
   /* só saem nos baús da loja */
   { id: 'rn', peca: 'n', cor: 'r', nome: 'Cavalo de rubi', bau: true, rar: 'epico' },
@@ -5189,12 +5216,12 @@ const MOLDURAS = [
   { id: 'campeao', nome: 'Trono do Campeão', rei: true, arte: true },
   /* vendidas na loja (e nos baús); "Fogo eterno" só sai nos baús */
   { id: 'carvalho', nome: 'Carvalho', loja: true, rar: 'comum', preco: 150 },
-  { id: 'mar', nome: 'Mar profundo', loja: true, rar: 'comum', preco: 200 },
-  { id: 'esmeralda', nome: 'Esmeralda', loja: true, rar: 'raro', preco: 400 },
-  { id: 'rubi', nome: 'Rubi', loja: true, rar: 'raro', preco: 400 },
-  { id: 'arcoiris', nome: 'Arco-íris', loja: true, rar: 'epico', preco: 900 },
-  { id: 'neon', nome: 'Neon', loja: true, rar: 'epico', preco: 1200 },
-  { id: 'galaxia', nome: 'Galáxia', loja: true, rar: 'lendario', preco: 80, moeda: 'g' },
+  { id: 'mar', nome: 'Mar profundo', loja: true, rar: 'comum', preco: 350 },
+  { id: 'esmeralda', nome: 'Esmeralda', loja: true, rar: 'raro', preco: 150, moeda: 'g' },
+  { id: 'rubi', nome: 'Rubi', loja: true, rar: 'raro', preco: 150, moeda: 'g' },
+  { id: 'arcoiris', nome: 'Arco-íris', loja: true, rar: 'epico', preco: 350, moeda: 'g' },
+  { id: 'neon', nome: 'Neon', loja: true, rar: 'epico', preco: 350, moeda: 'g' },
+  { id: 'galaxia', nome: 'Galáxia', loja: true, rar: 'lendario', preco: 500, moeda: 'g' },
   { id: 'fogo', nome: 'Fogo eterno', loja: true, rar: 'lendario', bau: true }
 ];
 /* ---------- selos (aparecem ao lado do nome para todo mundo) ---------- */
@@ -5366,14 +5393,14 @@ const CONQUISTAS = [
   { id: 'nuvem', g: 'extras', ic: '☁️', nome: 'Com a cabeça nas nuvens', desc: 'Entre com uma conta para salvar seu progresso.', moedas: 30, ...flag('conta') }
 ];
 const TROFEUS = [
-  { id: 'bronze', nome: 'Troféu de Bronze', desc: 'Conclua o 1º módulo.', moedas: 100, cond: e => e.modulos >= 1, prog: e => [Math.min(e.modulos, 1), 1] },
-  { id: 'prata', nome: 'Troféu de Prata', desc: 'Conclua 3 módulos.', moedas: 200, cond: e => e.modulos >= 3, prog: e => [Math.min(e.modulos, 3), 3] },
-  { id: 'ouro', nome: 'Troféu de Ouro', desc: 'Conclua todos os módulos.', moedas: 400, cond: e => e.modulos >= MODULOS.length, prog: e => [e.modulos, MODULOS.length] },
-  { id: 'platina', nome: 'Troféu de Platina', desc: 'Conclua todos os módulos e todos os desafios.', moedas: 1000, cond: e => e.modulos >= MODULOS.length && e.desafios >= PUZZLES.length, prog: e => [e.modulos + e.desafios, MODULOS.length + PUZZLES.length] },
+  { id: 'bronze', nome: 'Troféu de Bronze', desc: 'Conclua o 1º módulo.', moedas: 100, xp: 150, cond: e => e.modulos >= 1, prog: e => [Math.min(e.modulos, 1), 1] },
+  { id: 'prata', nome: 'Troféu de Prata', desc: 'Conclua 3 módulos.', moedas: 200, xp: 300, cond: e => e.modulos >= 3, prog: e => [Math.min(e.modulos, 3), 3] },
+  { id: 'ouro', nome: 'Troféu de Ouro', desc: 'Conclua todos os módulos.', moedas: 400, xp: 600, cond: e => e.modulos >= MODULOS.length, prog: e => [e.modulos, MODULOS.length] },
+  { id: 'platina', nome: 'Troféu de Platina', desc: 'Conclua todos os módulos e todos os desafios.', moedas: 1000, xp: 1500, cond: e => e.modulos >= MODULOS.length && e.desafios >= PUZZLES.length, prog: e => [e.modulos + e.desafios, MODULOS.length + PUZZLES.length] },
   /* troféus do ranking da semana (o prêmio em moedas e gemas vem do próprio ranking) */
-  { id: 'topo1', nome: 'Daqui de cima enxergo melhor!', curto: '1º da semana', desc: 'Termine uma semana em 1º lugar no ranking.', moedas: 0, rk: true, cond: e => e.semana1 >= 1, prog: e => [Math.min(e.semana1, 1), 1] },
-  { id: 'torneio', nome: 'Campeão do torneio', curto: 'Torneio', desc: 'Vença um torneio da semana (1º lugar).', moedas: 0, rk: true, cond: e => e.torneio1 >= 1, prog: e => [Math.min(e.torneio1, 1), 1] },
-  { id: 'topo2', nome: 'Não vou desistir!', curto: '2º da semana', desc: 'Termine uma semana em 2º lugar no ranking.', moedas: 0, rk: true, cond: e => e.semana2 >= 1, prog: e => [Math.min(e.semana2, 1), 1] }
+  { id: 'topo1', nome: 'Daqui de cima enxergo melhor!', curto: '1º da semana', desc: 'Termine uma semana em 1º lugar no ranking.', moedas: 500, xp: 800, rk: true, cond: e => e.semana1 >= 1, prog: e => [Math.min(e.semana1, 1), 1] },
+  { id: 'torneio', nome: 'Campeão do torneio', curto: 'Torneio', desc: 'Vença um torneio da semana (1º lugar).', moedas: 400, xp: 600, rk: true, cond: e => e.torneio1 >= 1, prog: e => [Math.min(e.torneio1, 1), 1] },
+  { id: 'topo2', nome: 'Não vou desistir!', curto: '2º da semana', desc: 'Termine uma semana em 2º lugar no ranking.', moedas: 300, xp: 500, rk: true, cond: e => e.semana2 >= 1, prog: e => [Math.min(e.semana2, 1), 1] }
 ];
 const COR_TROFEU = { bronze: ['#e3a46b', '#9a5b2a'], prata: ['#eef2f6', '#8d97a5'], ouro: ['#ffe27a', '#c48b12'], platina: ['#e9fbff', '#7fc4d8'], topo1: ['#ffe27a', '#9b4dff'], topo2: ['#bfe9ff', '#2f6fe0'], torneio: ['#c8f59a', '#2f8f5b'] };
 function svgTrofeu(id, ativo = true, tam = 56) {
@@ -5392,7 +5419,7 @@ const Conquistas = {
   /* marca um acontecimento especial (vitória de pretas, virada etc.) */
   marcar(f) { const e = Dados.d.extras; e.flags = e.flags || {}; if (!e.flags[f]) { e.flags[f] = 1; return true; } return false; },
   verificar() {
-    const d = Dados.d, e = estadoJogador(); let novas = 0;
+    const d = Dados.d, e = estadoJogador(); let novas = 0, xpTr = 0;
     const testa = (lista, prefixo, tipo) => lista.forEach(c => {
       const id = prefixo + c.id; if (d.conquistas[id]) return;
       let ok = false; try { ok = c.cond(e); } catch (err) { ok = false; }
@@ -5400,10 +5427,11 @@ const Conquistas = {
       d.conquistas[id] = Date.now(); novas++;
       Livro.recalcular(d);                       // as moedas da conquista entram pelo Livro.bonus
       this.fila.push({ c, tipo });
+      if (tipo === 'trofeu' && c.xp) xpTr += c.xp;   // troféu também dá XP (pela dificuldade)
     });
     testa(CONQUISTAS, '', 'conquista');
     testa(TROFEUS, 'tr-', 'trofeu');
-    if (novas) { Dados.salvar(); App.atualizarTopo(true); this.verificar(); this.mostrar(); }   // repete: moedas podem liberar "Tio Patinhas"
+    if (novas) { Dados.salvar(); App.atualizarTopo(true); if (xpTr) XP.extra(xpTr); this.verificar(); this.mostrar(); }   // repete: moedas podem liberar "Tio Patinhas"
   },
   pausa: false,
   /* fotografia antes de uma partida: depois dá para saber o que foi ganho nela */
@@ -5512,10 +5540,11 @@ const Conquistas = {
   detalheTrofeu(id) {
     const t = TROFEUS.find(x => x.id === id); if (!t) return;
     const ok = !!Dados.d.conquistas['tr-' + t.id], p = t.prog(estadoJogador());
-    const extra = t.id === 'torneio' ? `Também vale ${MOEDA} 1.000 e a moldura exclusiva Louros do Torneio.` : t.rk ? (t.id === 'topo1' ? `Também vale ${GEMA} 500 e ${MOEDA} 1.500.` : `Também vale ${GEMA} 100 e ${MOEDA} 500.`) : `Libera a moldura ${t.nome.replace('Troféu de ', '').toLowerCase()}${t.id === 'platina' ? ' e o ícone Rei de platina' : ''}. Prêmio: ${MOEDA} ${t.moedas}.`;
+    const extra = t.id === 'torneio' ? `Também vale ${MOEDA} 1.000 e a moldura exclusiva Louros do Torneio.` : t.rk ? (t.id === 'topo1' ? `Também vale ${GEMA} 500 e ${MOEDA} 1.500.` : `Também vale ${GEMA} 100 e ${MOEDA} 500.`) : `Libera a moldura ${t.nome.replace('Troféu de ', '').toLowerCase()}${t.id === 'platina' ? ' e o ícone Rei de platina' : ''}.`;
+    const premio = `Prêmio do troféu: ${MOEDA} ${fmtN(t.moedas)} e +${fmtN(t.xp || 0)} XP.`;
     modal(t.nome, `<div class="cq-det${ok ? ' ok' : ''}">${svgTrofeu(t.id, ok, 84)}<p>${esc(t.desc)}</p>
       ${ok ? '' : `<div class="progresso"><i style="width:${Math.round(p[0] / p[1] * 100)}%"></i></div><small class="sub">${p[0]} de ${p[1]}</small>`}
-      <p class="sub">${extra}</p>${ok ? '<b class="cq-det-pr">✓ Conquistado</b>' : ''}</div>`, [{ txt: 'Fechar', cls: 'pri', val: 1 }], true);
+      <p class="sub">${premio} ${extra}</p>${ok ? '<b class="cq-det-pr">✓ Conquistado</b>' : ''}</div>`, [{ txt: 'Fechar', cls: 'pri', val: 1 }], true);
   }
 };
 
@@ -5524,6 +5553,28 @@ function opMold(m) {
   const ok = temMoldura(m.id), p = Dados.d.perfil, dica = m.rei ? 'Só o 1º do ranking geral' : m.nivel ? 'Vença o nível ' + NIVEIS[m.nivel].nome : m.nome;
   return `<button class="op-av${p.moldura === m.id ? ' on' : ''}${ok ? '' : ' trancado'}${m.rei ? ' op-rei' : ''}" data-mold="${m.id}" ${ok ? '' : 'disabled'} title="${ok ? m.nome : dica}">${htmlAvatar(p.avatar, m.id, 54)}<small>${ok ? m.nome : '🔒 ' + (m.rei ? 'Só o nº 1' : m.nivel ? NIVEIS[m.nivel].nome : m.nome)}</small></button>`;
 }
+/* ---------- troca de nome: a 1ª escolha é grátis e dá 1 item de mudar nome; depois, item (Baú real) ou 200 diamantes ---------- */
+const Nome = {
+  PRECO: 200, pago: null,
+  itens() { const p = Dados.d.perfil; return p.nomeItens == null ? 1 : Math.max(0, p.nomeItens); },
+  ganhar(n = 1) { Dados.d.perfil.nomeItens = this.itens() + n; },
+  usarItem() { Dados.d.perfil.nomeItens = Math.max(0, this.itens() - 1); },
+  /* pergunta como pagar; o pagamento só acontece quando o nome novo é salvo */
+  async pedir() {
+    const n = this.itens(), g = Dados.d.gemas || 0;
+    if (n) {
+      const r = await modal('Mudar o nome?', `<div class="lj-conf">${SVG_NOME}<p>Você tem <b>${n}</b> ${n > 1 ? 'itens' : 'item'} de mudar nome. A troca vai usar 1.</p></div>`, [{ txt: 'Cancelar', val: false }, { txt: 'Usar item', cls: 'pri', val: true }], true);
+      if (r) this.pago = 'item'; return !!r;
+    }
+    if (g < this.PRECO) {
+      await modal('Mudar o nome', `<div class="lj-conf">${SVG_NOME}<p>Você não tem item de mudar nome. A troca custa ${precoTxt(this.PRECO, true)} e você tem ${fmtN(g)}. O item também pode sair no <b>Baú real</b>.</p></div>`, [{ txt: 'Ok', cls: 'pri', val: 1 }], true);
+      return false;
+    }
+    const r = await modal('Mudar o nome?', `<div class="lj-conf">${SVG_NOME}<p>Você não tem item de mudar nome. A troca custa ${precoTxt(this.PRECO, true)} (você tem ${fmtN(g)}). Só é cobrado se você salvar um nome diferente.</p></div>`, [{ txt: 'Cancelar', val: false }, { txt: 'Mudar', cls: 'pri', val: true }], true);
+    if (r) this.pago = 'gemas'; return !!r;
+  }
+};
+
 const Perfil = {
   /* perfil: cabe na tela sem rolar; ícone, moldura e conta ficam em telas próprias */
   tela() {
@@ -5535,7 +5586,8 @@ const Perfil = {
       <div class="cartao perfil-cab">
         <button class="pf-av" data-ir-tela="visual" aria-label="Trocar ícone e moldura">${htmlAvatar(p.avatar, p.moldura, 84)}<i class="pf-lapis">${SVG('<path d="M4 20h4L19 9l-4-4L4 16z"/>')}</i></button>
         <div style="flex:1;min-width:0"><label class="sub" for="nome">Nome de usuário</label>
-          <input id="nome" class="campo" maxlength="20" value="${esc(p.nome)}" placeholder="Seu nome" autocomplete="nickname">
+          <div class="nome-linha"><input id="nome" class="campo" maxlength="20" value="${esc(p.nome)}" placeholder="Escolha seu nome" autocomplete="nickname"${p.nome ? ' readonly' : ''}>
+            ${p.nome ? `<button class="bt peq nome-mudar" id="nome-mudar" aria-label="Mudar nome">${SVG('<path d="M4 20h4L19 9l-4-4L4 16z"/>')}<span>Mudar</span>${Nome.itens() ? `<i class="nome-n">${Nome.itens()}</i>` : ''}</button>` : ''}</div>
           <div class="pf-info"><span data-selo-rei>${Premios.selo()}</span>${Dev.ativo ? '<button class="pf-dev" data-dev-abrir="1">Painel DEV</button>' : ''}<span class="pf-saldo">${MOEDA}${d.moedas.toLocaleString('pt-BR')}</span><span class="pf-saldo">${GEMA}${(d.gemas || 0).toLocaleString('pt-BR')}</span></div></div></div>
       <button class="cartao nv-cartao peq" data-ir-missoes="1" style="--nv:${t.cor}">${XP.selo(nv.n, 48)}
         <span class="nv-tx"><small>Nível ${nv.n} · ${t.nome}</small><span class="barra-xp"><i style="width:${Math.round(nv.frac * 100)}%"></i></span>
@@ -5551,10 +5603,24 @@ const Perfil = {
     Avisos.selos();
     const nome = $('#nome');
     nome.addEventListener('change', () => {
-      p.nome = nome.value.trim().slice(0, 20); Dados.salvar(); App.atualizarTopo();
-      if (p.nome) { this.checarConquista(); aviso('Nome salvo.'); }
-      Nuvem.publicarPerfil();
+      const novo = nome.value.trim().slice(0, 20);
+      if (!p.nome) {                                   // a primeira escolha do nome é grátis
+        if (!novo) return;
+        p.nome = novo; Dados.salvar(); App.atualizarTopo(); this.checarConquista(); Nuvem.publicarPerfil();
+        aviso('Nome salvo! Você ganhou 1 item de mudar nome, para usar se quiser trocar depois.', 4000); this.tela(); return;
+      }
+      if (!Nome.pago || !novo || novo === p.nome) { nome.value = p.nome; nome.readOnly = true; Nome.pago = null; return; }
+      if (Nome.pago === 'gemas' && !Gemas.gastar(Nome.PRECO)) { nome.value = p.nome; nome.readOnly = true; Nome.pago = null; aviso('Diamantes insuficientes.'); return; }
+      if (Nome.pago === 'item') Nome.usarItem();
+      Nome.pago = null; p.nome = novo; Dados.salvar(); App.atualizarTopo(); Nuvem.publicarPerfil();
+      aviso('Nome trocado para ' + novo + '.'); this.tela();
     });
+    nome.addEventListener('keydown', ev => { if (ev.key === 'Enter') nome.blur(); });
+    nome.addEventListener('blur', () => { if (p.nome && nome.value.trim() === p.nome) { nome.readOnly = true; Nome.pago = null; } });
+    const mudar = $('#nome-mudar'); if (mudar) mudar.onclick = async () => {
+      if (!(await Nome.pedir())) return;
+      nome.readOnly = false; nome.focus(); nome.select();
+    };
     $('#tela').onclick = ev => {
       const b = ev.target.closest('button'); if (!b) return;
       if (b.dataset.irMissoes) App.ir('missoes');
@@ -5701,26 +5767,28 @@ const BAUS = [
   { id: 'prata', nome: 'Baú de prata', preco: 500, x10: 4500, gratisH: 24, moedas: [150, 400],
     tabela: [['moedas', 20], ['raro', 55], ['epico', 22], ['lendario', 3]], piedade: { n: 10, rar: 'epico' },
     desc: 'Um item <b class="rc-raro">Raro</b> ou <b class="rc-epico">Épico</b>, às vezes <b class="rc-lendario">Lendário</b>' },
-  { id: 'real', nome: 'Baú real', preco: 40, gemas: true, x10: 350, moedas: [0, 0],
-    tabela: [['epico', 75], ['lendario', 25]], piedade: { n: 8, rar: 'lendario' },
-    desc: 'Um item <b class="rc-epico">Épico</b> ou <b class="rc-lendario">Lendário</b>. Tem itens que só saem nos baús!' }
+  { id: 'real', nome: 'Baú real', preco: 400, gemas: true, x10: 4000, moedas: [0, 0],
+    tabela: [['epico', 70], ['lendario', 22], ['nome', 8]], piedade: { n: 8, rar: 'lendario' },
+    desc: 'Um item <b class="rc-epico">Épico</b> ou <b class="rc-lendario">Lendário</b>. Tem itens que só saem nos baús, e pode sair o item de <b>mudar nome</b>!' }
 ];
 /* troca de gemas por moedas (a 1ª vez de cada uma vale o dobro) */
 const TROCAS = [
   { g: 10, m: 500, nome: 'Pilha de moedas', n: 1 },
   { g: 30, m: 1600, nome: 'Saco de moedas', n: 2 },
   { g: 75, m: 4200, nome: 'Monte de moedas', n: 3 },
-  { g: 150, m: 9000, nome: 'Baú de moedas', n: 4 },
-  { g: 300, m: 19000, nome: 'Carreta de moedas', n: 5 }
+  { g: 350, m: 9000, nome: 'Baú de moedas', n: 4 },
+  { g: 700, m: 19000, nome: 'Carreta de moedas', n: 5 }
 ];
 const GRATIS_MOEDAS = 60, GRATIS_H = 5;
-const BOAS_VINDAS = { preco: 400, moedas: 500, moldura: 'carvalho', bau: 'prata' };
+const BOAS_VINDAS = { preco: 250, moedas: 500, moldura: 'carvalho', bau: 'prata' };          // em diamantes
+/* ofertas são sempre em diamantes: itens melhores (épico/lendário) 400, medianos (raro) 250 */
+const OFERTA_MELHOR = 400, OFERTA_MEDIA = 250;
 
 /* tudo o que pode ser comprado ou sair num baú */
 function catalogo() {
   const l = [];
-  AVATARES.forEach(a => { if (!a.trofeu) l.push({ chave: 'av-' + a.id, tipo: 'av', id: a.id, nome: a.nome, preco: a.preco || 0, bau: !!a.bau, gratis: a.preco === 0 && !a.bau, rar: a.rar || rarPorPreco(a.preco || 0), tem: () => temAvatar(a.id) }); });
-  TABULEIROS.forEach(t => l.push({ chave: 'tab-' + t.id, tipo: 'tab', id: t.id, nome: t.nome, preco: t.preco || 0, bau: !!t.bau, gratis: t.preco === 0 && !t.bau, rar: t.rar || rarPorPreco(t.preco || 0), tem: () => temTabuleiro(t.id) }));
+  AVATARES.forEach(a => { if (!a.trofeu) l.push({ chave: 'av-' + a.id, tipo: 'av', id: a.id, nome: a.nome, preco: a.preco || 0, gemas: a.moeda === 'g', bau: !!a.bau, gratis: a.preco === 0 && !a.bau, rar: a.rar || rarPorPreco(a.preco || 0), tem: () => temAvatar(a.id) }); });
+  TABULEIROS.forEach(t => l.push({ chave: 'tab-' + t.id, tipo: 'tab', id: t.id, nome: t.nome, preco: t.preco || 0, gemas: t.moeda === 'g', bau: !!t.bau, gratis: t.preco === 0 && !t.bau, rar: t.rar || rarPorPreco(t.preco || 0), tem: () => temTabuleiro(t.id) }));
   MOLDURAS.forEach(m => { if (m.loja) l.push({ chave: 'mold-' + m.id, tipo: 'mold', id: m.id, nome: m.nome, preco: m.preco || 0, gemas: m.moeda === 'g', bau: !!m.bau, rar: m.rar, tem: () => temMoldura(m.id) }); });
   return l;
 }
@@ -5776,6 +5844,7 @@ function svgGemas(nv = 1) {
   pos.forEach(([x, y, s]) => { h += `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-12-8h24l8 9-20 22-20-22z" fill="#7fd8ff" stroke="#1d6f99" stroke-width="1.4" stroke-linejoin="round"/><path d="M-20 1h40M0 23l-7-22 7-9 7 9z" fill="none" stroke="#1d6f99" stroke-width="1.1"/><path d="M-8-5l-4 5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></g>`; });
   return h + '</svg>';
 }
+const SVG_NOME = '<svg class="svg-nome" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="16" width="52" height="32" rx="7" fill="#f5ebe0" stroke="#7a5410" stroke-width="2.5"/><path d="M14 27h20M14 36h14" stroke="#a38b7d" stroke-width="3.5" stroke-linecap="round"/><path d="M38 44l2-8 15-15 6 6-15 15z" fill="#f0b441" stroke="#7a5410" stroke-width="2.2" stroke-linejoin="round"/><path d="M38 44l2-8 6 6z" fill="#7a5410"/></svg>';
 const SVG_PRESENTE = '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 28h44v28H10z" fill="#e8506e"/><path d="M6 20h52v10H6z" fill="#ff7a93"/><path d="M28 20h8v36h-8z" fill="#ffd36b"/><path d="M32 20c-6-10-18-12-18-4 0 4 8 4 18 4zm0 0c6-10 18-12 18-4 0 4-8 4-18 4z" fill="#ffd36b" stroke="#c38810" stroke-width="1.5"/><path d="M10 28h44v4H10z" fill="#000" opacity=".15"/></svg>';
 const SVG_GEMA_GRANDE = '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M18 10h28l12 14-26 32L6 24z" fill="#7fd8ff" stroke="#1d6f99" stroke-width="2.4" stroke-linejoin="round"/><path d="M6 24h52M32 56l-9-32 9-14 9 14z" fill="none" stroke="#1d6f99" stroke-width="2"/><path d="M17 20l5-6" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>';
 /* banner das ofertas: um rei dourado no meio de moedas e gemas */
@@ -5841,14 +5910,13 @@ const Loja = {
   ofertaDia() {
     const L = this.L(), dia = dataTxt();
     if (L.oferta === dia && L.ofertaItem) { const x = catalogo().find(c => c.chave === L.ofertaItem); if (x) return this.montarOferta(dia, x); }
-    const pool = catalogo().filter(x => !possui(x) && !x.gemas && x.rar !== 'comum').sort((a, b) => a.chave < b.chave ? -1 : 1);
+    const pool = catalogo().filter(x => !possui(x) && x.rar !== 'comum').sort((a, b) => a.chave < b.chave ? -1 : 1);
     if (!pool.length) return null;
     return this.montarOferta(dia, pool[hashTxt('oferta' + dia) % pool.length]);
   },
   montarOferta(dia, x) {
-    const valor = x.bau ? RARIDADES[x.rar].valor : x.preco, bonus = [100, 200, 300, 500][RARIDADES[x.rar].r];
-    const cheio = valor + bonus + BAUS[0].preco;
-    return { dia, item: x, bonus, cheio, preco: Math.round(cheio * .5 / 10) * 10 };
+    const bonus = [100, 200, 300, 500][RARIDADES[x.rar].r], preco = RARIDADES[x.rar].r >= 2 ? OFERTA_MELHOR : OFERTA_MEDIA;
+    return { dia, item: x, bonus, cheio: preco * 2, preco };
   },
 
   tela() {
@@ -5890,15 +5958,15 @@ const Loja = {
       h += `<div class="lj-pacote${comprou ? ' feito' : ''}"><div class="lj-pac-tit">Oferta do dia<span class="lj-faixa">${Math.round(of.cheio / of.preco)}x valor</span></div>
         <p class="lj-pac-sub">Só hoje! ${x.bau ? 'Item que normalmente só sai nos baús!' : 'Oportunidade única!'} Contém:</p>
         <div class="lj-pac-itens">${caixa(arteItem(x, 46), `<em class="rc-${x.rar}">${RARIDADES[x.rar].nome}</em>${esc(x.nome)}`)}${mais}${caixa(svgMoedas(2), '+' + fmtN(of.bonus))}${mais}${caixa(svgBau('madeira'), 'Baú de madeira')}</div>
-        <div class="lj-pac-rodape">${comprou ? '<span class="lj-pac-ok">✓ Comprado hoje · volte amanhã</span>' : `<s>${MOEDA}${fmtN(of.cheio)}</s><button class="lj-preco-bt" data-oferta="1">${precoTxt(of.preco)}</button>`}</div></div>`;
+        <div class="lj-pac-rodape">${comprou ? '<span class="lj-pac-ok">✓ Comprado hoje · volte amanhã</span>' : `<s>${GEMA}${fmtN(of.cheio)}</s><button class="lj-preco-bt" data-oferta="1">${precoTxt(of.preco, true)}</button>`}</div></div>`;
     }
     if (!L.boas) {
-      const B = BOAS_VINDAS, cheio = 150 + BAUS[1].preco + B.moedas;
+      const B = BOAS_VINDAS, cheio = B.preco * 2;
       h += fita('<span class="lj-fita-emo">★</span>', 'Pacote de boas-vindas');
       h += `<div class="lj-pacote boas"><div class="lj-pac-tit">Boas-vindas<span class="lj-faixa">1 vez só</span></div>
         <p class="lj-pac-sub">Para começar a sua coleção. Só pode ser comprado uma vez!</p>
         <div class="lj-pac-itens">${caixa(htmlAvatar(Dados.d.perfil.avatar, B.moldura, 42), 'Moldura Carvalho')}${mais}${caixa(svgBau('prata'), 'Baú de prata')}${mais}${caixa(svgMoedas(3), '+' + fmtN(B.moedas))}</div>
-        <div class="lj-pac-rodape"><s>${MOEDA}${fmtN(cheio)}</s><button class="lj-preco-bt" data-boas="1">${precoTxt(B.preco)}</button></div></div>`;
+        <div class="lj-pac-rodape"><s>${GEMA}${fmtN(cheio)}</s><button class="lj-preco-bt" data-boas="1">${precoTxt(B.preco, true)}</button></div></div>`;
     }
     h += fita('<span class="lj-fita-emo">🎁</span>', 'Grátis');
     h += `<div class="lj-grade">${this.cartaGratis()}${BAUS.filter(b => b.gratisH).map(b => {
@@ -6017,9 +6085,9 @@ const Loja = {
   },
   async comprarOferta() {
     const of = this.ofertaDia(), L = this.L(), d = Dados.d; if (!of || L.oferta === of.dia) return;
-    if (d.moedas < of.preco) { await this.faltou(false, of.preco, d.moedas); return; }
-    const ok = await modal('Comprar a oferta do dia?', `<p>${esc(of.item.nome)} + ${fmtN(of.bonus)} moedas + Baú de madeira por ${precoTxt(of.preco)}.</p>`, [{ txt: 'Cancelar', val: false }, { txt: 'Comprar', cls: 'pri', val: true }], true);
-    if (!ok || !Moedas.gastar(of.preco)) return;
+    if ((d.gemas || 0) < of.preco) { await this.faltou(true, of.preco, d.gemas || 0); return; }
+    const ok = await modal('Comprar a oferta do dia?', `<p>${esc(of.item.nome)} + ${fmtN(of.bonus)} moedas + Baú de madeira por ${precoTxt(of.preco, true)}.</p>`, [{ txt: 'Cancelar', val: false }, { txt: 'Comprar', cls: 'pri', val: true }], true);
+    if (!ok || !Gemas.gastar(of.preco)) return;
     L.oferta = of.dia; L.ofertaItem = of.item.chave; d.itens[of.item.chave] = 1;
     const extra = [{ tipo: 'item', item: of.item, rar: of.item.rar }, { tipo: 'moedas', n: of.bonus, rar: 'comum' }];
     this.darMoedas(of.bonus);
@@ -6027,9 +6095,9 @@ const Loja = {
   },
   async comprarBoas() {
     const L = this.L(), d = Dados.d, B = BOAS_VINDAS; if (L.boas) return;
-    if (d.moedas < B.preco) { await this.faltou(false, B.preco, d.moedas); return; }
-    const ok = await modal('Comprar o pacote de boas-vindas?', `<p>Moldura Carvalho + Baú de prata + ${fmtN(B.moedas)} moedas por ${precoTxt(B.preco)}. Só pode ser comprado uma vez.</p>`, [{ txt: 'Cancelar', val: false }, { txt: 'Comprar', cls: 'pri', val: true }], true);
-    if (!ok || !Moedas.gastar(B.preco)) return;
+    if ((d.gemas || 0) < B.preco) { await this.faltou(true, B.preco, d.gemas || 0); return; }
+    const ok = await modal('Comprar o pacote de boas-vindas?', `<p>Moldura Carvalho + Baú de prata + ${fmtN(B.moedas)} moedas por ${precoTxt(B.preco, true)}. Só pode ser comprado uma vez.</p>`, [{ txt: 'Cancelar', val: false }, { txt: 'Comprar', cls: 'pri', val: true }], true);
+    if (!ok || !Gemas.gastar(B.preco)) return;
     L.boas = 1; const mold = catalogo().find(c => c.chave === 'mold-' + B.moldura);
     const extra = [{ tipo: 'moedas', n: B.moedas, rar: 'comum' }];
     if (mold && !possui(mold)) { d.itens[mold.chave] = 1; extra.unshift({ tipo: 'item', item: mold, rar: mold.rar }); }
@@ -6046,12 +6114,13 @@ const Loja = {
     else { const tot = b.tabela.reduce((s, x) => s + x[1], 0); let t = Math.random() * tot; for (const [k, p] of b.tabela) if ((t -= p) < 0) { rar = k; break; } rar = rar || b.tabela[0][0]; }
     let r;
     if (rar === 'moedas') { const [a, z] = b.moedas; r = { tipo: 'moedas', n: Math.round((a + Math.random() * (z - a)) / 5) * 5, rar: 'comum' }; }
+    else if (rar === 'nome') { Nome.ganhar(); r = { tipo: 'nome', rar: 'epico' }; }
     else {
       const pool = catalogo().filter(x => x.rar === rar && !possui(x));
       if (pool.length) { const x = pool[Math.floor(Math.random() * pool.length)]; d.itens[x.chave] = 1; r = { tipo: 'item', item: x, rar }; }
       else r = { tipo: 'moedas', n: RARIDADES[rar].repetido, rar, repetido: true };
     }
-    L.pd[b.id] = rar !== 'moedas' && RARIDADES[rar].r >= alvo ? 0 : (L.pd[b.id] || 0) + 1;
+    L.pd[b.id] = RARIDADES[rar] && RARIDADES[rar].r >= alvo ? 0 : (L.pd[b.id] || 0) + 1;
     return r;
   },
   async abrirBau(id, n, gratis, extra) {
@@ -6079,7 +6148,7 @@ const Loja = {
   },
   chances() {
     const linha = b => { const tot = b.tabela.reduce((s, x) => s + x[1], 0);
-      return `<div class="lj-ch"><div class="lj-ch-cab">${svgBau(b.id)}<b>${b.nome}</b></div>${b.tabela.map(([k, p]) => `<div class="lj-ch-l"><span class="${k === 'moedas' ? '' : 'rc-' + k}">${k === 'moedas' ? `Moedas (${b.moedas[0]} a ${b.moedas[1]})` : 'Item ' + RARIDADES[k].nome}</span><b>${Math.round(p / tot * 100)}%</b></div>`).join('')}
+      return `<div class="lj-ch"><div class="lj-ch-cab">${svgBau(b.id)}<b>${b.nome}</b></div>${b.tabela.map(([k, p]) => `<div class="lj-ch-l"><span class="${RARIDADES[k] ? 'rc-' + k : ''}">${k === 'moedas' ? `Moedas (${b.moedas[0]} a ${b.moedas[1]})` : k === 'nome' ? 'Item de mudar nome' : 'Item ' + RARIDADES[k].nome}</span><b>${Math.round(p / tot * 100)}%</b></div>`).join('')}
         <small>${RARIDADES[b.piedade.rar].nome} garantido a cada ${b.piedade.n} aberturas${b.gratisH ? ` · grátis a cada ${b.gratisH}h` : ''}</small></div>`; };
     const cat = catalogo(), falta = r => cat.filter(x => x.rar === r && !possui(x)).length;
     modal('Chances dos baús', BAUS.map(linha).join('') + `<p class="sub" style="margin-top:10px">Itens que você ainda não tem: ${ORDEM_RAR.map(r => `<b class="rc-${r}">${RARIDADES[r].nome}</b> ${falta(r)}`).join(' · ')}</p>`, [{ txt: 'Fechar', cls: 'pri', val: 1 }], true);
@@ -6136,6 +6205,8 @@ const Cena = {
     const R = RARIDADES[r.rar];
     if (r.tipo === 'moedas') return `<div class="bc-carta r-${r.rar}" style="--i:${i}"><span class="bc-rar">${r.repetido ? 'Repetido' : 'Moedas'}</span><span class="bc-arte">${svgMoedas(r.n >= 400 ? 4 : r.n >= 150 ? 3 : 2)}</span>
       <b>+${fmtN(r.n)} moedas</b>${grande && r.repetido ? `<small>Você já tem todos os itens ${R.nome.toLowerCase()}s: virou moedas!</small>` : ''}</div>`;
+    if (r.tipo === 'nome') return `<div class="bc-carta r-${r.rar}" style="--i:${i}"><span class="bc-rar">Especial</span><span class="bc-arte">${SVG_NOME}</span>
+      <b>Mudar nome</b><small>${grande ? 'Use no seu perfil para trocar o nome de graça' : 'Item'}</small></div>`;
     const x = r.item;
     return `<div class="bc-carta r-${r.rar}" style="--i:${i}"><span class="bc-rar">${R.nome}</span><i class="bc-novo">Novo!</i><span class="bc-arte">${arteItem(x, grande ? 110 : 52)}</span>
       <b>${esc(x.nome)}</b><small>${TIPO_ITEM[x.tipo]}</small></div>`;
@@ -6174,7 +6245,7 @@ const TITULOS = [
 ];
 const XP = {
   PC_V: [15, 25, 35, 50, 70, 100], PC_E: 10, PC_D: 5, ON: { v: 40, e: 20, d: 10 }, LOCAL: 5, ESTRELA: 10, DESAFIO: [0, 15, 5],
-  MISSAO: 40, BAU: 80,
+  MISSAO: [40, 100, 150], BAU: 80,                         // XP da 1ª, 2ª e 3ª missão do dia
   base(d) {
     let x = 0;
     (d.porNivel || []).forEach((n, i) => { x += (n.v || 0) * this.PC_V[i] + (n.e || 0) * this.PC_E + (n.d || 0) * this.PC_D; });
@@ -6185,7 +6256,17 @@ const XP = {
     return x;
   },
   total(d = Dados.d) { return this.base(d) + (d.xpExtra || 0); },
-  passo(n) { return 80 + 40 * (n - 1); },                    // XP para ir do nível n ao n+1
+  passo(n) { return 400 + 150 * (n - 1); },                  // XP para ir do nível n ao n+1 (o 1º nível pede 400)
+  passoVelho(n) { return 80 + 40 * (n - 1); },               // curva antiga (só para a migração abaixo)
+  /* a curva ficou mais difícil: quem já tinha subido de nível não perde as moedas que os níveis deram.
+     Roda uma vez por conta (marca extras.flags.xp2); dados novos já nascem marcados. */
+  migrar(p) {
+    const f = p.extras.flags = p.extras.flags || {}; if (f.xp2) return; f.xp2 = 1;
+    const xp = Math.max(0, this.total(p));
+    const bonus = passo => { let n = 1, r = xp; while (n < 99 && r >= passo(n)) { r -= passo(n); n++; } let s = 0; for (let k = 2; k <= n; k++) s += this.moedasNivel(k); return s; };
+    const dif = bonus(n => this.passoVelho(n)) - bonus(n => this.passo(n));
+    if (dif > 0) p.livro.xp2 = Object.assign(Livro.vazio(), { aj: dif });
+  },
   nivel(xp) {
     let n = 1, resto = Math.max(0, xp || 0);
     while (n < 99 && resto >= this.passo(n)) { resto -= this.passo(n); n++; }
@@ -6238,7 +6319,7 @@ const Sequencia = {
 };
 
 /* ---------- missões diárias ---------- */
-const MOEDAS_MISSAO = 25, MOEDAS_BAU = 60;
+const MOEDAS_MISSAO = [200, 500, 1000], MOEDAS_BAU = 60;   // 1ª, 2ª e 3ª missão do dia
 const venceu = o => o.res === 'v' && o.modo !== 'local';
 const MISSOES = [
   { id: 'jogar3', g: 'jogo', txt: 'Termine 3 partidas', alvo: 3, ev: t => t === 'partida' },
@@ -6275,7 +6356,7 @@ const Missoes = {
   itens() {
     const m = this.hoje();
     return m.lista.map(id => MISSOES.find(x => x.id === id)).filter(Boolean)
-      .map(x => ({ id: x.id, txt: x.txt, alvo: x.alvo, n: Math.min(m.prog[x.id] || 0, x.alvo), feita: (m.prog[x.id] || 0) >= x.alvo, pega: !!m.pegas[x.id] }));
+      .map((x, i) => ({ i, id: x.id, txt: x.txt, alvo: x.alvo, n: Math.min(m.prog[x.id] || 0, x.alvo), feita: (m.prog[x.id] || 0) >= x.alvo, pega: !!m.pegas[x.id] }));
   },
   feitas() { return this.itens().filter(x => x.feita).map(x => x.id); },
   /* algo aconteceu no jogo: avança as missões que combinam */
@@ -6295,7 +6376,8 @@ const Missoes = {
     const m = this.hoje(), x = MISSOES.find(y => y.id === id);
     if (!x || m.pegas[id] || !m.lista.includes(id) || (m.prog[id] || 0) < x.alvo) return false;
     m.pegas[id] = 1; Dados.salvar();
-    Moedas.ganhar(MOEDAS_MISSAO, 'missão cumprida'); XP.extra(XP.MISSAO);
+    const i = Math.max(0, m.lista.indexOf(id));
+    Moedas.ganhar(MOEDAS_MISSAO[i] || MOEDAS_MISSAO[0], 'missão cumprida'); XP.extra(XP.MISSAO[i] || XP.MISSAO[0]);
     return true;
   },
   podeBau() { const m = this.hoje(); return !m.bau && m.lista.length > 0 && m.lista.every(id => m.pegas[id]); },
@@ -6315,7 +6397,7 @@ const Missoes = {
     const p = x.alvo > 1 ? `${x.n}/${x.alvo}` : x.feita ? '' : '0/1';
     return `<div class="ms-it${x.feita ? ' feita' : ''}${x.pega ? ' pega' : ''}">
       <span class="ms-ic" aria-hidden="true">${x.pega ? '✓' : x.feita ? '🎁' : '🎯'}</span>
-      <span class="ms-tx"><b>${esc(x.txt)}</b><small>${x.pega ? 'Prêmio recebido' : `${MOEDA}${MOEDAS_MISSAO} · +${XP.MISSAO} XP`}</small>
+      <span class="ms-tx"><b>${esc(x.txt)}</b><small>${x.pega ? 'Prêmio recebido' : `${MOEDA}${fmtN(MOEDAS_MISSAO[x.i] || MOEDAS_MISSAO[0])} · +${XP.MISSAO[x.i] || XP.MISSAO[0]} XP`}</small>
         ${!x.feita ? `<span class="barrinha"><i style="width:${Math.round(x.n / x.alvo * 100)}%"></i></span>` : ''}</span>
       ${x.feita && !x.pega ? `<button class="bt pri peq" data-pegar="${x.id}">Pegar</button>` : `<span class="ms-n">${p}</span>`}</div>`;
   },
@@ -6357,7 +6439,8 @@ const Missoes = {
         <li><span>Vencer online</span><b>+${XP.ON.v}</b></li>
         <li><span>Cada estrela nas fases</span><b>+${XP.ESTRELA}</b></li>
         <li><span>Desafio de primeira</span><b>+${XP.DESAFIO[1]}</b></li>
-        <li><span>Missão do dia</span><b>+${XP.MISSAO}</b></li>
+        <li><span>Missões do dia</span><b>+${XP.MISSAO[0]} a +${XP.MISSAO[2]}</b></li>
+        <li><span>Troféus</span><b>+${Math.min(...TROFEUS.map(t => t.xp || 1e9))} a +${Math.max(...TROFEUS.map(t => t.xp || 0))}</b></li>
         <li><span>Dia de sequência</span><b>+${Sequencia.bonusXp(1)} a +${Sequencia.bonusXp(7)}</b></li></ul>
         <p class="sub" style="margin-top:8px">Empates e derrotas também valem um pouco. Cada nível novo dá moedas.</p></div></div>`;
     $('#tela').onclick = e => this.clique(e, () => this.tela());
@@ -6805,7 +6888,7 @@ const Partida = {
     } else if (this.modo === 'local') {
       this.cor = 'w'; this.nivel = null; this.relogio = d.cfgAmigo.relogio; this.tempos = { w: this.relogio, b: this.relogio };
     } else {
-      this.sala = op.sala; this.cor = op.minhaCor; this.nivel = null; this.relogio = op.sala.tempo || 0;
+      this.sala = op.sala; this.cor = op.minhaCor; this.nivel = null; this.relogio = op.sala.tempo || 0; this.voltasVistas = op.sala.voltas || 0;
       this.tempos = { w: this.relogio, b: this.relogio };
       (op.sala.lances || []).forEach(s => this.g.move(s));
     }
@@ -6817,14 +6900,14 @@ const Partida = {
       ? btn('b-desfazer', 'desfazer', 'Desfazer') + (this.treino ? btn('b-dica', 'dica', 'Dica') : '') + btn('b-virar', 'virar', 'Virar') + btn('b-desistir', 'desistir', 'Desistir') + btn('b-nova', 'nova', 'Nova')
       : this.modo === 'local'
         ? btn('b-desfazer', 'desfazer', 'Desfazer') + btn('b-virar', 'virar', 'Virar') + btn('b-empate', 'empate', 'Empate') + btn('b-desistir', 'desistir', 'Desistir') + btn('b-nova', 'nova', 'Nova')
-        : btn('b-virar', 'virar', 'Virar') + btn('b-empate', 'empate', 'Empate') + btn('b-desistir', 'desistir', 'Desistir') + btn('b-sair', 'sair', 'Sair');
+        : btn('b-voltar', 'desfazer', 'Voltar') + btn('b-virar', 'virar', 'Virar') + btn('b-empate', 'empate', 'Empate') + btn('b-desistir', 'desistir', 'Desistir') + btn('b-sair', 'sair', 'Sair');
     $('#tela').innerHTML = `<div class="jogo">
       <div class="col-tab">
         <div class="jogador" id="j-cima"><span class="foto"></span><span class="nome"></span><span class="relogio${this.relogio ? '' : ' oculto'}"></span></div>
         <div class="tab-linha" id="tab-linha">${this.modo === 'pc' ? '<div class="barra-av" id="barra"><i></i><span></span></div>' : ''}</div>
         <div class="jogador" id="j-baixo"><span class="foto"></span><span class="nome"></span>${this.modo === 'online' ? Chat.botao() : ''}<span class="relogio${this.relogio ? '' : ' oculto'}"></span></div>
         ${this.modo === 'online' ? Chat.painel() : ''}
-        <div class="controles${this.treino || this.modo === 'local' ? '' : ' c4'}">${controles}</div>
+        <div class="controles${this.treino || this.modo !== 'pc' ? '' : ' c4'}">${controles}</div>
       </div>
       <div class="lateral">
         <div class="cartao"><div class="status" id="status"></div><div class="sub" id="motor-rot" style="margin-top:4px;font-size:.8rem"></div></div>
@@ -6841,6 +6924,7 @@ const Partida = {
     const h = this.g.history({ verbose: true }); this.marcarUltimo(h[h.length - 1]);
     const liga = (id, fn) => { const b = $(id); if (b) b.onclick = fn; };
     liga('#b-desfazer', () => this.desfazer());
+    liga('#b-voltar', () => this.pedirVolta());
     liga('#b-dica', () => this.dica());
     liga('#b-virar', () => this.virar());
     liga('#b-desistir', () => this.desistir());
@@ -6911,12 +6995,15 @@ const Partida = {
       if (this.travadoVirado() && !this.fim) s = `<div class="aviso-virado">${ICONES.virar}<span><b>Tabuleiro virado: jogadas travadas.</b> Toque em <b>Virar</b> de novo para voltar a jogar.</span></div>` + s;
       if (sl && sl.empate && sl.empate !== this.cor && sl.status === 'jogando') s += `<div class="pedido-empate">Seu amigo propôs empate. <button class="bt peq" id="emp-sim">Aceitar</button> <button class="bt peq" id="emp-nao">Recusar</button></div>`;
       else if (sl && sl.empate === this.cor) s += '<div class="sub">Você propôs empate. Aguardando resposta…</div>';
+      if (sl && sl.volta && sl.volta !== this.cor && sl.status === 'jogando') s += `<div class="pedido-empate pedido-volta">Seu amigo pediu para voltar a jogada dele. <button class="bt peq" id="volta-sim">Aceitar</button> <button class="bt peq" id="volta-nao">Recusar</button></div>`;
+      else if (sl && sl.volta === this.cor && sl.status === 'jogando') s += '<div class="sub">Você pediu para voltar a jogada. Aguardando resposta…</div>';
     }
     else if (g.turn() === this.cor) s = xeque + 'Sua vez de jogar.';
     else s = 'O computador está pensando…';
     $('#status').innerHTML = s;
     const bv = $('#b-virar'); if (bv) bv.classList.toggle('on-virado', this.travadoVirado());
     if ($('#tab-linha')) $('#tab-linha').classList.toggle('travado', this.travadoVirado() && !this.fim);
+    if ($('#volta-sim')) { $('#volta-sim').onclick = () => Salas.responderVolta(true); $('#volta-nao').onclick = () => Salas.responderVolta(false); }
     if ($('#emp-sim')) { $('#emp-sim').onclick = () => Salas.responderEmpate(true); $('#emp-nao').onclick = () => Salas.responderEmpate(false); }
   },
   pintarRelogios() {
@@ -7068,6 +7155,16 @@ const Partida = {
     if (!ok || this.fim) return;
     if (this.modo === 'online') Salas.desistir();
     else this.finalizar(outraCor(this.cor), 'desistência');
+  },
+  /* online: pede ao amigo para voltar a sua última jogada (ele aceita ou recusa) */
+  pedirVolta() {
+    const sl = this.sala;
+    if (this.fim || this.modo !== 'online' || !sl || sl.status !== 'jogando') return;
+    const n = Math.max((sl.lances || []).length, this.g.history().length), minhas = this.cor === 'w' ? Math.ceil(n / 2) : Math.floor(n / 2);   // o tabuleiro local pode estar um lance à frente da sala
+    if (!minhas) { aviso('Você ainda não fez nenhuma jogada.'); return; }
+    if (sl.volta === this.cor) { aviso('Você já pediu. Aguardando seu amigo…'); return; }
+    if (sl.volta) { aviso('Seu amigo pediu para voltar a jogada. Responda primeiro.'); return; }
+    Salas.pedirVolta();
   },
   async empate() {
     if (this.fim) return;
@@ -8395,10 +8492,12 @@ const Nuvem = {
       h += `<p>Você está jogando como <b>convidado</b>.</p><p class="sub" id="sync-txt" style="margin:4px 0 10px">${this.textoSync()}</p>
         <div class="aviso-conv"><b>Não perca seu progresso</b><span>Como convidado, ele só fica neste aparelho: se sair, trocar de celular ou limpar o navegador, perde tudo. Salve numa conta (é grátis) para guardar moedas, gemas, itens e fases e jogar em qualquer aparelho.</span></div>
         ${form('<button class="bt pri cheio" id="c-ligar">Salvar com e-mail e senha</button>', 'Salvar com o Google', false)}
-        <button class="bt perigo cheio" id="c-sair" style="margin-top:6px">Sair do modo convidado</button>`;
+        <button class="bt perigo cheio" id="c-sair" style="margin-top:6px">Sair do modo convidado</button>
+        <button class="link excluir-conta" id="c-excluir">Excluir conta</button>`;
     } else if (u) {
       h += `<p>Conectado como <b>${esc(this.nomeConta())}</b>.</p><p class="sub" id="sync-txt" style="margin:4px 0 10px">${this.textoSync()}</p>
-        <div class="fila"><button class="bt" id="c-sync">Sincronizar agora</button><button class="bt perigo" id="c-sair">Sair da conta</button></div>`;
+        <div class="fila"><button class="bt" id="c-sync">Sincronizar agora</button><button class="bt perigo" id="c-sair">Sair da conta</button></div>
+        <button class="link excluir-conta" id="c-excluir">Excluir conta</button>`;
     } else {
       h += `<p class="sub" style="margin-bottom:10px">Crie uma conta para salvar seu progresso e continuar em qualquer aparelho, e para jogar online com amigos.</p>
         ${form('<div class="fila"><button class="bt pri" id="c-entrar" style="flex:1">Entrar</button><button class="bt" id="c-criar" style="flex:1">Criar conta</button></div>', 'Entrar com o Google', true)}`;
@@ -8411,6 +8510,7 @@ const Nuvem = {
     liga('#c-tentar', () => { this.estado = 'desligada'; this.iniciar(); });
     liga('#c-sync', async () => { await this.subir(); aviso(this.erroSync ? 'Não foi possível sincronizar.' : 'Progresso sincronizado!'); });
     liga('#c-sair', () => this.sair());
+    liga('#c-excluir', () => this.excluirConta());
     liga('#c-ligar', () => ocupado(async () => {
       const [e, s] = dados(); if (!e) { msg('Digite o seu e-mail.'); return; } if (!s) { msg('Crie uma senha.'); return; }
       msg('Salvando na conta…'); await this.usuario.linkWithCredential(firebase.auth.EmailAuthProvider.credential(e, s)); await this.depoisDeLigar();
@@ -8472,6 +8572,49 @@ const Nuvem = {
     try { await this.auth.signOut(); } catch (e) { this.saindo = false; aviso(msgErro(e), 4000); return; }
     this.usuario = null;
     this.limparAparelho();
+    location.reload();
+  },
+  /* ---------- excluir a conta para sempre ----------
+     Apaga o progresso, o ranking e o histórico público na nuvem e depois o login. */
+  async excluirConta() {
+    const u = this.usuario; if (!u || this.saindo) return;
+    if (navigator.onLine === false) { aviso('Conecte-se à internet para excluir a conta.'); return; }
+    const ok = await modal('Excluir a conta?', `<p>Isso apaga <b>para sempre</b> a sua conta e tudo o que há nela: moedas, diamantes, itens, fases, conquistas, troféus, amigos e histórico. <b>Não dá para desfazer.</b></p>`,
+      [{ txt: 'Cancelar', val: false }, { txt: 'Continuar', cls: 'perigo', val: true }], true);
+    if (!ok) return;
+    let digitado = '';
+    const p = modal('Confirme a exclusão', `<p>Para confirmar, digite <b>EXCLUIR</b> abaixo.</p><input class="campo" id="ex-txt" autocomplete="off" autocapitalize="characters" style="text-align:center;margin-top:8px">`,
+      [{ txt: 'Cancelar', val: false }, { txt: 'Excluir para sempre', cls: 'perigo', val: true }], true);
+    const campo = $('#ex-txt'); if (campo) { campo.addEventListener('input', () => { digitado = campo.value; }); setTimeout(() => campo.focus(), 50); }
+    if (!(await p)) return;
+    if (digitado.trim().toUpperCase() !== 'EXCLUIR') { aviso('Exclusão cancelada: o texto não confere.', 3500); return; }
+    try {
+      // o Firebase só deixa excluir logo depois de confirmar quem é (senha ou Google)
+      const google = (u.providerData || []).some(x => x && x.providerId === 'google.com');
+      if (!u.isAnonymous && google) await u.reauthenticateWithPopup(new firebase.auth.GoogleAuthProvider());
+      else if (!u.isAnonymous && u.email) {
+        let senha = '';
+        const ps = modal('Digite sua senha', `<p>Por segurança, digite a senha da conta <b>${esc(u.email)}</b>.</p><input class="campo" id="ex-senha" type="password" autocomplete="current-password" style="margin-top:8px">`,
+          [{ txt: 'Cancelar', val: false }, { txt: 'Confirmar', cls: 'perigo', val: true }], true);
+        const cs = $('#ex-senha'); if (cs) { cs.addEventListener('input', () => { senha = cs.value; }); setTimeout(() => cs.focus(), 50); }
+        if (!(await ps)) return;
+        await u.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(u.email, senha));
+      }
+      aviso('Excluindo a conta…');
+      this.saindo = true; clearTimeout(this.timer); this.timer = null;
+      if (typeof Guilda !== 'undefined' && (Guilda.id || (Guilda.meuId && Guilda.meuId()))) { try { await Guilda.sair(); } catch (e) { /* segue */ } }
+      const uid = u.uid;
+      for (const col of ['usuarios', 'ranking', 'historicos']) { try { await this.db.collection(col).doc(uid).delete(); } catch (e) { /* segue */ } }
+      await u.delete();
+    } catch (e) {
+      this.saindo = false;
+      aviso(e && e.code === 'auth/wrong-password' || e && e.code === 'auth/invalid-credential' ? 'Senha incorreta. A conta não foi excluída.' : 'Não foi possível excluir a conta: ' + msgErro(e), 4500);
+      return;
+    }
+    this.usuario = null;
+    try { await this.auth.signOut(); } catch (e) { /* já saiu */ }
+    this.limparAparelho();
+    try { sessionStorage.setItem('trainer-xadrez-excluida', '1'); } catch (e) { /* ignora */ }
     location.reload();
   },
   /* tira deste aparelho tudo o que era da conta (fica só o tema, o som e as outras preferências do aparelho) */
@@ -8539,7 +8682,15 @@ const Salas = {
   pararEscuta() { if (this.cancelarEscuta) { try { this.cancelarEscuta(); } catch (e) { /* ignora */ } } this.cancelarEscuta = null; },
   sair() { if (this.indoParaJogo) return; this.pararEscuta(); this.sala = null; },
   aoAtualizar(s) {
+    const ant = this.sala;
     this.sala = s;
+    if (ant && App.atual === 'jogo' && s.status === 'jogando') {      // avisos do "voltar jogada"
+      if (s.volta && s.volta !== this.minhaCor && ant.volta !== s.volta) { aviso('Seu amigo pediu para voltar a jogada.', 3500); vibrar(40); }
+      if (ant.volta === this.minhaCor && !s.volta) {
+        if ((s.voltas || 0) > (ant.voltas || 0)) aviso('Seu amigo aceitou: a jogada foi voltada.', 3000);
+        else if ((s.lances || []).length === (ant.lances || []).length) aviso('Seu amigo recusou voltar a jogada.', 3000);
+      }
+    }
     if (App.atual === 'sala') {
       if (s.status !== 'esperando') {
         if (Convites.enviado && Convites.enviado.codigo === s.codigo) { Convites.pararVigia(); Convites.enviado = null; } this.indoParaJogo = true; App.ir('jogo', { modo: 'online', sala: s, minhaCor: this.minhaCor }); this.indoParaJogo = false; }
@@ -8559,6 +8710,7 @@ const Salas = {
   sincronizar(s, forcar) {
     const P = Partida, g = P.g, local = g.history(), rem = s.lances || [];
     P.sala = s;
+    if ((s.voltas || 0) !== (P.voltasVistas || 0)) { P.voltasVistas = s.voltas || 0; forcar = true; P.tab.limparSelecao(); }   // jogada voltada
     const prefixo = local.length <= rem.length && local.every((x, i) => x === rem[i]);
     const pendente = rem.length < local.length && rem.every((x, i) => x === local[i]);   // meu lance ainda está sendo enviado
     if (!forcar && pendente) { /* espera a confirmação */ }
@@ -8596,7 +8748,7 @@ const Salas = {
           t.update(ref, { status: 'fim', relogio: rel, resultado: { vencedor: outraCor(cor), motivo: 'tempo esgotado' } });
           return;
         }
-        const upd = { lances: todos, relogio: rel, empate: null };
+        const upd = { lances: todos, relogio: rel, empate: null, volta: null };   // jogar de novo cancela os pedidos pendentes
         if (fim) { upd.status = 'fim'; upd.resultado = fim; }
         t.update(ref, upd);
       });
@@ -8610,6 +8762,18 @@ const Salas = {
     catch (e) { aviso(msgErro(e)); }
   },
   desistir() { const cor = this.minhaCor; this.alterar(d => d.status === 'jogando' ? { status: 'fim', resultado: { vencedor: outraCor(cor), motivo: 'desistência das ' + corNome(cor) } } : null); },
+  /* voltar jogada: quem pede volta a própria última jogada (se o amigo já respondeu, volta as duas) */
+  pedirVolta() { const cor = this.minhaCor; this.alterar(d => d.status === 'jogando' && !d.volta ? { volta: cor } : null); aviso('Pedido enviado. Aguardando seu amigo…'); },
+  responderVolta(sim) {
+    const cor = this.minhaCor;
+    this.alterar(d => {
+      const req = d.volta; if (d.status !== 'jogando' || !req || req === cor) return null;
+      if (!sim) return { volta: null };
+      const l = d.lances || [], n = l.length, k = (n % 2 ? 'b' : 'w') === req ? 2 : 1;
+      if (n < k) return { volta: null };
+      return { lances: l.slice(0, n - k), volta: null, voltas: (d.voltas || 0) + 1, empate: null, relogio: Object.assign({}, d.relogio, { t: Date.now() }) };
+    });
+  },
   proporEmpate() { const cor = this.minhaCor; this.alterar(d => d.status === 'jogando' ? { empate: cor } : null); aviso('Proposta de empate enviada.'); },
   responderEmpate(sim) {
     const cor = this.minhaCor;
@@ -8803,6 +8967,7 @@ const Entrada = {
     el.addEventListener('click', e => this.clique(e));
     el.addEventListener('submit', e => { e.preventDefault(); this.enviar(); });
     this.pintar();
+    try { if (sessionStorage.getItem('trainer-xadrez-excluida')) { sessionStorage.removeItem('trainer-xadrez-excluida'); this.msg('Sua conta foi excluída. Até a próxima!'); } } catch (e) { /* ignora */ }
   },
   fechar() {
     const el = this.el; if (!el) return;
@@ -10415,7 +10580,7 @@ function telaMenu() {
   $('#tela').innerHTML = `<div class="home">
     <header class="home-cab">
       <button class="perfil-topo" data-ir="perfil" aria-label="Meu perfil" style="width:56px;height:56px">${htmlAvatar(d.perfil.avatar, d.perfil.moldura, 52)}${XP.selo(nv.n, 22)}</button>
-      <div class="quem"><p class="saud">${saud}</p><h1>${d.perfil.nome ? 'Olá, ' + esc(d.perfil.nome) + '!' : 'Olá, jogador!'}</h1><button class="selo-linha" data-ir="visual" data-param="selo" aria-label="Escolher selo" data-selo-rei>${Premios.selo()}</button></div>
+      <div class="quem" data-ir="perfil" role="button" tabindex="0" aria-label="Abrir meu perfil"><p class="saud">${saud}</p><h1>${d.perfil.nome ? 'Olá, ' + esc(d.perfil.nome) + '!' : 'Olá, jogador!'}</h1><button class="selo-linha" data-ir="perfil" aria-label="Abrir meu perfil" data-selo-rei>${Premios.selo()}</button></div>
       <div class="cab-dir">
         <button class="moedas-topo" data-ir="loja" aria-label="Moedas — abrir loja">${MOEDA}${d.moedas.toLocaleString('pt-BR')}</button>
         <div class="cab-bts"><button class="bt-ic sino" data-ir="avisos" aria-label="Notificações">${SVG(SINO)}<i class="selo-conv oculto" data-avisos-n>0</i></button>
