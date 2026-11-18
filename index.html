@@ -1308,9 +1308,9 @@ body.na-loja.com-nav #tela{padding-bottom:calc(196px + env(safe-area-inset-botto
   color:#fff;font-family:Nunito,Inter,system-ui,sans-serif;font-weight:800;
   text-shadow:0 2px 0 rgba(0,0,0,.55),1px 1px 0 #1b2236,-1px -1px 0 #1b2236,1px -1px 0 #1b2236,-1px 1px 0 #1b2236}
 /* barra de saldo (fica no topo enquanto rola) */
-.lj-saldo{position:sticky;top:0;z-index:15;display:grid;grid-template-columns:auto 1fr 1fr;gap:8px;align-items:center;
-  margin:0 -14px 6px;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:rgba(var(--lj-barra),.96);
-  box-shadow:0 0 0 100vmax rgba(var(--lj-barra),.96),0 6px 14px rgba(0,0,0,.3);clip-path:inset(0 -100vmax -20px)}
+.lj-saldo{position:relative;z-index:15;display:grid;grid-template-columns:auto 1fr 1fr;gap:8px;align-items:center;
+  margin:0 0 8px;padding:calc(12px + env(safe-area-inset-top)) 0 4px}
+.lj-saldo .lj-chip,.lj-saldo .lj-barra{box-shadow:0 3px 0 rgba(0,0,0,.35)}
 .lj-nv{display:flex;align-items:center;gap:0;min-width:0}
 .lj-nv .selo-nv{position:relative;z-index:1;margin-right:-10px}
 .lj-barra{position:relative;width:74px;height:22px;border-radius:0 8px 8px 0;background:var(--lj-chip);overflow:hidden;border:1px solid var(--lj-chipb)}
@@ -1456,9 +1456,11 @@ button.lj-c-bt:active,.lj-abrir:active,.lj-preco-bt:active{transform:translateY(
 .grade-av .op-av small{display:block;font-size:.62rem;line-height:1.1;color:var(--txt2);margin-top:3px;max-width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* ---------- animação de abrir baú ---------- */
-body.cena-aberta{overflow:hidden}
-.bc{--rc:#4aa3ff;position:fixed;inset:0;z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px 14px calc(20px + env(safe-area-inset-bottom));
-  background:radial-gradient(circle at 50% 45%,rgba(30,60,110,.96),rgba(4,8,18,.98) 70%);opacity:0;transition:opacity .25s;overflow:hidden;font-family:Nunito,Inter,sans-serif;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+html.cena-aberta,body.cena-aberta{overflow:hidden;overscroll-behavior:none}
+.bc{--rc:#4aa3ff;position:fixed;top:0;left:0;width:100vw;height:100vh;height:100dvh;z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px 14px calc(20px + env(safe-area-inset-bottom));
+  opacity:0;transition:opacity .25s;overflow:hidden;contain:strict;clip-path:inset(0);font-family:Nunito,Inter,sans-serif;touch-action:none;user-select:none;-webkit-user-select:none;box-sizing:border-box}
+.bc-fundo{position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,rgba(30,60,110,.97),rgba(4,8,18,.99) 70%)}
+.bc-fx{position:absolute;inset:0;overflow:hidden;contain:paint;pointer-events:none}
 .bc.entra{opacity:1}.bc.sai{opacity:0}
 .bc-raro{--rc:#b07dff}.bc-epico{--rc:#ff6d8a}.bc-lendario{--rc:#ffc23a}
 .bc-raios{position:absolute;left:50%;top:44%;width:180vmax;height:180vmax;transform:translate(-50%,-50%) scale(.3);opacity:0;
@@ -1472,10 +1474,10 @@ body.cena-aberta{overflow:hidden}
 .bc-bau{position:relative;width:min(62vw,250px);transform:translateY(-120vh);transition:transform .55s cubic-bezier(.25,1.5,.5,1)}
 .bc.entra .bc-bau{transform:none}
 .bc-bau .svg-bau{width:100%;height:auto;overflow:visible;filter:drop-shadow(0 14px 14px rgba(0,0,0,.45))}
-.bc.treme .bc-bau .svg-bau{animation:bcTreme .38s ease-in-out}
+.bc-bau.treme .svg-bau{animation:bcTreme .38s ease-in-out}
 @keyframes bcTreme{0%,100%{transform:none}20%{transform:rotate(calc(-4deg * var(--forca,1))) translateY(-4px)}40%{transform:rotate(calc(4deg * var(--forca,1))) scale(1.03)}60%{transform:rotate(calc(-3deg * var(--forca,1)))}80%{transform:rotate(calc(2deg * var(--forca,1)))}}
 .svg-bau .bz-luz{opacity:0;transition:opacity .3s}
-.bc.treme .svg-bau .bz-luz{opacity:.35}
+.bc-bau.treme .svg-bau .bz-luz{opacity:.35}
 .svg-bau .bz-tampa{transform-box:view-box;transform-origin:60px 40px;transition:transform .45s cubic-bezier(.2,1.6,.4,1)}
 .bc.aberto .svg-bau .bz-tampa{transform:translateY(-30px) rotate(-9deg) scale(1.04)}
 .bc.aberto .svg-bau .bz-luz{opacity:1;transform-box:fill-box;transform-origin:center;animation:bcLuz 1.2s ease-out forwards}
@@ -1492,9 +1494,15 @@ body.cena-aberta{overflow:hidden}
 .bc:not(.sem-bau).aberto .bc-res{position:absolute;top:47%;left:50%;transform:translate(-50%,-56%)}
 .bc.multi.aberto .bc-res{top:46%;transform:translate(-50%,-50%)}
 .bc-res.um{width:min(72vw,260px)}
-.bc-res.varios{grid-template-columns:repeat(5,1fr);gap:8px;width:min(94vw,520px)}
-@media(max-width:420px){.bc-res.varios{grid-template-columns:repeat(4,1fr)}}
-.bc-res.n2,.bc-res.n3{grid-template-columns:repeat(3,1fr)}
+.bc-res.varios{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;width:min(calc(100vw - 24px),520px);max-height:calc(100dvh - 190px);overflow-y:auto;overflow-x:hidden;padding:12px 4px 4px;box-sizing:border-box}
+@media(max-width:480px){.bc-res.varios{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+  .bc-res.varios .bc-carta{padding:8px 3px;border-width:2px;border-radius:11px}
+  .bc-res.varios .bc-carta b{font-size:.68rem}.bc-res.varios .bc-carta small{font-size:.58rem}
+  .bc-res.varios .bc-rar{font-size:.6rem;padding:1px 5px}.bc-res.varios .bc-novo{font-size:.56rem;right:-3px;top:-9px;padding:1px 5px}
+  .bc-res.varios .bc-arte{min-height:44px}.bc-res.varios .bc-arte .avatar{--av:40px!important;width:40px!important;height:40px!important}
+  .bc-res.varios .bc-arte .svg-pilha{width:100%;max-width:56px;height:40px}.bc-res.varios .lj-mt .mini-tab{width:42px;height:42px}}
+.bc-res.n2,.bc-res.n3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.bc-carta{min-width:0}
 .bc-carta{--c:#3d8fe0;position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px 10px;border-radius:14px;text-align:center;
   background:linear-gradient(color-mix(in srgb,var(--c) 30%,#0c1a33),#0c1a33);border:3px solid var(--c);box-shadow:0 0 22px color-mix(in srgb,var(--c) 60%,transparent);
   opacity:0;transform:translateY(30px) scale(.5);animation:bcCarta .5s cubic-bezier(.2,1.5,.4,1) forwards;animation-delay:calc(var(--i) * .11s + .05s)}
@@ -1546,6 +1554,17 @@ body.cena-aberta{overflow:hidden}
 #tela.entra>.lj{animation:none}
 #tela.entra>.lj>.lj-corpo>*{animation:sobe .45s cubic-bezier(.2,.8,.2,1) both}
 #tela.entra>.lj>.lj-corpo>*:nth-child(2){animation-delay:.05s}#tela.entra>.lj>.lj-corpo>*:nth-child(3){animation-delay:.1s}#tela.entra>.lj>.lj-corpo>*:nth-child(n+4){animation-delay:.14s}
+
+/* ---------- fundo quadriculado também em Início, Aprender, Jogar e Troféus ---------- */
+:root,[data-tema="claro"]{--fx-f1:#e4edf8;--fx-f2:#ccdcf0;--fx-luz:rgba(255,255,255,.7);--fx-losango:rgba(30,70,140,.05)}
+[data-tema="escuro"]{--fx-f1:var(--lj-f1);--fx-f2:var(--lj-f2);--fx-luz:var(--lj-luz);--fx-losango:rgba(255,255,255,.035)}
+[data-tema="marrom"]{--fx-f1:var(--lj-f1);--fx-f2:var(--lj-f2);--fx-luz:var(--lj-luz);--fx-losango:rgba(255,255,255,.035)}
+body:is([data-tela="menu"],[data-tela="aprender"],[data-tela="desafios"],[data-tela="jogar"],[data-tela="conquistas"]){background:var(--fx-f2)}
+body:is([data-tela="menu"],[data-tela="aprender"],[data-tela="desafios"],[data-tela="jogar"],[data-tela="conquistas"])::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 0,var(--fx-luz),transparent 60%),
+    repeating-linear-gradient(45deg,var(--fx-losango) 0 22px,transparent 22px 44px),
+    repeating-linear-gradient(-45deg,var(--fx-losango) 0 22px,transparent 22px 44px),linear-gradient(var(--fx-f1),var(--fx-f2))}
 
 </style>
 </head>
@@ -6037,10 +6056,10 @@ const Cena = {
     return new Promise(fim => {
       const melhor = res.reduce((m, r) => Math.max(m, RARIDADES[r.rar].r), 0), rarM = ORDEM_RAR[melhor];
       const el = document.createElement('div'); el.id = 'bau-cena'; el.className = `bc bc-${rarM}${b ? '' : ' sem-bau'}${res.length > 1 ? ' multi' : ''}`;
-      el.innerHTML = `<div class="bc-raios"></div><div class="bc-flash"></div><div class="bc-faiscas"></div>
+      el.innerHTML = `<div class="bc-fundo"></div><div class="bc-fx"><div class="bc-raios"></div><div class="bc-flash"></div><div class="bc-faiscas"></div></div>
         ${b ? `<div class="bc-bau">${svgBau(b.id, 'grande')}</div><p class="bc-toque">Toque para abrir</p>` : ''}
         <div class="bc-res"></div><div class="bc-bts"></div>`;
-      document.body.appendChild(el); document.body.classList.add('cena-aberta');
+      document.body.appendChild(el); document.body.classList.add('cena-aberta'); document.documentElement.classList.add('cena-aberta');
       const timers = [], depois = (ms, f) => timers.push(setTimeout(f, ms));
       let aberto = false;
       const abrir = () => {
@@ -6063,14 +6082,15 @@ const Cena = {
         const bt = e.target.closest('[data-bc]');
         if (bt) {
           if (bt.dataset.bc === 'usar' && res[0].item) Loja.usar(res[0].item.chave);
-          el.classList.add('sai'); document.body.classList.remove('cena-aberta');
+          el.classList.add('sai'); document.body.classList.remove('cena-aberta'); document.documentElement.classList.remove('cena-aberta');
           setTimeout(() => { el.remove(); fim(); }, 260); return;
         }
         if (!aberto) abrir();
       });
       if (b) {
         requestAnimationFrame(() => el.classList.add('entra'));
-        [700, 1150, 1600].forEach((t, i) => depois(t, () => { el.classList.remove('treme'); void el.offsetWidth; el.classList.add('treme'); el.style.setProperty('--forca', 1 + i * .5); Som.tocar('bau'); vibrar(20); }));
+        const bauEl = $('.bc-bau', el);
+        [700, 1150, 1600].forEach((t, i) => depois(t, () => { bauEl.classList.remove('treme'); void bauEl.offsetWidth; bauEl.style.setProperty('--forca', 1 + i * .5); bauEl.classList.add('treme'); Som.tocar('bau'); vibrar(20); }));
         depois(2150, abrir);
       } else { requestAnimationFrame(() => el.classList.add('entra')); abrir(); }
     });
