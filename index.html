@@ -2332,6 +2332,232 @@ body[data-tela="jogo"] #tela{padding-left:8px;padding-right:8px}
 #nav-inf .nav-jogar{justify-self:stretch;width:auto}
 .home .perfil-topo .selo-nv b{font-size:13px}
 
+/* =====================================================================
+   ENTREGA 2 — Aprender (trilha e desafios), lição, desafio tático,
+   desafio do dia, torneio da semana e linhas de ranking
+   ===================================================================== */
+.cor-apagada{color:var(--sup3);--ic-b:var(--sup2);--ic-c:transparent}
+html[data-tema="claro"] .cor-apagada{color:#d9c6a8;--ic-b:#eadbc3}
+
+/* abas (Trilha / Desafios) e as do ranking: pílula com a escolhida dourada */
+.abas-rk{gap:6px;padding:5px;border-radius:18px;background:var(--chip);border:2.5px solid var(--borda)}
+.abas-rk button{min-height:42px;border-radius:13px;font-family:var(--f-tit);font-weight:400;font-size:var(--t2);color:#d9c19f;letter-spacing:.3px}
+.abas-rk button.on{background:linear-gradient(var(--ouro-alto),var(--ouro));color:var(--ouro-tinta);box-shadow:inset 0 -3px 0 var(--ouro-baixo)}
+html[data-tema="claro"] .abas-rk button{color:#e9d8bd}
+
+/* ---------- trilha ---------- */
+.aprender{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.chips-mod{display:flex;gap:8px;overflow-x:auto;margin:0 -16px;padding:2px 16px 6px;scrollbar-width:none}
+.chips-mod::-webkit-scrollbar{display:none}
+.chip-mod{flex:none;min-height:40px;padding:0 14px;border-radius:999px;border:2.5px solid var(--borda);background:var(--sup);font-family:var(--f-tit);font-weight:400;font-size:var(--t2);
+  color:var(--txt2);box-shadow:0 3px 0 var(--borda);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.chip-mod .ic{width:16px;height:16px}
+.chip-mod.feito{color:var(--ok)}
+.chip-mod.on{background:linear-gradient(var(--ouro-alto),var(--ouro));color:var(--ouro-tinta);box-shadow:inset 0 -3px 0 var(--ouro-baixo),0 3px 0 var(--borda)}
+.cab-mod{position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;padding:16px;border-radius:22px;border:2.5px solid var(--borda);color:#fff;
+  background:radial-gradient(120% 100% at 90% 0%,#7be08a 0,transparent 55%),linear-gradient(160deg,#3fae55,#23803a);box-shadow:inset 0 -6px 0 #1a6a2d,inset 0 2px 0 rgba(255,255,255,.25),0 4px 0 var(--borda)}
+.cab-mod.cab-des{background:radial-gradient(120% 100% at 90% 0%,#c79bff 0,transparent 55%),linear-gradient(160deg,#8f5ae8,#6332b8);box-shadow:inset 0 -6px 0 #4a2391,inset 0 2px 0 rgba(255,255,255,.25),0 4px 0 var(--borda)}
+.cab-mod .cm-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.cm-etq{font-weight:900;font-size:var(--t1);letter-spacing:.5px;color:rgba(255,255,255,.88)}
+.cab-mod h2{margin:0;font-size:28px;line-height:1}
+.cm-desc{font-weight:800;font-size:var(--t1);color:rgba(255,255,255,.9)}
+.cab-mod .barra{margin-top:4px;background:rgba(0,0,0,.3)}
+.cab-mod .num-g{font-family:var(--f-tit);font-size:34px;line-height:1;color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.25)}
+.cab-mod .num-g small{font-size:var(--t4);color:rgba(255,255,255,.8)}
+.mapa{margin-top:2px}
+.mapa .cam{stroke-width:12}
+.mapa .cam.base{stroke:var(--sup2)}
+.mapa .cam.feito{stroke:var(--ok)}
+.mapa .cam.anda{stroke:rgba(255,255,255,.55)}
+.no>button{width:76px;height:76px;border-radius:50%;background:linear-gradient(var(--sup3),var(--sup2));border:3px solid var(--borda);color:var(--txt2);
+  box-shadow:inset 0 -6px 0 var(--sup-baixo),inset 0 2px 0 rgba(255,255,255,.15),0 5px 0 var(--borda)}
+.no>button:active{transform:translateY(3px) scale(1);box-shadow:inset 0 -3px 0 var(--sup-baixo),0 2px 0 var(--borda)}
+.no .pcf{width:46px;height:46px}
+.no .pcf svg{fill:#fbfaf4;stroke:#2b2f36;stroke-width:4.2}
+.no.feita>button{background:linear-gradient(#8ae58f,var(--ok));border-color:var(--borda);box-shadow:inset 0 -6px 0 var(--ok-baixo),inset 0 2px 0 rgba(255,255,255,.35),0 5px 0 var(--borda)}
+.no.atual>button{background:linear-gradient(var(--ouro-alto),var(--ouro));border-color:var(--borda);box-shadow:inset 0 -6px 0 var(--ouro-baixo),inset 0 2px 0 rgba(255,255,255,.45),0 5px 0 var(--borda),0 0 0 6px rgba(255,200,58,.25)}
+.no.trancada>button{opacity:1}
+.no.trancada .cad{width:30px;height:30px}
+.no .onda{background:var(--ouro);opacity:.5}
+.no>button.comecar,.no .comecar{padding:8px 14px;border:2.5px solid var(--borda);border-radius:14px;background:#fff;color:var(--ouro-tinta);font-family:var(--f-tit);font-weight:400;font-size:var(--t2);box-shadow:0 3px 0 var(--borda)}
+.no .comecar::after{border-top-color:var(--borda)}
+.no .rot b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3);color:var(--txt)}
+.no.trancada .rot b{color:var(--txt3)}
+.no .rot .est{display:flex;gap:2px;margin-top:2px}
+.no .rot.esq .est{justify-content:flex-end}
+.no .rot .est .ic{width:18px;height:18px}
+.fim-mod>span{width:80px;height:80px;border-radius:24px;background:var(--sup);border:2.5px dashed var(--sup3)}
+.fim-mod.ok>span{border:2.5px solid var(--borda);background:linear-gradient(var(--sup2),var(--sup));box-shadow:0 4px 0 var(--borda)}
+.fim-mod>span .ic{width:48px;height:48px}
+.fim-mod small{font-family:var(--f-tit);font-weight:400;font-size:var(--t2);color:var(--txt2)}
+
+/* desafios: grade numerada */
+.dica-pts{margin:0 2px}
+.dia-atalho{margin-top:0}
+.dia-atalho .etq{flex:none}
+.trilha-des{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:4px 0 8px}
+.trilha-des .no{position:relative;width:auto;height:auto;margin:0;animation:none}
+.trilha-des .no>button{position:relative;width:100%;height:auto;aspect-ratio:1;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px}
+.trilha-des .no-num{font-family:var(--f-tit);font-size:28px;line-height:1;color:#fff;text-shadow:0 2px 0 var(--borda),1.5px 0 0 var(--borda),-1.5px 0 0 var(--borda),0 -1.5px 0 var(--borda)}
+.trilha-des .no.livre .no-num{color:var(--txt);text-shadow:none}
+.trilha-des .no.livre>button{background:linear-gradient(var(--sup2),var(--sup))}
+.trilha-des .no.feita.meio>button{background:linear-gradient(#8fd0ff,var(--info));box-shadow:inset 0 -6px 0 var(--info-baixo),0 5px 0 var(--borda)}
+.trilha-des .no-tipo{font-weight:900;font-size:var(--t1);color:var(--txt2)}
+.trilha-des .est-mini{display:flex;gap:1px}
+.trilha-des .est-mini .ic{width:15px;height:15px}
+.trilha-des .comecar{position:static;transform:none;padding:2px 8px;border-radius:9px;font-size:var(--t1);box-shadow:none;border-width:2px}
+.trilha-des .comecar::after{display:none}
+.fim-des{display:flex;flex-direction:column;align-items:center;gap:8px;padding:8px 0 4px}
+.fim-des>span .ic{width:56px;height:56px}
+.fim-des small{font-family:var(--f-tit);font-size:var(--t3)}
+
+/* ---------- lição ---------- */
+.licao{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.licao-cab{display:flex;align-items:center;gap:14px;padding:16px;border-radius:22px;border:2.5px solid var(--borda);color:#fff;
+  background:radial-gradient(120% 100% at 90% 0%,#7be08a 0,transparent 55%),linear-gradient(160deg,#3fae55,#23803a);box-shadow:inset 0 -6px 0 #1a6a2d,0 4px 0 var(--borda)}
+.licao-cab h2{margin:2px 0 4px;font-size:30px;line-height:1}
+.licao-cab .est{display:flex;gap:2px}.licao-cab .est .ic{width:20px;height:20px}
+.licao-peca{flex:none;width:76px;height:76px;border-radius:22px;background:linear-gradient(var(--ouro-alto),var(--ouro));border:3px solid var(--borda);display:grid;place-items:center;
+  box-shadow:inset 0 -5px 0 var(--ouro-baixo),0 4px 0 var(--borda)}
+.licao-peca svg{width:56px;height:56px;fill:#fbfaf4;stroke:#1a120c;stroke-width:4.4;stroke-linejoin:round}
+.licao-peca svg .det{stroke:#1a120c}.licao-peca svg .detf{fill:#1a120c}
+.intro{font-size:var(--t3);font-weight:700;line-height:1.55;color:var(--txt)}
+.intro b{color:var(--ouro-txt)}
+.licao .bt.grande{font-size:var(--t5);min-height:62px}
+
+/* exercício e desafio (mesma tela) */
+.exercicio{--tab:min(calc(100vw - 50px), calc(100svh - 380px), 520px);display:flex;flex-direction:column;align-items:center;gap:10px}
+.exercicio>*{width:100%;max-width:calc(var(--tab) + 22px)}
+.passos{display:flex;gap:6px;padding:4px 0}
+.passos i{flex:1;height:12px;border-radius:999px;background:var(--chip);border:2px solid var(--borda)}
+.passos i.ok{background:linear-gradient(#8ae58f,var(--ok))}
+.passos i.at{background:linear-gradient(var(--ouro-alto),var(--ouro))}
+.enunciado{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:18px;background:var(--sup);border:2.5px solid var(--borda);box-shadow:0 4px 0 var(--borda);
+  font-size:var(--t3);font-weight:800;line-height:1.35}
+.enunciado>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.en-num{flex:none;width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(var(--ouro-alto),var(--ouro));border:2.5px solid var(--borda);
+  font-family:var(--f-tit);font-size:var(--t4);color:#fff;text-shadow:0 2px 0 var(--borda);box-shadow:inset 0 -4px 0 var(--ouro-baixo)}
+.en-num svg{width:30px;height:30px;stroke-linejoin:round;stroke-width:5}
+.en-num.lado-w{background:#fbfaf4;box-shadow:inset 0 -4px 0 #d8d2c8}.en-num.lado-w svg{fill:#fbfaf4;stroke:#1a120c}
+.en-num.lado-b{background:#3a3e47;box-shadow:inset 0 -4px 0 #22252b}.en-num.lado-b svg{fill:#363a43;stroke:#e9e4da}
+.en-tags{font-size:var(--t1);font-weight:900;color:var(--txt2)}
+.passo-txt{font-size:var(--t2);color:var(--ouro-txt)}
+.passo-txt:empty{display:none}
+#ex-host{display:flex;flex-direction:column;align-items:stretch}
+#ex-host .tab-linha{padding:7px;border-radius:14px;border:2.5px solid var(--borda);background:linear-gradient(135deg,#8a5a34,#5f3b20 60%,#7a4e2c);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.18),inset 0 -3px 0 rgba(0,0,0,.3),0 4px 0 var(--borda)}
+#ex-host .tabuleiro{border-radius:6px;box-shadow:0 0 0 2px #2a170a}
+.retorno{padding:12px 14px;border-radius:16px;border:2.5px solid var(--borda);border-left-width:2.5px;background:var(--sup);font-weight:700;font-size:var(--t2);line-height:1.4;box-shadow:0 3px 0 var(--borda)}
+.retorno.info{background:var(--sup)}
+.retorno.ok{background:linear-gradient(#5ad16a,#3fae55);color:#fff;border-color:var(--borda)}
+.retorno.ok b{font-family:var(--f-tit);font-weight:400;font-size:var(--t4);display:block;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.retorno.err,.retorno.ruim{background:linear-gradient(#ff8a7e,var(--ruim));color:#fff}
+.retorno .xp-txt{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:8px;background:rgba(0,0,0,.25);font-family:var(--f-tit);font-size:var(--t1)}
+.fila-ex{display:flex;gap:10px}
+.fila-ex .bt{flex:1}
+.fila-ex .bt.pri{flex:1.6}
+.quiz{display:flex;flex-direction:column;gap:10px}
+.quiz .bt{justify-content:flex-start;text-align:left;font-family:Nunito,system-ui,sans-serif;font-weight:800;font-size:var(--t2);line-height:1.35;padding:12px 16px;min-height:52px}
+.quiz .bt.certa{background:linear-gradient(#8ae58f,var(--ok));color:#fff;--fb:var(--ok-baixo)}
+.quiz .bt.errada{background:linear-gradient(#ff9a8e,var(--ruim));color:#fff;--fb:var(--ruim-baixo)}
+.pts-linha{text-align:center;font-size:var(--t2)}
+.delta{font-family:var(--f-tit);font-weight:400}
+
+/* fim da fase */
+.final{display:flex;flex-direction:column;align-items:center;gap:6px;padding:24px 16px;text-align:center;background:radial-gradient(circle at 50% 0%,#5a3d12,var(--sup) 60%)}
+html[data-tema="claro"] .final{background:radial-gradient(circle at 50% 0%,#ffe3a3,var(--sup) 60%)}
+.final h2{font-size:34px;color:var(--ouro);margin:0}
+.final .est-g{display:flex;gap:6px;align-items:flex-end;margin:8px 0;letter-spacing:0}
+.final .est-g span .ic{width:56px;height:56px}
+.final .est-g span:nth-child(2) .ic{width:70px;height:70px}
+.final .est-g span{animation:estrelaPop .45s cubic-bezier(.3,1.6,.5,1) both}
+.final .est-g span:nth-child(2){animation-delay:.12s}.final .est-g span:nth-child(3){animation-delay:.24s}
+.ganhos-fim{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:4px 0}
+.ganho-chip{display:flex;align-items:center;gap:6px;height:42px;padding:0 14px 0 6px;border-radius:14px;background:var(--chip);border:2px solid var(--borda);font-family:var(--f-tit);font-size:var(--t4);color:#fff}
+.ganho-chip .ic{width:30px;height:30px}
+.ganho-chip .xp{height:28px}
+.final .pilha{width:100%}
+
+/* ---------- prova (desafio do dia e torneio) ---------- */
+.prova-placar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.prova-placar span{display:flex;align-items:center;justify-content:center;gap:6px;height:44px;border-radius:14px;background:var(--chip);border:2px solid var(--borda);color:#fff;font-weight:800;font-size:var(--t1)}
+.prova-placar b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3)}
+.prova-placar .ic{width:20px;height:20px}
+
+/* ---------- desafio do dia e torneio ---------- */
+.evento-tela{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.dia-cab{display:flex;align-items:center;gap:14px}
+.dia-cal{flex:none;width:68px;height:72px;border-radius:16px;overflow:hidden;background:#fff;border:2.5px solid var(--borda);display:flex;flex-direction:column;box-shadow:0 4px 0 var(--borda)}
+.dia-cal i{display:block;background:var(--ruim);color:#fff;font-style:normal;font-family:var(--f-tit);font-size:var(--t1);text-transform:uppercase;text-align:center;padding:3px 0}
+.dia-cal b{flex:1;display:grid;place-items:center;font-family:var(--f-tit);font-weight:400;font-size:30px;color:#2a190c}
+.dia-tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+.dia-tx .cm-etq{color:var(--txt2)}
+.dia-tx b{font-family:var(--f-tit);font-weight:400;font-size:var(--t4)}
+.dia-regras{display:flex;flex-direction:column;gap:10px}
+.dia-regras .regra{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:16px;background:var(--sup);border:2.5px solid var(--borda);box-shadow:0 3px 0 var(--borda)}
+.dia-regras .regra>span:last-child{display:flex;flex-direction:column;gap:1px}
+.dia-regras .regra b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3)}
+.dia-regras .premio{display:flex;align-items:center;gap:6px;font-family:var(--f-tit);font-size:var(--t2)}
+.dia-regras .premio .ic{width:20px;height:20px}
+.dia-regras .bt.grande{margin-top:6px;font-size:var(--t5);min-height:62px}
+.dia-res{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.dia-res.ok{background:radial-gradient(circle at 50% 0%,rgba(90,209,106,.25),var(--sup) 65%)}
+.dia-pts{font-family:var(--f-tit);font-size:48px;line-height:1;color:var(--ouro)}
+.dia-res.ruim .dia-pts{color:var(--txt2)}
+.dia-pts-rot{font-weight:900;color:var(--txt2)}
+.dia-seq{display:flex;align-items:center;gap:6px;font-weight:800;color:var(--txt2)}
+.dia-seq .ic{width:22px;height:22px}
+.tn-cab{display:flex;align-items:center;gap:14px;padding:16px;border-radius:22px;border:2.5px solid var(--borda);color:#fff;
+  background:radial-gradient(120% 100% at 85% 0%,#ffd77a 0,transparent 55%),linear-gradient(160deg,#e39a1c,#b0670a);box-shadow:inset 0 -6px 0 #8a4f06,inset 0 2px 0 rgba(255,255,255,.3),0 4px 0 var(--borda)}
+.tn-ic .ic{width:72px;height:72px;filter:drop-shadow(0 4px 0 rgba(0,0,0,.25))}
+.tn-tx{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.tn-total{font-weight:900;font-size:var(--t2)}
+.tn-total b{font-family:var(--f-tit);font-weight:400;font-size:40px;line-height:1}
+.tn-sub{font-weight:900;font-size:var(--t1);color:rgba(255,255,255,.9)}
+.tn-lista{display:flex;flex-direction:column;gap:10px}
+.tn-it{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;text-align:left;color:var(--txt)}
+.tn-it.prox{box-shadow:0 0 0 3px var(--ouro),0 4px 0 var(--borda)}
+.tn-it[disabled]{opacity:1}
+.tn-num{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--sup2);border:2.5px solid var(--borda);font-family:var(--f-tit);font-size:var(--t4)}
+.tn-num .ic{width:22px;height:22px}
+.tn-it.ok .tn-num{background:var(--ok)}.tn-it.ruim .tn-num{background:var(--ruim)}.tn-it.prox .tn-num{background:var(--ouro);color:var(--ouro-tinta)}
+.tn-tx{flex:1;min-width:0}
+.tn-it .tn-tx b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3)}
+.tn-pts{font-family:var(--f-tit);font-size:var(--t4);display:flex;flex-direction:column;align-items:flex-end;line-height:1}
+.tn-pts small{font-family:Nunito,system-ui,sans-serif;font-weight:800;font-size:var(--t1);color:var(--txt2)}
+.tn-regra{margin:0 2px}
+.pm-pod{display:grid;grid-template-columns:1fr 1.15fr 1fr;align-items:end;gap:8px}
+.pm-p{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border-radius:16px 16px 10px 10px;border:2.5px solid var(--borda);text-align:center;color:#fff;box-shadow:0 4px 0 var(--borda)}
+.pm-p.p1{min-height:132px;background:linear-gradient(var(--ouro-alto),var(--ouro));box-shadow:inset 0 -6px 0 var(--ouro-baixo),0 4px 0 var(--borda)}
+.pm-p.p2{min-height:106px;background:linear-gradient(#eef2f6,#9aa6b5);box-shadow:inset 0 -6px 0 #6f7a88,0 4px 0 var(--borda)}
+.pm-p.p3{min-height:92px;background:linear-gradient(#f0b787,#a8622d);box-shadow:inset 0 -6px 0 #7a4319,0 4px 0 var(--borda)}
+.pm-p .pm-pos{width:auto;height:auto;background:none!important;font-family:var(--f-tit);font-size:var(--t5);color:#fff;text-shadow:0 2px 0 var(--borda),1.5px 0 0 var(--borda),-1.5px 0 0 var(--borda),0 -1.5px 0 var(--borda)}
+.pm-p b{display:flex;align-items:center;gap:3px;font-family:var(--f-tit);font-weight:400;font-size:var(--t2);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.35)}
+.pm-p b .ic{width:18px;height:18px}
+.pm-p small{font-weight:900;font-size:var(--t1);line-height:1.2;color:var(--ouro-tinta)}
+
+/* ---------- linhas de ranking (desafio do dia, torneio e ranking) ---------- */
+.jg-lista{gap:8px;margin-top:0}
+.jg-it,.rk-it{background:var(--sup);border:2.5px solid var(--borda);border-radius:16px;box-shadow:0 3px 0 var(--borda);padding:8px 12px 8px 8px;min-height:62px}
+.rk-it.eu{background:var(--sup);box-shadow:0 0 0 3px var(--ouro),0 3px 0 var(--borda)}
+.rk-pos{font-family:var(--f-tit);font-weight:400;font-size:var(--t3);color:var(--txt2)}
+.rk-it.top1 .rk-pos,.rk-it.top2 .rk-pos,.rk-it.top3 .rk-pos{width:32px;height:32px;border:2px solid var(--borda);color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.4)}
+.rk-tx b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3)}
+.rk-tx b em{font-size:var(--t1);color:var(--ouro-txt);text-transform:none;letter-spacing:0}
+.rk-tx small{font-size:var(--t1);font-weight:800}
+.rk-val{font-family:var(--f-tit);font-weight:400;font-size:var(--t4)}
+.rk-val small{font-size:var(--t1);font-weight:800}
+.ms-cab h3{font-family:var(--f-tit);font-weight:400}
+
+.retorno.info{border-color:var(--borda)}
+.tn-it .tn-tx b,.tn-tx b{text-transform:none}
+.tn-total,.tn-total b{color:#fff}
+.no .rot .comecar{position:static;transform:none;display:inline-flex;margin-top:6px;min-height:36px;padding:0 12px;font-size:var(--t2);color:#fff;background:linear-gradient(var(--ouro-alto),var(--ouro))}
+.no .rot .comecar::after{display:none}
+.no .rot.esq .comecar{float:right}
+.no .rot .comecar{animation:none}
+html[data-tema="claro"] .abas-rk button.on{color:var(--ouro-tinta)}
+
 </style>
 </head>
 <body>
@@ -8774,7 +9000,7 @@ const Aprender = {
     t.forEach(x => { const e = Dados.d.fases[x.fase.id] || 0; if (e) feitas++; estrelas += e; });
     return { feitas, total: t.length, estrelas, maxEstrelas: t.length * 3 };
   },
-  htmlEstrelas(n) { return [1, 2, 3].map(i => `<span class="${i <= n ? 'on' : ''}">★</span>`).join(''); },
+  htmlEstrelas(n) { return [1, 2, 3].map(i => `<span class="${i <= n ? 'on' : ''}">${ic('estrela', i <= n ? 'cor-ouro' : 'cor-apagada')}</span>`).join(''); },
 
   modSel: null, modo: 'modulos', fxSel: null,
   abas() { return `<div class="abas-rk abas-apr" role="tablist">${[['modulos', 'Módulos'], ['desafios', 'Desafios']].map(([id, n]) => `<button role="tab" aria-selected="${this.modo === id}" class="${this.modo === id ? 'on' : ''}" data-modo="${id}">${n}</button>`).join('')}</div>`; },
@@ -8784,7 +9010,7 @@ const Aprender = {
     const caminho = lista => lista.map((p, k) => k === 0 ? `M${180 + p.x} ${p.y}` : `C${180 + lista[k - 1].x} ${lista[k - 1].y + DY / 2} ${180 + p.x} ${p.y - DY / 2} ${180 + p.x} ${p.y}`).join(' ');
     return { pts, DY, fimY: Y0 + n * DY + 6, caminho };
   },
-  /* trilha de desafios táticos, separada por dificuldade */
+  /* desafios táticos: grade numerada, separada por dificuldade */
   telaDesafios(fx) {
     const d = Dados.d.desafios;
     App.cabecalho('Aprender', 'menu', `${d.pontos} pts`);
@@ -8792,34 +9018,25 @@ const Aprender = {
     if (fx != null) this.fxSel = fx;
     if (this.fxSel == null) { const k = faixas.findIndex(l => l.some(p => !d.feitos[p.id])); this.fxSel = k < 0 ? 2 : k; }
     const fi = this.fxSel, lista = faixas[fi], feitas = lista.filter(p => d.feitos[p.id]).length, tudo = feitas === lista.length;
-    const chips = faixas.map((l, i) => { const ok = l.every(p => d.feitos[p.id]); return `<button class="chip-mod${i === fi ? ' on' : ''}${ok ? ' feito' : ''}" data-fx="${i}">${ok ? '✓ ' : ''}${Desafios.NOMES[i]} · ${l.filter(p => d.feitos[p.id]).length}/${l.length}</button>`; }).join('');
-    const G = this.geometria(lista.length), todos = G.pts.concat([{ x: 0, y: G.fimY }]), alt = G.fimY + (tudo && fi < 2 ? 200 : 120);
+    const chips = faixas.map((l, i) => { const ok = l.every(p => d.feitos[p.id]); return `<button class="chip-mod${i === fi ? ' on' : ''}${ok ? ' feito' : ''}" data-fx="${i}">${ok ? ic('ok', 'ic-tx') : ''}${Desafios.NOMES[i]} · ${l.filter(p => d.feitos[p.id]).length}/${l.length}</button>`; }).join('');
     const atual = lista.findIndex(p => !d.feitos[p.id]);
-    const ateFeito = tudo ? todos : G.pts.slice(0, atual < 0 ? 1 : atual + 1);
     const TIPO = { m1: 'Mate em 1', m2: 'Mate em 2', w: 'Tática' };
-    let nos = '';
-    lista.forEach((p, k) => {
-      const f = d.feitos[p.id], pt = G.pts[k], dir = pt.x <= 0, eAtual = k === atual;
-      const cls = f === 1 ? 'feita' : f === 2 ? 'feita meio' : eAtual ? 'atual' : 'livre';
-      nos += `<div class="no ${cls}" style="left:calc(50% + ${pt.x}px);top:${pt.y - 38}px;animation-delay:${(0.1 + k * 0.04).toFixed(2)}s">
-        ${eAtual ? '<span class="onda"></span><span class="onda"></span><button class="comecar" data-pz="' + p.id + '">Começar</button>' : ''}
-        <button data-pz="${p.id}" aria-label="Desafio ${k + 1}: ${TIPO[p.k] || 'Tática'}${f ? ' (resolvido)' : ''}"><span class="no-num">${k + 1}</span></button>
-        <div class="rot ${dir ? 'dir' : 'esq'}"><b>${TIPO[p.k] || 'Tática'}</b><span class="sub" style="font-size:.74rem">${f === 1 ? '<span class="est"><span class="on">★</span></span> de primeira' : f === 2 ? '✓ resolvido' : p.fen.split(' ')[1] === 'b' ? 'jogue de pretas' : 'jogue de brancas'}</span></div></div>`;
-    });
-    $('#tela').innerHTML = `<div class="pilha estreito">${this.abas()}
-      <button class="linha-menu cor-info dia-atalho" data-ir-dia="1"><span class="ic2">${SVG('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M9 15l2 2 4-4"/>')}</span><span class="tx"><b>Desafio do dia</b><small>${Diario.feito() ? 'Feito hoje · veja o ranking' : 'O mesmo problema para todos · vale pontos'}</small></span>${SETA}</button>
+    const est = n => `<span class="est-mini">${[1, 2, 3].map(k => ic('estrela', k <= n ? 'cor-ouro' : 'cor-apagada')).join('')}</span>`;
+    const tiles = lista.map((p, k) => {
+      const f = d.feitos[p.id], eAtual = k === atual, cls = f === 1 ? 'feita' : f === 2 ? 'feita meio' : eAtual ? 'atual' : 'livre';
+      return `<div class="no ${cls}"><button data-pz="${p.id}" aria-label="Desafio ${k + 1}: ${TIPO[p.k] || 'Tática'}${f ? ' (resolvido)' : ''}">
+        <span class="no-num">${k + 1}</span>${f === 1 ? est(3) : f === 2 ? est(1) : eAtual ? '<span class="comecar">Jogar</span>' : `<span class="no-tipo">${p.k === 'm1' ? 'Mate 1' : p.k === 'm2' ? 'Mate 2' : 'Tática'}</span>`}</button></div>`;
+    }).join('');
+    $('#tela').innerHTML = `<div class="aprender">${this.abas()}
+      <button class="cartao linha-ir dia-atalho" data-ir-dia="1"><span class="ic-quadro">${ic('calendario', 'cor-verm')}</span><span class="tx"><b>Desafio do dia</b><span class="sub">${Diario.feito() ? 'Feito hoje · veja o ranking' : 'O mesmo problema para todos'}</span></span>${Diario.feito() ? '' : '<span class="etq verm">Novo</span>'}${ic('seta')}</button>
       <div class="chips-mod" id="chips-mod">${chips}</div>
-      <section class="cab-mod"><div style="flex:1;min-width:0"><span class="etq">Desafios táticos</span><h2>${Desafios.NOMES[fi]}</h2>
-        <span class="barrinha cor-info"><i style="width:${Math.round(feitas / lista.length * 100)}%"></i></span></div>
-        <div class="num-g">${feitas}<small>/${lista.length}</small><div class="sub" style="font-family:Nunito,sans-serif;font-size:.74rem;font-weight:500">resolvidos</div></div></section>
-      <p class="sub" style="margin-top:-4px">Sua pontuação: <b>${d.pontos}</b>. Ela sobe quando você acerta de primeira e desce quando erra.</p>
-      <div class="mapa trilha-des" style="height:${alt}px">
-        <svg viewBox="0 0 360 ${alt}" height="${alt}" aria-hidden="true"><path class="cam base" d="${G.caminho(todos)}"/>${ateFeito.length > 1 ? `<path class="cam feito" d="${G.caminho(ateFeito)}"/><path class="cam anda" d="${G.caminho(ateFeito)}"/>` : ''}</svg>
-        ${nos}
-        <div class="fim-mod${tudo ? ' ok' : ''}" style="left:50%;top:${G.fimY - 30}px"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/></svg></span>
-          <small>${tudo ? 'Trilha concluída!' : 'Fim da trilha'}</small>
-          ${tudo && fi < 2 ? `<button class="bt pri peq" data-fx="${fi + 1}">Próxima: ${Desafios.NOMES[fi + 1]}</button>` : ''}</div>
-      </div></div>`;
+      <section class="cab-mod cab-des"><div class="cm-tx"><span class="cm-etq">Desafios táticos</span><h2 class="contorno">${Desafios.NOMES[fi]}</h2>
+        <span class="barra ouro"><i style="width:${Math.round(feitas / lista.length * 100)}%"></i></span></div>
+        <div class="num-g">${feitas}<small>/${lista.length}</small></div></section>
+      <p class="sub dica-pts">Sua pontuação: <b>${d.pontos}</b>. Sobe quando você acerta de primeira e desce quando erra.</p>
+      <div class="trilha-des">${tiles}</div>
+      ${tudo && fi < 2 ? `<div class="fim-des"><span>${ic('trofeu', 'cor-ouro')}</span><small>Faixa concluída!</small><button class="bt pri" data-fx="${fi + 1}">Próxima: ${Desafios.NOMES[fi + 1]}</button></div>` : ''}
+    </div>`;
     const ch = $('#chips-mod .on'); if (ch) ch.scrollIntoView({ block: 'nearest', inline: 'center' });
     $('#tela').onclick = e => {
       const m = e.target.closest('[data-modo]'); if (m) { this.modo = m.dataset.modo; this.telaLista(); window.scrollTo(0, 0); return; }
@@ -8840,8 +9057,8 @@ const Aprender = {
     const mi = this.modSel, m = MODULOS[mi], ini = t.findIndex(x => x.mod === m);
     const feitasMod = m.fases.filter(f => Dados.d.fases[f.id] >= 1).length, modOk = feitasMod === m.fases.length;
     const chips = MODULOS.map((x, i) => { const ok = x.fases.every(f => Dados.d.fases[f.id] >= 1);
-      return `<button class="chip-mod${i === mi ? ' on' : ''}${ok ? ' feito' : ''}" data-mod="${i}">${ok ? '✓ ' : ''}${i + 1}. ${x.nome}</button>`; }).join('');
-    const OFF = [0, 64, 0, -64], DY = 106, Y0 = 128, pts = m.fases.map((f, k) => ({ x: OFF[k % 4], y: Y0 + k * DY }));
+      return `<button class="chip-mod${i === mi ? ' on' : ''}${ok ? ' feito' : ''}" data-mod="${i}">${ok ? ic('ok', 'ic-tx') : ''}${i + 1}. ${x.nome}</button>`; }).join('');
+    const OFF = [0, 64, 0, -64], DY = 106, Y0 = 60, pts = m.fases.map((f, k) => ({ x: OFF[k % 4], y: Y0 + k * DY }));
     const fimY = Y0 + m.fases.length * DY + 6, temProx = mi + 1 < MODULOS.length && m.fases.every(f => Dados.d.fases[f.id] >= 1), alt = fimY + (temProx ? 200 : 120);
     const caminho = lista => lista.map((p, k) => k === 0 ? `M${180 + p.x} ${p.y}` : `C${180 + lista[k - 1].x} ${lista[k - 1].y + DY / 2} ${180 + p.x} ${p.y - DY / 2} ${180 + p.x} ${p.y}`).join(' ');
     const todos = pts.concat([{ x: 0, y: fimY }]);
@@ -8852,22 +9069,21 @@ const Aprender = {
       const e = Dados.d.fases[f.id] || 0, lib = this.liberada(ini + k), p = pts[k], dir = p.x <= 0, eAtual = k === atual;
       const cls = e ? 'feita' : eAtual ? 'atual' : lib ? 'livre' : 'trancada';
       nos += `<div class="no ${cls}" style="left:calc(50% + ${p.x}px);top:${p.y - 38}px;animation-delay:${(0.1 + k * 0.07).toFixed(2)}s">
-        ${eAtual ? '<span class="onda"></span><span class="onda"></span><button class="comecar" data-id="' + f.id + '">Começar</button>' : ''}
+        ${eAtual ? '<span class="onda"></span><span class="onda"></span>' : ''}
         <button data-id="${f.id}" ${lib ? '' : 'disabled'} aria-label="Fase ${ini + k + 1}: ${esc(f.nome)}${lib ? '' : ' (bloqueada)'}">
-          ${lib ? `<span class="pcf pcw">${pecaSvg(f.icone, 'w')}</span>` : '<svg class="cad" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>'}</button>
-        <div class="rot ${dir ? 'dir' : 'esq'}"><b>${esc(f.nome)}</b>${e ? `<span class="est">${[1, 2, 3].map(i => `<span class="${i <= e ? 'on' : ''}" style="animation-delay:${(0.45 + k * 0.07 + i * 0.1).toFixed(2)}s">★</span>`).join('')}</span>` : ''}</div></div>`;
+          ${lib ? `<span class="pcf pcw">${pecaSvg(f.icone, 'w')}</span>` : ic('cadeado', 'cor-cinza cad')}</button>
+        <div class="rot ${dir ? 'dir' : 'esq'}"><b>${esc(f.nome)}</b>${eAtual ? `<button class="comecar bt pri peq" data-id="${f.id}">Começar</button>` : ''}${e ? `<span class="est">${[1, 2, 3].map(i => `<span class="${i <= e ? 'on' : ''}" style="animation-delay:${(0.45 + k * 0.07 + i * 0.1).toFixed(2)}s">${ic('estrela', i <= e ? 'cor-ouro' : 'cor-apagada')}</span>`).join('')}</span>` : ''}</div></div>`;
     });
     const prox = mi + 1 < MODULOS.length ? MODULOS[mi + 1] : null;
-    $('#tela').innerHTML = `<div class="pilha estreito">${this.abas()}
+    $('#tela').innerHTML = `<div class="aprender">${this.abas()}
       <div class="chips-mod" id="chips-mod">${chips}</div>
-      <section class="cab-mod"><div style="flex:1;min-width:0"><span class="etq">Módulo ${mi + 1}</span><h2>${m.nome}</h2>
-        <span class="barrinha cor-ok"><i style="width:${Math.round(feitasMod / m.fases.length * 100)}%"></i></span></div>
-        <div class="num-g">${feitasMod}<small>/${m.fases.length}</small><div class="sub" style="font-family:Nunito,sans-serif;font-size:.74rem;font-weight:500">fases</div></div></section>
-      <p class="sub" style="margin-top:-4px">${m.desc}</p>
+      <section class="cab-mod"><div class="cm-tx"><span class="cm-etq">Módulo ${mi + 1} de ${MODULOS.length}</span><h2 class="contorno">${m.nome}</h2><span class="cm-desc">${m.desc}</span>
+        <span class="barra"><i style="width:${Math.round(feitasMod / m.fases.length * 100)}%"></i></span></div>
+        <div class="num-g">${feitasMod}<small>/${m.fases.length}</small></div></section>
       <div class="mapa" style="height:${alt}px">
         <svg viewBox="0 0 360 ${alt}" height="${alt}" aria-hidden="true"><path class="cam base" d="${caminho(todos)}"/>${ateFeito.length > 1 ? `<path class="cam feito" d="${caminho(ateFeito)}"/><path class="cam anda" d="${caminho(ateFeito)}"/>` : ''}</svg>
         ${nos}
-        <div class="fim-mod${modOk ? ' ok' : ''}" style="left:50%;top:${fimY - 30}px"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/></svg></span>
+        <div class="fim-mod${modOk ? ' ok' : ''}" style="left:50%;top:${fimY - 30}px"><span>${ic('trofeu', modOk ? 'cor-ouro' : 'cor-apagada')}</span>
           <small>${modOk ? 'Módulo concluído!' : 'Fim do módulo'}</small>
           ${modOk && prox ? `<button class="bt pri peq" data-mod="${mi + 1}">Próximo: ${prox.nome}</button>` : ''}</div>
       </div></div>`;
@@ -8886,12 +9102,12 @@ const Aprender = {
     App.cabecalho(fase.nome, 'aprender', `Fase ${pos + 1}/${t.length}`);
     App.aoSair = () => { if (exAtual) exAtual.destruir(); };
     const intro = () => {
-      $('#tela').innerHTML = `<div class="estreito pilha"><div class="cartao">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><span class="pcf pcw" style="width:52px;height:52px;flex:none">${pecaSvg(fase.icone, 'w')}</span>
-        <div><h2 style="margin:0">${fase.nome}</h2><span class="sub">Módulo: ${t[pos].mod.nome}</span></div></div>
-        <p class="intro">${fase.intro}</p></div>
-        <button class="bt pri cheio" id="f-ini">Começar os exercícios (${n})</button></div>`;
-      $('.pcf svg').style.cssText = 'width:100%;height:100%;fill:var(--pf);stroke:var(--ps);stroke-width:3.4;stroke-linejoin:round';
+      $('#tela').innerHTML = `<div class="licao">
+        <section class="licao-cab"><span class="licao-peca pcw">${pecaSvg(fase.icone, 'w')}</span>
+          <div><span class="cm-etq">${esc(t[pos].mod.nome)} · fase ${t[pos].mod.fases.indexOf(fase) + 1} de ${t[pos].mod.fases.length}</span><h2 class="contorno">${fase.nome}</h2>
+          ${Dados.d.fases[id] ? `<span class="est">${[1, 2, 3].map(k => ic('estrela', k <= Dados.d.fases[id] ? 'cor-ouro' : 'cor-apagada')).join('')}</span>` : ''}</div></section>
+        <div class="cartao"><p class="intro">${fase.intro}</p></div>
+        <button class="bt pri grande" id="f-ini">Começar (${n} exercícios)</button></div>`;
       $('#f-ini').onclick = () => proximo();
     };
     const proximo = () => {
@@ -8900,11 +9116,11 @@ const Aprender = {
       if (i >= n) return fim();
       const ex = fase.ex[i];
       $('#tela').innerHTML = `<div class="exercicio">
-        <div class="passos">${fase.ex.map((_, k) => `<i class="${k < i ? 'ok' : k === i ? 'at' : ''}"></i>`).join('')}</div>
-        <div class="enunciado"><small>Exercício ${i + 1} de ${n}</small><span>${esc(ex.t === 'quiz' ? ex.q : ex.p)}</span><div class="sub" id="passo-txt" style="font-weight:600;color:var(--dest);margin-top:4px"></div></div>
+        <div class="passos" aria-label="Exercício ${i + 1} de ${n}">${fase.ex.map((_, k) => `<i class="${k < i ? 'ok' : k === i ? 'at' : ''}"></i>`).join('')}</div>
+        <div class="enunciado"><span class="en-num">${i + 1}</span><div><span>${esc(ex.t === 'quiz' ? ex.q : ex.p)}</span><div class="passo-txt" id="passo-txt"></div></div></div>
         <div id="ex-host"></div>
         <div class="retorno info" id="retorno">${ex.t === 'quiz' ? 'Escolha uma resposta.' : 'Toque na peça e depois na casa de destino (ou arraste a peça).'}</div>
-        <div class="fila"><button class="bt${ex.t === 'quiz' ? ' oculto' : ''}" id="b-dica">Dica</button><button class="bt pri oculto" id="b-cont" style="flex:1">${i === n - 1 ? 'Concluir fase' : 'Continuar'}</button></div></div>`;
+        <div class="fila-ex"><button class="bt${ex.t === 'quiz' ? ' oculto' : ''}" id="b-dica">${ic('lampada', 'cor-teal')}Dica</button><button class="bt pri oculto" id="b-cont">${i === n - 1 ? 'Concluir fase' : 'Continuar'}</button></div></div>`;
       const ret = $('#retorno');
       exAtual = criarExercicio(ex, $('#ex-host'), {
         msg: (tipo, txt) => { ret.className = 'retorno ' + tipo; ret.textContent = txt; },
@@ -8927,7 +9143,7 @@ const Aprender = {
       const xp = XP.contar(xa);
       const prox = t[pos + 1];
       $('#tela').innerHTML = `<div class="estreito"><div class="cartao final">
-        <h2>Fase concluída!</h2><div class="est-g">${this.htmlEstrelas(est)}</div>${ganhou || xp ? `<p class="ganho-moedas">${ganhou ? `+${ganhou} moedas ${MOEDA}` : ''}${ganhou && xp ? ' · ' : ''}${xp ? `<span class="xp-txt">+${xp} XP</span>` : ''}</p>` : ''}
+        <h2 class="contorno">Fase concluída!</h2><div class="est-g">${this.htmlEstrelas(est)}</div>${ganhou || xp ? `<p class="ganhos-fim">${ganhou ? `<span class="ganho-chip">${ic('moeda', 'cor-moeda')}+${ganhou}</span>` : ''}${xp ? `<span class="ganho-chip"><span class="xp">XP</span>+${xp}</span>` : ''}</p>` : ''}
         <p class="sub" style="margin-bottom:16px">${est === 3 ? 'Sem nenhum erro. Excelente!' : est === 2 ? 'Muito bem! Refaça sem erros nem dicas para ganhar 3 estrelas.' : 'Fase completa. Repita para fixar e ganhar mais estrelas.'}</p>
         <div class="pilha">${prox ? `<button class="bt pri cheio" id="f-prox">Próxima fase: ${prox.fase.nome}</button>` : '<p><b>Você concluiu todas as fases. Parabéns!</b></p>'}
         <button class="bt cheio" id="f-rep">Repetir esta fase</button><button class="bt cheio" id="f-lista">Voltar às fases</button></div></div></div>`;
@@ -9003,11 +9219,11 @@ const Desafios = {
       ? { t: 'seq', fen: p.fen, line: p.line, ok: '', err: 'Não é a melhor jogada. Procure xeques, capturas e ameaças.' }
       : { t: 'mate', n: p.k === 'm1' ? 1 : 2, fen: p.fen, sol: p.line, ok: '', err: p.k === 'm1' ? 'Esse lance não dá xeque-mate. Procure outro xeque.' : 'Esse lance não força o mate em 2. Tente outro.' };
     $('#tela').innerHTML = `<div class="exercicio">
-      <div class="enunciado"><small>${this.NOMES[this.faixa(p.r)]} · ${this.tipo(p.k)} · dificuldade ${p.r}${jaFeito ? ' · treino (já resolvido)' : ''}</small><span>${this.enunciado(p)}</span></div>
+      <div class="enunciado"><span class="en-num lado-${p.fen.split(' ')[1]}" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#pc-k"/></svg></span><div><span class="en-tags">${this.NOMES[this.faixa(p.r)]} · ${this.tipo(p.k)} · dificuldade ${p.r}${jaFeito ? ' · treino' : ''}</span><span>${this.enunciado(p)}</span></div></div>
       <div id="ex-host"></div>
       <div class="retorno info" id="retorno">Encontre a melhor jogada das ${this.lado(p).toLowerCase()}.</div>
-      <div class="fila"><button class="bt" id="b-dica">Dica</button><button class="bt" id="b-sol">Ver solução</button><button class="bt pri oculto" id="b-prox" style="flex:1">Próximo desafio</button></div>
-      <div class="sub" id="d-pts">Pontuação: <b>${d.pontos}</b></div></div>`;
+      <div class="fila-ex"><button class="bt" id="b-dica">${ic('lampada', 'cor-teal')}Dica</button><button class="bt" id="b-sol">Ver solução</button><button class="bt pri oculto" id="b-prox">Próximo desafio</button></div>
+      <div class="sub pts-linha" id="d-pts">Pontuação: <b>${d.pontos}</b></div></div>`;
     const ret = $('#retorno');
     const pinta = () => {
       $('#d-pts').innerHTML = `Pontuação: <b>${d.pontos}</b>` + (delta ? ` <span class="delta ${delta > 0 ? 'mais' : 'menos'}">${delta > 0 ? '+' : '−'}${Math.abs(delta)}</span>` : '');
@@ -10951,11 +11167,11 @@ const Prova = {
       ? { t: 'seq', fen: p.fen, line: p.line, ok: '', err: 'Não é a melhor jogada. Procure xeques, capturas e ameaças.' }
       : { t: 'mate', n: p.k === 'm1' ? 1 : 2, fen: p.fen, sol: p.line, ok: '', err: p.k === 'm1' ? 'Esse lance não dá xeque-mate. Procure outro xeque.' : 'Esse lance não força o mate em 2. Tente outro.' };
     $('#tela').innerHTML = `<div class="exercicio prova">
-      <div class="enunciado"><small>${Desafios.tipo(p.k)} · dificuldade ${p.r}</small><span>${Desafios.enunciado(p)}</span></div>
-      <div class="prova-placar"><span>⏱ <b id="pv-tempo">0 s</b></span><span>✕ <b id="pv-err">0</b> erro(s)</span><span>★ <b id="pv-pts">1000</b> pts</span></div>
+      <div class="enunciado"><span class="en-num lado-${p.fen.split(' ')[1]}" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#pc-k"/></svg></span><div><span class="en-tags">${Desafios.tipo(p.k)} · dificuldade ${p.r}</span><span>${Desafios.enunciado(p)}</span></div></div>
+      <div class="prova-placar"><span>${ic('relogio', 'cor-branco')}<b id="pv-tempo">0 s</b></span><span>${ic('fechar', 'cor-verm')}<b id="pv-err">0</b> erros</span><span>${ic('estrela', 'cor-ouro')}<b id="pv-pts">1000</b> pts</span></div>
       <div id="ex-host"></div>
       <div class="retorno info" id="retorno">Encontre a melhor jogada das ${Desafios.lado(p).toLowerCase()}. Vale só esta tentativa!</div>
-      <div class="fila"><button class="bt" id="pv-desistir">Desistir</button><button class="bt pri oculto" id="pv-ok" style="flex:1">Ver resultado</button></div></div>`;
+      <div class="fila-ex"><button class="bt" id="pv-desistir">${ic('bandeira', 'cor-verm')}Desistir</button><button class="bt pri oculto" id="pv-ok">Ver resultado</button></div></div>`;
     const t0 = Date.now(); let err = 0, fim = null;
     const seg = () => (Date.now() - t0) / 1000;
     const relogio = setInterval(() => { if (fim) return; $('#pv-tempo').textContent = tempoTxt(seg()); $('#pv-pts').textContent = pontosProva(true, seg(), err); }, 500);
@@ -11021,17 +11237,21 @@ const Diario = {
   tela() {
     App.cabecalho('Desafio do dia', 'jogar');
     this.conferirAbandono();
-    const x = this.d(), p = this.puzzle(), feito = this.feito(), r = x.res, amanha = new Date(); amanha.setHours(24, 0, 0, 0);
-    $('#tela').innerHTML = `<div class="pilha estreito">
-      <div class="cartao dia-cab"><span class="dia-cal" aria-hidden="true"><i>${new Date().toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '')}</i><b>${new Date().getDate()}</b></span><div><small class="sub">${new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}</small>
-        <b>${Desafios.tipo(p.k)} · dificuldade ${p.r}</b><span class="sub">Novo desafio em ${faltaTxt(amanha - Date.now())}</span></div></div>
-      ${feito ? `<div class="cartao dia-res ${r.ok ? 'ok' : 'ruim'}"><b class="dia-pts">${r.pts}</b><span>pontos</span>
-          <p class="sub">${r.ok ? `Resolvido em ${tempoTxt(r.seg)} com ${r.err} erro${r.err === 1 ? '' : 's'}.` : 'Não resolvido hoje.'} ${r.ok ? `Você ganhou ${MOEDA} ${DIARIO_MOEDAS + (r.err ? 0 : DIARIO_PERFEITO)} e +${DIARIO_XP} XP.` : ''}</p>
-          <div class="dia-seq">🔥 ${x.seq || 0} dia${x.seq === 1 ? '' : 's'} seguido${x.seq === 1 ? '' : 's'} · recorde ${x.melhor || 0}</div></div>`
-      : `<div class="cartao dia-regras"><b>Todo mundo recebe o mesmo problema hoje</b>
-          <ul><li>Vale só a <b>primeira tentativa</b> e não tem dica.</li><li>Começa com 1000 pontos: cada erro tira 150 e cada segundo tira 3. Três erros encerram.</li><li>Resolveu: ${MOEDA} ${DIARIO_MOEDAS} e +${DIARIO_XP} XP (sem erros: mais ${MOEDA} ${DIARIO_PERFEITO}).</li></ul>
-          <button class="bt pri cheio" id="dia-ir">Começar desafio</button></div>`}
-      <div class="cartao"><div class="ms-cab"><h3>Ranking de hoje</h3><span class="sub" id="dia-n"></span></div><div id="dia-lista" class="jg-lista"><p class="sub">Carregando…</p></div></div></div>`;
+    const x = this.d(), p = this.puzzle(), feito = this.feito(), r = x.res, hoje = new Date(), amanha = new Date(); amanha.setHours(24, 0, 0, 0);
+    $('#tela').innerHTML = `<div class="evento-tela">
+      <section class="dia-cab cartao"><span class="dia-cal" aria-hidden="true"><i>${hoje.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '')}</i><b>${hoje.getDate()}</b></span>
+        <div class="dia-tx"><span class="cm-etq">${maiuscula(hoje.toLocaleDateString('pt-BR', { weekday: 'long' }))}</span><b>${maiuscula(Desafios.tipo(p.k))}</b><span class="sub">Dificuldade ${p.r} · novo desafio em ${tempoCurto(amanha - Date.now())}</span></div></section>
+      ${feito ? `<section class="cartao dia-res ${r.ok ? 'ok' : 'ruim'}"><span class="dia-pts">${r.pts.toLocaleString('pt-BR')}</span><span class="dia-pts-rot">pontos hoje</span>
+          <p class="sub">${r.ok ? `Resolvido em ${tempoTxt(r.seg)} com ${r.err} erro${r.err === 1 ? '' : 's'}.` : 'Não resolvido hoje.'}</p>
+          ${r.ok ? `<div class="ganhos-fim"><span class="ganho-chip">${ic('moeda', 'cor-moeda')}+${DIARIO_MOEDAS + (r.err ? 0 : DIARIO_PERFEITO)}</span><span class="ganho-chip"><span class="xp">XP</span>+${DIARIO_XP}</span></div>` : ''}
+          <div class="dia-seq">${ic('fogo', 'cor-fogo')}${x.seq || 0} dia${x.seq === 1 ? '' : 's'} seguido${x.seq === 1 ? '' : 's'} · recorde ${x.melhor || 0}</div></section>`
+      : `<section class="dia-regras">
+          <div class="regra"><span class="ic-quadro">${ic('alvo', 'cor-verde')}</span><span><b>Uma tentativa</b><span class="sub">Sem dica, vale só a primeira vez</span></span></div>
+          <div class="regra"><span class="ic-quadro">${ic('relogio', 'cor-branco')}</span><span><b>Começa com 1000 pontos</b><span class="sub">Cada erro tira 150 e cada segundo tira 3</span></span></div>
+          <div class="regra"><span class="ic-quadro">${ic('bau', 'cor-bau')}</span><span><b>Prêmio</b><span class="premio">${ic('moeda', 'cor-moeda')}${DIARIO_MOEDAS} <span class="xp">+${DIARIO_XP} XP</span><span class="sub">sem erros: +${DIARIO_PERFEITO}</span></span></span></div>
+          <button class="bt pri grande" id="dia-ir">Começar desafio</button></section>`}
+      <div class="secao"><h2>Ranking de hoje</h2><span class="sub" id="dia-n"></span></div>
+      <div id="dia-lista" class="jg-lista"><p class="sub">Carregando…</p></div></div>`;
     const b = $('#dia-ir'); if (b) b.onclick = () => App.ir('diarioJogar');
     $('#tela').onclick = e => { const j = e.target.closest('[data-jogador]'); if (j) { Social.voltar = 'diario'; App.ir('jogador', j.dataset.jogador); } };
     this.enviar().then(() => this.pintarRanking());
@@ -11099,18 +11319,21 @@ const Torneio = {
     this.conferirAbandono();
     const x = this.d(), ps = this.puzzles(), prox = ps.findIndex((_, i) => !x.r[i]);
     const n = v => v.toLocaleString('pt-BR');
-    $('#tela').innerHTML = `<div class="pilha estreito">
-      <div class="cartao tn-cab"><span class="tn-ic">${svgTrofeu('torneio', true, 64)}</span><div><b>Torneio da semana</b><span class="sub">Termina em ${faltaTxt(this.fim() - Date.now())} · ${TORNEIO_N} problemas, uma tentativa cada</span>
-        <div class="tn-total"><b>${n(this.total())}</b> pts · ${this.feitos()}/${TORNEIO_N} feitos</div></div></div>
-      <div class="cartao"><div class="tn-lista">${ps.map((p, i) => { const r = x.r[i];
-        return `<button class="tn-it${r ? (r.ok ? ' ok' : ' ruim') : i === prox ? ' prox' : ''}" data-tn="${i}" ${r ? 'disabled' : ''}><span class="tn-num">${i + 1}</span><span class="tn-tx"><b>${Desafios.tipo(p.k)}</b><small>dificuldade ${p.r}</small></span>
-          <span class="tn-pts">${r ? `${n(r.pts)}<small>pts</small>` : i === prox ? 'Jogar' : '—'}</span></button>`; }).join('')}</div>
-        <p class="sub" style="margin-top:10px">Mesmas regras do desafio do dia: sem dica, cada erro tira 150 e cada segundo tira 3. Completar os ${TORNEIO_N} vale ${MOEDA} ${TORNEIO_PARTICIPA}.</p></div>
-      <div class="cartao pm-quadro"><b class="pm-tit">Prêmios do torneio</b><div class="pm-lista">
-        <div class="pm-it p1"><span class="pm-pos">1º</span><span class="pm-tx"><b>${MOEDA}${n(TORNEIO_PREMIOS[0])}</b><small>🏆 Troféu “Campeão do torneio” e a moldura exclusiva Louros do Torneio</small></span></div>
-        <div class="pm-it p2"><span class="pm-pos">2º</span><span class="pm-tx"><b>${MOEDA}${n(TORNEIO_PREMIOS[1])}</b></span></div>
-        <div class="pm-it p3"><span class="pm-pos">3º</span><span class="pm-tx"><b>${MOEDA}${n(TORNEIO_PREMIOS[2])}</b></span></div></div></div>
-      <div class="cartao"><div class="ms-cab"><h3>Classificação</h3><span class="sub" id="tn-n"></span></div><div id="tn-rk" class="jg-lista"><p class="sub">Carregando…</p></div></div></div>`;
+    $('#tela').innerHTML = `<div class="evento-tela">
+      <section class="tn-cab"><span class="tn-ic">${ic('trofeu', 'cor-ouro')}</span><div class="tn-tx"><span class="tn-total"><b class="contorno">${n(this.total())}</b> pontos</span>
+        <span class="tn-sub">${this.feitos()} de ${TORNEIO_N} feitos</span><span class="etq escura">${ic('relogio', 'cor-branco')}termina em ${tempoCurto(this.fim() - Date.now())}</span></div></section>
+      <div class="tn-lista">${ps.map((p, i) => { const r = x.r[i];
+        return `<button class="cartao tn-it${r ? (r.ok ? ' ok' : ' ruim') : i === prox ? ' prox' : ''}" data-tn="${i}" ${r ? 'disabled' : ''}>
+          <span class="tn-num">${r ? ic(r.ok ? 'ok' : 'fechar', 'cor-branco') : i + 1}</span><span class="tn-tx"><b>${maiuscula(Desafios.tipo(p.k))}</b><span class="sub">Dificuldade ${p.r}</span></span>
+          ${r ? `<span class="tn-pts">${n(r.pts)}<small>pts</small></span>` : i === prox ? '<span class="bt pri peq">Jogar</span>' : '<span class="bt peq">Jogar</span>'}</button>`; }).join('')}</div>
+      <p class="sub tn-regra">Sem dica, uma tentativa por problema: cada erro tira 150 e cada segundo tira 3. Completar os ${TORNEIO_N} vale +${TORNEIO_PARTICIPA} moedas.</p>
+      <div class="secao"><h2>Prêmios</h2></div>
+      <div class="pm-pod">
+        <div class="pm-p p2"><span class="pm-pos">2º</span><b>${ic('moeda', 'cor-moeda')}${n(TORNEIO_PREMIOS[1])}</b></div>
+        <div class="pm-p p1"><span class="pm-pos">1º</span><b>${ic('moeda', 'cor-moeda')}${n(TORNEIO_PREMIOS[0])}</b><small>troféu e moldura Louros do Torneio</small></div>
+        <div class="pm-p p3"><span class="pm-pos">3º</span><b>${ic('moeda', 'cor-moeda')}${n(TORNEIO_PREMIOS[2])}</b></div></div>
+      <div class="secao"><h2>Classificação</h2><span class="sub" id="tn-n"></span></div>
+      <div id="tn-rk" class="jg-lista"><p class="sub">Carregando…</p></div></div>`;
     $('#tela').onclick = e => {
       const b = e.target.closest('[data-tn]'); if (b && !b.disabled) { App.ir('torneioJogar', +b.dataset.tn); return; }
       const j = e.target.closest('[data-jogador]'); if (j) { Social.voltar = 'torneio'; App.ir('jogador', j.dataset.jogador); }
@@ -11509,7 +11732,7 @@ const App = {
   },
   /* barra de navegação inferior e animação de entrada da tela */
   ABAS: { menu: 'menu', aprender: 'aprender', desafios: 'aprender', jogar: 'jogar', config: 'jogar', amigos: 'jogar', ranking: 'jogar', conquistas: 'conquistas', loja: 'loja',
-    diario: 'jogar', diarioJogar: 'jogar', torneio: 'jogar', torneioJogar: 'jogar', perfil: 'perfil', visual: 'perfil', conta: 'perfil', guilda: 'perfil', guildaVer: 'perfil', guildaCriar: 'perfil', stats: 'perfil', historico: 'perfil', dev: 'perfil', social: 'perfil', jogador: 'perfil', ajustes: 'ajustes', missoes: 'menu', avisos: 'menu' },
+    diario: 'jogar', torneio: 'jogar', perfil: 'perfil', visual: 'perfil', conta: 'perfil', guilda: 'perfil', guildaVer: 'perfil', guildaCriar: 'perfil', stats: 'perfil', historico: 'perfil', dev: 'perfil', social: 'perfil', jogador: 'perfil', ajustes: 'ajustes', missoes: 'menu', avisos: 'menu' },
   montarNav() {
     const b = (id, nome, i) => `<button data-ir="${id}">${ic(i)}${nome}</button>`;
     $('#nav-inf').innerHTML = b('menu', 'Início', 'inicio') + b('aprender', 'Aprender', 'aprender') +
