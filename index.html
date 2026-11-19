@@ -6785,7 +6785,8 @@ const Ranking = {
     const meu = u ? l.findIndex(x => x.uid === u.uid) : -1;
     let html = l.map((x, i) => this.linha(x, i + 1, u && x.uid === u.uid)).join('');
     if (!l.length) html = `<div class="rk-vazio"><b>${aba === 'semana' ? 'Ninguém pontuou nesta semana ainda' : aba === 'online' ? 'Ninguém jogou online ainda' : 'Ninguém no ranking ainda'}</b><span class="sub">Seja o primeiro!</span></div>`;
-    if (u && meu < 0) {
+    if (u && Dev.ativo) html += '<p class="sub rk-sep">Sua conta de dev não aparece no ranking</p>';
+    else if (u && meu < 0) {
       const eu = this.doc(), v = aba === 'online' ? (d.ranque.n ? d.ranque.pts : 0) : aba === 'semana' ? d.xpSemana || 0 : eu.xp;
       html += `<p class="sub rk-sep">${aba === 'online' && !d.ranque.n ? 'Jogue uma partida online para entrar' : 'Você ainda não está entre os 50 primeiros'}</p>` + this.linha(Object.assign(eu, { valor: v, uid: u.uid }), 0, true);
     }
