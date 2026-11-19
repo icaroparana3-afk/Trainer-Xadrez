@@ -1594,7 +1594,6 @@ html.na-entrada,html.na-entrada body{overflow:hidden}
 #entrada .campo::placeholder{color:#a38b7d}
 #entrada .campo:focus{border-color:#f0b441}
 #entrada .bt{border-radius:14px}
-#entrada .bt.pri{background:#f0b441;color:#2c1810;border-color:#f0b441;box-shadow:0 6px 18px rgba(240,180,65,.25)}
 #entrada .en-google{background:#fff;color:#1f1f1f;border:1px solid #fff;font-weight:700}
 #entrada .en-conv{background:transparent;color:#f5ebe0;border:1px solid rgba(213,189,175,.45);font-weight:700}
 #entrada .link{color:#e9d9cc}
@@ -1851,6 +1850,487 @@ body.com-nav #tela{padding-bottom:calc(104px + env(safe-area-inset-bottom))}
 /* barra de baixo sempre colada no fim da tela (iPhone: telas curtas deixavam um vão embaixo) */
 #app{min-height:calc(100% + 1px)}
 #nav-inf::after{content:"";position:absolute;left:0;right:0;top:100%;height:120px;background:var(--nav-f)}
+/* iOS 26: em algumas telas o sistema deixa uma faixa embaixo da barra (bug conhecido do iPhone).
+   Essa faixa é pintada com a cor de fundo da página, então nas telas com barra ela fica escura igual à barra. */
+html:has(body.com-nav){background:var(--nav-f)}
+html:has(body.com-nav) body{min-height:100%}
+
+/* =====================================================================
+   VISUAL 3 — base nova (entrega 1 da reconstrução)
+   Fica DEPOIS do style.css antigo. Define as cores dos 3 temas (com os nomes
+   novos e os antigos, para as telas ainda não refeitas também mudarem),
+   a casca do app, os componentes e as telas: Início, Jogar, configurar
+   partida, Partida, fim de partida e resumo.
+   Regra: texto mínimo de 13px; uma cor de ação (dourado); contorno escuro.
+   ===================================================================== */
+
+/* ---------- cores ---------- */
+html[data-tema="marrom"]{
+  --bg:#2b1d13; --bg-fundo:#1d130c; --sup:#3e2c1f; --sup2:#4d3727; --sup3:#5a412e; --sup-baixo:#2a1d13;
+  --borda:#140b06; --txt:#fff3e0; --txt2:#d9c19f; --txt3:#a98c69;
+  --ouro:#ffc83a; --ouro-alto:#ffe27a; --ouro-baixo:#d98f06; --ouro-tinta:#3d2400; --ouro-txt:#ffc83a;
+  --ok:#5ad16a; --ok-baixo:#2f9a43; --ruim:#ff6a5e; --ruim-baixo:#c2302a; --info:#45adff; --info-baixo:#1f74c9;
+  --chao-a:#6e4a2f; --chao-b:#4c3220; --luz:rgba(255,206,92,.22); --nav:#1f150e; --chip:#170f09; --chip-txt:#fff;
+  --fundo:var(--bg); --linha:#5a412e; --dest:#ffc83a; --dest2:#ffe27a; --dest-tinta:#3d2400; --dest-escuro:#d98f06; --dest-bg:#4a3313;
+  --contorno:#140b06; --nav-f:#1f150e; --nav-bg:#1f150e; --topo-bg:#2b1d13; --op-on:#57401d; --brilho:rgba(255,226,180,.08);
+  --info-bg:#22303d; --ok-bg:#26331f; --ok-bg2:#26331f; --err-bg:#3d211b; --certa-bg:#2a3d26; --errada-bg:#442520; --alerta:#ff9a3c;
+  --g-brancas:#f1e3cc; --g-pretas:#5a4331; --sombra:rgba(0,0,0,.5);
+}
+html[data-tema="escuro"]{
+  --bg:#151a22; --bg-fundo:#0e1117; --sup:#222a36; --sup2:#2c3543; --sup3:#384254; --sup-baixo:#171d26;
+  --borda:#05070a; --txt:#f1f4f9; --txt2:#aab5c6; --txt3:#7e899b;
+  --ouro:#ffc83a; --ouro-alto:#ffe27a; --ouro-baixo:#d98f06; --ouro-tinta:#3d2400; --ouro-txt:#ffc83a;
+  --ok:#5ad16a; --ok-baixo:#2f9a43; --ruim:#ff6a5e; --ruim-baixo:#c2302a; --info:#45adff; --info-baixo:#1f74c9;
+  --chao-a:#2c3544; --chao-b:#1d232e; --luz:rgba(255,206,92,.16); --nav:#0f131a; --chip:#0a0d12; --chip-txt:#fff;
+  --fundo:var(--bg); --linha:#384254; --dest:#ffc83a; --dest2:#ffe27a; --dest-tinta:#3d2400; --dest-escuro:#d98f06; --dest-bg:#3a3117;
+  --contorno:#05070a; --nav-f:#0f131a; --nav-bg:#0f131a; --topo-bg:#151a22; --op-on:#3a3117; --brilho:rgba(255,255,255,.06);
+  --info-bg:#1b2a3d; --ok-bg:#1c2a23; --ok-bg2:#1c2e24; --err-bg:#2b1e21; --certa-bg:#1f3a2b; --errada-bg:#3a2226; --alerta:#ff9a3c;
+  --g-brancas:#e9e6dc; --g-pretas:#3a3f4b; --sombra:rgba(0,0,0,.5);
+}
+html[data-tema="claro"]{
+  --bg:#efe3cf; --bg-fundo:#e4d3b8; --sup:#fff8ec; --sup2:#f6e8d2; --sup3:#ecdabd; --sup-baixo:#e0cdb0;
+  --borda:#3a2616; --txt:#2a190c; --txt2:#6a4c33; --txt3:#8a6c51;
+  --ouro:#ffc83a; --ouro-alto:#ffe27a; --ouro-baixo:#d98f06; --ouro-tinta:#3d2400; --ouro-txt:#a8650a;
+  --ok:#3fb556; --ok-baixo:#25843a; --ruim:#e5483d; --ruim-baixo:#a92a24; --info:#2b8fe6; --info-baixo:#1a63a8;
+  --chao-a:#d8bc93; --chao-b:#c09e72; --luz:rgba(255,255,255,.55); --nav:#fff6e6; --chip:#3a2616; --chip-txt:#fff;
+  --fundo:var(--bg); --linha:#e0cdb0; --dest:#a8650a; --dest2:#c27a00; --dest-tinta:#ffffff; --dest-escuro:#7a4806; --dest-bg:#fbefd8;
+  --contorno:#3a2616; --nav-f:#fff6e6; --nav-bg:#fff6e6; --topo-bg:#efe3cf; --op-on:#fbefd8; --brilho:rgba(255,255,255,.7);
+  --info-bg:#e2eefb; --ok-bg:#e6f5ec; --ok-bg2:#e3f4ea; --err-bg:#fbe9e9; --certa-bg:#dff3e6; --errada-bg:#f9e0e0; --alerta:#b05a10;
+  --g-brancas:#fbfaf6; --g-pretas:#5b6170; --sombra:rgba(60,45,20,.18);
+}
+:root{
+  --f-tit:'Lilita One',Nunito,system-ui,sans-serif; --tit:var(--f-tit);
+  --t1:13px; --t2:15px; --t3:17px; --t4:20px; --t5:26px; --t6:34px;
+  --tab:min(calc(100vw - 58px), calc(100vh - 330px), 560px);
+}
+@supports (height:100svh){ :root{ --tab:min(calc(100vw - 58px), calc(100svh - 330px), 560px); } }
+
+/* ---------- base ---------- */
+body{background:var(--bg);color:var(--txt);font-size:var(--t2);font-weight:700}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(120% 55% at 50% 0%,rgba(255,255,255,.05),transparent 60%)}
+h1,h2,h3,.tit{font-family:var(--f-tit);font-weight:400;letter-spacing:.3px}
+.sub{color:var(--txt2);font-weight:700;font-size:var(--t1);line-height:1.4}
+.contorno{color:#fff;text-shadow:0 2px 0 var(--borda),2px 0 0 var(--borda),-2px 0 0 var(--borda),0 -2px 0 var(--borda),1.5px 1.5px 0 var(--borda),-1.5px 1.5px 0 var(--borda),1.5px -1.5px 0 var(--borda),-1.5px -1.5px 0 var(--borda),0 4px 0 var(--borda)}
+:focus-visible{outline:3px solid var(--info);outline-offset:2px}
+
+/* ---------- ícones ---------- */
+.ic{width:24px;height:24px;flex:none;display:block;overflow:visible}
+.ic *{stroke:var(--ic-o,var(--borda));stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+.ic .a{fill:currentColor}
+.ic .b{fill:var(--ic-b,#fff)}
+.ic .c{fill:var(--ic-c,rgba(0,0,0,.28))}
+.ic .l{fill:none}
+.ic .s{fill:none;stroke:currentColor;stroke-width:3.4}
+.ic .n{stroke:none}
+.cor-ouro{color:#ffc83a;--ic-b:#fff1b8}
+.cor-moeda{color:#ffc22e;--ic-b:#ffe68f;--ic-c:#c98a00}
+.cor-gema{color:#38c8ff;--ic-b:#b8f0ff}
+.cor-fogo{color:#ff7a1f;--ic-b:#ffd23a}
+.cor-verm{color:#ff5b4f;--ic-b:#fff}
+.cor-verde{color:#4fcf62;--ic-b:#fff}
+.cor-azul{color:#4aa3ff;--ic-b:#fff}
+.cor-roxo{color:#a26bff;--ic-b:#fff}
+.cor-teal{color:#2cc4b5;--ic-b:#fff}
+.cor-bau{color:#b8743c;--ic-b:#c9d1da}
+.cor-branco{color:#fff;--ic-b:#ffd75e}
+.cor-marrom{color:#9a6a45;--ic-b:#fff}
+.cor-cinza{color:#8d97a6;--ic-b:#d9dee6}
+.ic-tx{color:currentColor;--ic-o:transparent}
+.ic-tx .s{stroke:currentColor}
+
+/* ---------- botões gordinhos (todos os .bt do jogo) ---------- */
+.bt{--f:var(--sup2);--f2:var(--sup2);--fb:var(--sup-baixo);
+  position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 18px;border-radius:16px;
+  background:linear-gradient(var(--f2),var(--f));border:2.5px solid var(--borda);color:var(--txt);
+  box-shadow:inset 0 -5px 0 var(--fb),inset 0 2px 0 rgba(255,255,255,.14),0 4px 0 var(--borda);
+  font-family:var(--f-tit);font-weight:400;font-size:var(--t3);letter-spacing:.3px;line-height:1.1;text-shadow:none;
+  transform:translateY(0);transition:transform .08s,box-shadow .08s,filter .15s}
+.bt:hover{filter:brightness(1.06)}
+.bt:active,.bt.apertado{transform:translateY(3px);box-shadow:inset 0 -2px 0 var(--fb),inset 0 2px 0 rgba(255,255,255,.14),0 1px 0 var(--borda)}
+.bt.pri,.bt.verde,.bt.perigo{color:#fff;text-shadow:0 2px 0 var(--borda),1.5px 0 0 var(--borda),-1.5px 0 0 var(--borda),0 -1.5px 0 var(--borda),1px 1px 0 var(--borda),-1px 1px 0 var(--borda),1px -1px 0 var(--borda),-1px -1px 0 var(--borda)}
+.bt.pri{--f:var(--ouro);--f2:var(--ouro-alto);--fb:var(--ouro-baixo);background:linear-gradient(var(--f2),var(--f))}
+.bt.pri:hover{background:linear-gradient(var(--f2),var(--f))}
+.bt.verde{--f:var(--ok);--f2:#8ae58f;--fb:var(--ok-baixo)}
+.bt.perigo{--f:var(--ruim);--f2:#ff9a8e;--fb:var(--ruim-baixo);border-color:var(--borda)}
+.bt.peq{min-height:40px;padding:0 14px;font-size:var(--t2);border-radius:13px;border-width:2.5px;box-shadow:inset 0 -4px 0 var(--fb),inset 0 2px 0 rgba(255,255,255,.14),0 3px 0 var(--borda)}
+.bt.pri.peq{box-shadow:inset 0 -4px 0 var(--fb),inset 0 2px 0 rgba(255,255,255,.4),0 3px 0 var(--borda)}
+.bt.grande{min-height:68px;border-radius:22px;font-size:var(--t6);width:100%;letter-spacing:.5px}
+.bt.grande.pri{text-shadow:0 3px 0 var(--borda),2px 0 0 var(--borda),-2px 0 0 var(--borda),0 -2px 0 var(--borda),1.5px 1.5px 0 var(--borda),-1.5px 1.5px 0 var(--borda),1.5px -1.5px 0 var(--borda),-1.5px -1.5px 0 var(--borda)}
+.bt.cheio{width:100%}
+.bt[disabled]{opacity:1;filter:grayscale(1) brightness(.75);pointer-events:none}
+.bt .ic{width:22px;height:22px}
+.bt .preco{display:flex;align-items:center;gap:6px}
+.bt-quad{width:46px;min-height:46px;padding:0;border-radius:14px}
+.bt-quad .ic{width:24px;height:24px}
+.bt-ic{width:46px;height:46px;display:grid;place-items:center;border:2.5px solid var(--borda);border-radius:14px;background:linear-gradient(var(--sup2),var(--sup2));
+  box-shadow:inset 0 -4px 0 var(--sup-baixo),0 3px 0 var(--borda);color:var(--txt)}
+.bt-ic:active{transform:translateY(3px);box-shadow:inset 0 -2px 0 var(--sup-baixo),0 0 0 var(--borda)}
+.link{color:var(--ouro-txt);text-decoration:none;font-weight:800;font-size:var(--t1)}
+
+/* ---------- cartões, etiquetas, selos e barras ---------- */
+.cartao{background:var(--sup);border:2.5px solid var(--borda);border-radius:18px;box-shadow:inset 0 2px 0 rgba(255,255,255,.06),0 4px 0 var(--borda);padding:16px}
+html[data-tema="claro"] .cartao{box-shadow:inset 0 2px 0 #fff,0 4px 0 var(--borda)}
+.cartao.destaque{box-shadow:0 0 0 3px var(--ouro),0 4px 0 var(--borda)}
+.cartao h2{font-size:var(--t4);margin-bottom:8px}
+.cartao h3{font-family:var(--f-tit);font-weight:400;font-size:var(--t3);text-transform:none;letter-spacing:.3px;color:var(--txt);margin-bottom:10px}
+.secao{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:20px 2px 10px}
+.secao h2{margin:0;font-size:var(--t4)}
+.ic-quadro{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:var(--sup2);border:2.5px solid var(--borda);box-shadow:inset 0 -4px 0 rgba(0,0,0,.22);flex:none}
+.ic-quadro .ic{width:30px;height:30px}
+.etq{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 9px;border-radius:999px;border:2px solid var(--borda);font-family:var(--f-tit);font-weight:400;font-size:var(--t1);color:#fff;line-height:1;white-space:nowrap}
+.etq.verm{background:var(--ruim)} .etq.verde{background:var(--ok)} .etq.ouro{background:var(--ouro);color:var(--ouro-tinta)} .etq.escura{background:var(--chip);color:#fff;border-color:transparent}
+.etq .ic{width:15px;height:15px}
+.bolinha{position:absolute;z-index:4;display:grid;place-items:center;min-width:24px;height:24px;padding:0 6px;border-radius:999px;background:var(--ruim);border:2.5px solid var(--borda);color:#fff;font-family:var(--f-tit);font-size:var(--t1);line-height:1}
+.barra{height:12px;border-radius:999px;background:var(--chip);border:2px solid var(--borda);overflow:hidden}
+.barra i{display:block;height:100%;border-radius:999px;background:linear-gradient(var(--ok),var(--ok-baixo));box-shadow:inset 0 2px 0 rgba(255,255,255,.35)}
+.barra.ouro i{background:linear-gradient(var(--ouro-alto),var(--ouro-baixo))}
+html[data-tema="claro"] .barra{background:#d9c4a3}
+.xp{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:8px;background:var(--ok);border:2px solid var(--borda);color:#fff;font-family:var(--f-tit);font-weight:400;font-size:var(--t1)}
+
+/* moedas e diamantes (chips) */
+.moedas{display:flex;gap:8px;flex:none}
+.moedas-topo{display:flex;align-items:center;gap:6px;height:36px;padding:0 12px 0 4px;border-radius:999px;background:var(--chip);border:2px solid var(--borda);
+  font-family:var(--f-tit);font-weight:400;font-size:var(--t3);color:var(--chip-txt);line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:visible}
+.moedas-topo .ic{width:28px;height:28px}
+.moedas-topo::after{display:none}
+.moedas-topo:active{transform:scale(.96)}
+.moedas-topo.pulso{animation:pulsoChip .6s}
+@keyframes pulsoChip{40%{transform:scale(1.15)}}
+
+/* ---------- casca: barra de cima ---------- */
+#topo{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;height:64px;padding:0 max(14px,env(safe-area-inset-right)) 0 max(14px,env(safe-area-inset-left));padding-top:env(safe-area-inset-top);
+  background:var(--bg);border-bottom:0;box-shadow:0 8px 14px -10px rgba(0,0,0,.35);backdrop-filter:none;-webkit-backdrop-filter:none}
+#topo h1{flex:1;min-width:0;font-size:var(--t4);line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#voltar{width:46px;height:46px;flex:none;display:grid;place-items:center;border-radius:14px;background:var(--sup2);border:2.5px solid var(--borda);
+  box-shadow:inset 0 -4px 0 var(--sup-baixo),0 3px 0 var(--borda);color:var(--txt)}
+#voltar:active{transform:translateY(3px);box-shadow:inset 0 -2px 0 var(--sup-baixo)}
+#voltar .ic{width:24px;height:24px}
+#topo .lado{font-family:var(--f-tit);font-weight:400;font-size:var(--t2);color:var(--txt2);white-space:nowrap}
+#topo .moedas.oculto{display:none}
+#topo-perfil{display:none}
+body[data-tela="menu"] #topo{display:none}
+@media(max-width:370px){#topo .lado{display:none}}
+
+/* ---------- casca: barra de baixo ---------- */
+#tela{max-width:1080px;padding:6px 16px 32px}
+body.com-nav #tela{padding-bottom:calc(112px + env(safe-area-inset-bottom))}
+#nav-inf{position:fixed;left:0;right:0;bottom:0;z-index:30;transform:none;width:100%;height:auto;display:grid;grid-template-columns:repeat(5,1fr);align-items:end;
+  padding:0 max(8px,calc(50% - 270px)) calc(6px + env(safe-area-inset-bottom));min-height:80px;border-radius:0;background:var(--nav);border:0;border-top:2.5px solid var(--borda);
+  box-shadow:0 -6px 18px rgba(0,0,0,.22);backdrop-filter:none;-webkit-backdrop-filter:none}
+#nav-inf::after{content:"";position:absolute;left:0;right:0;top:100%;height:120px;background:var(--nav)}
+#nav-inf>button{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;height:64px;min-height:0;margin-top:6px;border-radius:16px;
+  color:var(--txt3);font-family:var(--f-tit);font-weight:400;font-size:var(--t1);letter-spacing:.3px;border:2.5px solid transparent;transition:transform .1s}
+#nav-inf>button .ic{width:28px;height:28px;transform:none;fill:none;stroke:none}
+#nav-inf>button .ic *{--ic-o:currentColor}
+#nav-inf>button .ic .a,#nav-inf>button .ic .b{fill:color-mix(in srgb,currentColor 18%,transparent)}
+#nav-inf>button:active{transform:scale(.92)}
+#nav-inf>button.on{background:var(--sup);border-color:var(--borda);color:var(--txt);box-shadow:inset 0 -4px 0 var(--sup-baixo)}
+#nav-inf>button.on .ic{color:var(--ouro)}
+#nav-inf>button.on .ic *{--ic-o:var(--borda)}
+#nav-inf>button.on .ic .a{fill:currentColor}
+#nav-inf>button.on .ic .b{fill:#fff6d6}
+#nav-inf .nav-jogar{justify-content:flex-end;width:auto;height:64px;margin-top:6px;padding:0 0 4px;border-radius:16px;background:none;border-color:transparent;box-shadow:none;color:var(--txt)}
+#nav-inf .nav-jogar.on{background:none;border-color:transparent;box-shadow:none;animation:none}
+#nav-inf .nav-jogar .bolha{position:absolute;bottom:24px;left:50%;width:70px;height:70px;margin-left:-35px;border-radius:22px;transform:rotate(-4deg);display:grid;place-items:center;
+  background:linear-gradient(var(--ouro-alto),var(--ouro));border:3px solid var(--borda);box-shadow:inset 0 -6px 0 var(--ouro-baixo),inset 0 2px 0 rgba(255,255,255,.5),0 5px 0 var(--borda)}
+#nav-inf .nav-jogar .bolha svg{width:46px;height:46px;transform:rotate(4deg);fill:#fff;stroke:var(--borda);stroke-width:4.6;stroke-linejoin:round}
+#nav-inf .nav-jogar .bolha svg .det{stroke:var(--borda);stroke-width:4}
+#nav-inf .nav-jogar .bolha svg .detf{fill:var(--borda)}
+#nav-inf .nav-jogar:active .bolha{transform:rotate(-4deg) translateY(3px);box-shadow:inset 0 -3px 0 var(--ouro-baixo),0 2px 0 var(--borda)}
+#nav-inf .bolinha,#nav-inf .selo-conv{top:-2px;right:calc(50% - 30px)}
+#nav-inf .nav-jogar .selo-conv{top:auto;bottom:80px;right:calc(50% - 44px)}
+html:has(body.com-nav){background:var(--nav)}
+
+/* ---------- janelas (modal) e avisos ---------- */
+#modal{background:rgba(8,5,3,.66);padding:16px}
+#modal .cx{max-width:420px;background:var(--bg);border:2.5px solid var(--borda);border-radius:24px;padding:22px 18px 18px;box-shadow:0 6px 0 var(--borda),0 20px 60px rgba(0,0,0,.5);animation:cxEntra .3s cubic-bezier(.2,.9,.3,1.2) both}
+#modal h2{font-size:var(--t5);line-height:1.1;margin-bottom:8px}
+#modal .cx-txt{color:var(--txt2);opacity:1;font-weight:700;margin-bottom:18px;line-height:1.45}
+#modal .fila{gap:10px}
+#aviso{bottom:calc(24px + env(safe-area-inset-bottom));background:var(--txt);color:var(--bg);font-weight:800;font-size:var(--t2);border-radius:14px;padding:11px 16px;box-shadow:0 4px 0 var(--borda);
+  max-width:calc(100% - 32px);text-align:center}
+body.com-nav #aviso{bottom:calc(100px + env(safe-area-inset-bottom))}
+#conquista-pop{background:var(--sup);border:2.5px solid var(--borda);border-radius:18px;box-shadow:0 4px 0 var(--borda),0 14px 30px rgba(0,0,0,.4)}
+#conquista-pop small{font-size:var(--t1);text-transform:none;letter-spacing:0;color:var(--ouro-txt)}
+#conquista-pop em{font-size:var(--t1)}
+body.com-nav #conquista-pop{bottom:calc(100px + env(safe-area-inset-bottom))}
+.toast-dica{background:var(--sup);border:2.5px solid var(--borda);border-radius:18px;box-shadow:0 4px 0 var(--borda),0 14px 30px rgba(0,0,0,.4)}
+.toast-dica small{font-size:var(--t1)}
+
+/* folha (sobe de baixo) */
+.veu{position:fixed;inset:0;z-index:45;background:rgba(8,5,3,.62);display:flex;align-items:flex-end;justify-content:center;opacity:0;transition:opacity .2s}
+.veu.aberto{opacity:1}
+.folha{width:100%;max-width:560px;max-height:88%;overflow:auto;background:var(--bg);border:2.5px solid var(--borda);border-bottom:0;border-radius:26px 26px 0 0;
+  padding:10px 16px calc(20px + env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .28s cubic-bezier(.2,.9,.3,1);box-shadow:0 -10px 30px rgba(0,0,0,.4)}
+.veu.aberto .folha{transform:none}
+.folha .puxador{width:44px;height:5px;border-radius:9px;background:var(--txt3);margin:0 auto 12px;opacity:.6}
+.folha h3{margin:0 0 2px;font-size:var(--t5)}
+.folha .grupo-op{margin-top:16px}
+.folha .grupo-op>b{display:block;font-family:var(--f-tit);font-weight:400;font-size:var(--t3);margin-bottom:8px}
+
+/* ---------- opções (níveis, cor, relógio) ---------- */
+.lista-niveis{display:flex;flex-direction:column;gap:8px}
+.op-nivel{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border-radius:16px;background:var(--sup);border:2.5px solid var(--borda);text-align:left;box-shadow:0 3px 0 var(--borda)}
+.op-nivel.on{border-color:var(--ouro);box-shadow:0 0 0 3px rgba(255,200,58,.28),0 3px 0 var(--borda)}
+.op-nivel .num{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-family:var(--f-tit);font-size:var(--t4);color:#fff;border:2.5px solid var(--borda);flex:none;
+  text-shadow:0 2px 0 rgba(0,0,0,.35)}
+.op-nivel .tx{flex:1;min-width:0;display:flex;flex-direction:column}
+.op-nivel b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3)}
+.op-nivel .ganho{display:flex;align-items:center;gap:4px;font-family:var(--f-tit);font-size:var(--t2)}
+.op-nivel .ganho .ic{width:20px;height:20px}
+.opcoes{display:grid;gap:8px}
+.op{min-height:56px;border-radius:14px;background:var(--sup);border:2.5px solid var(--borda);padding:8px 8px;font-family:var(--f-tit);font-weight:400;font-size:var(--t3);text-align:center;line-height:1.15;
+  box-shadow:0 3px 0 var(--borda);color:var(--txt)}
+.op small{display:block;font-family:Nunito,system-ui,sans-serif;font-weight:800;color:var(--txt2);font-size:var(--t1);margin-top:2px}
+.op.on{border-color:var(--ouro);background:var(--sup);box-shadow:0 0 0 3px rgba(255,200,58,.28),0 3px 0 var(--borda)}
+.op:active{transform:translateY(2px);box-shadow:0 1px 0 var(--borda)}
+.chave i{border:2.5px solid var(--borda);background:var(--chip);height:32px;width:56px}
+.chave i::after{top:2px;left:2px;width:23px;height:23px;border:2px solid var(--borda);box-shadow:none}
+.chave input:checked+i{background:var(--ok)}
+.chave input:checked+i::after{transform:translateX(24px)}
+.campo{border:2.5px solid var(--borda);border-radius:14px;background:var(--sup);color:var(--txt);font-weight:700;box-shadow:inset 0 3px 0 rgba(0,0,0,.12)}
+.campo:focus{border-color:var(--ouro)}
+
+/* ==================== INÍCIO ==================== */
+body[data-tela="menu"] #tela{padding-top:0}
+.home{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:0;padding-top:calc(10px + env(safe-area-inset-top));min-height:calc(100svh - 120px - env(safe-area-inset-bottom))}
+.home-cab{display:flex;align-items:center;gap:10px}
+.home .perfil-topo{position:relative;width:58px;height:58px;flex:none;border-radius:50%;padding:0;background:none;border:0;box-shadow:none;display:grid;place-items:center}
+.home .perfil-topo .avatar{box-shadow:0 0 0 2.5px var(--borda),0 3px 0 2.5px var(--borda)}
+.home .perfil-topo .selo-nv{position:absolute;right:-6px;bottom:-5px}
+.home .quem{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;cursor:pointer}
+.home .quem h1{font-size:var(--t4);line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:none}
+.home .quem p{display:flex;align-items:center;gap:6px;font-size:var(--t1);font-weight:800;color:var(--txt2);text-transform:none;letter-spacing:0;white-space:nowrap}
+.home .quem .selo-linha{display:inline-flex}
+.home .quem .selo-linha:empty{display:none}
+.home .barra-xp-mini{height:9px;max-width:110px;margin-top:4px;border-width:1.5px}
+.home-faixa{position:relative;display:flex;align-items:center;justify-content:center;min-height:46px;margin-top:10px}
+.chama-chip{display:flex;align-items:center;gap:6px;height:36px;padding:0 14px 0 8px;border-radius:999px;background:var(--chip);border:2px solid var(--borda);color:#fff;font-weight:800;font-size:var(--t2)}
+.chama-chip b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3)}
+.chama-chip .ic{width:26px;height:26px}
+.chama-chip.apagada .ic{color:#8d97a6;--ic-b:#c3c9d2}
+.chama-chip.risco{box-shadow:0 0 0 2.5px #ff7a1f}
+.home-faixa .bt-ic{position:absolute;right:0;top:50%;margin-top:-23px}
+.home-faixa .bt-ic .ic{width:26px;height:26px}
+.palco{position:relative;flex:1;min-height:318px;margin:4px -16px 0;overflow:hidden}
+.chao{position:absolute;left:-40%;right:-40%;bottom:-6%;height:62%;transform:perspective(520px) rotateX(58deg);transform-origin:50% 100%;
+  background:conic-gradient(var(--chao-a) 25%,var(--chao-b) 0 50%,var(--chao-a) 0 75%,var(--chao-b) 0) 50% 0/92px 92px;
+  -webkit-mask-image:linear-gradient(to top,transparent 0,#000 22%,#000 40%,transparent 92%);mask-image:linear-gradient(to top,transparent 0,#000 22%,#000 40%,transparent 92%)}
+.luz-palco{position:absolute;left:50%;top:6%;width:300px;height:300px;margin-left:-150px;border-radius:50%;background:radial-gradient(circle,var(--luz),transparent 65%)}
+.heroi-wrap{position:absolute;left:50%;bottom:9%;width:220px;margin-left:-110px;display:flex;flex-direction:column;align-items:center;z-index:2}
+.peca-grande{display:block;width:170px;height:170px;margin-bottom:-36px;position:relative;z-index:2;animation:respira 3.2s ease-in-out infinite;filter:drop-shadow(0 6px 0 rgba(0,0,0,.18))}
+.peca-grande svg{width:100%;height:100%;fill:var(--pf);stroke:#140b06;stroke-width:4.6;stroke-linejoin:round;stroke-linecap:round;--pd:#140b06}
+.peca-grande svg .det{stroke:var(--pd);stroke-width:4}
+.peca-grande svg .detf{fill:var(--pd)}
+.peca-grande.av-b svg{--pd:#c7cdd8}
+.pedestal{width:220px;height:84px;display:block}
+@keyframes respira{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.lado-at{position:absolute;top:10px;bottom:16px;display:flex;flex-direction:column;justify-content:space-between;gap:8px;z-index:3}
+.lado-at.esq{left:12px}.lado-at.dir{right:12px}
+.atalho{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;width:78px}
+.atalho .q{position:relative;display:grid;place-items:center;width:62px;height:62px;border-radius:19px;background:linear-gradient(var(--sup2),var(--sup));border:2.5px solid var(--borda);
+  box-shadow:inset 0 -5px 0 var(--sup-baixo),inset 0 2px 0 rgba(255,255,255,.12),0 4px 0 var(--borda);transition:transform .08s}
+.atalho:active .q,.atalho.apertado .q{transform:translateY(3px);box-shadow:inset 0 -2px 0 var(--sup-baixo),0 1px 0 var(--borda)}
+.atalho .q .ic{width:38px;height:38px}
+.atalho .rot{font-family:var(--f-tit);font-size:var(--t1);line-height:1.1;text-align:center;color:#fff;
+  text-shadow:0 2px 0 var(--borda),1.5px 0 0 var(--borda),-1.5px 0 0 var(--borda),0 -1.5px 0 var(--borda),1px 1px 0 var(--borda),-1px -1px 0 var(--borda),1px -1px 0 var(--borda),-1px 1px 0 var(--borda)}
+.atalho .bolinha{top:-7px;right:2px}
+.atalho .bolinha.oculto{display:none}
+.atalho .etq{position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-4deg);z-index:5}
+.atalho .tempo{position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);height:20px;padding:0 7px;border-radius:999px;background:var(--chip);color:#fff;font-family:var(--f-tit);font-size:var(--t1);line-height:20px;white-space:nowrap}
+.atalho.brilha .q{animation:pulsaBau 1.8s ease-in-out infinite}
+.atalho.apagado .q .ic{filter:grayscale(1);opacity:.55}
+@keyframes pulsaBau{0%,100%{box-shadow:inset 0 -5px 0 var(--sup-baixo),0 4px 0 var(--borda),0 0 0 0 rgba(255,200,58,0)}50%{box-shadow:inset 0 -5px 0 var(--sup-baixo),0 4px 0 var(--borda),0 0 22px 4px rgba(255,200,58,.55)}}
+.modo-sel{position:relative;z-index:3;align-self:center;display:flex;align-items:center;gap:10px;height:46px;max-width:100%;padding:0 14px 0 6px;border-radius:999px;background:var(--chip);border:2.5px solid var(--borda);
+  color:#fff;font-weight:800;font-size:var(--t2);margin:4px 0 14px;white-space:nowrap}
+.modo-sel .ic-mini{display:grid;place-items:center;width:34px;height:34px;border-radius:999px;background:var(--info);border:2px solid var(--borda);flex:none}
+.modo-sel .ic-mini .ic{width:22px;height:22px}
+.modo-sel b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3)}
+.modo-sel>.ic{width:18px;height:18px;color:#fff;--ic-o:transparent}
+.modo-sel>.ic .s{stroke:#fff}
+.continuar-card{display:flex;align-items:center;gap:12px;padding:12px;margin-top:16px;width:100%;text-align:left}
+.continuar-card .ic-quadro{width:54px;height:54px;background:linear-gradient(var(--ouro-alto),var(--ouro));box-shadow:inset 0 -4px 0 var(--ouro-baixo)}
+.continuar-card .ic-quadro svg{width:38px;height:38px;fill:#fbfaf4;stroke:#2b2f36;stroke-width:4;stroke-linejoin:round}
+.continuar-card .ic-quadro svg .det{stroke:#2b2f36}.continuar-card .ic-quadro svg .detf{fill:#2b2f36}
+.continuar-card .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.continuar-card .tx b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.continuar-card .barra{height:10px;margin-top:4px}
+.continuar-card .bt-ic .ic{width:22px;height:22px}
+
+/* ==================== JOGAR ==================== */
+.jogar-hub{max-width:560px;margin:0 auto}
+.heroi-card{position:relative;overflow:hidden;display:block;width:100%;text-align:left;padding:18px 16px 16px;border-radius:22px;border:2.5px solid var(--borda);color:#fff;
+  background:radial-gradient(120% 90% at 90% 10%,#5d97ff 0,transparent 55%),linear-gradient(160deg,#3d74d6,#2852a8);box-shadow:inset 0 -6px 0 #1d3f85,inset 0 2px 0 rgba(255,255,255,.25),0 4px 0 var(--borda)}
+.heroi-card::before{content:"";position:absolute;inset:0;background:conic-gradient(rgba(255,255,255,.06) 25%,transparent 0 50%,rgba(255,255,255,.06) 0 75%,transparent 0) 0 0/36px 36px;
+  -webkit-mask-image:linear-gradient(100deg,transparent 30%,#000 90%);mask-image:linear-gradient(100deg,transparent 30%,#000 90%)}
+.heroi-card .peca-fundo{position:absolute;right:-12px;top:-6px;width:150px;height:150px;transform:rotate(8deg);fill:#1b2f63;stroke:#0d1733;stroke-width:4;stroke-linejoin:round}
+.heroi-card .peca-fundo .det{stroke:#5d7fcf}.heroi-card .peca-fundo .detf{fill:#5d7fcf}
+.heroi-card h2{position:relative;margin:0;font-size:30px;line-height:1;max-width:66%}
+.heroi-card p{position:relative;margin:8px 0 14px;font-weight:800;font-size:var(--t1);color:#dbe8ff;max-width:62%}
+.pips{position:relative;display:flex;gap:5px;margin-bottom:6px}
+.pips i{width:24px;height:10px;border-radius:999px;background:#1d3f85;border:2px solid var(--borda)}
+.pips i.on{background:var(--ouro)}
+.heroi-card .rodape{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.heroi-card .nivel-nome{font-family:var(--f-tit);font-size:var(--t3)}
+.heroi-card .bt{flex:none}
+.grade2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.ladrilho{position:relative;display:flex;align-items:center;gap:10px;padding:12px;text-align:left;min-height:74px;color:var(--txt)}
+.ladrilho:active,.ladrilho.apertado{transform:translateY(3px);box-shadow:inset 0 2px 0 rgba(255,255,255,.06),0 1px 0 var(--borda)}
+.ladrilho .tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+.ladrilho b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3);line-height:1.1}
+.ladrilho .bolinha{top:-8px;right:-6px}
+.ponto-on{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--ok);margin-right:4px;vertical-align:1px}
+.evento{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:8px;padding:14px;text-align:left;min-height:132px;color:var(--txt)}
+.evento .topo-ev{display:flex;align-items:flex-start;justify-content:space-between}
+.evento b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3);line-height:1.1}
+.evento .etq.novo{position:absolute;top:-12px;right:12px;transform:rotate(3deg)}
+.evento .premio{display:flex;align-items:center;gap:6px;font-family:var(--f-tit);font-size:var(--t2)}
+.evento .premio .ic{width:20px;height:20px}
+.linha-ir{display:flex;align-items:center;gap:12px;padding:12px 14px;margin-top:12px;text-align:left;width:100%;color:var(--txt)}
+.linha-ir .tx{flex:1;min-width:0;display:flex;flex-direction:column}
+.linha-ir b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3)}
+.linha-ir .pos{font-family:var(--f-tit);font-size:var(--t5);color:var(--ouro-txt)}
+.linha-ir>.ic{width:20px;height:20px;color:var(--txt2);--ic-o:transparent}
+.continuar-jg{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.continuar-jg .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.continuar-jg b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3)}
+
+/* ==================== CONFIGURAR PARTIDA ==================== */
+.config{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:6px}
+.config .secao{margin-top:16px}
+.config .opcoes.c3{grid-template-columns:repeat(3,1fr)}
+.treino-info{display:flex;align-items:center;gap:12px}
+.treino-info p{margin:0;color:var(--txt2);font-weight:700;line-height:1.4}
+.treino-info p b{display:block;font-family:var(--f-tit);font-weight:400;font-size:var(--t3);color:var(--txt)}
+.config .bt.grande{margin-top:20px;font-size:var(--t5);min-height:62px}
+
+/* ==================== PARTIDA ==================== */
+body[data-tela="jogo"] #tela{padding-top:2px;padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+.jogo{display:grid;gap:10px;grid-template-columns:1fr;justify-items:center}
+.jogo .col-tab{display:flex;flex-direction:column;gap:8px;width:calc(var(--tab) + 46px);max-width:100%}
+body[data-tela="jogo"] .jogo .lateral{display:none}
+.jogador{position:relative;display:flex;align-items:center;gap:10px;padding:7px 10px;min-height:58px;border-radius:16px;border:2.5px solid transparent}
+.jogador.vez{background:var(--sup);border-color:var(--ouro);box-shadow:0 0 0 3px rgba(255,200,58,.14),0 3px 0 var(--borda)}
+.jogador .foto{display:flex;flex:none}
+.jogador .foto .avatar{box-shadow:0 0 0 2.5px var(--borda)}
+.foto-pc{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;border:2.5px solid var(--borda);box-shadow:inset 0 -4px 0 rgba(0,0,0,.25)}
+.foto-pc .ic{width:30px;height:30px}
+.jogador .nome{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;font-family:var(--f-tit);font-weight:400;font-size:var(--t3);line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jogador .nome small{font-family:Nunito,system-ui,sans-serif;font-weight:800;font-size:var(--t1);color:var(--txt2);margin-left:6px}
+.capt{display:flex;align-items:center;height:18px;min-width:0}
+.capt svg{width:18px;height:18px;margin-right:-5px;flex:none;stroke-linejoin:round}
+.capt .pc-w svg,.capt svg.pcw{fill:#fbfaf4;stroke:#2b2f36;stroke-width:5}
+.capt svg.pcb{fill:#363a43;stroke:#0f1115;stroke-width:5}
+.capt em{font-style:normal;font-family:Nunito,system-ui,sans-serif;font-weight:900;font-size:var(--t1);color:var(--txt2);margin-left:9px}
+.relogio{min-width:86px;height:42px;padding:0 10px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:6px;background:var(--chip);border:2px solid var(--borda);
+  font-family:var(--f-tit);font-weight:400;font-size:var(--t4);color:rgba(255,255,255,.7);font-variant-numeric:tabular-nums}
+.relogio.ativo{background:#fff;color:#1a120c;border-color:var(--borda);box-shadow:inset 0 -4px 0 #d8d2c8}
+.relogio.baixo.ativo{background:var(--ruim);color:#fff;box-shadow:inset 0 -4px 0 var(--ruim-baixo)}
+.tag-vez{position:absolute;top:-13px;left:50%;transform:translateX(-50%);z-index:2;pointer-events:none}
+.pensando{display:inline-flex;gap:3px;margin-left:8px;vertical-align:middle}
+.pensando i{background:var(--ouro)}
+.moldura-tab{padding:7px;border-radius:14px;border:2.5px solid var(--borda);background:linear-gradient(135deg,#8a5a34,#5f3b20 60%,#7a4e2c);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.18),inset 0 -3px 0 rgba(0,0,0,.3),0 4px 0 var(--borda)}
+.moldura-tab .tab-linha{gap:6px}
+.moldura-tab .tabuleiro{border-radius:6px;box-shadow:0 0 0 2px #2a170a}
+.moldura-tab .barra-av{width:16px;border:2px solid #2a170a;border-radius:6px;background:#2d3139}
+.moldura-tab .barra-av span{font-size:9px}
+.tab-linha.travado{opacity:.7}
+.status-cx{padding:10px 14px;border-radius:14px;background:var(--sup);border:2.5px solid var(--borda);box-shadow:0 3px 0 var(--borda);font-weight:700;font-size:var(--t2);line-height:1.35}
+.status-cx .status{min-height:0}
+.status-cx .status:empty{display:none}
+.status-cx #motor-rot{font-size:var(--t1)!important}
+.status-cx #motor-rot:empty{display:none}
+.lances.fila-lances{display:flex;flex-wrap:nowrap;gap:2px;max-height:none;overflow-x:auto;overflow-y:hidden;padding:7px 8px;border-radius:14px;background:var(--chip);scrollbar-width:none;align-items:center;min-height:44px}
+.lances.fila-lances::-webkit-scrollbar{display:none}
+.lances.fila-lances .n{flex:none;color:#9b8a73;padding:4px 0 4px 6px;font-weight:800;font-size:var(--t2)}
+.lances.fila-lances .l{flex:none;padding:4px 7px;border-radius:8px;font-weight:900;font-size:var(--t2);color:#efe3cf;white-space:nowrap}
+.lances.fila-lances .l.atual{background:var(--ouro);color:var(--ouro-tinta)}
+.lances.fila-lances .vazio{color:#b9a68b;font-size:var(--t1);padding:2px 6px}
+.lances.fila-lances>span:empty{display:none}
+.controles{display:flex;justify-content:center;gap:8px;margin-top:4px}
+.controles .bt{flex:1;max-width:72px;flex-direction:column;gap:4px;min-height:64px;padding:6px 2px 8px;font-size:var(--t1);border-radius:16px}
+.controles .bt .ic{width:28px;height:28px}
+.controles .bt.on-virado{box-shadow:0 0 0 3px var(--ouro),inset 0 -5px 0 var(--fb)}
+.pedido-empate{background:var(--sup2);border:2px solid var(--borda);border-radius:12px}
+@media(min-width:960px){
+  .jogo{grid-template-columns:auto;justify-content:center}
+}
+
+/* promoção de peão */
+.promo .cx{background:var(--bg);border:2.5px solid var(--borda);border-radius:18px;box-shadow:0 4px 0 var(--borda)}
+.promo button{background:var(--sup);border:2.5px solid var(--borda);border-radius:12px}
+.promo button:hover{background:var(--ouro)}
+
+/* ==================== FIM DE PARTIDA ==================== */
+#modal .cx.cx-fim{background:radial-gradient(circle at 50% 0%,#5a3d12,var(--bg) 55%);border-radius:28px;gap:12px;padding:24px 18px 18px}
+html[data-tema="escuro"] #modal .cx.cx-fim{background:radial-gradient(circle at 50% 0%,#3d3518,var(--bg) 55%)}
+html[data-tema="claro"] #modal .cx.cx-fim{background:radial-gradient(circle at 50% 0%,#ffe3a3,var(--bg) 55%)}
+.trofeu-fim>span{background:linear-gradient(var(--ouro-alto),var(--ouro));border:3px solid var(--borda);box-shadow:inset 0 -6px 0 var(--ouro-baixo),0 5px 0 var(--borda)}
+.trofeu-fim.e>span{background:linear-gradient(#8fd0ff,var(--info));box-shadow:inset 0 -6px 0 var(--info-baixo),0 5px 0 var(--borda)}
+.trofeu-fim.d>span{background:linear-gradient(var(--sup3),var(--sup2));box-shadow:inset 0 -6px 0 var(--sup-baixo),0 5px 0 var(--borda)}
+.trofeu-fim>span .ic{width:56px;height:56px}
+.trofeu-fim .raios path{fill:var(--ouro)}
+.cx-fim h2{font-size:44px!important;line-height:1;color:var(--ouro);text-shadow:0 2px 0 var(--borda),2px 0 0 var(--borda),-2px 0 0 var(--borda),0 -2px 0 var(--borda),1.5px 1.5px 0 var(--borda),-1.5px 1.5px 0 var(--borda),1.5px -1.5px 0 var(--borda),-1.5px -1.5px 0 var(--borda),0 4px 0 var(--borda)}
+.cx-fim.res-e h2{color:#8fd0ff}.cx-fim.res-d h2{color:var(--txt)}
+.cx-fim .motivo{font-size:var(--t2);font-weight:800;color:var(--txt2)}
+.fim-nums{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+.fim-nums>div{display:flex;flex-direction:column;align-items:center;gap:0;min-width:84px;padding:8px 10px;border-radius:14px;background:var(--chip);border:2px solid var(--borda)}
+.fim-nums b{font-family:var(--f-tit);font-weight:400;font-size:var(--t5);line-height:1}
+.fim-nums small{font-size:var(--t1);color:#d9c19f;font-weight:800}
+.fim-classes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;width:100%}
+.fim-classes>div{padding:6px 2px;border-radius:12px;background:var(--sup);border:2px solid var(--borda);text-align:center}
+.fim-classes b{font-family:var(--f-tit);font-weight:400;font-size:var(--t4)}
+.fim-classes small{display:block;font-size:var(--t1);font-weight:800;color:var(--txt2)}
+.fim-conq,.fim-mold{width:100%;border-radius:14px;background:var(--sup);border:2px solid var(--borda);box-shadow:0 3px 0 var(--borda)}
+.fim-conq small,.fim-mold small{font-size:var(--t1)}
+.fim-conq .cq-ic .ic{width:30px;height:30px}
+.cx-fim .botoes{width:100%;display:flex;flex-direction:column;gap:10px}
+.cx-fim .botoes>.bt.pri{min-height:58px;font-size:var(--t4);width:100%}
+.cx-fim .botoes .fila{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cx-fim .botoes .fila .bt{min-width:0;font-size:var(--t2)}
+
+/* análise (barra de progresso enquanto analisa) */
+.progresso{height:14px;border-radius:999px;background:var(--chip);border:2px solid var(--borda)}
+.progresso i{background:linear-gradient(var(--ouro-alto),var(--ouro-baixo))}
+
+/* ==================== RESUMO DA PARTIDA ==================== */
+.placar{gap:14px}
+.placar h2{font-size:var(--t4)}
+.roda{background:conic-gradient(var(--ok) calc(var(--p)*1%),var(--chip) 0);border:2.5px solid var(--borda);box-shadow:0 3px 0 var(--borda)}
+.roda div{background:var(--sup);border:2.5px solid var(--borda)}
+.roda b{font-family:var(--f-tit);font-weight:400;font-size:var(--t5)}
+.roda small{font-size:var(--t1);text-transform:none;letter-spacing:0;font-weight:800}
+.chips .chip{font-size:var(--t1);font-weight:800}
+.nav-rev{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.nav-rev .bt{min-height:50px;padding:0}
+.nav-rev .bt .ic{width:26px;height:26px}
+.erro-item{border:2.5px solid var(--borda)!important;border-radius:14px!important;box-shadow:0 3px 0 var(--borda)}
+.info-rev{font-size:var(--t2)}
+.dica-item .num{font-family:var(--f-tit);font-weight:400}
+
+@media (prefers-reduced-motion:reduce){
+  .peca-grande,.atalho.brilha .q{animation:none}
+}
+
+/* opção de nível usada como .op na configuração */
+.op.op-nivel{display:flex;align-items:center;text-align:left;min-height:62px;padding:10px 12px;font-size:inherit}
+.op.op-nivel .sub{font-family:Nunito,system-ui,sans-serif}
+
+/* Início: selo do jogador à esquerda da faixa da sequência */
+.home-faixa .selo-linha{position:absolute;left:0;top:50%;transform:translateY(-50%);display:flex;align-items:center}
+.home-faixa .selo-linha:empty{display:none}
+/* partida: tabuleiro usa quase toda a largura */
+body[data-tela="jogo"] #tela{padding-left:8px;padding-right:8px}
+.jogo .col-tab{width:calc(var(--tab) + 41px)}
+.jogo:has(.sem-barra) .col-tab{width:calc(var(--tab) + 19px)}
+.jogo:has(.sem-barra){--tab:min(calc(100vw - 36px), calc(100svh - 330px), 560px)}
+.home .barra-xp-mini{display:block;width:110px}
+
+/* alvos de toque: chips e o botão central da barra */
+.moedas-topo{height:40px}
+#nav-inf .nav-jogar{justify-self:stretch;width:auto}
+.home .perfil-topo .selo-nv b{font-size:13px}
 
 </style>
 </head>
@@ -2200,20 +2680,14 @@ body.com-nav #tela{padding-bottom:calc(104px + env(safe-area-inset-bottom))}
 
 <div id="app">
   <header id="topo">
-    <button id="voltar" aria-label="Voltar" class="oculto"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <button id="voltar" aria-label="Voltar" class="oculto"></button>
     <h1 id="titulo">Trainer de Xadrez</h1>
     <span class="lado" id="topo-lado"></span>
-    <button id="topo-moedas" class="moedas-topo" aria-label="Moedas — abrir loja"></button>
+    <div class="moedas" id="topo-chips"><button id="topo-moedas" class="moedas-topo" aria-label="Moedas — abrir loja"></button><button id="topo-gemas" class="moedas-topo gemas-topo" aria-label="Diamantes — abrir loja"></button></div>
     <button id="topo-perfil" class="perfil-topo" aria-label="Meu perfil"></button>
   </header>
   <main id="tela"></main>
-  <nav id="nav-inf" class="oculto" aria-label="Menu principal">
-    <button data-ir="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Início</button>
-    <button data-ir="aprender"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 7l10-4 10 4-10 4z"/><path d="M6 9v5c3 2 9 2 12 0V9"/></svg>Aprender</button>
-    <button data-ir="jogar" class="nav-jogar" aria-label="Jogar"><svg viewBox="0 0 100 100" class="pcw" aria-hidden="true"><use href="#pc-n"/></svg></button>
-    <button data-ir="conquistas"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/></svg>Troféus</button>
-    <button data-ir="loja"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>Loja</button>
-  </nav>
+  <nav id="nav-inf" class="oculto" aria-label="Menu principal"></nav>
 </div>
 <div id="modal" class="oculto"></div>
 <div id="aviso" class="oculto" role="status"></div>
@@ -4640,6 +5114,89 @@ const Motor = {
 };
 
 /* ==========================================================================
+   ÍCONES PRÓPRIOS E PEÇAS DO VISUAL NOVO
+   Todos no mesmo traço: preenchidos + contorno escuro (estilo jogo de celular).
+   Uso: ic('trofeu', 'cor-ouro')  ->  <svg class="ic cor-ouro">…</svg>
+   Classes dentro do desenho: a = cor principal (currentColor), b = cor clara (--ic-b),
+   c = sombra (--ic-c), l = só contorno, s = traço grosso na cor principal, n = sem contorno.
+   ========================================================================== */
+const IC = {
+  inicio: '<path class="a" d="M4 15.5L16 5l12 10.5V26a2 2 0 0 1-2 2h-6.5v-7h-7v7H6a2 2 0 0 1-2-2z"/>',
+  aprender: '<path class="a" d="M2 12.5L16 6l14 6.5L16 19z"/><path class="a" d="M8 16v6c0 3.2 16 3.2 16 0v-6l-8 3.7z"/><path class="l" d="M27.5 13.5v8"/><circle class="a" cx="27.5" cy="23" r="2"/>',
+  trofeu: '<path class="l" d="M9 8H5.5a4 4 0 0 0 4.5 7.5M23 8h3.5a4 4 0 0 1-4.5 7.5"/><path class="a" d="M8.5 4.5h15V12a7.5 7.5 0 0 1-15 0z"/><path class="c n" d="M19 6h3v6a6 6 0 0 1-3 5.2z"/><path class="a" d="M14 19h4v4h-4z"/><path class="a" d="M9.5 23h13v5h-13z"/>',
+  loja: '<path class="a" d="M6 14v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V14"/><path class="b" d="M13 28v-8h6v8"/><path class="b" d="M3.5 9.5L6.5 4h19l3 5.5v1.5a3.4 3.4 0 0 1-6.3 1.6 3.4 3.4 0 0 1-6.2 0 3.4 3.4 0 0 1-6.2 0A3.4 3.4 0 0 1 3.5 11z"/><path class="l" d="M10 9.8V4.3M16 9.8V4.3M22 9.8V4.3"/>',
+  moeda: '<circle class="a" cx="16" cy="16" r="12.5"/><circle class="l" cx="16" cy="16" r="8.5" style="stroke:var(--ic-c)"/><path class="b n" d="M9.5 10.5a8 8 0 0 1 6-3.2v2.2a6 6 0 0 0-4.3 2.3z"/><path class="c n" d="M16 11.5c-1.8 0-2.6 1.6-1.8 2.7.6.8 1 1.6.5 2.5-1.7 1.3-2.5 2.5-2.7 4.3h8c-.2-1.8-1-3-2.7-4.3-.5-.9-.1-1.7.5-2.5.8-1.1 0-2.7-1.8-2.7z"/>',
+  gema: '<path class="a" d="M9 5h14l6 7.5L16 28 3 12.5z"/><path class="b" d="M12 12.5L16 5l4 7.5z"/><path class="l" d="M3 12.5h26M12 12.5L16 28l4-15.5M9 5l3 7.5M23 5l-3 7.5"/>',
+  fogo: '<path class="a" d="M16 2.5c1.8 6 10 8.5 10 17.5a10 10 0 0 1-20 0c0-5 3-8 5-10 0 3.8 1.8 5.5 3.8 5.5C13.6 10.5 14 6.5 16 2.5z"/><path class="b" d="M16 28a5 5 0 0 1-5-5c0-3 3-4.2 4-7.5 2 3 6 4 6 7.5a5 5 0 0 1-5 5z"/>',
+  sino: '<path class="a" d="M7.5 22.5V14a8.5 8.5 0 0 1 17 0v8.5l3 3h-23z"/><path class="a" d="M12.5 26a3.5 3.5 0 0 0 7 0"/><path class="b n" d="M11 11.5a5.5 5.5 0 0 1 3.5-3.6"/>',
+  alvo: '<circle class="a" cx="15" cy="17" r="11.5"/><circle class="b" cx="15" cy="17" r="7"/><circle class="a" cx="15" cy="17" r="3"/><path class="l" d="M15 17l11-11"/><path class="a" d="M23 3.5v5h5l-3 3h-5v-5z"/>',
+  calendario: '<rect class="b" x="4.5" y="6.5" width="23" height="21" rx="3.5"/><path class="a" d="M4.5 10a3.5 3.5 0 0 1 3.5-3.5h16a3.5 3.5 0 0 1 3.5 3.5v3.5h-23z"/><path class="l" d="M10.5 3.5v6M21.5 3.5v6"/><path class="a" d="M16 15.5l1.7 3.4 3.7.5-2.7 2.6.7 3.7-3.4-1.8-3.4 1.8.7-3.7-2.7-2.6 3.7-.5z"/>',
+  ranking: '<path class="a" d="M11.5 9h9v19h-9z"/><path class="b" d="M3 15.5h8.5V28H3zM20.5 18.5H29V28h-8.5z"/><path class="l" d="M14.7 14.5l1.8-1.3v7.3"/>',
+  bau: '<path class="a" d="M3.5 15h25v10.5a2.5 2.5 0 0 1-2.5 2.5H6a2.5 2.5 0 0 1-2.5-2.5z"/><path class="a" d="M3.5 15v-3a7 7 0 0 1 7-7h11a7 7 0 0 1 7 7v3z"/><path class="c n" d="M5 12h22v3H5z"/><path class="b" d="M8.5 5.5v22.5h3.5V5zM20 5v23h3.5V5.5z"/><rect class="b" x="13" y="12.5" width="6" height="7" rx="1.2"/><path class="l" d="M16 15v2"/>',
+  globo: '<circle class="a" cx="16" cy="16" r="12.5"/><path class="b" d="M7 9.5c2.5 0 4 1.5 3.5 3.5s-3 1.5-3 4 3 2.5 2.5 5.5c-.3 1.6-1.5 2.4-2.6 2.6A12.4 12.4 0 0 1 7 9.5zM18.5 5c1.5 2 0 3.5 1.5 5s4.5-.5 6 2.5c-1 3-3.5 3-4 5.5s1.5 3.5.5 6A12.5 12.5 0 0 0 18.5 5z"/>',
+  lampada: '<path class="a" d="M16 3.5a9 9 0 0 1 5.2 16.4V23h-10.4v-3.1A9 9 0 0 1 16 3.5z"/><path class="b n" d="M11 9.5a5.6 5.6 0 0 1 4-3"/><path class="b" d="M10.8 23h10.4v2.5a2.5 2.5 0 0 1-2.5 2.5h-5.4a2.5 2.5 0 0 1-2.5-2.5z"/>',
+  amigo: '<circle class="a" cx="13" cy="11" r="6"/><path class="a" d="M2.5 27.5a10.5 9.5 0 0 1 21 0z"/><path class="b" d="M23.5 8.5h3v4h4v3h-4v4h-3v-4h-4v-3h4z"/>',
+  celular: '<rect class="a" x="8.5" y="3" width="15" height="26" rx="3.5"/><rect class="b" x="11.5" y="7" width="9" height="16" rx="1.5"/><path class="l" d="M14.5 26h3"/>',
+  tocar: '<path class="a" d="M10 5.5l15.5 10.5L10 26.5z"/>',
+  voltar: '<path class="s" d="M19.5 6.5L10 16l9.5 9.5"/>',
+  seta: '<path class="s" d="M12 7l9 9-9 9"/>',
+  baixo: '<path class="s" d="M8 12l8 8 8-8"/>',
+  inicioLance: '<path class="s" d="M8 7v18M24 7l-9 9 9 9"/>',
+  fimLance: '<path class="s" d="M24 7v18M8 7l9 9-9 9"/>',
+  mais: '<circle class="a" cx="7" cy="16" r="3"/><circle class="a" cx="16" cy="16" r="3"/><circle class="a" cx="25" cy="16" r="3"/>',
+  virar: '<path class="s" d="M10 26V6M5 11l5-5 5 5M22 6v20M17 21l5 5 5-5"/>',
+  desfazer: '<path class="s" d="M11 6L5 12l6 6"/><path class="s" d="M5.5 12H19a7.5 7.5 0 0 1 0 15h-6"/>',
+  nova: '<path class="a" d="M13 4h6v9h9v6h-9v9h-6v-9H4v-6h9z"/>',
+  sair: '<path class="a" d="M5 4h13v24H5z"/><path class="b n" d="M7.5 6.5h8v19h-8z"/><path class="s" d="M17 16h11M23.5 11l5 5-5 5"/>',
+  empate: '<path class="a" d="M2.5 12.5l6-3.5 6.5 3 5.5-3 9 3.5v7l-6 4-4.5 3-4.5-2-6-3.5-6-1.5z"/><path class="l" d="M15 12l-4.5 4.2c-.9 1 .6 2.8 1.8 1.9l4.7-3.4 6.3 5.8M19.5 22.5l-2.3-2.3M16.5 24.5l-2-2"/>',
+  bandeira: '<path class="s" d="M7.5 28.5V4"/><path class="a" d="M8 5c5-3 9 3 18 0v12.5c-9 3-13-3-18 0z"/>',
+  relogio: '<circle class="a" cx="16" cy="17.5" r="11"/><path class="l" d="M16 11.5v6l4 3M12.5 3.5h7M16 3.5v3"/>',
+  cadeado: '<path class="l" d="M10.5 14v-3.5a5.5 5.5 0 0 1 11 0V14" style="stroke-width:3.4"/><rect class="a" x="6.5" y="14" width="19" height="14" rx="3.5"/><path class="l" d="M16 19.5v3"/>',
+  ok: '<path class="s" d="M6.5 16.5l6 6L25.5 9"/>',
+  estrela: '<path class="a" d="M16 3l3.9 8 8.6 1.2-6.3 6 1.6 8.6L16 22.6l-7.8 4.2 1.6-8.6-6.3-6 8.6-1.2z"/>',
+  presente: '<path class="a" d="M5 14h22v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path class="a" d="M3.5 9.5h25V15h-25z"/><path class="b" d="M14 9.5h4V28h-4z"/><path class="l" d="M16 9.5c-2-4-7-5.5-7.5-2.5s4 2.5 7.5 2.5c3.5 0 8 .5 7.5-2.5s-5.5-1.5-7.5 2.5z"/>',
+  fechar: '<path class="s" d="M8 8l16 16M24 8L8 24"/>',
+  computador: '<rect class="a" x="3.5" y="5" width="25" height="17" rx="3"/><rect class="b" x="7" y="8.5" width="18" height="10" rx="1.5"/><path class="a" d="M12 22h8l1.5 5h-11z"/><circle class="a" cx="12.5" cy="13.5" r="1.6"/><circle class="a" cx="19.5" cy="13.5" r="1.6"/>',
+  coroa: '<path class="a" d="M4 11l6 5 6-9 6 9 6-5-2 14H6z"/><path class="b" d="M6.5 22h19v3h-19z"/>',
+  raio: '<path class="a" d="M18 2.5L6 18h8l-2 11.5L26 13h-8.5z"/>',
+  engrenagem: '<path class="a" d="M13.5 3.5h5l.8 3.6 2.6 1.1 3.1-2 3.5 3.5-2 3.1 1.1 2.6 3.6.8v5l-3.6.8-1.1 2.6 2 3.1-3.5 3.5-3.1-2-2.6 1.1-.8 3.6h-5l-.8-3.6-2.6-1.1-3.1 2-3.5-3.5 2-3.1-1.1-2.6-3.6-.8v-5l3.6-.8 1.1-2.6-2-3.1 3.5-3.5 3.1 2 2.6-1.1z"/><circle class="b" cx="16" cy="16" r="4.5"/>'
+};
+const ic = (n, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 32 32" aria-hidden="true">${IC[n] || ''}</svg>`;
+/* peça grande do visual novo (usa as cores do avatar: av-w, av-b, av-g...) */
+const pecaGrande = (avatarId, cls = '') => {
+  const a = (typeof AVATARES !== 'undefined' && AVATARES.find(x => x.id === avatarId)) || { peca: 'n', cor: 'w' };
+  return `<span class="peca-grande av-${a.cor} ${cls}"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#pc-${a.peca}"/></svg></span>`;
+};
+/* cor de cada nível do computador (bolinhas, fotos e etiquetas) */
+const COR_NIVEL = ['#4fcf62', '#2cc4b5', '#4aa3ff', '#a26bff', '#ff8a1f', '#ff5b4f'];
+/* tempo curto: "3d 14h", "14h", "25 min" */
+const tempoCurto = ms => { const m = Math.max(1, Math.round(ms / 60000)); if (m < 60) return m + ' min'; const h = Math.floor(m / 60); return h < 24 ? h + 'h' : Math.floor(h / 24) + 'd ' + (h % 24) + 'h'; };
+
+/* ---------- folha: janela que sobe de baixo (escolhas rápidas) ---------- */
+const Folha = {
+  el: null, aoFechar: null,
+  aberta() { return !!this.el; },
+  abrir(html, aoFechar) {
+    this.fechar(true);
+    const v = document.createElement('div'); v.className = 'veu'; v.id = 'folha';
+    v.innerHTML = `<div class="folha" role="dialog" aria-modal="true"><div class="puxador" aria-hidden="true"></div>${html}</div>`;
+    v.addEventListener('click', e => { if (e.target === v) this.fechar(); });
+    document.body.appendChild(v); this.el = v; this.aoFechar = aoFechar || null;
+    requestAnimationFrame(() => requestAnimationFrame(() => v.classList.add('aberto')));
+    return v.firstElementChild;
+  },
+  fechar(ja) {
+    const v = this.el; if (!v) return;
+    this.el = null; const f = this.aoFechar; this.aoFechar = null;
+    if (ja || !efeitosLigados()) v.remove(); else { v.classList.remove('aberto'); setTimeout(() => v.remove(), 260); }
+    if (f) try { f(); } catch (e) { /* ignora */ }
+  }
+};
+/* botões que afundam também no toque rápido (o :active do iPhone some rápido demais) */
+document.addEventListener('pointerdown', e => { const b = e.target.closest && e.target.closest('.bt,.atalho,.ladrilho'); if (b) b.classList.add('apertado'); }, { passive: true });
+['pointerup', 'pointercancel', 'pointerleave'].forEach(t => document.addEventListener(t, () => { $$('.apertado').forEach(b => b.classList.remove('apertado')); }, { passive: true }));
+
+/* ==========================================================================
    TABULEIRO — desenhado com CSS Grid; peças em SVG; toque, clique e arrastar
    opcoes:
      alvos(casa)            -> lista de casas de destino se a peça pode ser pega, ou null
@@ -6937,14 +7494,21 @@ const NIVEIS = [
   { nome: 'Mestre',        desc: 'força máxima',    skill: 20, depth: 18, tempo: 2000, erro: 0,    ps: 3, moedas: 100 }
 ];
 const ICONES = {
-  desfazer: '<svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>',
-  dica: '<svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg>',
-  virar: '<svg viewBox="0 0 24 24"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"/></svg>',
-  desistir: '<svg viewBox="0 0 24 24"><path d="M5 21V4M5 4h12l-2.5 4L17 12H5"/></svg>',
-  nova: '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',
-  empate: '<svg viewBox="0 0 24 24"><path d="M4 9h16M4 15h16"/></svg>',
-  sair: '<svg viewBox="0 0 24 24"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/></svg>'
+  desfazer: ic('desfazer', 'ic-tx'), dica: ic('lampada', 'cor-teal'), virar: ic('virar', 'ic-tx'), desistir: ic('bandeira', 'cor-verm'),
+  nova: ic('nova', 'cor-verde'), empate: ic('empate', 'cor-ouro'), sair: ic('sair', 'cor-marrom')
 };
+/* peças que cada lado já capturou (pelo que falta no tabuleiro) e a vantagem de material */
+function capturas(g) {
+  const ini = { p: 8, n: 2, b: 2, r: 2, q: 1 }, tem = { w: { p: 0, n: 0, b: 0, r: 0, q: 0 }, b: { p: 0, n: 0, b: 0, r: 0, q: 0 } };
+  for (const linha of g.board()) for (const c of linha) if (c && c.type !== 'k') tem[c.color][c.type]++;
+  const lista = cor => { const l = []; ['q', 'r', 'b', 'n', 'p'].forEach(t => { for (let i = tem[cor][t]; i < ini[t]; i++) l.push(t); }); return l; };   // peças da cor "cor" que sumiram
+  const mat = cor => ['p', 'n', 'b', 'r', 'q'].reduce((s, t) => s + tem[cor][t] * VALOR[t], 0);
+  return { w: lista('b'), b: lista('w'), dif: mat('w') - mat('b') };   // w = o que as brancas comeram
+}
+function htmlCapturas(cap, cor) {
+  const l = cap[cor], v = cor === 'w' ? cap.dif : -cap.dif, outra = outraCor(cor);
+  return `<span class="capt">${l.map(t => `<svg viewBox="0 0 100 100" class="pc${outra}" aria-hidden="true"><use href="#pc-${t}"/></svg>`).join('')}${v > 0 ? `<em>+${v}</em>` : l.length ? '' : '<em>nenhuma captura</em>'}</span>`;
+}
 const casaDoRei = (g, cor) => { for (let x = 0; x < 8; x++) for (let y = 0; y < 8; y++) { const s = nomeCasa(x, y), p = g.get(s); if (p && p.type === 'k' && p.color === cor) return s; } return null; };
 const fmtTempo = s => { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
 function lanceDeSan(g, san) { const m = g.move(san); if (m) g.undo(); return m || g.moves({ verbose: true })[0]; }
@@ -6972,7 +7536,12 @@ function htmlLances(hist, atual, clicavel, classes) {
 }
 /* rola só a caixa da lista de lances (e não a página inteira — isso fazia a tela "pular" no celular) */
 function rolarLista(cx) {
-  if (!cx) return; const at = $('.atual', cx); if (!at) { cx.scrollTop = cx.scrollHeight; return; }
+  if (!cx) return; const at = $('.atual', cx);
+  if (cx.classList.contains('fila-lances')) {          // lista deitada (na partida): rola para o lado
+    if (!at) { cx.scrollLeft = cx.scrollWidth; return; }
+    cx.scrollLeft = at.offsetLeft - cx.offsetLeft - cx.clientWidth / 2 + at.offsetWidth / 2; return;
+  }
+  if (!at) { cx.scrollTop = cx.scrollHeight; return; }
   const topo = at.offsetTop - cx.offsetTop;
   if (topo < cx.scrollTop || topo > cx.scrollTop + cx.clientHeight - at.offsetHeight) cx.scrollTop = topo - cx.clientHeight / 2;
 }
@@ -7036,25 +7605,24 @@ function telaFim(o) {
     for (let k = nvA + 1; nvA && k <= nvB; k++) niveis.push(k);
     const missoes = o.foto && o.foto.ms ? Missoes.itens().filter(x => x.feita && !o.foto.ms.includes(x.id)) : [];
     const molds = o.foto && o.foto.molv ? moldurasNivel().filter(id => !o.foto.molv.includes(id)).map(id => MOLDURAS.find(m => m.id === id)) : [];
-    const ic = o.res === 'v' ? '<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/>'
-      : o.res === 'e' ? '<path d="M5 9h14M5 15h14"/>' : '<path d="M5 21V4M5 4h12l-2.5 4L17 12H5"/>';
+    const icFim = o.res === 'v' ? ic('trofeu', 'cor-branco') : o.res === 'e' ? ic('empate', 'cor-branco') : ic('bandeira', 'cor-cinza');
     let raios = ''; for (let k = 0; k < 12; k++) { const a1 = k / 12 * Math.PI * 2, a2 = a1 + .14; raios += `<path d="M76 76L${(76 + 76 * Math.cos(a1)).toFixed(1)} ${(76 + 76 * Math.sin(a1)).toFixed(1)}L${(76 + 76 * Math.cos(a2)).toFixed(1)} ${(76 + 76 * Math.sin(a2)).toFixed(1)}Z"/>`; }
     let conf = ''; if (o.res === 'v') for (let k = 0; k < 30; k++) conf += `<i style="left:${(k * 37) % 100}%;background:${CORES_CONFETE[k % 6]};width:${6 + k % 3 * 3}px;animation-duration:${(2.6 + k % 5 * .45).toFixed(2)}s;animation-delay:${(k * .23 % 2.4).toFixed(2)}s"></i>`;
     const c = o.cont, classes = c ? [['Ótimos', c.exc, 'c-exc'], ['Bons', c.bom, 'c-bom'], ['Imprecisões', c.imp, 'c-imp'], ['Erros', c.err + c.gra, 'c-gra']] : null;
     const nums = [];
     if (o.prec != null) nums.push(`<div><b style="color:var(--ok)" data-conta="${Math.round(o.prec)}" data-suf="%">0%</b><small>Precisão</small></div>`);
-    if (ganhou) nums.push(`<div><b style="color:var(--dest)" data-conta="${ganhou}" data-pre="+">+0</b><small>Moedas</small></div>`);
+    if (ganhou) nums.push(`<div><b style="color:var(--ouro)" data-conta="${ganhou}" data-pre="+">+0</b><small>Moedas</small></div>`);
     if (xpGanho) nums.push(`<div><b style="color:var(--info)" data-conta="${xpGanho}" data-pre="+">+0</b><small>XP</small></div>`);
     if (o.pts) nums.push(`<div><b style="color:${o.pts.delta >= 0 ? 'var(--ok)' : 'var(--ruim)'}">${o.pts.delta >= 0 ? '+' : '−'}${Math.abs(o.pts.delta)}</b><small>Pontos (${o.pts.depois})</small></div>`);
     const bts = o.botoes.map((b, i) => `<button class="bt ${b.cls || ''}" data-i="${i}">${esc(b.txt)}</button>`), pri = o.botoes[0] && o.botoes[0].cls === 'pri' ? bts.shift() : '';
     const m = $('#modal');
-    m.innerHTML = `<div class="cx cx-fim" role="dialog" aria-modal="true" aria-labelledby="fim-tit">${conf ? `<div class="confetes" aria-hidden="true">${conf}</div>` : ''}
-      <div class="trofeu-fim ${o.res}">${o.res === 'v' ? `<svg class="raios" viewBox="0 0 152 152" aria-hidden="true">${raios}</svg>` : ''}<span><svg viewBox="0 0 24 24" aria-hidden="true">${ic}</svg></span></div>
+    m.innerHTML = `<div class="cx cx-fim res-${o.res}" role="dialog" aria-modal="true" aria-labelledby="fim-tit">${conf ? `<div class="confetes" aria-hidden="true">${conf}</div>` : ''}
+      <div class="trofeu-fim ${o.res}">${o.res === 'v' ? `<svg class="raios" viewBox="0 0 152 152" aria-hidden="true">${raios}</svg>` : ''}<span>${icFim}</span></div>
       <div class="anima-entra" style="animation-delay:.45s"><h2 id="fim-tit">${esc(o.titulo)}</h2><p class="motivo">${esc(maiuscula(o.motivo))}.</p></div>
       ${nums.length ? `<div class="fim-nums anima-entra${nums.length > 3 ? ' n4' : ''}" style="animation-delay:.6s">${nums.join('')}</div>` : ''}
       ${classes ? `<div class="fim-classes anima-entra" style="animation-delay:.72s">${classes.map(x => `<div class="${x[2]}"><b>${x[1]}</b><small>${x[0]}</small></div>`).join('')}</div>` : ''}
       ${niveis.slice(-1).map(k => `<div class="fim-conq fim-nv" style="animation-delay:.9s;--nv:${XP.titulo(k).cor}"><span class="cq-ic">${XP.selo(k, 38)}</span><span><small>Subiu de nível!</small><b>Nível ${k} · ${XP.titulo(k).nome}</b></span><em>+${niveis.reduce((t, n) => t + XP.moedasNivel(n), 0)}</em></div>`).join('')}
-      ${missoes.length ? `<div class="fim-conq fim-ms" style="animation-delay:1s"><span class="cq-ic">🎯</span><span><small>${missoes.length > 1 ? missoes.length + ' missões cumpridas' : 'Missão cumprida'} · prêmio na tela inicial</small><b>${missoes.length > 1 ? missoes.map(x => esc(x.txt)).join(' · ') : esc(missoes[0].txt)}</b></span></div>` : ''}
+      ${missoes.length ? `<div class="fim-conq fim-ms" style="animation-delay:1s"><span class="cq-ic">${ic('alvo', 'cor-verde')}</span><span><small>${missoes.length > 1 ? missoes.length + ' missões cumpridas' : 'Missão cumprida'} · prêmio na tela inicial</small><b>${missoes.length > 1 ? missoes.map(x => esc(x.txt)).join(' · ') : esc(missoes[0].txt)}</b></span></div>` : ''}
       ${molds.map(m => `<div class="fim-mold" style="animation-delay:.95s">${htmlAvatar(Dados.d.perfil.avatar, m.id, 46)}<span><small>Moldura nova!</small><b>${esc(m.nome)}</b><span class="sub" style="display:block;font-size:.78rem">Escolha no seu perfil</span></span></div>`).join('')}
       ${conq.slice(0, Math.max(1, (molds.length ? 2 : 3) - niveis.slice(-1).length - (missoes.length ? 1 : 0))).map((x, k) => `<div class="fim-conq" style="animation-delay:${(1.1 + k * .15).toFixed(2)}s"><span class="cq-ic">${x.ic}</span><span><small>${x.trofeu ? 'Troféu conquistado' : 'Conquista desbloqueada'}</small><b>${esc(x.nome)}</b></span>${x.moedas ? `<em>+${x.moedas}</em>` : ''}</div>`).join('')}
       ${(() => { const mx = Math.max(1, (molds.length ? 2 : 3) - niveis.slice(-1).length - (missoes.length ? 1 : 0)), r = conq.length - mx; return r > 0 ? `<p class="sub">e mais ${r} conquista${r > 1 ? 's' : ''} · veja em Conquistas</p>` : ''; })()}
@@ -7081,25 +7649,30 @@ const Partida = {
   /* ---------- tela de configuração (contra o computador) ---------- */
   telaConfig(treino) {
     const c = Dados.d.cfg, salva = Dados.lerPartida();
-    App.cabecalho(treino ? 'Treino' : 'Jogar contra o computador', 'jogar');
-    $('#tela').innerHTML = `<div class="estreito pilha">
-      ${treino ? `<div class="cartao treino-info"><span class="ic2">${ICONES.dica}</span><p><b>Modo treino</b>Jogue sem pressão: aqui você pode pedir dica da melhor jogada e desfazer lances.</p></div>` : ''}
-      ${salva ? `<div class="cartao destaque"><b>Você tem uma partida em andamento</b><div class="sub">${salva.treino ? 'Treino · ' : ''}Nível ${NIVEIS[salva.nivel].nome} · de ${corNome(salva.cor)} · ${Math.ceil(salva.lances.length / 2)} lances</div>
-        <div class="fila" style="margin-top:10px"><button class="bt pri" id="continuar" style="flex:1">Continuar partida</button><button class="bt" id="descartar">Descartar</button></div></div>` : ''}
-      <div class="cartao"><h3>Dificuldade</h3><div class="opcoes c6" id="op-nivel">
-        ${NIVEIS.map((n, i) => `<button class="op${i === c.nivel ? ' on' : ''}" data-v="${i}">${n.nome}<small>${n.desc} · ${MOEDA}${n.moedas}</small></button>`).join('')}</div></div>
-      <div class="cartao"><h3>Suas peças</h3><div class="opcoes c3" id="op-cor">
+    App.cabecalho(treino ? 'Treino' : 'Contra o computador', 'jogar');
+    $('#tela').innerHTML = `<div class="config">
+      ${treino ? `<div class="cartao treino-info"><span class="ic-quadro">${ICONES.dica}</span><p><b>Modo treino</b>Sem pressão: peça dica da melhor jogada e desfaça lances quando quiser.</p></div>` : ''}
+      ${salva ? `<div class="cartao destaque continuar-jg"><span class="tx"><b>Partida em andamento</b><span class="sub">${salva.treino ? 'Treino · ' : ''}${NIVEIS[salva.nivel].nome} · de ${corNome(salva.cor)} · ${Math.ceil(salva.lances.length / 2)} lances</span></span>
+        <button class="bt pri peq" id="continuar">Continuar</button><button class="bt peq" id="descartar">Descartar</button></div>` : ''}
+      <div class="secao"><h2>Adversário</h2><span class="sub">${c.nivel + 1} de ${NIVEIS.length}</span></div>
+      <div class="lista-niveis" id="op-nivel">
+        ${NIVEIS.map((n, i) => `<button class="op op-nivel${i === c.nivel ? ' on' : ''}" data-v="${i}"><span class="num" style="background:${COR_NIVEL[i]}">${i + 1}</span>
+          <span class="tx"><b>${n.nome}</b><span class="sub">${n.desc}</span></span><span class="ganho">${ic('moeda', 'cor-moeda')}+${n.moedas}</span></button>`).join('')}</div>
+      <div class="secao"><h2>Suas peças</h2></div>
+      <div class="opcoes c3" id="op-cor">
         <button class="op${c.cor === 'w' ? ' on' : ''}" data-v="w">Brancas<small>você começa</small></button>
-        <button class="op${c.cor === 'b' ? ' on' : ''}" data-v="b">Pretas<small>computador começa</small></button>
-        <button class="op${c.cor === 'a' ? ' on' : ''}" data-v="a">Aleatório<small>sorteio</small></button></div></div>
-      <div class="cartao"><h3>Relógio</h3><div class="opcoes c3" id="op-rel">
-        <button class="op${c.relogio === 0 ? ' on' : ''}" data-v="0">Sem tempo<small>jogue com calma</small></button>
-        <button class="op${c.relogio === 600 ? ' on' : ''}" data-v="600">10 min<small>para cada lado</small></button>
-        <button class="op${c.relogio === 300 ? ' on' : ''}" data-v="300">5 min<small>para cada lado</small></button></div></div>
-      <button class="bt pri cheio" id="comecar">${salva ? (treino ? 'Começar novo treino' : 'Começar nova partida') : treino ? 'Começar treino' : 'Começar partida'}</button></div>`;
+        <button class="op${c.cor === 'b' ? ' on' : ''}" data-v="b">Pretas<small>ele começa</small></button>
+        <button class="op${c.cor === 'a' ? ' on' : ''}" data-v="a">Sorteio<small>tanto faz</small></button></div>
+      <div class="secao"><h2>Relógio</h2></div>
+      <div class="opcoes c3" id="op-rel">
+        <button class="op${c.relogio === 0 ? ' on' : ''}" data-v="0">Sem tempo<small>com calma</small></button>
+        <button class="op${c.relogio === 600 ? ' on' : ''}" data-v="600">10 min<small>cada lado</small></button>
+        <button class="op${c.relogio === 300 ? ' on' : ''}" data-v="300">5 min<small>cada lado</small></button></div>
+      <button class="bt pri grande" id="comecar">${salva ? (treino ? 'Começar novo treino' : 'Começar nova') : treino ? 'Começar treino' : 'Começar partida'}</button></div>`;
     const grupo = (id, chave, conv) => $(id).addEventListener('click', e => {
       const b = e.target.closest('.op'); if (!b) return;
       $$('.op', $(id)).forEach(x => x.classList.toggle('on', x === b));
+      if (id === '#op-nivel') { const s = $('.config .secao .sub'); if (s) s.textContent = (+b.dataset.v + 1) + ' de ' + NIVEIS.length; }
       c[chave] = conv(b.dataset.v); Dados.salvar();
     });
     grupo('#op-nivel', 'nivel', Number); grupo('#op-cor', 'cor', String); grupo('#op-rel', 'relogio', Number);
@@ -7136,8 +7709,8 @@ const Partida = {
       (op.sala.lances || []).forEach(s => this.g.move(s));
     }
     const titulo = this.modo === 'pc' ? (this.treino ? 'Treino · ' : 'Partida · ') + NIVEIS[this.nivel].nome : this.modo === 'local' ? 'Partida com amigo' : 'Online · sala ' + op.sala.codigo;
-    App.cabecalho(titulo, () => this.sair());
-    const btn = (id, ic, txt) => `<button class="bt" id="${id}">${ICONES[ic]}${txt}</button>`;
+    App.cabecalho(titulo, () => this.sair(), this.relogio ? Math.round(this.relogio / 60) + ' min' : '');
+    const btn = (id, ic, txt) => `<button class="bt" id="${id}" aria-label="${txt}">${ICONES[ic]}${txt}</button>`;
     // partida normal contra o computador não tem dica; a dica fica no modo treino
     const controles = this.modo === 'pc'
       ? btn('b-desfazer', 'desfazer', 'Desfazer') + (this.treino ? btn('b-dica', 'dica', 'Dica') : '') + btn('b-virar', 'virar', 'Virar') + btn('b-desistir', 'desistir', 'Desistir') + btn('b-nova', 'nova', 'Nova')
@@ -7147,14 +7720,12 @@ const Partida = {
     $('#tela').innerHTML = `<div class="jogo">
       <div class="col-tab">
         <div class="jogador" id="j-cima"><span class="foto"></span><span class="nome"></span><span class="relogio${this.relogio ? '' : ' oculto'}"></span></div>
-        <div class="tab-linha" id="tab-linha">${this.modo === 'pc' ? '<div class="barra-av" id="barra"><i></i><span></span></div>' : ''}</div>
+        <div class="moldura-tab"><div class="tab-linha" id="tab-linha">${this.modo === 'pc' ? '<div class="barra-av" id="barra"><i></i><span></span></div>' : ''}</div></div>
         <div class="jogador" id="j-baixo"><span class="foto"></span><span class="nome"></span>${this.modo === 'online' ? Chat.botao() : ''}<span class="relogio${this.relogio ? '' : ' oculto'}"></span></div>
         ${this.modo === 'online' ? Chat.painel() : ''}
+        <div class="status-cx"><div class="status" id="status"></div><div class="sub" id="motor-rot"></div></div>
+        <div class="lances fila-lances" id="lances" aria-label="Lances da partida"></div>
         <div class="controles${this.treino || this.modo !== 'pc' ? '' : ' c4'}">${controles}</div>
-      </div>
-      <div class="lateral">
-        <div class="cartao"><div class="status" id="status"></div><div class="sub" id="motor-rot" style="margin-top:4px;font-size:.8rem"></div></div>
-        <div class="cartao"><h3>Lances</h3><div class="lances" id="lances"></div></div>
       </div></div>`;
     $('#tab-linha').classList.toggle('sem-barra', this.modo !== 'pc');
     this.tab = new Tabuleiro($('#tab-linha'), {
@@ -7213,18 +7784,23 @@ const Partida = {
   /* ---------- desenho ---------- */
   nomes() {
     const p = Dados.d.perfil, eu = { foto: htmlAvatar(p.avatar, p.moldura, 30), nome: esc(nomeJogador()) + ' <small>' + corNome(this.cor) + '</small>' };
-    if (this.modo === 'pc') return { [this.cor]: eu, [outraCor(this.cor)]: { foto: '<span class="avatar av-robo" style="--av:30px">🤖</span>', nome: 'Computador <small>' + NIVEIS[this.nivel].nome + '</small>' + (this.pensando ? '<span class="pensando"><i></i><i></i><i></i></span>' : '') } };
-    if (this.modo === 'local') return { w: { foto: htmlAvatar('wk', '', 30), nome: 'Brancas' }, b: { foto: htmlAvatar('bk', '', 30), nome: 'Pretas' } };
-    const s = this.sala || {}, j = c => { const x = c === 'w' ? s.brancas : s.pretas; return x ? { foto: htmlAvatar(x.avatar, x.moldura, 30), nome: esc(x.nome) + ' <small>' + corNome(c) + (c === this.cor ? ' · você' : '') + '</small>' } : { foto: '<span class="avatar av-robo" style="--av:30px">?</span>', nome: 'Aguardando… <small>' + corNome(c) + '</small>' }; };
+    eu.foto = htmlAvatar(p.avatar, p.moldura, 42);
+    if (this.modo === 'pc') return { [this.cor]: eu, [outraCor(this.cor)]: { foto: `<span class="foto-pc" style="background:${COR_NIVEL[this.nivel]}">${ic('computador', 'cor-branco')}</span>`, nome: 'Computador <small>' + NIVEIS[this.nivel].nome + '</small>' + (this.pensando ? '<span class="pensando"><i></i><i></i><i></i></span>' : '') } };
+    if (this.modo === 'local') return { w: { foto: htmlAvatar('wk', '', 42), nome: 'Brancas' }, b: { foto: htmlAvatar('bk', '', 42), nome: 'Pretas' } };
+    const s = this.sala || {}, j = c => { const x = c === 'w' ? s.brancas : s.pretas; return x ? { foto: htmlAvatar(x.avatar, x.moldura, 42), nome: esc(x.nome) + ' <small>' + corNome(c) + (c === this.cor ? ' · você' : '') + '</small>' } : { foto: `<span class="foto-pc" style="background:var(--sup2)">${ic('relogio', 'cor-cinza')}</span>`, nome: 'Aguardando… <small>' + corNome(c) + '</small>' }; };
     return { w: j('w'), b: j('b') };
   },
   pintar() {
     const g = this.g, hist = g.history();
     $('#lances').innerHTML = htmlLances(hist, hist.length - 1, false);
     rolarLista($('#lances'));
-    const cima = outraCor(this.tab.ori), baixo = this.tab.ori, n = this.nomes();
-    $('#j-cima .foto').innerHTML = n[cima].foto; $('#j-cima .nome').innerHTML = n[cima].nome;
-    $('#j-baixo .foto').innerHTML = n[baixo].foto; $('#j-baixo .nome').innerHTML = n[baixo].nome;
+    const cima = outraCor(this.tab.ori), baixo = this.tab.ori, n = this.nomes(), cap = capturas(g);
+    const vez = this.modo === 'online' && this.sala ? ((this.sala.lances || []).length % 2 ? 'b' : 'w') : g.turn();
+    const pinta = (el, cor) => {
+      $('.foto', el).innerHTML = n[cor].foto; $('.nome', el).innerHTML = `<span>${n[cor].nome}</span>${htmlCapturas(cap, cor)}`;
+      el.classList.toggle('vez', !this.fim && vez === cor);
+    };
+    pinta($('#j-cima'), cima); pinta($('#j-baixo'), baixo);
     this.pintarRelogios();
     pintarBarra($('#barra'), this.av, this.tab.ori);
     let s;
@@ -7782,9 +8358,9 @@ const Analise = {
       <div class="aval"><span>Antes do lance<b>${descAval(it.notaA, it.mateA)}</b></span><span class="seta-aval">→</span><span>Depois do lance<b>${descAval(it.notaD, it.mateD)}</b></span></div>
       <h4>Por que é ${it.classe === 'imp' ? 'uma imprecisão' : 'um erro'}</h4><p>${esc(it.texto)}</p>
       ${respTxt ? `<h4>O que o adversário pode fazer agora</h4><p>A melhor resposta é <b>${sanPt(respTxt)}</b>${ruim.length ? ': ' + esc(ruim.slice(0, 3).join('; ').toLowerCase()) : ''}.</p>
-        ${linhaRuim ? `<p class="linha">Sequência provável: ${linhaRuim}</p><button class="bt peq" data-anim="ruim">▶ Ver o que acontece</button>` : ''}` : ''}
+        ${linhaRuim ? `<p class="linha">Sequência provável: ${linhaRuim}</p><button class="bt peq" data-anim="ruim">${ic('tocar', 'cor-branco')}Ver o que acontece</button>` : ''}` : ''}
       ${it.melhor ? `<h4>Por que ${sanPt(it.melhor)} é melhor</h4><ul class="porque">${bom.slice(0, 4).map(t => `<li>${esc(t)}.</li>`).join('')}</ul>
-        ${linhaBoa ? `<p class="linha">Continuação sugerida: ${linhaBoa}</p><button class="bt peq" data-anim="bom">▶ Ver a melhor sequência</button>` : ''}` : ''}`;
+        ${linhaBoa ? `<p class="linha">Continuação sugerida: ${linhaBoa}</p><button class="bt peq" data-anim="bom">${ic('tocar', 'cor-branco')}Ver a melhor sequência</button>` : ''}` : ''}`;
   },
 
   /* ---------- tela de resumo + revisão lance a lance ---------- */
@@ -7806,8 +8382,8 @@ const Analise = {
       ${N >= 2 && !r.falhou ? `<div class="cartao"><h3>Avaliação ao longo da partida · toque para ir ao lance</h3>${this.grafico(r)}<div class="leg-graf"><span>▲ brancas melhor</span><span>pretas melhor ▼</span></div></div>` : ''}
       <div class="jogo">
         <div class="col-tab">
-          <div class="tab-linha" id="tab-linha"><div class="barra-av" id="barra"><i></i><span></span></div></div>
-          <div class="nav-rev"><button class="bt" id="r-ini" aria-label="Início">⏮</button><button class="bt" id="r-ant" aria-label="Lance anterior">◀</button><button class="bt" id="r-prox" aria-label="Próximo lance">▶</button><button class="bt" id="r-fim" aria-label="Fim">⏭</button></div>
+          <div class="moldura-tab"><div class="tab-linha" id="tab-linha"><div class="barra-av" id="barra"><i></i><span></span></div></div></div>
+          <div class="nav-rev"><button class="bt" id="r-ini" aria-label="Início">${ic('inicioLance', 'ic-tx')}</button><button class="bt" id="r-ant" aria-label="Lance anterior">${ic('voltar', 'ic-tx')}</button><button class="bt" id="r-prox" aria-label="Próximo lance">${ic('seta', 'ic-tx')}</button><button class="bt" id="r-fim" aria-label="Fim">${ic('fimLance', 'ic-tx')}</button></div>
           <div class="cartao info-rev" id="info-rev"></div>
         </div>
         <div class="lateral">
@@ -7848,7 +8424,7 @@ const Analise = {
         $('#lances').innerHTML = htmlLances(sans, it.i, true, r.classe);
       } else {
         tab.setas([]);
-        let h = idx === 0 ? 'Posição inicial. Use ◀ ▶ (ou as setas do teclado) para avançar.' : `Lance ${Math.floor((idx - 1) / 2) + 1}${ult.color === 'w' ? '.' : '...'} <b>${sanPt(ult.san)}</b>`;
+        let h = idx === 0 ? 'Posição inicial. Use as setas abaixo do tabuleiro para avançar.' : `Lance ${Math.floor((idx - 1) / 2) + 1}${ult.color === 'w' ? '.' : '...'} <b>${sanPt(ult.san)}</b>`;
         if (idx > 0 && r.classe[idx - 1]) {
           const cl = r.classe[idx - 1], j = r.itens.findIndex(x => x.i === idx - 1), it = r.itens[j];
           h += ` — <b class="tag ${CLASSES[cl].cls}">${CLASSES[cl].nome}</b>` + (it ? `<br>${esc(it.texto)} <button class="bt peq" data-ver="${j}" style="margin-top:6px">Ver explicação completa</button>` : '');
@@ -10850,8 +11426,10 @@ const QuadroPerfil = {
 };
 
 /* ==========================================================================
-   APP — navegação entre telas, menu inicial, estatísticas e inicialização
+   APP — navegação entre telas, Início, Jogar, estatísticas e inicialização
    ========================================================================== */
+/* telas sem moedas no topo (o jogador está concentrado) */
+const TELAS_FOCO = ['jogo', 'fase', 'desafio', 'resumo', 'diarioJogar', 'torneioJogar', 'ajustes', 'conta', 'dev', 'sala'];
 const App = {
   atual: null, aoSair: null, voltarPara: null, empilhado: false, ignorarPop: false,
 
@@ -10862,20 +11440,26 @@ const App = {
     $('#topo-lado').textContent = lado || '';
     this.atualizarTopo();
   },
-  /* moedas e foto de perfil na barra superior */
+  /* moedas e diamantes (barra de cima e Início) */
   atualizarTopo(pulso) {
     const d = Dados.d; if (!d) return;
-    const m = $('#topo-moedas'); m.innerHTML = `${MOEDA} <b>${d.moedas}</b>`;
-    if (pulso) { m.classList.remove('pulso'); void m.offsetWidth; m.classList.add('pulso'); }
-    $('#topo-perfil').innerHTML = htmlAvatar(d.perfil.avatar, d.perfil.moldura, 34) + (Nuvem.usuario ? '<i class="nuvem-ok" title="Conta conectada">☁</i>' : '');
+    const mo = `${ic('moeda', 'cor-moeda')}${fmtN(d.moedas)}`, ge = `${ic('gema', 'cor-gema')}${fmtN(d.gemas || 0)}`;
+    $('#topo-moedas').innerHTML = mo; $('#topo-gemas').innerHTML = ge;
+    $$('[data-moedas]').forEach(el => { el.innerHTML = mo; });
+    $$('[data-gemas]').forEach(el => { el.innerHTML = ge; });
+    if (pulso) $$('#topo-moedas,[data-moedas]').forEach(m => { m.classList.remove('pulso'); void m.offsetWidth; m.classList.add('pulso'); });
+    $('#topo-perfil').innerHTML = htmlAvatar(d.perfil.avatar, d.perfil.moldura, 34);
+    $('#topo-chips').classList.toggle('oculto', TELAS_FOCO.includes(this.atual));
   },
   voltar() {
     if (modalAberto()) return;
+    if (Folha.aberta()) { Folha.fechar(); return; }
     const v = this.voltarPara;
     if (typeof v === 'function') v(); else if (v) this.ir(v);
   },
   /* troca de tela */
   ir(tela, param) {
+    Folha.fechar(true);
     if (this.aoSair) { const f = this.aoSair; this.aoSair = null; try { f(); } catch (e) { /* ignora */ } }
     Motor.aoMudar = null;
     $('#tela').onclick = null;
@@ -10926,25 +11510,36 @@ const App = {
   /* barra de navegação inferior e animação de entrada da tela */
   ABAS: { menu: 'menu', aprender: 'aprender', desafios: 'aprender', jogar: 'jogar', config: 'jogar', amigos: 'jogar', ranking: 'jogar', conquistas: 'conquistas', loja: 'loja',
     diario: 'jogar', diarioJogar: 'jogar', torneio: 'jogar', torneioJogar: 'jogar', perfil: 'perfil', visual: 'perfil', conta: 'perfil', guilda: 'perfil', guildaVer: 'perfil', guildaCriar: 'perfil', stats: 'perfil', historico: 'perfil', dev: 'perfil', social: 'perfil', jogador: 'perfil', ajustes: 'ajustes', missoes: 'menu', avisos: 'menu' },
+  montarNav() {
+    const b = (id, nome, i) => `<button data-ir="${id}">${ic(i)}${nome}</button>`;
+    $('#nav-inf').innerHTML = b('menu', 'Início', 'inicio') + b('aprender', 'Aprender', 'aprender') +
+      '<button data-ir="jogar" class="nav-jogar" aria-label="Jogar"><span class="bolha"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#pc-n"/></svg></span>Jogar</button>' +
+      b('conquistas', 'Troféus', 'trofeu') + b('loja', 'Loja', 'loja');
+  },
   depois() {
     const t = this.atual, aba = this.ABAS[t], nav = $('#nav-inf');
     document.body.dataset.tela = t;
-    document.body.classList.toggle('fixa', t === 'perfil' || t === 'conquistas');
     if (Conquistas.pausa && !modalAberto()) Conquistas.retomar([]);   // segurança: nunca deixa os avisos presos
     nav.classList.toggle('oculto', !aba);
     document.body.classList.toggle('com-nav', !!aba);
-    $$('button', nav).forEach(b => b.classList.toggle('on', b.dataset.ir === aba));
+    document.body.classList.toggle('fixa', t === 'conquistas');   // troféus: tela sem rolagem até ser refeita
+    $$('button', nav).forEach(b => { const on = b.dataset.ir === aba; b.classList.toggle('on', on); if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+    $('#topo-chips').classList.toggle('oculto', TELAS_FOCO.includes(t));
     const el = $('#tela'), anima = !['jogo', 'desafio', 'fase', 'resumo'].includes(t);
     el.classList.remove('entra', 'so-fade'); void el.offsetWidth; el.classList.add(anima ? 'entra' : 'so-fade');
   }
 };
+App.montarNav();
+$('#voltar').innerHTML = ic('voltar');
 $('#nav-inf').onclick = e => { const b = e.target.closest('button[data-ir]'); if (b && !modalAberto() && (b.dataset.ir !== App.atual)) App.ir(b.dataset.ir); };
 $('#voltar').onclick = () => App.voltar();
 $('#topo-moedas').onclick = () => { if (!modalAberto()) App.ir('loja'); };
+$('#topo-gemas').onclick = () => { if (!modalAberto()) App.ir('loja'); };
 $('#topo-perfil').onclick = () => { if (!modalAberto()) QuadroPerfil.abrir(); };
 window.addEventListener('popstate', () => {
   if (App.ignorarPop) { App.ignorarPop = false; return; }
   if (QuadroPerfil.el) { QuadroPerfil.fechar(true); return; }     // "voltar" do celular fecha o quadro do perfil
+  if (Folha.aberta()) { Folha.fechar(); try { history.pushState({ x: 1 }, ''); App.empilhado = true; } catch (e) { /* ignora */ } return; }
   App.empilhado = false;
   if (modalAberto()) { try { history.pushState({ x: 1 }, ''); App.empilhado = true; } catch (e) { /* ignora */ } return; }
   if (App.atual !== 'menu') {
@@ -10955,10 +11550,18 @@ window.addEventListener('popstate', () => {
 // evita zoom com gesto de pinça no iPhone (o tabuleiro precisa de toques precisos)
 document.addEventListener('gesturestart', e => e.preventDefault());
 
-/* ---------- menu inicial ---------- */
+/* ---------- Início ---------- */
 const SVG = (d, cls = '') => `<svg viewBox="0 0 24 24" class="${cls}" aria-hidden="true">${d}</svg>`;
 const SETA = '<svg class="seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
-/* tabuleiro pequeno (sem interação) para o cartão da partida em andamento */
+/* pedestal dourado da peça do jogador */
+const PEDESTAL = `<svg class="pedestal" viewBox="0 0 220 84" aria-hidden="true">
+  <ellipse cx="110" cy="58" rx="104" ry="24" fill="rgba(0,0,0,.35)"/>
+  <path d="M8 34v14c0 13 46 24 102 24s102-11 102-24V34z" fill="#c07c06" stroke="#140b06" stroke-width="3"/>
+  <path d="M8 38c0 13 46 24 102 24s102-11 102-24" fill="none" stroke="#8f5a00" stroke-width="3"/>
+  <ellipse cx="110" cy="34" rx="102" ry="24" fill="#ffd23f" stroke="#140b06" stroke-width="3"/>
+  <ellipse cx="110" cy="32" rx="80" ry="15" fill="#ffe27a"/>
+  <path d="M44 26c14-6 40-9 66-9" stroke="#fff6cf" stroke-width="5" stroke-linecap="round" fill="none"/></svg>`;
+/* tabuleiro pequeno (sem interação) */
 function miniJogo(fen, ori) {
   const g = new Chess(fen); let h = '<div class="mini-jogo" aria-hidden="true">';
   for (let r = 0; r < 8; r++) for (let f = 0; f < 8; f++) {
@@ -10967,86 +11570,134 @@ function miniJogo(fen, ori) {
   }
   return h + '</div>';
 }
+/* a próxima fase da trilha (para o cartão "Continuar") */
+function proximaFase() {
+  const t = Aprender.todas();
+  for (let i = 0; i < t.length; i++) {
+    if (!(Dados.d.fases[t[i].fase.id] > 0) && Aprender.liberada(i)) {
+      const mod = t[i].mod, k = mod.fases.indexOf(t[i].fase);
+      return { id: t[i].fase.id, nome: t[i].fase.nome, mod: mod.nome, k: k + 1, n: mod.fases.length, icone: t[i].fase.icone || 'p' };
+    }
+  }
+  return null;
+}
+const jogoSalvoTxt = s => `${s.treino ? 'Treino' : 'Partida'} · ${NIVEIS[s.nivel].nome} · lance ${Math.floor(s.lances.length / 2) + 1}`;
+const fimDoDia = () => { const a = new Date(); a.setHours(24, 0, 0, 0); return a - Date.now(); };
 function telaMenu() {
   App.cabecalho('Trainer de Xadrez', null);
-  const d = Dados.d, ra = Aprender.resumo(), e = estadoJogador(), feitos = Object.keys(d.desafios.feitos).length, salva = Dados.lerPartida();
-  const hora = new Date().getHours(), saud = hora < 12 ? 'Bom dia' : hora < 18 ? 'Boa tarde' : 'Boa noite';
-  const pc = t => `<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#pc-${t}"/></svg>`;
-  let hero;
-  if (salva) {
-    let fen = new Chess().fen(); try { const g = new Chess(); salva.lances.forEach(l => g.move(l)); fen = g.fen(); } catch (err) { /* usa a posição inicial */ }
-    hero = `<section class="hero h-cont">${miniJogo(fen, salva.cor)}<div class="info"><span class="etq">Partida em andamento</span><h2 class="tit">${salva.treino ? 'Treino · ' : 'vs. '}${NIVEIS[salva.nivel].nome}</h2>
-      <span class="sub">Você está de ${corNome(salva.cor)} · lance ${Math.floor(salva.lances.length / 2) + 1}</span>
-      <button class="bt pri" id="m-continuar">Continuar</button></div></section>`;
-  } else {
-    hero = `<section class="hero"><span class="hero-rei" aria-hidden="true">${pc('k')}</span><span class="etq">Hora de jogar</span>
-      <h2 class="tit">Computador, online<br>ou com um amigo</h2>
-      <button class="bt pri bt-jogar" data-ir="jogar">Jogar</button></section>`;
-  }
-  const xp = XP.total(), nv = XP.nivel(xp), tit = XP.titulo(nv.n), seq = Sequencia.viva(), its = Missoes.itens();
-  const prontas = its.filter(x => x.feita && !x.pega).length;
-  const ENGRENAGEM = '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>';
-  const SINO = '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.3 20a2 2 0 0 0 3.4 0"/>';
-  const RAIO = '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>';
-  const modo = (cls, ir, param, ic, nome, info) => `<button class="modo-h ${cls}" data-ir="${ir}"${param ? ` data-param="${param}"` : ''}><span class="mh-ic">${ic}</span><b>${nome}</b><small>${info}</small></button>`;
+  const d = Dados.d, salva = Dados.lerPartida(), c = d.cfg;
+  const xp = XP.total(), nv = XP.nivel(xp), tit = XP.titulo(nv.n), seq = Sequencia.viva(), its = Missoes.itens(), m = Missoes.hoje();
+  const prontas = its.filter(x => x.feita && !x.pega).length, pegas = its.filter(x => x.pega).length, podeBau = Missoes.podeBau();
+  const prox = proximaFase(), feitosDes = Object.keys(d.desafios.feitos).length;
+  const atalho = (attrs, icone, rot, extra = '', cls = '', dentro = '') => `<button class="atalho ${cls}" ${attrs}>${extra}<span class="q">${icone}${dentro}</span><span class="rot">${rot}</span></button>`;
+  const bau = m.bau ? atalho('data-ir="missoes" aria-label="Baú do dia: já aberto"', ic('bau', 'cor-bau'), 'Baú do dia', '', 'apagado')
+    : podeBau ? atalho('data-bau="1" aria-label="Abrir o baú do dia"', ic('bau', 'cor-bau'), 'Baú do dia', '<span class="etq verde">Abrir</span>', 'brilha')
+      : atalho('data-ir="missoes" aria-label="Baú do dia"', ic('bau', 'cor-bau'), 'Baú do dia', `<span class="etq escura">${pegas}/3</span>`);
+  const continuar = prox
+    ? `<button class="cartao continuar-card" data-ir="fase" data-param="${esc(prox.id)}"><span class="ic-quadro"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#pc-${esc(prox.icone)}"/></svg></span>
+        <span class="tx"><b>Continuar: ${esc(prox.nome)}</b><span class="sub">${esc(prox.mod)} · fase ${prox.k} de ${prox.n}</span><span class="barra"><i style="width:${Math.round((prox.k - 1) / prox.n * 100)}%"></i></span></span>
+        <span class="bt-ic" aria-hidden="true">${ic('tocar', 'cor-branco')}</span></button>`
+    : `<button class="cartao continuar-card" data-ir="desafios"><span class="ic-quadro">${ic('raio', 'cor-roxo')}</span>
+        <span class="tx"><b>Desafios táticos</b><span class="sub">${feitosDes} resolvidos · pontuação ${d.desafios.pontos}</span></span>
+        <span class="bt-ic" aria-hidden="true">${ic('tocar', 'cor-branco')}</span></button>`;
   $('#tela').innerHTML = `<div class="home">
     <header class="home-cab">
-      <button class="perfil-topo" data-quadro="av" aria-label="Meu perfil">${htmlAvatar(d.perfil.avatar, d.perfil.moldura, 52)}${XP.selo(nv.n, 24)}</button>
-      <div class="quem" data-quadro="av" role="button" tabindex="0" aria-label="Abrir meu perfil"><p><span class="saud">${saud}</span><button class="selo-linha" data-quadro="av" aria-label="Abrir meu perfil" data-selo-rei>${Premios.selo()}</button></p><h1>${d.perfil.nome ? esc(d.perfil.nome) : 'jogador'}</h1></div>
-      <button class="bt-ic sino" data-ir="avisos" aria-label="Notificações">${SVG(SINO)}<i class="selo-conv oculto" data-avisos-n>0</i></button>
-      <button class="bt-ic" data-ir="ajustes" aria-label="Configurações">${SVG(ENGRENAGEM)}</button>
+      <button class="perfil-topo" data-quadro="av" aria-label="Meu perfil">${htmlAvatar(d.perfil.avatar, d.perfil.moldura, 54)}${XP.selo(nv.n, 24)}</button>
+      <div class="quem" data-quadro="av" role="button" tabindex="0" aria-label="Abrir meu perfil">
+        <h1>${d.perfil.nome ? esc(d.perfil.nome) : 'Jogador'}</h1>
+        <p>Nível ${nv.n} · ${esc(tit.nome)}</p>
+        <span class="barra ouro barra-xp-mini" title="${nv.atual} de ${nv.prox} XP"><i style="width:${Math.round(nv.frac * 100)}%"></i></span></div>
+      <div class="moedas"><button class="moedas-topo" data-ir="loja" data-moedas aria-label="Moedas: abrir loja">${ic('moeda', 'cor-moeda')}${fmtN(d.moedas)}</button>
+        <button class="moedas-topo gemas-topo" data-ir="loja" data-gemas aria-label="Diamantes: abrir loja">${ic('gema', 'cor-gema')}${fmtN(d.gemas || 0)}</button></div>
     </header>
-    <div class="faixa-home">
-      <button class="nivel-home" data-ir="missoes" style="--nv:${tit.cor}" aria-label="Nível ${nv.n}, ${nv.atual} de ${nv.prox} XP">
-        <span class="nh-tx"><b>Nível ${nv.n}</b><small>${nv.atual}/${nv.prox}</small></span><span class="barra-xp"><i style="width:${Math.round(nv.frac * 100)}%"></i></span></button>
-      <span class="chama-chip${seq ? '' : ' apagada'}${seq && !Sequencia.hoje() ? ' risco' : ''}" title="Dias seguidos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-6 0 2 1 3 2 3 0-4-1-6 1-9z"/></svg>${seq}</span>
-      <button class="moedas-topo" data-ir="loja" aria-label="Moedas — abrir loja">${MOEDA}${fmtN(d.moedas)}</button>
-      <button class="moedas-topo gemas-topo" data-ir="loja" aria-label="Gemas — abrir loja">${GEMA}${fmtN(d.gemas || 0)}</button>
+    <div class="home-faixa">
+      <button class="selo-linha" data-quadro="av" aria-label="Seus selos" data-selo-rei>${Premios.selo()}</button>
+      <span class="chama-chip${seq ? '' : ' apagada'}${seq && !Sequencia.hoje() ? ' risco' : ''}" title="Dias seguidos jogando">${ic('fogo', 'cor-fogo')}<b>${seq}</b>${seq === 1 ? 'dia seguido' : 'dias seguidos'}</span>
+      <button class="bt-ic" data-ir="ajustes" aria-label="Configurações">${ic('engrenagem', 'cor-cinza')}</button>
     </div>
-    ${hero}
-    <section class="modos-home">
-      ${modo('m-azul', 'aprender', 'modulos', pc('p'), 'Aprender', `${ra.feitas}/${ra.total} fases`)}
-      ${modo('m-roxo', 'desafios', '', SVG(RAIO), 'Desafios', `${feitos} feitos`)}
-      ${modo('m-verde', 'amigos', '', pc('n'), 'Online', Nuvem.usuario ? `${d.ranque.pts} pts` : 'Com amigos')}
-    </section>
-    <section class="cartao missoes-home">
-      <div class="ms-cab"><h3>Missões do dia</h3><button class="link-ver" data-ir="missoes">${prontas ? prontas + ' prêmio' + (prontas > 1 ? 's' : '') + ' para pegar' : 'Ver tudo'}</button></div>
-      ${Dados.d.missoes.bau ? `<p class="ms-fim">Todas feitas e baú aberto. Novas missões em ${Missoes.faltaTxt()}.</p>` : Missoes.podeBau() ? `<div class="ms-lista">${Missoes.htmlBau()}</div>` : `<div class="ms-lista">${its.map(x => Missoes.html(x)).join('')}</div>`}</section>
+    <div class="palco">
+      <div class="chao"></div><div class="luz-palco"></div>
+      <div class="heroi-wrap" data-quadro="av" role="button" aria-label="Trocar o ícone do perfil">${pecaGrande(d.perfil.avatar)}${PEDESTAL}</div>
+      <div class="lado-at esq">
+        ${atalho('data-ir="diario"', ic('calendario', 'cor-verm'), 'Desafio<br>do dia', Diario.feito() ? '' : '<span class="etq verm">Novo</span>')}
+        ${atalho('data-ir="torneio"', ic('trofeu', 'cor-ouro'), 'Torneio', '', '', `<span class="tempo">${tempoCurto(Torneio.fim() - Date.now())}</span>`)}
+        ${atalho('data-ir="ranking"', ic('ranking', 'cor-azul'), 'Ranking')}
+      </div>
+      <div class="lado-at dir">
+        ${bau}
+        ${atalho('data-ir="missoes"', ic('alvo', 'cor-verde'), 'Missões', prontas ? `<span class="bolinha">${prontas}</span>` : '')}
+        ${atalho('data-ir="avisos"', ic('sino', 'cor-branco'), 'Avisos', '<span class="bolinha oculto" data-avisos-n>0</span>', 'sino')}
+      </div>
+    </div>
+    <button class="modo-sel" data-modo-pc aria-label="Escolher adversário e relógio"><span class="ic-mini">${ic('computador', 'cor-branco')}</span>
+      <span>${salva ? (salva.treino ? 'Treino' : 'Em andamento') : 'Computador'} · <b>${NIVEIS[salva ? salva.nivel : c.nivel].nome}</b></span>${ic('baixo', 'ic-tx')}</button>
+    ${salva ? '<button class="bt pri grande" id="m-continuar">Continuar</button>' : '<button class="bt pri grande" id="m-jogar">Jogar</button>'}
+    ${continuar}
   </div>`;
   $('.home').onclick = ev => {
     if (modalAberto()) return;
     if (Missoes.clique(ev, () => App.ir('menu'))) return;
+    if (ev.target.closest('[data-modo-pc]')) { folhaPartida(); return; }
+    if (ev.target.closest('#m-jogar')) { Dados.gravarPartida(null); App.ir('jogo', { modo: 'pc' }); return; }
+    if (ev.target.closest('#m-continuar')) { App.ir('jogo', { modo: 'pc', retomar: Dados.lerPartida() }); return; }
     const q = ev.target.closest('[data-quadro]'); if (q) { QuadroPerfil.abrir(q.dataset.quadro); return; }
     const b = ev.target.closest('[data-ir]'); if (b) App.ir(b.dataset.ir, b.dataset.param);
   };
   Avisos.selos();
-  if (salva) $('#m-continuar').onclick = () => App.ir('jogo', { modo: 'pc', retomar: salva });
+}
+/* folha rápida: adversário, cor e relógio (sem sair do Início) */
+function folhaPartida() {
+  const c = Dados.d.cfg, salva = Dados.lerPartida();
+  const op = (grupo, v, txt, sub, on) => `<button class="op${on ? ' on' : ''}" data-g="${grupo}" data-v="${v}">${txt}<small>${sub}</small></button>`;
+  const f = Folha.abrir(`<h3>Contra o computador</h3><span class="sub">Quanto mais forte o adversário, mais moedas por vitória</span>
+    ${salva ? `<div class="cartao destaque continuar-jg" style="margin-top:14px"><span class="tx"><b>Partida em andamento</b><span class="sub">${jogoSalvoTxt(salva)}</span></span><button class="bt pri peq" data-f="continuar">Continuar</button></div>` : ''}
+    <div class="grupo-op"><b>Adversário</b><div class="lista-niveis">${NIVEIS.map((n, i) => `<button class="op-nivel${i === c.nivel ? ' on' : ''}" data-g="nivel" data-v="${i}">
+      <span class="num" style="background:${COR_NIVEL[i]}">${i + 1}</span><span class="tx"><b>${n.nome}</b><span class="sub">${n.desc}</span></span>
+      <span class="ganho">${ic('moeda', 'cor-moeda')}+${n.moedas}</span></button>`).join('')}</div></div>
+    <div class="grupo-op"><b>Suas peças</b><div class="opcoes c3">${op('cor', 'w', 'Brancas', 'você começa', c.cor === 'w')}${op('cor', 'b', 'Pretas', 'ele começa', c.cor === 'b')}${op('cor', 'a', 'Sorteio', 'tanto faz', c.cor === 'a')}</div></div>
+    <div class="grupo-op"><b>Relógio</b><div class="opcoes c3">${op('relogio', 0, 'Sem tempo', 'com calma', c.relogio === 0)}${op('relogio', 600, '10 min', 'cada lado', c.relogio === 600)}${op('relogio', 300, '5 min', 'cada lado', c.relogio === 300)}</div></div>
+    <button class="bt pri grande" data-f="jogar" style="margin-top:18px;font-size:var(--t5);min-height:60px">${salva ? 'Começar nova' : 'Jogar'}</button>
+    <button class="bt cheio" data-f="treino" style="margin-top:12px">${ic('lampada', 'cor-teal')}Treino com dicas</button>`, () => { if (App.atual === 'menu') telaMenu(); });
+  f.addEventListener('click', async e => {
+    const b = e.target.closest('[data-g]');
+    if (b) { const g = b.dataset.g; c[g] = g === 'cor' ? b.dataset.v : Number(b.dataset.v); Dados.salvar(); $$(`[data-g="${g}"]`, f).forEach(x => x.classList.toggle('on', x === b)); return; }
+    const a = e.target.closest('[data-f]'); if (!a) return;
+    if (a.dataset.f === 'continuar') { Folha.fechar(true); App.ir('jogo', { modo: 'pc', retomar: Dados.lerPartida() }); return; }
+    if (a.dataset.f === 'treino') { Folha.fechar(true); App.ir('config', 'treino'); return; }
+    if (salva && !(await modal('Começar outra partida?', 'A partida em andamento será descartada.', [{ txt: 'Voltar', val: false }, { txt: 'Começar nova', cls: 'pri', val: true }]))) return;
+    Folha.fechar(true); Dados.gravarPartida(null); App.ir('jogo', { modo: 'pc' });
+  });
 }
 
 /* ---------- tela "Jogar": escolher contra quem ---------- */
 function telaJogar() {
   App.cabecalho('Jogar', 'menu');
-  const d = Dados.d, salva = Dados.lerPartida(), u = Nuvem.usuario;
+  const d = Dados.d, salva = Dados.lerPartida(), u = Nuvem.usuario, c = d.cfg;
   const onAgora = Object.keys(Avisos.online).filter(k => Avisos.online[k] && Amigos.tem(k)).length;
-  const fundo = t => `<span class="fundo-pc" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#pc-${t}"/></svg></span>`;
-  $('#tela').innerHTML = `<div class="pilha estreito jogar-hub">
-    ${salva ? `<div class="cartao destaque continuar-jg"><div><b>Partida em andamento</b><span class="sub">${salva.treino ? 'Treino · nível ' : 'Contra o nível '}${NIVEIS[salva.nivel].nome} · lance ${Math.floor(salva.lances.length / 2) + 1}</span></div><button class="bt pri" id="j-continuar">Continuar</button></div>` : ''}
-    <button class="modo-jogo forte" data-ir="config">${fundo('k')}
-      <span class="mj-ic">${SVG('<rect x="4" y="4" width="16" height="12" rx="2"/><path d="M9 20h6M12 16v4M9 10h.01M15 10h.01"/>')}</span>
-      <span class="mj-tx"><b>Contra o computador</b><small>${NIVEIS.length} níveis, do Iniciante ao Mestre · análise dos lances no final</small></span></button>
-    <button class="linha-menu cor-ok" data-ir="config" data-param="treino"><span class="ic2">${SVG('<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>')}</span><span class="tx"><b>Treino</b><small>Contra o computador, com dicas e desfazer</small></span>${SETA}</button>
-    <button class="modo-jogo" data-ir="amigos">${fundo('q')}
-      <span class="mj-ic">${SVG('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>')}</span>
-      <span class="mj-tx"><b>Online</b><small>${u ? `Crie uma sala ou entre com um código · ${d.ranque.pts} pontos` : 'Jogue com amigos pela internet (precisa de conta)'}</small></span></button>
-    <div class="duas-peq">
-      <button class="linha-menu cor-info${Diario.feito() ? '' : ' novo-dia'}" data-ir="diario"><span class="ic2">${SVG('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M9 15l2 2 4-4"/>')}</span><span class="tx"><b>Desafio do dia</b><small>${Diario.feito() ? (Diario.d().res.ok ? '✓ ' + Diario.d().res.pts + ' pts hoje' : 'Volte amanhã') : 'Novo desafio!'}</small></span></button>
-      <button class="linha-menu cor-dest" data-ir="torneio"><span class="ic2">${SVG('<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v3M8 21h8M9 17h6v4H9z"/>')}</span><span class="tx"><b>Torneio</b><small>${Torneio.feitos()}/${TORNEIO_N} · ${Torneio.total().toLocaleString('pt-BR')} pts</small></span></button>
+  const conv = Convites.lista.length, dFeito = Diario.feito(), dRes = dFeito ? Diario.d().res : null;
+  $('#tela').innerHTML = `<div class="jogar-hub">
+    ${salva ? `<div class="cartao destaque continuar-jg"><span class="ic-quadro">${ic('computador', 'cor-azul')}</span><span class="tx"><b>Partida em andamento</b><span class="sub">${jogoSalvoTxt(salva)}</span></span><button class="bt pri peq" id="j-continuar">Continuar</button></div>` : ''}
+    <button class="heroi-card" data-ir="config">
+      <svg class="peca-fundo" viewBox="0 0 100 100" aria-hidden="true"><use href="#pc-q"/></svg>
+      <h2 class="contorno">Contra o computador</h2>
+      <p>${NIVEIS.length} níveis, com análise dos seus erros no fim</p>
+      <span class="rodape"><span><span class="pips" aria-hidden="true">${NIVEIS.map((_, i) => `<i class="${i <= c.nivel ? 'on' : ''}"></i>`).join('')}</span><span class="nivel-nome contorno">${NIVEIS[c.nivel].nome}</span></span>
+      <span class="bt pri">Jogar</span></span>
+    </button>
+    <div class="grade2">
+      <button class="cartao ladrilho" data-ir="amigos"><span class="ic-quadro">${ic('globo', 'cor-verde')}</span><span class="tx"><b>Online</b><span class="sub">${u ? (onAgora ? `<i class="ponto-on"></i>${onAgora} ${onAgora > 1 ? 'amigos' : 'amigo'}` : `${d.ranque.pts} pontos`) : 'Precisa de conta'}</span></span>${conv ? `<span class="bolinha">${conv}</span>` : ''}</button>
+      <button class="cartao ladrilho" data-ir="config" data-param="treino"><span class="ic-quadro">${ic('lampada', 'cor-teal')}</span><span class="tx"><b>Treino</b><span class="sub">Dicas e desfazer</span></span></button>
+      <button class="cartao ladrilho" data-ir="social" data-param="jogar"><span class="ic-quadro">${ic('amigo', 'cor-roxo')}</span><span class="tx"><b>Convidar</b><span class="sub">${onAgora ? onAgora + ' online agora' : 'Da sua lista'}</span></span></button>
+      <button class="cartao ladrilho" data-local="1"><span class="ic-quadro">${ic('celular', 'cor-marrom')}</span><span class="tx"><b>No mesmo aparelho</b><span class="sub">Passa o celular</span></span></button>
     </div>
-    <div class="duas-peq">
-      <button class="linha-menu cor-ok" data-ir="social" data-param="jogar"><span class="ic2">${SVG('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M19 8v6M16 11h6"/>')}</span><span class="tx"><b>Convidar amigo</b><small>${onAgora ? onAgora + ' online agora' : 'Da sua lista'}</small></span></button>
-      <button class="linha-menu cor-neutra" data-local="1"><span class="ic2">${SVG('<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>')}</span><span class="tx"><b>Mesmo aparelho</b><small>Passa o celular</small></span></button>
+    <div class="secao"><h2>Eventos</h2></div>
+    <div class="grade2">
+      <button class="cartao evento${dFeito ? '' : ' novo-dia'}" data-ir="diario">${dFeito ? '' : '<span class="etq verm novo">Novo</span>'}<span class="topo-ev"><span class="ic-quadro">${ic('calendario', 'cor-verm')}</span><span class="etq escura">${ic('relogio', 'cor-branco')}${tempoCurto(fimDoDia())}</span></span>
+        <b>Desafio do dia</b>${dFeito ? `<span class="sub">${dRes && dRes.ok ? 'Feito: ' + dRes.pts + ' pts' : 'Volte amanhã'}</span>` : `<span class="premio">${ic('moeda', 'cor-moeda')}${DIARIO_MOEDAS} <span class="xp">+${DIARIO_XP} XP</span></span>`}</button>
+      <button class="cartao evento" data-ir="torneio"><span class="topo-ev"><span class="ic-quadro">${ic('trofeu', 'cor-ouro')}</span><span class="etq escura">${ic('relogio', 'cor-branco')}${tempoCurto(Torneio.fim() - Date.now())}</span></span>
+        <b>Torneio</b><span class="sub">${Torneio.feitos()} de ${TORNEIO_N} feitos · ${Torneio.total().toLocaleString('pt-BR')} pts</span><span class="barra ouro"><i style="width:${Math.round(Torneio.feitos() / TORNEIO_N * 100)}%"></i></span></button>
     </div>
-    <button class="linha-menu cor-dest" data-ir="ranking"><span class="ic2">${SVG('<path d="M8 21V11H3v10zM15.5 21V5h-7v16zM21 21v-7h-5.5v7z"/>')}</span><span class="tx"><b>Ranking</b><small>Os melhores no geral, na semana e no online</small></span>${SETA}</button>
+    <button class="cartao linha-ir" data-ir="ranking"><span class="ic-quadro">${ic('ranking', 'cor-azul')}</span><span class="tx"><b>Ranking</b><span class="sub">Geral, da semana, online e de guildas</span></span>${ic('seta')}</button>
   </div>`;
   $('#tela').onclick = e => {
     if (modalAberto()) return;
