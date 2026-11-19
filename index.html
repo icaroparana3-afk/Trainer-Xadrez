@@ -1844,6 +1844,13 @@ body.com-nav #tela{padding-bottom:calc(104px + env(safe-area-inset-bottom))}
 .ms-bau.pronto .bau-ic{background:var(--dest);color:var(--dest-tinta)}
 .faixa-home .nivel-home{align-items:stretch;text-align:left}
 .faixa-home .barra-xp{background:#3a2618;background:color-mix(in srgb,#fff 10%,var(--contorno))}
+/* foto do perfil no Início: sem o quadrado atrás, só um aro escuro */
+.home .perfil-topo{width:58px;height:58px;border-radius:50%;background:none;border:0;box-shadow:none}
+.home .perfil-topo .avatar{box-shadow:0 0 0 3px var(--contorno),0 3px 0 3px var(--contorno)}
+.home .perfil-topo .selo-nv{right:-6px;bottom:-6px}
+/* barra de baixo sempre colada no fim da tela (iPhone: telas curtas deixavam um vão embaixo) */
+#app{min-height:calc(100% + 1px)}
+#nav-inf::after{content:"";position:absolute;left:0;right:0;top:100%;height:120px;background:var(--nav-f)}
 
 </style>
 </head>
