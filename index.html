@@ -1291,11 +1291,7 @@ body.com-nav[data-tela="menu"] #tela{padding-bottom:calc(84px + env(safe-area-in
 .bt.on-virado{background:color-mix(in srgb,var(--alerta) 22%,var(--sup2));border-color:var(--alerta);color:var(--alerta)}
 #tab-linha.travado .tabuleiro{filter:saturate(.55) brightness(.85);transition:filter .2s}
 
-/* ============================ LOJA (estilo loja de jogo) ============================ */
-body.na-loja{background:var(--lj-f2)}
-body.na-loja #topo,body[data-tela="loja"] #topo{display:none}
-body.na-loja #tela{padding-top:0}
-body.na-loja.com-nav #tela{padding-bottom:calc(196px + env(safe-area-inset-bottom))}
+
 .lj{--lj-borda:#0a1428;font-family:Nunito,Nunito,system-ui,sans-serif;position:relative;margin:0 auto;max-width:640px}
 .lj::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
   background:radial-gradient(ellipse at 50% 0,var(--lj-luz),transparent 60%),
@@ -1309,148 +1305,21 @@ body.na-loja.com-nav #tela{padding-bottom:calc(196px + env(safe-area-inset-botto
 .lj-txt,.lj-fita h2,.lj-c-topo,.lj-c-nome,.lj-c-bt,.lj-abrir,.lj-bau-tit,.lj-aba b,.lj-chip b,.lj-preco-bt,.lj-pac-tit,.lj-1vez,.lj-barra b,.bc-carta b,.bc-rar{
   color:#fff;font-family:Nunito,Nunito,system-ui,sans-serif;font-weight:800;
   text-shadow:0 2px 0 rgba(0,0,0,.55),1px 1px 0 #1b2236,-1px -1px 0 #1b2236,1px -1px 0 #1b2236,-1px 1px 0 #1b2236}
-/* barra de saldo (fica no topo enquanto rola) */
-.lj-saldo{position:relative;z-index:15;display:grid;grid-template-columns:auto 1fr 1fr;gap:8px;align-items:center;
-  margin:0 0 8px;padding:calc(12px + env(safe-area-inset-top)) 0 4px}
-.lj-saldo .lj-chip,.lj-saldo .lj-barra{box-shadow:0 3px 0 rgba(0,0,0,.35)}
-.lj-nv{display:flex;align-items:center;gap:0;min-width:0}
-.lj-nv .selo-nv{position:relative;z-index:1;margin-right:-10px}
-.lj-barra{position:relative;width:74px;height:22px;border-radius:0 8px 8px 0;background:var(--lj-chip);overflow:hidden;border:1px solid var(--lj-chipb)}
-.lj-barra i{position:absolute;inset:0 auto 0 0;background:linear-gradient(#5aa9ff,#2a6fd0)}
-.lj-barra b{position:relative;display:block;text-align:center;font-size:.78rem;line-height:20px;padding-left:8px}
-.lj-chip{display:flex;align-items:center;gap:6px;min-width:0;height:34px;padding:0 10px 0 6px;border-radius:10px;background:var(--lj-chip);border:1px solid var(--lj-chipb);position:relative}
-.lj-chip svg{width:26px;height:26px;flex:none}
-.lj-chip b{flex:1;text-align:right;font-size:1rem;min-width:0;overflow:hidden;text-overflow:ellipsis}
-.lj-mais{position:absolute;left:20px;bottom:-2px;width:15px;height:15px;border-radius:50%;background:#3cc25a;color:#fff;font:900 .8rem/15px Nunito,sans-serif;text-align:center;font-style:normal;box-shadow:0 1px 0 #1d6b2e}
-/* fita dos títulos das seções */
-.lj-fita{position:relative;display:flex;align-items:center;gap:8px;height:50px;margin:22px -14px 14px -14px;padding:0 44px 0 76px;
-  background:linear-gradient(#e2306f,#b5175a);border-top:3px solid #f6c443;border-bottom:3px solid #f6c443;
-  clip-path:polygon(0 0,100% 0,calc(100% - 26px) 50%,100% 100%,0 100%);box-shadow:inset 0 -6px 0 rgba(0,0,0,.12)}
-.lj-fita h2{flex:1;font-size:1.45rem;letter-spacing:.01em;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lj-fita-ic{position:absolute;left:14px;top:50%;transform:translateY(-50%) rotate(-6deg);width:50px;height:50px;display:grid;place-items:center;filter:drop-shadow(0 3px 0 rgba(0,0,0,.35))}
-.lj-fita-ic>svg{width:50px;height:50px}
 .lj-fita-ic .svg-bau{width:54px;height:50px}
-.lj-fita-emo{font-size:2rem;color:#ffd36b}
-.lj-fita-pc{fill:#fbfaf4;stroke:#33363d;stroke-width:3.4;--pd:#33363d}
-.lj-fita-timer{font-size:.72rem;color:#ffe9f1;text-align:right;line-height:1.1;font-weight:700}
-.lj-fita-timer b{display:block;font-size:.9rem;color:#fff}
-.lj-info{width:30px;height:30px;border-radius:8px;background:linear-gradient(#fff,#cfd9ea);color:#22406e;font:900 1.15rem/30px Nunito,serif;box-shadow:0 2px 0 #6c7d99}
-/* grade de cartas (3 por linha) */
-.lj-grade{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 @media(min-width:560px){.lj-grade{gap:14px}}
-.lj-carta{--c:#3d8fe0;--ce:#2667b4;--cl:#e3effb;position:relative;display:flex;flex-direction:column;border-radius:12px;overflow:hidden;background:var(--cl);
-  border:3px solid var(--lj-borda);box-shadow:0 4px 0 rgba(0,0,0,.35);min-width:0}
-.lj-carta::after{content:"";position:absolute;right:6px;top:6px;width:9px;height:9px;border-radius:50% 50% 50% 0;background:#fff;opacity:.9}
-.c-comum{--c:#3d8fe0;--ce:#2667b4;--cl:#e3effb}
-.c-raro{--c:#9257ea;--ce:#6c3cc0;--cl:#efe6fc}
-.c-epico{--c:#e8506e;--ce:#b9304d;--cl:#fde6eb}
-.c-lendario{--c:#f0a21e;--ce:#c27a06;--cl:#fdf1d8}
-.c-moeda{--c:#f6b730;--ce:#d58c0c;--cl:#fdf3dc}
-.lj-c-topo{height:32px;display:grid;place-items:center;background:var(--ce);font-size:1.08rem;letter-spacing:.01em}
-.lj-c-arte{position:relative;flex:1;min-height:118px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:10px 4px 6px;
-  background:radial-gradient(circle at 50% 42%,#fff,var(--cl) 70%)}
-.lj-c-arte .avatar{box-shadow:0 4px 10px rgba(0,0,0,.25)}
 .lj-c-arte .svg-pilha{width:84%;height:64px}
 .lj-c-arte .svg-bau{width:80%;height:70px}
-.lj-c-nome{font-size:.86rem;line-height:1.08;text-align:center;margin-top:6px;overflow-wrap:anywhere}
-.lj-c-bt{display:flex;align-items:center;justify-content:center;gap:5px;min-height:44px;padding:4px;background:var(--c);font-size:1.18rem;line-height:1;
-  box-shadow:inset 0 -5px 0 rgba(0,0,0,.18),inset 0 2px 0 rgba(255,255,255,.25);position:relative;width:100%}
-.lj-c-bt svg{width:22px;height:22px;flex:none;filter:drop-shadow(0 1px 0 rgba(0,0,0,.4))}
-button.lj-c-bt:active,.lj-abrir:active,.lj-preco-bt:active{transform:translateY(2px);filter:brightness(.95)}
-.lj-c-bt.usar,.lj-c-bt.gratis{background:linear-gradient(#5fd36f,#2fa54a);font-size:1.05rem}
-.lj-c-bt.usando{background:#1f3355;font-size:.9rem;color:#9fe8b0}
-.lj-c-bt.bau{background:#3b2a6b;font-size:.82rem}
-.lj-c-bt.espera{background:#3a4a66;font-size:.9rem}
-.lj-carta.uso{border-color:#5fd36f;box-shadow:0 4px 0 rgba(0,0,0,.35),0 0 0 2px rgba(95,211,111,.35)}
-.lj-n{position:absolute;right:-6px;top:-8px;min-width:22px;height:22px;padding:0 5px;border-radius:11px;background:#ef3b3b;border:2px solid #fff;color:#fff;font:900 .75rem/18px Nunito,sans-serif;text-align:center;font-style:normal;text-shadow:none;z-index:2}
-.lj-1vez{position:absolute;right:-4px;top:26px;z-index:2;width:58px;height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.62rem;line-height:1.05;
-  background:#e8312f;clip-path:polygon(50% 0,61% 9%,75% 5%,79% 19%,93% 22%,90% 36%,100% 47%,91% 58%,96% 72%,82% 76%,78% 91%,64% 88%,52% 100%,40% 89%,26% 93%,22% 79%,8% 74%,12% 60%,0 50%,10% 38%,6% 24%,20% 21%,24% 7%,38% 11%);transform:rotate(8deg)}
-.lj-1vez b{font-size:.78rem;color:#ffe680}
-.rc-comum{color:#4aa3ff}.rc-raro{color:#b07dff}.rc-epico{color:#ff6d8a}.rc-lendario{color:#ffb625}
-.lj-nota{margin:14px 4px 0;text-align:center;font-size:.8rem;color:var(--lj-nota);font-weight:600}
 .lj-mt .mini-tab{width:var(--mt,96px);height:var(--mt,96px);border-radius:6px}
-/* banner e pacotes */
-.lj-banner{position:relative;height:150px;margin:4px 0 0;border-radius:14px;overflow:hidden;border:3px solid var(--lj-borda);box-shadow:0 4px 0 rgba(0,0,0,.35)}
-.lj-banner-svg{position:absolute;inset:0;width:100%;height:100%}
-.bn-pc{fill:var(--pf);stroke:var(--ps);stroke-width:3.4;stroke-linejoin:round}
-.bn-raios{animation:bnGira 28s linear infinite}
 @keyframes bnGira{to{transform:rotate(360deg)}}
-.bn-cai{animation:bnCai 3.4s ease-in-out infinite alternate}
 @keyframes bnCai{from{transform:translateY(-4px)}to{transform:translateY(6px)}}
-.lj-banner-tx{position:absolute;left:12px;top:14px;max-width:56%}
-.lj-banner-tx b{display:block;font:900 1.5rem/1 Nunito,sans-serif;color:#fff;text-shadow:0 3px 0 #7a2a10,1px 1px 0 #5a1a2c,-1px -1px 0 #5a1a2c,1px -1px 0 #5a1a2c,-1px 1px 0 #5a1a2c}
-.lj-banner-tx span{display:inline-block;margin-top:6px;padding:3px 8px;border-radius:8px;background:rgba(90,26,44,.75);color:#ffe9b8;font-size:.72rem;font-weight:800}
-.lj-pacote{position:relative;border-radius:14px;overflow:hidden;background:linear-gradient(#f2fbe9,#dff2cf);border:3px solid var(--lj-borda);box-shadow:0 4px 0 rgba(0,0,0,.35);margin-bottom:6px}
-.lj-pacote.boas{background:linear-gradient(#f4ecff,#e3d4fb)}
-.lj-pacote.feito{filter:saturate(.6)}
-.lj-pac-tit{position:relative;padding:10px 70px 10px 14px;background:linear-gradient(#4fc46a,#2e9c4c);font-size:1.5rem;line-height:1.1}
-.lj-pacote.boas .lj-pac-tit{background:linear-gradient(#9c6cf0,#6c3cc0)}
-.lj-faixa{position:absolute;right:-30px;top:12px;width:120px;padding:3px 0;transform:rotate(36deg);background:#e8312f;text-align:center;font-size:.72rem;color:#ffe680;box-shadow:0 2px 0 rgba(0,0,0,.25)}
-.lj-pac-sub{margin:8px 14px 0;font-size:.82rem;font-weight:800;color:#2a5a2e}
-.lj-pacote.boas .lj-pac-sub{color:#4b2b8c}
-.lj-pac-itens{display:flex;align-items:stretch;gap:4px;padding:10px 10px 6px}
-.lj-cx{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 4px;border-radius:10px;background:rgba(255,255,255,.65);box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
 .lj-cx .svg-bau,.lj-cx .svg-pilha{width:58px;height:46px}
 .lj-cx .lj-mt .mini-tab{width:46px;height:46px}
-.lj-cx b{font-size:.74rem;line-height:1.1;text-align:center;color:#1f2a3c;font-weight:800;overflow-wrap:anywhere}
-.lj-cx em{display:block;font-style:normal;font-size:.66rem;text-shadow:0 1px 0 rgba(0,0,0,.25)}
-.lj-plus{align-self:center;font:900 1.5rem Nunito,sans-serif;color:#2e9c4c;font-style:normal}
-.lj-pacote.boas .lj-plus{color:#6c3cc0}
-.lj-pac-rodape{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:6px 10px 12px}
-.lj-pac-rodape s{color:#7b8a9e;font-weight:800;font-size:.95rem;display:flex;align-items:center;gap:3px;text-decoration-color:#e8312f;text-decoration-thickness:3px}
-.lj-pac-rodape s svg{width:16px;height:16px}
-.lj-pac-ok{font-weight:800;color:#2e7d3e}
-.lj-preco-bt{display:flex;align-items:center;gap:6px;min-height:50px;padding:0 22px;border-radius:12px;background:linear-gradient(#ffc93c,#f09a12);border:3px solid var(--lj-borda);font-size:1.45rem;box-shadow:inset 0 -5px 0 rgba(0,0,0,.15)}
-.lj-preco-bt svg{width:26px;height:26px}
-/* baús grandes */
-.lj-bau{--bc:#9a5a24;--bt:#c9853f;--bl:#fbefe0;position:relative;display:grid;grid-template-columns:42% 1fr;grid-template-areas:"arte tit" "arte info" "extra bts";
-  margin-bottom:14px;border-radius:14px;overflow:hidden;background:var(--bl);border:3px solid var(--lj-borda);box-shadow:0 4px 0 rgba(0,0,0,.35)}
 .b-prata{--bc:#5b7db3;--bt:#7ea2d6;--bl:#e9f1fb}
 .b-real{--bc:#6b3fd1;--bt:#9b6ff5;--bl:#f1e9ff}
-.lj-bau-tit{grid-area:tit;padding:8px 12px 6px;text-align:right;font-size:1.35rem;line-height:1.05;background:linear-gradient(90deg,transparent,var(--bt) 30%)}
-.lj-bau-arte{grid-area:arte;display:grid;place-items:center;padding:12px 4px 0;background:radial-gradient(circle at 50% 55%,#fff 0,var(--bl) 65%)}
 .lj-bau-arte .svg-bau{width:100%;max-width:150px;height:auto;filter:drop-shadow(0 6px 6px rgba(0,0,0,.25))}
-.lj-bau-info{grid-area:info;padding:6px 10px 6px 4px;display:flex;align-items:center}
-.lj-bau-info p{margin:0;padding:8px 10px;border-radius:10px;background:#fff;font-size:.8rem;font-weight:800;color:#2b3348;line-height:1.3;box-shadow:0 2px 0 rgba(0,0,0,.08)}
-.lj-bau-extra{grid-area:extra;display:flex;flex-direction:column;justify-content:center;gap:4px;padding:6px 8px 10px;background:rgba(0,0,0,.05)}
-.lj-relogio{font-size:.78rem;font-weight:800;color:#2b3348}
-.lj-relogio.pronto{color:#1f8a3a}
-.lj-piedade{font-size:.72rem;font-weight:800;color:#4a5570;line-height:1.2}
-.lj-piedade b{text-shadow:0 1px 0 rgba(0,0,0,.2)}
-.lj-bau-bts{grid-area:bts;display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:6px 8px 10px;background:var(--bc)}
-.lj-abrir{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:54px;border-radius:10px;background:linear-gradient(#6ee36d,#2fae3c);
-  border:2px solid var(--lj-borda);box-shadow:inset 0 -5px 0 rgba(0,0,0,.18),inset 0 2px 0 rgba(255,255,255,.35)}
-.lj-abrir small{font-size:.74rem;line-height:1}
-.lj-abrir span{display:flex;align-items:center;gap:3px;font-size:1.12rem;line-height:1}
-.lj-abrir svg{width:20px;height:20px}
-.lj-abrir.gratis{animation:ljPulsa 1.4s ease-in-out infinite}
 @keyframes ljPulsa{50%{transform:scale(1.04);filter:brightness(1.1)}}
-/* abas da loja (em cima do menu de baixo) */
-.lj-abas{position:fixed;z-index:29;left:50%;transform:translateX(-50%);bottom:calc(90px + env(safe-area-inset-bottom));width:min(calc(100% - 24px),520px);height:62px;
-  display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;border-radius:16px;background:var(--lj-abafundo);border:2px solid var(--lj-chipb);box-shadow:0 6px 18px rgba(0,0,0,.45)}
-.lj-aba{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:5px;border-radius:12px;background:linear-gradient(var(--lj-aba1),var(--lj-aba2));
-  box-shadow:inset 0 -4px 0 rgba(0,0,0,.2);transition:transform .15s,filter .15s}
-.lj-aba.on{background:linear-gradient(var(--lj-abaon1),var(--lj-abaon2));transform:translateY(-4px);box-shadow:inset 0 -4px 0 rgba(0,0,0,.2),0 0 0 2px var(--lj-abaluz)}
-.lj-aba.on::before,.lj-aba.on::after{content:"";position:absolute;top:50%;width:10px;height:10px;background:var(--lj-abaluz);transform:translateY(-50%) rotate(45deg)}
-.lj-aba.on::before{left:6px}.lj-aba.on::after{right:6px}
-.lj-aba-ic{position:absolute;left:50%;top:-22px;transform:translateX(-50%);width:50px;height:46px;display:grid;place-items:center;filter:drop-shadow(0 3px 0 rgba(0,0,0,.35));transition:transform .2s cubic-bezier(.3,1.6,.5,1)}
-.lj-aba-ic svg{width:46px;height:46px}
-.lj-aba.on .lj-aba-ic{transform:translateX(-50%) scale(1.12) rotate(-4deg)}
-.lj-aba b{font-size:.95rem;line-height:1}
-.lj-aba .lj-n{right:4px;top:-6px}
-/* confirmação de compra e chances */
-.lj-conf{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
 .lj-conf .svg-bau,.lj-conf .svg-pilha{width:120px;height:90px}
-.lj-conf em{font-style:normal;font-weight:800}
-.lj-conf p{margin:0}
-.lj-conf svg.moeda,.lj-conf svg.gema,.lj-ch svg.moeda{width:18px;height:18px;vertical-align:-3px}
-.lj-conf span{display:inline-flex;align-items:center;gap:3px}
-.lj-ch{padding:8px 0;border-bottom:1px solid var(--linha)}
-.lj-ch-cab{display:flex;align-items:center;gap:8px;margin-bottom:4px}
 .lj-ch-cab .svg-bau{width:44px;height:40px}
-.lj-ch-l{display:flex;justify-content:space-between;font-size:.88rem;padding:2px 0}
-.lj-ch-l span{font-weight:700}
-.lj-ch small{color:var(--txt2)}
 /* tela Visual: botão para a loja */
 .vs-loja{display:flex;align-items:center;gap:10px;width:100%;margin-top:12px;padding:12px 14px;border-radius:14px;background:var(--sup2);border:1px dashed var(--linha);font-weight:700;color:var(--txt)}
 .vs-loja svg{width:22px;height:22px;fill:none;stroke:var(--dest);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -1554,8 +1423,6 @@ html.cena-aberta,body.cena-aberta{overflow:hidden;overscroll-behavior:none}
 @media (prefers-reduced-motion:reduce){.avatar[class*="mold-"],.bn-raios,.bn-cai,.bc.aberto .bc-raios{animation:none!important}}
 /* a animação de entrada não pode ficar na .lj (ela tem barras fixas dentro) */
 #tela.entra>.lj{animation:none}
-#tela.entra>.lj>.lj-corpo>*{animation:sobe .45s cubic-bezier(.2,.8,.2,1) both}
-#tela.entra>.lj>.lj-corpo>*:nth-child(2){animation-delay:.05s}#tela.entra>.lj>.lj-corpo>*:nth-child(3){animation-delay:.1s}#tela.entra>.lj>.lj-corpo>*:nth-child(n+4){animation-delay:.14s}
 
 /* ---------- fundo quadriculado também em Início, Aprender, Jogar e Troféus ---------- */
 :root,[data-tema="claro"]{--fx-f1:#e4edf8;--fx-f2:#ccdcf0;--fx-luz:rgba(255,255,255,.7);--fx-losango:rgba(30,70,140,.05)}
@@ -1624,8 +1491,6 @@ input,textarea,select,[contenteditable="true"]{-webkit-user-select:text;user-sel
 .bc-arte .svg-nome{width:min(110px,60%);height:auto}
 .bc-res.varios .bc-arte .svg-nome{width:44px}
 .lj-conf .svg-nome{width:72px;height:72px;margin:0 auto 6px;display:block}
-/* loja: o acento do "Í" de Ícones era cortado (altura de linha justa demais) */
-.lj-fita h2{line-height:1.3;padding:.14em 0 .06em}
 .excluir-conta{display:block;margin:14px auto 0;color:var(--ruim)!important;font-size:.85rem}
 
 /* ---------- quadro do perfil (abre ao tocar no ícone do jogador) ---------- */
@@ -2557,6 +2422,246 @@ html[data-tema="claro"] .final{background:radial-gradient(circle at 50% 0%,#ffe3
 .no .rot.esq .comecar{float:right}
 .no .rot .comecar{animation:none}
 html[data-tema="claro"] .abas-rk button.on{color:var(--ouro-tinta)}
+
+/* =====================================================================
+   ENTREGA 3 — Troféus (medalhas), Missões e nível, Ranking com pódio,
+   Loja e a cena de abrir baús
+   ===================================================================== */
+/* etiquetas de raridade: sempre com o nome escrito (não só a cor) */
+.etq.rar-comum{background:#7d8d9c}.etq.rar-raro{background:#2f86e0}.etq.rar-epico{background:#9447ec}.etq.rar-lendario{background:#f09a00}
+.ic.ic-mini{width:16px;height:16px;display:inline-block;vertical-align:-3px;margin-right:4px}
+
+/* ---------- medalhas das conquistas ---------- */
+.medalha{--md:56px;position:relative;display:inline-block;width:var(--md);height:calc(var(--md) * 1.12);flex:none}
+.md-fita{position:absolute;left:50%;top:0;width:44%;height:42%;transform:translateX(-50%);background:linear-gradient(90deg,var(--f1) 0 50%,var(--f2) 50%);
+  clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%);border-radius:2px}
+.md-disco{position:absolute;left:0;right:0;bottom:0;height:var(--md);border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,var(--m1),var(--m2) 70%);border:calc(var(--md) * .05) solid var(--borda);box-shadow:inset 0 0 0 calc(var(--md) * .07) var(--m3),inset 0 calc(var(--md) * -.06) 0 rgba(0,0,0,.2),0 3px 0 var(--borda)}
+.md-disco .ic,.md-disco .md-pc{width:52%;height:52%;color:#fff;--ic-b:rgba(255,255,255,.75);--ic-o:rgba(0,0,0,.45);filter:drop-shadow(0 2px 0 rgba(0,0,0,.25))}
+.md-disco .md-pc{fill:#fff;stroke:rgba(0,0,0,.45);stroke-width:5;stroke-linejoin:round}
+.md-disco .md-pc .det{stroke:rgba(0,0,0,.45)}.md-disco .md-pc .detf{fill:rgba(0,0,0,.45)}
+.md-ouro{--m1:#fff0a6;--m2:#e0a10e;--m3:#ffd23f;--f1:#e8506e;--f2:#c53050}
+.md-prata{--m1:#ffffff;--m2:#9aa6b5;--m3:#d5dce5;--f1:#4aa3ff;--f2:#2a6fc4}
+.md-bronze{--m1:#ffd2a6;--m2:#b0662c;--m3:#e39a5c;--f1:#4fcf62;--f2:#2f9a43}
+.md-tranc{--m1:var(--sup3);--m2:var(--sup2);--m3:var(--sup3);--f1:var(--sup3);--f2:var(--sup2)}
+.md-tranc .md-disco .ic,.md-tranc .md-disco .md-pc{opacity:.45;filter:none}
+.md-ponto{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid var(--borda);margin:0 3px 0 8px;background:radial-gradient(circle at 35% 30%,var(--m1),var(--m2))}
+.md-ponto:first-child{margin-left:0}
+.etq.md-etq.md-ouro{background:#e0a10e}.etq.md-etq.md-prata{background:#8d97a5}.etq.md-etq.md-bronze{background:#b0662c}.etq.md-etq.md-tranc{background:var(--sup3)}
+.cq-det{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.cq-det p{margin:0;font-weight:700;line-height:1.45}
+.cq-det-pr{font-family:var(--f-tit);font-weight:400;font-size:var(--t3);color:var(--ouro-txt)}
+#conquista-pop .cq-ic{background:none;width:auto;height:auto}
+.fim-conq .cq-ic{display:grid;place-items:center}
+
+/* ---------- troféus ---------- */
+body.fixa #app{height:auto;overflow:visible}
+body.fixa #tela{overflow:visible;padding-bottom:calc(112px + env(safe-area-inset-bottom))}
+.cq-tela{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.cq-resumo{display:flex;align-items:center;gap:14px;padding:16px;border-radius:22px;border:2.5px solid var(--borda);color:#fff;
+  background:radial-gradient(120% 100% at 85% 0%,#ffd77a 0,transparent 55%),linear-gradient(160deg,#e39a1c,#b0670a);box-shadow:inset 0 -6px 0 #8a4f06,inset 0 2px 0 rgba(255,255,255,.3),0 4px 0 var(--borda)}
+.cq-taca .ic{width:72px;height:72px;filter:drop-shadow(0 4px 0 rgba(0,0,0,.25))}
+.cq-res-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;font-weight:900}
+.cq-res-tx b{font-family:var(--f-tit);font-weight:400;font-size:40px;line-height:1;margin-right:4px}
+.cq-res-tx .barra{background:rgba(0,0,0,.3)}
+.cq-niveis{display:flex;align-items:center;flex-wrap:wrap;font-family:var(--f-tit);font-weight:400;font-size:var(--t2)}
+.cq-niveis .sub{color:rgba(255,255,255,.9);margin-left:6px;font-family:Nunito,system-ui,sans-serif}
+.cq-rk{margin-top:0}
+.cq-trofeus{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px}
+.tr-mini{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border-radius:16px;background:var(--sup);border:2.5px solid var(--borda);box-shadow:0 3px 0 var(--borda);color:var(--txt)}
+.tr-mini.ok{background:radial-gradient(circle at 50% 30%,rgba(255,200,58,.22),var(--sup) 70%)}
+.tr-mini small{font-family:var(--f-tit);font-size:var(--t1);line-height:1.1;text-align:center;color:var(--txt)}
+.tr-mini:not(.ok) svg{opacity:.55}
+.mini-prog{display:block;width:80%;height:8px;border-radius:999px;background:var(--chip);overflow:hidden;border:1.5px solid var(--borda)}
+.mini-prog i{display:block;height:100%;background:var(--ouro)}
+.cq-grupos .chip-mod i{font-style:normal;font-size:var(--t1);opacity:.8;margin-left:2px}
+.cq-grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:10px}
+.cq-grade.vira{animation:sobe .35s cubic-bezier(.2,.8,.2,1) both}
+.cq-tile{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 6px 12px;border-radius:16px;background:var(--sup);border:2.5px solid var(--borda);box-shadow:0 3px 0 var(--borda);color:var(--txt);text-align:center}
+.cq-tile b{font-family:var(--f-tit);font-weight:400;font-size:var(--t1);line-height:1.15}
+.cq-tile:not(.ok) b{color:var(--txt2)}
+.cq-tile:active{transform:translateY(2px);box-shadow:0 1px 0 var(--borda)}
+
+/* ---------- missões e nível ---------- */
+.ms-tela{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.nv-cartao{display:flex;align-items:center;gap:14px;padding:16px;border-radius:22px;border:2.5px solid var(--borda);color:#fff;
+  background:radial-gradient(120% 100% at 85% 0%,#7fbaff 0,transparent 55%),linear-gradient(160deg,#3d74d6,#2852a8);box-shadow:inset 0 -6px 0 #1d3f85,inset 0 2px 0 rgba(255,255,255,.25),0 4px 0 var(--borda)}
+.nv-escudo .selo-nv{box-shadow:0 0 0 3px var(--borda),0 4px 0 3px var(--borda)}
+.nv-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.nv-tx b{font-size:var(--t5);line-height:1.05}
+.barra-nv{height:16px;background:rgba(0,0,0,.3)}
+.nv-sub{display:flex;align-items:center;flex-wrap:wrap;gap:3px;font-weight:800;font-size:var(--t1);color:rgba(255,255,255,.92)}
+.nv-sub .ic{width:16px;height:16px}
+.seq-cartao{display:flex;flex-direction:column;gap:12px}
+.seq-cab{display:flex;align-items:center;gap:12px}
+.seq-cab b{display:block;font-family:var(--f-tit);font-weight:400;font-size:var(--t4)}
+.seq-fogo .ic{width:46px;height:46px}
+.seq-dias{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.sq-dia{display:flex;flex-direction:column;align-items:center;gap:4px}
+.sq-dia i{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--chip);border:2px solid var(--borda)}
+.sq-dia.on i{background:linear-gradient(#ffe27a,#ff9d2e)}
+.sq-dia i .ic{width:24px;height:24px}
+.sq-dia.hj i{box-shadow:0 0 0 3px rgba(255,200,58,.5)}
+.sq-dia small{font-weight:900;font-size:var(--t1);color:var(--txt2)}
+.ms-lista{display:flex;flex-direction:column;gap:10px}
+.ms-it,.ms-bau{display:flex;align-items:center;gap:12px;padding:12px;border-radius:18px;background:var(--sup);border:2.5px solid var(--borda);box-shadow:0 3px 0 var(--borda)}
+.ms-it.feita{box-shadow:0 0 0 3px var(--ok),0 3px 0 var(--borda)}
+.ms-it.pega{opacity:.75}
+.ms-ic{background:var(--sup2)}
+.ms-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.ms-tx b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3);line-height:1.15}
+.ms-tx .barra{height:10px}
+.ms-premio{display:flex;align-items:center;gap:5px;font-family:var(--f-tit);font-size:var(--t2)}
+.ms-premio .ic{width:20px;height:20px}
+.ms-premio .xp{margin-left:4px}
+.ms-n{font-family:var(--f-tit);font-weight:400;font-size:var(--t3);color:var(--txt2)}
+.ms-bau{background:linear-gradient(var(--sup2),var(--sup))}
+.ms-bau.pronto{box-shadow:0 0 0 3px var(--ouro),0 3px 0 var(--borda);animation:pulsaBau 1.8s ease-in-out infinite}
+.ms-bau-ic .ic{width:48px;height:48px}
+.xp-lista{display:flex;flex-direction:column;gap:2px;padding:10px 14px}
+.xp-l{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:2px dashed var(--sup2);font-weight:800}
+.xp-l .ic{width:24px;height:24px}
+.xp-l span{flex:1}
+.xp-l b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3);color:var(--ok)}
+.xp-lista .sub{margin-top:8px}
+
+/* ---------- ranking ---------- */
+.rk-tela{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.rk-exp{margin:0 2px}
+.rk-lista{display:flex;flex-direction:column;gap:8px;background:none;border:0;box-shadow:none;padding:0}
+.rk-sub{grid-template-columns:1fr 1fr}
+.rk-podio{display:grid;grid-template-columns:1fr 1.15fr 1fr;align-items:end;gap:8px;margin:8px 0 6px}
+.rk-podio .rk-it{position:relative;flex-direction:column;justify-content:flex-end;gap:4px;min-height:0;padding:10px 6px 12px;text-align:center;border-radius:18px 18px 12px 12px}
+.rk-podio .rk-it.top1{order:2;min-height:206px;background:linear-gradient(var(--ouro-alto),var(--ouro));box-shadow:inset 0 -6px 0 var(--ouro-baixo),0 4px 0 var(--borda)}
+.rk-podio .rk-it.top2{order:1;min-height:176px;background:linear-gradient(#f1f4f8,#9aa6b5);box-shadow:inset 0 -6px 0 #6f7a88,0 4px 0 var(--borda)}
+.rk-podio .rk-it.top3{order:3;min-height:160px;background:linear-gradient(#f0b787,#a8622d);box-shadow:inset 0 -6px 0 #7a4319,0 4px 0 var(--borda)}
+.rk-podio .rk-it.eu{outline:3px solid #fff;outline-offset:2px}
+.rk-podio .rk-pos{order:4;width:auto!important;height:auto!important;background:none!important;border:0!important;font-size:var(--t5);color:#fff;text-shadow:0 2px 0 var(--borda),1.5px 0 0 var(--borda),-1.5px 0 0 var(--borda),0 -1.5px 0 var(--borda)}
+.rk-podio .rk-av{order:1;width:auto;height:auto}
+.rk-podio .rk-tx{order:2;align-items:center;flex:none;width:100%}
+.rk-podio .rk-tx b{color:#2a190c;font-size:var(--t2);max-width:100%}
+.rk-podio .rk-tx small{display:none}
+.rk-podio .rk-val{order:3;align-items:center;color:#2a190c;font-size:var(--t3)}
+.rk-podio .rk-val small{color:rgba(42,25,12,.75)}
+.rk-podio .rk-it.top1::before{content:"";position:absolute;top:-22px;left:50%;width:36px;height:28px;transform:translateX(-50%);
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 26'%3E%3Cpath d='M3 7l6 5 7-9 7 9 6-5-2 15H5z' fill='%23ffc83a' stroke='%23140b06' stroke-width='2.2' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+.rk-vazio{padding:20px;border-radius:18px;background:var(--sup);border:2.5px solid var(--borda);text-align:center;display:flex;flex-direction:column;gap:4px}
+.rk-vazio b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3)}
+.rk-sep{text-align:center;margin:6px 0}
+.rk-entrar{display:flex;align-items:center;gap:12px}
+.rk-entrar .tx{flex:1;display:flex;flex-direction:column}
+.pm-quadro{padding:12px 14px}
+.pm-tit{font-family:var(--f-tit);font-weight:400;font-size:var(--t3);color:var(--txt);text-transform:none;letter-spacing:0}
+.pm-it{background:var(--sup2);border:2px solid var(--borda);padding:8px 10px 8px 8px}
+.pm-pos{width:32px;height:32px;border:2px solid var(--borda);font-family:var(--f-tit);font-weight:400;font-size:var(--t2);color:#2a190c}
+.pm-tx{font-size:var(--t2)}
+.pm-tx b{font-family:var(--f-tit);font-weight:400}
+.pm-tx b .ic{width:20px;height:20px}
+.pm-tx small{font-size:var(--t1);font-weight:800}
+.pm-medalha .ic{width:48px;height:48px}
+
+/* ---------- loja ---------- */
+body.na-loja.com-nav #tela{padding-bottom:calc(112px + env(safe-area-inset-bottom))}
+.lj{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:12px;padding:0}
+.lj-abas{position:sticky;top:calc(64px + env(safe-area-inset-top));z-index:15;left:auto;bottom:auto;transform:none;width:auto;height:auto;margin:0;box-shadow:0 6px 12px -6px rgba(0,0,0,.4)}
+.lj-abas button{position:relative}
+.lj-abas .bolinha{top:-8px;right:4px}
+.lj-corpo{display:flex;flex-direction:column;gap:12px}
+.lj-fita{margin:10px 2px 0}
+.lj-fita h2{overflow:visible}
+.lj-velho{display:inline-flex;align-items:center;gap:4px;font-family:var(--f-tit);font-size:var(--t2);text-decoration:line-through;text-decoration-thickness:2px;opacity:.85}
+.lj-velho .ic{width:16px;height:16px}
+.lj-preco-bt{min-height:50px;padding:0 18px}
+.lj-preco-bt .preco{gap:6px;font-size:var(--t4)}
+.bt .preco .ic{width:22px;height:22px}
+.lj-oferta{position:relative;overflow:hidden;display:grid;grid-template-columns:42% 1fr;align-items:center;gap:6px;min-height:220px;padding:16px 14px;border-radius:24px;border:2.5px solid var(--borda);color:#fff;
+  background:radial-gradient(circle at 25% 55%,#ffbe55,#e7731b 55%,#b84a10);box-shadow:inset 0 -6px 0 #8f360a,inset 0 2px 0 rgba(255,255,255,.3),0 4px 0 var(--borda)}
+.lj-oferta.r-raro{background:radial-gradient(circle at 25% 55%,#8fd0ff,#2f86e0 55%,#174f9a);box-shadow:inset 0 -6px 0 #123d75,0 4px 0 var(--borda)}
+.lj-oferta.r-epico{background:radial-gradient(circle at 25% 55%,#d6a6ff,#9447ec 55%,#5a1fa8);box-shadow:inset 0 -6px 0 #43167f,0 4px 0 var(--borda)}
+.lj-raios{position:absolute;left:21%;top:52%;width:620px;height:620px;margin:-310px 0 0 -310px;pointer-events:none;
+  background:repeating-conic-gradient(rgba(255,255,255,.16) 0 9deg,transparent 9deg 22deg);animation:gira 30s linear infinite;
+  -webkit-mask-image:radial-gradient(circle,#000 20%,transparent 60%);mask-image:radial-gradient(circle,#000 20%,transparent 60%)}
+.lj-timer{position:absolute;top:12px;right:12px;z-index:2}
+.lj-of-arte{position:relative;display:grid;place-items:center}
+.lj-of-arte .avatar{box-shadow:0 0 0 3px var(--borda),0 6px 0 3px var(--borda)}
+.lj-of-tx{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding-top:18px}
+.lj-of-tx h3{margin:0;font-size:28px;line-height:1}
+.lj-of-sub,.lj-of-mais{font-weight:800;font-size:var(--t1);color:rgba(255,255,255,.95);display:flex;align-items:center;gap:3px;flex-wrap:wrap}
+.lj-of-mais .ic{width:16px;height:16px}
+.lj-of-ok{display:flex;align-items:center;gap:6px;font-family:var(--f-tit);font-size:var(--t3);background:rgba(0,0,0,.25);padding:6px 10px;border-radius:12px}
+.lj-oferta.feito .lj-of-arte{filter:saturate(.6)}
+.lj-pacote{display:flex;flex-direction:column;gap:12px}
+.lj-pac-cab{display:flex;align-items:center;gap:12px}
+.lj-pac-cab .tx{display:flex;flex-direction:column}
+.lj-pac-cab b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3)}
+.lj-pac-itens{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.lj-mini{display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:4px;padding:8px 4px;border-radius:14px;background:var(--sup2);border:2px solid var(--borda);text-align:center;min-height:96px}
+.lj-mini .svg-bau,.lj-mini .svg-pilha{width:62px;height:52px}
+.lj-mini small{font-weight:900;font-size:var(--t1)}
+.lj-pac-rodape{display:flex;align-items:center;justify-content:flex-end;gap:12px}
+.lj-grade{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.lj-carta{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px 10px;border-radius:18px;background:var(--sup);border:2.5px solid var(--borda);
+  box-shadow:0 3px 0 var(--borda),inset 0 5px 0 var(--rc,var(--sup3));overflow:visible;min-width:0}
+.lj-carta.c-comum{--rc:#7d8d9c}.lj-carta.c-raro{--rc:#2f86e0}.lj-carta.c-epico{--rc:#9447ec}.lj-carta.c-lendario{--rc:#f09a00}.lj-carta.c-moeda{--rc:#ffc83a}
+.lj-carta.uso{box-shadow:0 0 0 3px var(--ok),0 3px 0 var(--borda),inset 0 5px 0 var(--rc)}
+.lj-carta>.etq{margin-top:2px}
+.lj-c-topo{font-weight:900;font-size:var(--t1);color:var(--txt2);margin-top:2px;background:none;padding:0;height:auto}
+.lj-c-arte{display:grid;place-items:center;width:100%;aspect-ratio:1.1;border-radius:12px;background:var(--sup2);border:2px solid var(--borda)}
+.lj-c-arte .svg-bau,.lj-c-arte .svg-pilha{width:78%;height:auto}
+.lj-c-nome{font-family:var(--f-tit);font-weight:400;font-size:var(--t1);line-height:1.1;text-align:center;min-height:30px;display:flex;align-items:center;color:var(--txt)}
+.lj-c-bt{width:100%;padding:0 4px;min-height:38px;font-size:var(--t2)}
+.lj-c-bt .preco .ic{width:18px;height:18px}
+.lj-c-bt.usando,.lj-c-bt.espera{display:flex;align-items:center;justify-content:center;gap:4px;border-radius:12px;background:var(--chip);color:#fff;font-family:var(--f-tit);font-size:var(--t1);border:2px solid var(--borda)}
+.lj-c-bt .ic{width:18px;height:18px}
+.lj-1vez{position:static;transform:none}
+.lj-bau{display:flex;flex-direction:column;gap:12px}
+.lj-bau-cab{display:flex;align-items:center;gap:12px}
+.lj-bau-arte{flex:none;width:104px}
+.lj-bau-arte .svg-bau{width:104px;height:auto}
+.lj-bau-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.lj-bau-tit{font-family:var(--f-tit);font-weight:400;font-size:var(--t4)}
+.lj-bau-tx p{margin:0;font-weight:700;font-size:var(--t1);color:var(--txt2);line-height:1.4}
+.lj-relogio{display:flex;align-items:center;gap:4px;font-weight:900;font-size:var(--t1);color:var(--txt)}
+.lj-relogio .ic{width:18px;height:18px}
+.lj-piedade{display:flex;flex-direction:column;gap:6px;font-weight:800;font-size:var(--t1)}
+.lj-bau-bts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lj-abrir{flex-direction:column;gap:0;min-height:58px;line-height:1.1}
+.lj-abrir small{font-family:Nunito,system-ui,sans-serif;font-weight:900;font-size:var(--t1)}
+.lj-abrir .preco{font-size:var(--t3)}
+.rc-comum{color:#9fb0c0}.rc-raro{color:#5bb0ff}.rc-epico{color:#c08cff}.rc-lendario{color:#ffb436}
+html[data-tema="claro"] .rc-comum{color:#5d6b78}html[data-tema="claro"] .rc-raro{color:#1f6fc4}html[data-tema="claro"] .rc-epico{color:#7a34cf}html[data-tema="claro"] .rc-lendario{color:#b86b00}
+.lj-nota{text-align:center;margin:6px 4px}
+.lj-conf{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.lj-conf .svg-bau,.lj-conf .svg-pilha{width:110px;height:auto}
+.lj-ch{padding:10px 0;border-bottom:2px dashed var(--sup2)}
+
+/* ---------- cena de abrir baú (sensação de prêmio, proporcional à raridade) ---------- */
+.bc-fundo{background:radial-gradient(circle at 50% 45%,rgba(107,74,18,.97),rgba(18,11,6,.99) 70%)}
+.bc-raro .bc-fundo{background:radial-gradient(circle at 50% 45%,rgba(28,82,150,.97),rgba(8,12,24,.99) 70%)}
+.bc-epico .bc-fundo{background:radial-gradient(circle at 50% 45%,rgba(98,40,160,.97),rgba(14,8,26,.99) 70%)}
+.bc-toque{font-family:var(--f-tit);text-transform:none;letter-spacing:.5px;font-size:var(--t3);color:#fff}
+.bc-carta{border:2.5px solid var(--borda)!important;box-shadow:0 5px 0 var(--borda),0 0 30px color-mix(in srgb,var(--c) 45%,transparent)}
+.bc-res.um .bc-carta b{font-family:var(--f-tit);font-weight:400;font-size:var(--t5);color:#fff;text-shadow:0 2px 0 var(--borda),1.5px 0 0 var(--borda),-1.5px 0 0 var(--borda),0 -1.5px 0 var(--borda)}
+.bc-res.um .bc-carta small{font-size:var(--t2)}
+.bc-res.um .bc-rar{font-size:var(--t2);height:28px}
+.bc-res.um .bc-carta{animation:bcPop .5s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes bcPop{0%{transform:scale(.3) rotate(-8deg);opacity:0}100%{transform:none;opacity:1}}
+.bc-bts{gap:10px}
+.bc-bts .bt{min-width:140px}
+.bc.tremor{animation:bcTremor .45s cubic-bezier(.36,.07,.19,.97)}
+@keyframes bcTremor{10%,90%{transform:translate(-2px,1px)}20%,80%{transform:translate(4px,-2px)}30%,50%,70%{transform:translate(-6px,2px)}40%,60%{transform:translate(6px,-1px)}}
+@media (prefers-reduced-motion:reduce){.bc.tremor,.bc-res.um .bc-carta,.ms-bau.pronto,.lj-raios{animation:none}}
+.cq-tile{height:auto}
+.cq-tile b{display:block;white-space:normal}
+.tr-mini svg{width:46px;height:46px}
+.lj-of-mais{display:block}
+.lj-of-mais .ic{display:inline-block;vertical-align:-3px}
+.lj-mt .mini-tab{width:var(--mt,80px);height:var(--mt,80px)}
+.lj{background:none;font-family:inherit}
+.lj::before{display:none}
+.lj-fita h2,.lj-c-nome,.lj-c-topo,.lj-bau-tit{text-shadow:none;color:var(--txt)}
+.lj-c-topo{color:var(--txt2)}
+.link{display:inline-flex;align-items:center;min-height:40px;padding:0 6px}
 
 </style>
 </head>
@@ -6421,6 +6526,15 @@ function svgTrofeu(id, ativo = true, tam = 56) {
     ${id === 'platina' && ativo ? '<path d="M32 15l2.4 5 5.4.6-4 3.7 1.1 5.3-4.9-2.7-4.9 2.7 1.1-5.3-4-3.7 5.4-.6z" fill="#fff" opacity=".85"/>' : ''}</svg>`;
 }
 
+/* medalha desenhada de cada conquista (o emoji "ic" continua nos dados só por compatibilidade):
+   cor pelo prêmio (bronze, prata, ouro) e ícone pelo grupo */
+const ICONE_GRUPO = { partidas: 'peca', amigos: 'amigo', fases: 'aprender', desafios: 'raio', rotina: 'fogo', extras: 'estrela' };
+function nivelMedalha(c) { return c.moedas >= 100 ? 'ouro' : c.moedas >= 40 ? 'prata' : 'bronze'; }
+function medalha(c, ok = true, tam = 56) {
+  const g = ICONE_GRUPO[c.g] || 'estrela';
+  const icone = g === 'peca' ? '<svg viewBox="0 0 100 100" class="md-pc"><use href="#pc-n"/></svg>' : ic(g, 'md-ic');
+  return `<span class="medalha md-${ok ? nivelMedalha(c) : 'tranc'}" style="--md:${tam}px" aria-hidden="true"><span class="md-fita"></span><span class="md-disco">${icone}</span></span>`;
+}
 /* ---------- verificação e aviso de conquistas ---------- */
 const Conquistas = {
   fila: [], mostrando: false,
@@ -6448,7 +6562,7 @@ const Conquistas = {
     if (!f) return [];
     return Object.keys(Dados.d.conquistas).filter(id => !f.conq.has(id)).map(id => {
       if (id.startsWith('tr-')) { const t = TROFEUS.find(x => 'tr-' + x.id === id); return t && { id, nome: t.nome, ic: svgTrofeu(t.id, true, 34), moedas: t.moedas || 0, trofeu: true }; }
-      const c = CONQUISTAS.find(x => x.id === id); return c && { id, nome: c.nome, ic: c.ic, moedas: c.moedas };
+      const c = CONQUISTAS.find(x => x.id === id); return c && { id, nome: c.nome, ic: medalha(c, true, 34), moedas: c.moedas };
     }).filter(Boolean);
   },
   /* volta a mostrar os avisos, sem repetir os que já apareceram na tela de fim */
@@ -6465,12 +6579,12 @@ const Conquistas = {
     if (this.fila.length >= 3) {                 // muitas de uma vez: um aviso só
       const todas = this.fila.splice(0), soma = todas.reduce((s, x) => s + (x.c.moedas || 0), 0), tr = todas.filter(x => x.tipo === 'trofeu');
       const soConq = todas.every(x => x.tipo === 'conquista' || x.tipo === 'trofeu');
-      html = `<span class="cq-ic">${tr.length ? svgTrofeu(tr[tr.length - 1].c.id, true, 44) : '🏅'}</span><span><small>${soConq ? 'Conquistas desbloqueadas!' : 'Novidades!'}</small><b>${todas.length} de uma vez${tr.length ? ' (incluindo ' + tr.length + ' troféu' + (tr.length > 1 ? 's' : '') + ')' : ''}</b><em>${soma ? '+' + soma + ' moedas · ' : ''}veja em ${soConq ? 'Conquistas' : 'Missões'}</em></span>`;
+      html = `<span class="cq-ic">${tr.length ? svgTrofeu(tr[tr.length - 1].c.id, true, 44) : ic('trofeu', 'cor-ouro')}</span><span><small>${soConq ? 'Conquistas desbloqueadas!' : 'Novidades!'}</small><b>${todas.length} de uma vez${tr.length ? ' (incluindo ' + tr.length + ' troféu' + (tr.length > 1 ? 's' : '') + ')' : ''}</b><em>${soma ? '+' + soma + ' moedas · ' : ''}veja em ${soConq ? 'Conquistas' : 'Missões'}</em></span>`;
       longo = true;
     } else {
       const { c, tipo } = this.fila.shift(); longo = tipo === 'trofeu' || tipo === 'nivel';
       const rot = { trofeu: 'Troféu conquistado!', nivel: 'Subiu de nível!', missao: 'Missão cumprida!', seq: 'Sequência de dias' }[tipo] || 'Conquista desbloqueada!';
-      html = `<span class="cq-ic">${tipo === 'trofeu' ? svgTrofeu(c.id, true, 44) : c.ic}</span><span><small>${rot}</small><b>${esc(c.nome)}</b><em>${c.sub ? esc(c.sub) : c.moedas ? '+' + c.moedas + ' moedas' : 'Prêmio do ranking'}</em></span>`;
+      html = `<span class="cq-ic">${tipo === 'trofeu' ? svgTrofeu(c.id, true, 44) : tipo === 'conquista' ? medalha(c, true, 44) : c.ic}</span><span><small>${rot}</small><b>${esc(c.nome)}</b><em>${c.sub ? esc(c.sub) : c.moedas ? '+' + c.moedas + ' moedas' : 'Prêmio do ranking'}</em></span>`;
     }
     el.innerHTML = html;
     el.classList.remove('oculto'); el.classList.add('entra');
@@ -6485,65 +6599,51 @@ const Conquistas = {
 
   grupo: 'partidas', pag: 0,
   CURTO: { partidas: 'Partidas', amigos: 'Amigos', fases: 'Aprender', desafios: 'Desafios', rotina: 'Rotina', extras: 'Extras' },
-  /* tela de troféus: tudo cabe na tela, sem rolar (as conquistas viram páginas quando não cabem) */
+  /* tela de troféus: resumo, troféus grandes, grupos e a grade de medalhas */
   tela() {
     App.cabecalho('Troféus', 'menu');
-    const d = Dados.d, feitas = this.feitas(), tot = this.total();
+    const d = Dados.d, feitas = this.feitas(), tot = this.total(), e = estadoJogador();
     const cnt = g => [CONQUISTAS.filter(c => c.g === g && d.conquistas[c.id]).length, CONQUISTAS.filter(c => c.g === g).length];
-    $('#tela').innerHTML = `<div class="pilha tela-fixa cq-tela">
-      <div class="cq-topo">
-        <button class="cartao cq-rk" data-ir-rk="1"><span class="ic2">${SVG('<path d="M8 21V11H3v10zM15.5 21V5h-7v16zM21 21v-7h-5.5v7z"/>')}</span><span><b>Ranking</b><small>Prêmios toda semana</small></span></button>
-        <div class="cartao cq-total"><span><b>${feitas}</b>/${tot}</span><small>conquistas</small><div class="progresso"><i style="width:${Math.round(feitas / tot * 100)}%"></i></div></div>
-      </div>
-      <div class="cartao cq-trofeus" role="list" style="grid-template-columns:repeat(${TROFEUS.length},1fr)">${TROFEUS.map(t => { const ok = !!d.conquistas['tr-' + t.id];
-        return `<button class="tr-mini${ok ? ' ok' : ''}" data-tr="${t.id}" role="listitem" aria-label="${esc(t.nome)}${ok ? ' (conquistado)' : ''}">${svgTrofeu(t.id, ok, 40)}<small>${esc(t.curto || t.nome.replace('Troféu de ', ''))}</small></button>`; }).join('')}</div>
-      <div class="cq-grupos" role="tablist">${GRUPOS_CONQ.map(g => { const [a, b] = cnt(g.id);
-        return `<button role="tab" aria-selected="${this.grupo === g.id}" class="${this.grupo === g.id ? 'on' : ''}${a === b ? ' cheio' : ''}" data-gr="${g.id}">${this.CURTO[g.id] || g.nome}<i>${a}/${b}</i></button>`; }).join('')}</div>
-      <div class="cq-box" id="cq-box"><div class="cq-grade" id="cq-grade"></div></div>
-      <div class="cq-pag" id="cq-pag"></div></div>`;
-    const box = $('#cq-box');
-    requestAnimationFrame(() => this.pintarGrade());
-    const redim = () => { if (App.atual === 'conquistas') this.pintarGrade(); };
-    window.addEventListener('resize', redim);
-    let x0 = null;
-    box.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
-    box.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 45) this.irPag(this.pag + (dx < 0 ? 1 : -1)); });
-    $('#tela').onclick = e => {
-      if (e.target.closest('[data-ir-rk]')) { App.ir('ranking'); return; }
-      const g = e.target.closest('[data-gr]'); if (g) { this.grupo = g.dataset.gr; this.pag = 0; $$('[data-gr]').forEach(b => { const on = b === g; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); }); this.pintarGrade(); return; }
-      const pg = e.target.closest('[data-pag]'); if (pg) { this.irPag(+pg.dataset.pag); return; }
-      const t = e.target.closest('[data-tr]'); if (t) { this.detalheTrofeu(t.dataset.tr); return; }
-      const c = e.target.closest('[data-cq]'); if (c) this.detalhe(c.dataset.cq);
+    const nv = { ouro: 0, prata: 0, bronze: 0 }; CONQUISTAS.forEach(c => { if (d.conquistas[c.id]) nv[nivelMedalha(c)]++; });
+    const trF = TROFEUS.filter(t => d.conquistas['tr-' + t.id]).length;
+    $('#tela').innerHTML = `<div class="cq-tela">
+      <section class="cq-resumo"><span class="cq-taca">${ic('trofeu', 'cor-ouro')}</span>
+        <div class="cq-res-tx"><span><b class="contorno">${feitas}</b> de ${tot} conquistas</span><span class="barra ouro"><i style="width:${Math.round(feitas / tot * 100)}%"></i></span>
+        <span class="cq-niveis"><i class="md-ponto md-ouro"></i>${nv.ouro}<i class="md-ponto md-prata"></i>${nv.prata}<i class="md-ponto md-bronze"></i>${nv.bronze}<span class="sub">· ${trF}/${TROFEUS.length} troféus</span></span></div></section>
+      <button class="cartao linha-ir cq-rk" data-ir-rk="1"><span class="ic-quadro">${ic('ranking', 'cor-azul')}</span><span class="tx"><b>Prêmios do ranking</b><span class="sub">Moldura e selo Nº 1 · prêmios toda semana</span></span>${ic('seta')}</button>
+      <div class="secao"><h2>Troféus</h2><span class="sub">toque para ver</span></div>
+      <div class="cq-trofeus" role="list">${TROFEUS.map(t => { const ok = !!d.conquistas['tr-' + t.id], p = ok ? null : t.prog(e);
+        return `<button class="tr-mini${ok ? ' ok' : ''}" data-tr="${t.id}" role="listitem" aria-label="${esc(t.nome)}${ok ? ' (conquistado)' : ''}">${svgTrofeu(t.id, ok, 46)}<small>${esc(t.curto || t.nome.replace('Troféu de ', ''))}</small>${p ? `<span class="mini-prog"><i style="width:${Math.round(p[0] / p[1] * 100)}%"></i></span>` : ''}</button>`; }).join('')}</div>
+      <div class="secao"><h2>Conquistas</h2></div>
+      <div class="cq-grupos chips-mod" role="tablist">${GRUPOS_CONQ.map(g => { const [a, b] = cnt(g.id);
+        return `<button role="tab" aria-selected="${this.grupo === g.id}" class="chip-mod${this.grupo === g.id ? ' on' : ''}${a === b ? ' feito' : ''}" data-gr="${g.id}">${this.CURTO[g.id] || g.nome}<i>${a}/${b}</i></button>`; }).join('')}</div>
+      <div class="cq-grade" id="cq-grade"></div></div>`;
+    this.pintarGrade();
+    $('#tela').onclick = ev => {
+      if (ev.target.closest('[data-ir-rk]')) { App.ir('ranking'); return; }
+      const g = ev.target.closest('[data-gr]'); if (g) { this.grupo = g.dataset.gr; $$('[data-gr]').forEach(b => { const on = b === g; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); }); this.pintarGrade(true); return; }
+      const t = ev.target.closest('[data-tr]'); if (t) { this.detalheTrofeu(t.dataset.tr); return; }
+      const c = ev.target.closest('[data-cq]'); if (c) this.detalhe(c.dataset.cq);
     };
-    App.aoSair = () => { $('#tela').onclick = null; window.removeEventListener('resize', redim); };
+    App.aoSair = () => { $('#tela').onclick = null; };
   },
-  irPag(n) { if (n < 0 || n >= (this.nPags || 1) || n === this.pag) return; this.pag = n; this.pintarGrade(true); },
-  /* mede o espaço livre e mostra só as conquistas que cabem; o resto vai para a próxima página */
+  irPag() { /* páginas não existem mais: a grade mostra o grupo inteiro */ },
   pintarGrade(anima) {
-    const box = $('#cq-box'), grade = $('#cq-grade'), pag = $('#cq-pag'); if (!box) return;
+    const grade = $('#cq-grade'); if (!grade) return;
     const d = Dados.d, e = estadoJogador(), lista = CONQUISTAS.filter(c => c.g === this.grupo);
-    const gap = 8, W = box.clientWidth, cols = Math.max(3, Math.min(6, Math.floor((W + gap) / (74 + gap))));
-    pag.classList.remove('on');
-    let H = box.clientHeight, alt = 86;
-    let linhas = Math.max(1, Math.floor((H + gap) / (alt + gap))), por = cols * linhas;
-    if (lista.length > por) { pag.classList.add('on'); H = box.clientHeight; linhas = Math.max(1, Math.floor((H + gap) / (alt + gap))); por = cols * linhas; } else pag.classList.remove('on');
-    this.nPags = Math.max(1, Math.ceil(lista.length / por)); this.pag = Math.min(this.pag, this.nPags - 1);
-    alt = Math.min(104, Math.floor((H + gap) / Math.max(1, lista.length > por ? linhas : Math.ceil(lista.length / cols))) - gap);   // sobra espaço: quadros um pouco maiores
-    grade.style.gridTemplateColumns = `repeat(${cols},1fr)`; grade.style.setProperty('--alt', alt + 'px');
-    grade.innerHTML = lista.slice(this.pag * por, this.pag * por + por).map(c => {
+    grade.innerHTML = lista.map(c => {
       const ok = !!d.conquistas[c.id], p = !ok && c.prog ? c.prog(e) : null;
-      return `<button class="cq-tile${ok ? ' ok' : ''}" data-cq="${c.id}" aria-label="${esc(c.nome)}${ok ? ' (conquistada)' : ''}"><span class="cq-ic">${c.ic}</span><b>${esc(c.nome)}</b>${p ? `<span class="mini-prog"><i style="width:${Math.round(p[0] / p[1] * 100)}%"></i></span>` : ok ? '<i class="cq-ok">✓</i>' : ''}</button>`;
+      return `<button class="cq-tile${ok ? ' ok' : ''}" data-cq="${c.id}" aria-label="${esc(c.nome)}${ok ? ' (conquistada)' : ''}">${medalha(c, ok, 54)}<b>${esc(c.nome)}</b>${p ? `<span class="mini-prog"><i style="width:${Math.round(p[0] / p[1] * 100)}%"></i></span>` : ''}</button>`;
     }).join('');
     if (anima) { grade.classList.remove('vira'); void grade.offsetWidth; grade.classList.add('vira'); }
-    pag.innerHTML = this.nPags > 1 ? `<button data-pag="${this.pag - 1}" ${this.pag ? '' : 'disabled'} aria-label="Página anterior">‹</button>${Array.from({ length: this.nPags }, (_, i) => `<i class="${i === this.pag ? 'on' : ''}" data-pag="${i}"></i>`).join('')}<button data-pag="${this.pag + 1}" ${this.pag < this.nPags - 1 ? '' : 'disabled'} aria-label="Próxima página">›</button>` : '';
   },
   detalhe(id) {
     const c = CONQUISTAS.find(x => x.id === id); if (!c) return;
     const d = Dados.d, ok = d.conquistas[c.id], p = !ok && c.prog ? c.prog(estadoJogador()) : null;
     const quando = ok && ok > 1 ? new Date(ok).toLocaleDateString('pt-BR') : '';
-    modal(c.nome, `<div class="cq-det${ok ? ' ok' : ''}"><span class="cq-ic">${c.ic}</span><p>${esc(c.desc)}</p>
+    modal(c.nome, `<div class="cq-det${ok ? ' ok' : ''}">${medalha(c, !!ok, 88)}<span class="etq md-etq md-${ok ? nivelMedalha(c) : 'tranc'}">${ok ? { ouro: 'Ouro', prata: 'Prata', bronze: 'Bronze' }[nivelMedalha(c)] : 'Bloqueada'}</span><p>${esc(c.desc)}</p>
       ${p ? `<div class="progresso"><i style="width:${Math.round(p[0] / p[1] * 100)}%"></i></div><small class="sub">${p[0]} de ${p[1]}</small>` : ''}
-      <b class="cq-det-pr">${ok ? '✓ Conquistada' + (quando ? ' em ' + quando : '') : `Prêmio: ${MOEDA} ${c.moedas}`}</b></div>`, [{ txt: 'Fechar', cls: 'pri', val: 1 }], true);
+      <b class="cq-det-pr">${ok ? 'Conquistada' + (quando ? ' em ' + quando : '') : `Prêmio: ${MOEDA} ${c.moedas}`}</b></div>`, [{ txt: 'Fechar', cls: 'pri', val: 1 }], true);
   },
   detalheTrofeu(id) {
     const t = TROFEUS.find(x => x.id === id); if (!t) return;
@@ -6552,7 +6652,7 @@ const Conquistas = {
     const premio = `Prêmio do troféu: ${MOEDA} ${fmtN(t.moedas)} e +${fmtN(t.xp || 0)} XP.`;
     modal(t.nome, `<div class="cq-det${ok ? ' ok' : ''}">${svgTrofeu(t.id, ok, 84)}<p>${esc(t.desc)}</p>
       ${ok ? '' : `<div class="progresso"><i style="width:${Math.round(p[0] / p[1] * 100)}%"></i></div><small class="sub">${p[0]} de ${p[1]}</small>`}
-      <p class="sub">${premio} ${extra}</p>${ok ? '<b class="cq-det-pr">✓ Conquistado</b>' : ''}</div>`, [{ txt: 'Fechar', cls: 'pri', val: 1 }], true);
+      <p class="sub">${premio} ${extra}</p>${ok ? '<b class="cq-det-pr">Conquistado</b>' : ''}</div>`, [{ txt: 'Fechar', cls: 'pri', val: 1 }], true);
   }
 };
 
@@ -6886,8 +6986,8 @@ function arteItem(x, tam = 64) {
   if (x.tipo === 'mold') return htmlAvatar(Dados.d.perfil.avatar, x.id, Math.round(tam * .9));
   const t = TABULEIROS.find(b => b.id === x.id); return `<span class="lj-mt" style="--mt:${Math.round(tam * 1.05)}px">${Loja.miniTabuleiro(t)}</span>`;
 }
-const precoTxt = (n, gemas) => `${gemas ? GEMA : MOEDA}<span>${fmtN(n)}</span>`;
-const fita = (ic, tit, extra = '') => `<div class="lj-fita"><span class="lj-fita-ic">${ic}</span><h2>${tit}</h2>${extra}</div>`;
+const precoTxt = (n, gemas) => `<span class="preco">${gemas ? ic('gema', 'cor-gema') : ic('moeda', 'cor-moeda')}<span>${fmtN(n)}</span></span>`;
+const fita = (_ic, tit, extra = '') => `<div class="secao lj-fita"><h2>${tit}</h2>${extra}</div>`;
 
 /* ---------- a loja ---------- */
 const Loja = {
@@ -6936,22 +7036,18 @@ const Loja = {
   tela() {
     if (!['ofertas', 'baus', 'itens'].includes(this.aba)) this.aba = 'itens';
     App.cabecalho('Loja', 'menu');
-    const d = Dados.d, nv = XP.nivel(XP.total());
-    const sl = this.selos(), aba = (id, nome, ic) => `<button class="lj-aba${this.aba === id ? ' on' : ''}" data-lj-aba="${id}"><span class="lj-aba-ic">${ic}</span><b>${nome}</b>${sl[id] ? `<i class="lj-n">${sl[id]}</i>` : ''}</button>`;
+    const sl = this.selos(), aba = (id, nome) => `<button role="tab" aria-selected="${this.aba === id}" class="${this.aba === id ? 'on' : ''}" data-lj-aba="${id}">${nome}${sl[id] ? `<i class="bolinha">${sl[id]}</i>` : ''}</button>`;
     $('#tela').innerHTML = `<div class="lj">
-      <div class="lj-saldo">
-        <button class="lj-nv" data-ir-lj="missoes" aria-label="Nível ${nv.n}">${XP.selo(nv.n, 34)}<span class="lj-barra"><i style="width:${Math.round(nv.frac * 100)}%"></i><b>${Math.round(nv.frac * 100)}%</b></span></button>
-        <span class="lj-chip">${GEMA}<b>${fmtN(d.gemas || 0)}</b></span>
-        <button class="lj-chip" data-lj-moedas="1" aria-label="Moedas: comprar mais">${MOEDA}<b>${fmtN(d.moedas)}</b><i class="lj-mais">+</i></button>
-      </div>
+      <nav class="abas-rk lj-abas" role="tablist" aria-label="Seções da loja">${aba('ofertas', 'Destaques')}${aba('baus', 'Baús')}${aba('itens', 'Itens')}</nav>
       <div class="lj-corpo" id="lj-corpo">${this.aba === 'ofertas' ? this.htmlOfertas() : this.aba === 'baus' ? this.htmlBaus() : this.htmlItens()}</div>
-      <nav class="lj-abas" aria-label="Seções da loja">${aba('ofertas', 'Ofertas', SVG_PRESENTE)}${aba('baus', 'Baús', svgBau('real'))}${aba('itens', 'Itens', SVG_GEMA_GRANDE)}</nav>
     </div>`;
     document.body.classList.add('na-loja');
     $('#tela').onclick = e => this.clique(e);
     clearInterval(this.relogio); this.relogio = setInterval(() => this.tique(), 1000);
     App.aoSair = () => { $('#tela').onclick = null; clearInterval(this.relogio); document.body.classList.remove('na-loja'); };
   },
+  /* tocar nas moedas do topo estando na loja: vai para a seção de moedas */
+  irMoedas() { this.aba = 'itens'; this.tela(); const m = $('#lj-moedas'); if (m) window.scrollTo({ top: m.getBoundingClientRect().top + window.scrollY - 130, behavior: 'smooth' }); },
   /* atualiza os relógios; quando um zera, redesenha a loja */
   tique() {
     if (App.atual !== 'loja') { clearInterval(this.relogio); return; }
@@ -6961,82 +7057,78 @@ const Loja = {
   },
   redesenhar() { const y = window.scrollY; this.tela(); window.scrollTo(0, y); },
 
-  /* ---------- aba Ofertas ---------- */
+  /* ---------- aba Destaques (ofertas) ---------- */
   htmlOfertas() {
     const L = this.L(), of = this.ofertaDia(), meiaNoite = new Date(); meiaNoite.setHours(24, 0, 0, 0);
-    const caixa = (arte, qt) => `<span class="lj-cx">${arte}<b>${qt}</b></span>`, mais = '<i class="lj-plus">+</i>';
-    let h = `<div class="lj-banner">${svgBanner()}<div class="lj-banner-tx"><b>Loja TrainerX</b><span>Baús, molduras e mais</span></div></div>`;
+    let h = '';
     if (of) {
-      const comprou = L.oferta === of.dia, x = of.item;
-      h += fita(SVG_PRESENTE, 'Oferta do dia', `<span class="lj-fita-timer">Acaba em <b data-ate="${meiaNoite.getTime()}">${tempoLoja(meiaNoite - Date.now())}</b></span>`);
-      h += `<div class="lj-pacote${comprou ? ' feito' : ''}"><div class="lj-pac-tit">Oferta do dia<span class="lj-faixa">${Math.round(of.cheio / of.preco)}x valor</span></div>
-        <p class="lj-pac-sub">Só hoje! ${x.bau ? 'Item que normalmente só sai nos baús!' : 'Oportunidade única!'} Contém:</p>
-        <div class="lj-pac-itens">${caixa(arteItem(x, 46), `<em class="rc-${x.rar}">${RARIDADES[x.rar].nome}</em>${esc(x.nome)}`)}${mais}${caixa(svgMoedas(2), '+' + fmtN(of.bonus))}${mais}${caixa(svgBau('madeira'), 'Baú de madeira')}</div>
-        <div class="lj-pac-rodape">${comprou ? '<span class="lj-pac-ok">✓ Comprado hoje · volte amanhã</span>' : `<s>${GEMA}${fmtN(of.cheio)}</s><button class="lj-preco-bt" data-oferta="1">${precoTxt(of.preco, true)}</button>`}</div></div>`;
+      const comprou = L.oferta === of.dia, x = of.item, R = RARIDADES[x.rar];
+      h += `<section class="lj-oferta r-${x.rar}${comprou ? ' feito' : ''}"><div class="lj-raios" aria-hidden="true"></div>
+        <span class="etq escura lj-timer">${ic('relogio', 'cor-branco')}<b data-ate="${meiaNoite.getTime()}">${tempoLoja(meiaNoite - Date.now())}</b></span>
+        <div class="lj-of-arte">${arteItem(x, 92)}</div>
+        <div class="lj-of-tx"><span class="etq rar-${x.rar}">${R.nome}</span><h3 class="contorno">${esc(x.nome)}</h3>
+          <span class="lj-of-sub">${TIPO_ITEM[x.tipo]} · oferta do dia${x.bau ? ' · normalmente só nos baús' : ''}</span>
+          <span class="lj-of-mais">+ ${ic('moeda', 'cor-moeda')}${fmtN(of.bonus)} e um baú de madeira</span>
+          ${comprou ? `<span class="lj-of-ok">${ic('ok', 'cor-verde')}Comprado hoje</span>` : `<span class="lj-velho">${ic('gema', 'cor-gema')}${fmtN(of.cheio)}</span><button class="bt pri lj-preco-bt" data-oferta="1">${precoTxt(of.preco, true)}</button>`}</div></section>`;
     }
     if (!L.boas) {
-      const B = BOAS_VINDAS, cheio = B.preco * 2;
-      h += fita('<span class="lj-fita-emo">★</span>', 'Pacote de boas-vindas');
-      h += `<div class="lj-pacote boas"><div class="lj-pac-tit">Boas-vindas<span class="lj-faixa">1 vez só</span></div>
-        <p class="lj-pac-sub">Para começar a sua coleção. Só pode ser comprado uma vez!</p>
-        <div class="lj-pac-itens">${caixa(htmlAvatar(Dados.d.perfil.avatar, B.moldura, 42), 'Moldura Carvalho')}${mais}${caixa(svgBau('prata'), 'Baú de prata')}${mais}${caixa(svgMoedas(3), '+' + fmtN(B.moedas))}</div>
-        <div class="lj-pac-rodape"><s>${GEMA}${fmtN(cheio)}</s><button class="lj-preco-bt" data-boas="1">${precoTxt(B.preco, true)}</button></div></div>`;
+      const B = BOAS_VINDAS, mini = (arte, txt) => `<span class="lj-mini">${arte}<small>${txt}</small></span>`;
+      h += `<section class="cartao lj-pacote"><div class="lj-pac-cab"><span class="ic-quadro">${ic('presente', 'cor-verm')}</span><span class="tx"><b>Pacote de boas-vindas</b><span class="sub">Só pode ser comprado uma vez</span></span></div>
+        <div class="lj-pac-itens">${mini(htmlAvatar(Dados.d.perfil.avatar, B.moldura, 44), 'Moldura Carvalho')}${mini(svgBau('prata'), 'Baú de prata')}${mini(svgMoedas(3), '+' + fmtN(B.moedas))}</div>
+        <div class="lj-pac-rodape"><span class="lj-velho">${ic('gema', 'cor-gema')}${fmtN(B.preco * 2)}</span><button class="bt pri lj-preco-bt" data-boas="1">${precoTxt(B.preco, true)}</button></div></section>`;
     }
-    h += fita('<span class="lj-fita-emo">🎁</span>', 'Grátis');
+    h += fita('', 'Grátis', '<span class="sub">volte sempre</span>');
     h += `<div class="lj-grade">${this.cartaGratis()}${BAUS.filter(b => b.gratisH).map(b => {
       const f = this.faltaBau(b);
-      return `<div class="lj-carta c-${b.id === 'madeira' ? 'comum' : 'raro'}"><div class="lj-c-topo">${b.id === 'madeira' ? 'A cada 4h' : 'Todo dia'}</div>
-        <div class="lj-c-arte">${svgBau(b.id)}<span class="lj-c-nome">${b.nome}</span></div>
-        ${f === 0 ? `<button class="lj-c-bt gratis" data-abrir="${b.id}" data-gratis="1">Abrir grátis</button>` : `<div class="lj-c-bt espera" data-ate="${Date.now() + f}">${tempoLoja(f)}</div>`}</div>`;
+      return `<div class="lj-carta c-${b.id === 'madeira' ? 'comum' : 'raro'}"><span class="lj-c-topo">${b.id === 'madeira' ? 'A cada 4h' : 'Todo dia'}</span>
+        <div class="lj-c-arte">${svgBau(b.id)}</div><span class="lj-c-nome">${b.nome}</span>
+        ${f === 0 ? `<button class="lj-c-bt bt verde peq" data-abrir="${b.id}" data-gratis="1">Abrir</button>` : `<div class="lj-c-bt espera">${ic('relogio', 'cor-cinza')}<span data-ate="${Date.now() + f}">${tempoLoja(f)}</span></div>`}</div>`;
     }).join('')}</div>`;
     return h;
   },
   cartaGratis() {
     const f = this.faltaGratis();
-    return `<div class="lj-carta c-moeda"><div class="lj-c-topo">${GRATIS_MOEDAS}</div><div class="lj-c-arte">${svgMoedas(1)}<span class="lj-c-nome">Moedas de ${GRATIS_H}h</span></div>
-      ${f === 0 ? `<button class="lj-c-bt gratis" data-gratis-moedas="1">Grátis${'<i class="lj-n">1</i>'}</button>` : `<div class="lj-c-bt espera" data-ate="${Date.now() + f}">${tempoLoja(f)}</div>`}</div>`;
+    return `<div class="lj-carta c-moeda"><span class="lj-c-topo">A cada ${GRATIS_H}h</span><div class="lj-c-arte">${svgMoedas(1)}</div><span class="lj-c-nome">${GRATIS_MOEDAS} moedas</span>
+      ${f === 0 ? '<button class="lj-c-bt bt verde peq" data-gratis-moedas="1">Pegar</button>' : `<div class="lj-c-bt espera">${ic('relogio', 'cor-cinza')}<span data-ate="${Date.now() + f}">${tempoLoja(f)}</span></div>`}</div>`;
   },
 
   /* ---------- aba Baús ---------- */
   htmlBaus() {
     const L = this.L();
-    return fita(svgBau('madeira'), 'Baús', '<button class="lj-info" data-chances="1" aria-label="Chances de cada baú">i</button>') + BAUS.map(b => {
-      const f = this.faltaBau(b), falta = b.piedade.n - (L.pd[b.id] || 0), R = RARIDADES[b.piedade.rar];
-      const bt = (n, preco) => `<button class="lj-abrir" data-abrir="${b.id}" data-n="${n}"><small>Abrir x${n}</small><span>${precoTxt(preco, b.gemas)}</span></button>`;
-      return `<div class="lj-bau b-${b.id}">
-        <div class="lj-bau-tit">${b.nome}</div>
-        <div class="lj-bau-arte">${svgBau(b.id)}</div>
-        <div class="lj-bau-info"><p>${b.desc}</p></div>
-        <div class="lj-bau-extra">
-          ${b.gratisH ? (f === 0 ? '<span class="lj-relogio pronto">⏱ Grátis agora!</span>' : `<span class="lj-relogio">⏱ Grátis em <b data-ate="${Date.now() + f}">${tempoLoja(f)}</b></span>`) : '<span class="lj-relogio">♛ Só com gemas</span>'}
-          <span class="lj-piedade">${falta <= 1 ? 'Item <b class="rc-' + b.piedade.rar + '">' + R.nome + '</b> garantido na próxima!' : `Item <b class="rc-${b.piedade.rar}">${R.nome}</b> garantido em <b>${falta}</b> aberturas`}</span></div>
-        <div class="lj-bau-bts">${f === 0 ? `<button class="lj-abrir gratis" data-abrir="${b.id}" data-gratis="1"><small>Abrir x1</small><span>Grátis</span><i class="lj-n">1</i></button>` : bt(1, b.preco)}${bt(10, b.x10)}</div>
-      </div>`;
-    }).join('') + `<p class="lj-nota">Itens repetidos não saem: quando você já tem todos os itens daquela raridade, ganha moedas no lugar.</p>`;
+    return fita('', 'Baús', '<button class="link" data-chances="1">O que tem dentro?</button>') + BAUS.map(b => {
+      const f = this.faltaBau(b), feitas = L.pd[b.id] || 0, falta = b.piedade.n - feitas, R = RARIDADES[b.piedade.rar];
+      const bt = (n, preco) => `<button class="bt ${n === 1 ? 'pri' : ''} lj-abrir" data-abrir="${b.id}" data-n="${n}"><small>Abrir ${n}</small>${precoTxt(preco, b.gemas)}</button>`;
+      return `<section class="cartao lj-bau b-${b.id}">
+        <div class="lj-bau-cab"><div class="lj-bau-arte">${svgBau(b.id)}</div>
+          <div class="lj-bau-tx"><b class="lj-bau-tit">${b.nome}</b><p>${b.desc}</p>
+            <span class="lj-relogio">${b.gratisH ? (f === 0 ? `${ic('presente', 'cor-verm')}Grátis agora!` : `${ic('relogio', 'cor-cinza')}Grátis em <b data-ate="${Date.now() + f}">${tempoLoja(f)}</b>`) : `${ic('gema', 'cor-gema')}Só com diamantes`}</span></div></div>
+        <div class="lj-piedade"><span>${falta <= 1 ? `<b class="rc-${b.piedade.rar}">${R.nome}</b> garantido na próxima!` : `<b class="rc-${b.piedade.rar}">${R.nome}</b> garantido em ${falta} aberturas`}</span>
+          <span class="barra ouro"><i style="width:${Math.round(feitas / b.piedade.n * 100)}%"></i></span></div>
+        <div class="lj-bau-bts">${f === 0 ? `<button class="bt verde lj-abrir gratis" data-abrir="${b.id}" data-gratis="1"><small>Abrir 1</small>Grátis</button>` : bt(1, b.preco)}${bt(10, b.x10)}</div>
+      </section>`;
+    }).join('') + '<p class="lj-nota sub">Itens repetidos não saem: quando você já tem todos os itens daquela raridade, ganha moedas no lugar.</p>';
   },
 
   /* ---------- aba Itens ---------- */
   carta(x) {
     const R = RARIDADES[x.rar], uso = emUso(x), tem = x.tem();
     let bt;
-    if (uso) bt = '<div class="lj-c-bt usando">✓ Em uso</div>';
-    else if (tem) bt = `<button class="lj-c-bt usar" data-usar="${x.chave}">Usar</button>`;
-    else if (x.bau) bt = '<button class="lj-c-bt bau" data-lj-aba="baus">Só em baús</button>';
-    else bt = `<button class="lj-c-bt" data-comprar="${x.chave}">${precoTxt(x.preco, x.gemas)}</button>`;
-    return `<div class="lj-carta c-${x.rar}${uso ? ' uso' : ''}"><div class="lj-c-topo">${R.nome}</div><div class="lj-c-arte">${arteItem(x)}<span class="lj-c-nome">${esc(x.nome)}</span></div>${bt}</div>`;
+    if (uso) bt = `<div class="lj-c-bt usando">${ic('ok', 'cor-verde')}Em uso</div>`;
+    else if (tem) bt = `<button class="lj-c-bt bt verde peq" data-usar="${x.chave}">Usar</button>`;
+    else if (x.bau) bt = `<button class="lj-c-bt bt peq" data-lj-aba="baus">${ic('bau', 'cor-bau')}Só em baús</button>`;
+    else bt = `<button class="lj-c-bt bt pri peq" data-comprar="${x.chave}">${precoTxt(x.preco, x.gemas)}</button>`;
+    return `<div class="lj-carta c-${x.rar}${uso ? ' uso' : ''}"><span class="etq rar-${x.rar}">${R.nome}</span><div class="lj-c-arte">${arteItem(x)}</div><span class="lj-c-nome">${esc(x.nome)}</span>${bt}</div>`;
   },
   htmlItens() {
     const cat = catalogo(), ord = (a, b) => (RARIDADES[a.rar].r - RARIDADES[b.rar].r) || (a.preco - b.preco);
-    const sec = (tipo) => `<div class="lj-grade">${cat.filter(x => x.tipo === tipo).sort(ord).map(x => this.carta(x)).join('')}</div>`;
+    const sec = tipo => `<div class="lj-grade">${cat.filter(x => x.tipo === tipo).sort(ord).map(x => this.carta(x)).join('')}</div>`;
     const L = this.L();
     const trocas = TROCAS.map((t, i) => { const pri = !L.troca[i];
-      return `<div class="lj-carta c-moeda"><div class="lj-c-topo">${fmtN(t.m)}</div>${pri ? `<span class="lj-1vez"><b>1ª vez</b>+${fmtN(t.m)}</span>` : ''}<div class="lj-c-arte">${svgMoedas(t.n)}<span class="lj-c-nome">${t.nome}</span></div>
-        <button class="lj-c-bt" data-trocar="${i}">${precoTxt(t.g, true)}</button></div>`; }).join('');
-    return fita(htmlAvatar(Dados.d.perfil.avatar, 'ouro', 40), 'Molduras') + sec('mold')
-      + fita(`<svg viewBox="0 0 100 100" class="lj-fita-pc"><use href="#pc-n"/></svg>`, 'Ícones') + sec('av')
-      + fita(`<span class="lj-mt" style="--mt:40px">${this.miniTabuleiro(TABULEIROS[0])}</span>`, 'Tabuleiros') + sec('tab')
-      + `<div id="lj-moedas"></div>` + fita(`<svg class="moeda" viewBox="0 0 26 26"><use href="#ic-moeda"/></svg>`, 'Moedas') + `<div class="lj-grade">${this.cartaGratis()}${trocas}</div>`
-      + '<p class="lj-nota">As gemas vêm dos prêmios do ranking e do torneio. Elas podem virar moedas aqui.</p>';
+      return `<div class="lj-carta c-moeda">${pri ? '<span class="etq verm lj-1vez">1ª vez: dobro</span>' : '<span class="lj-c-topo">Moedas</span>'}<div class="lj-c-arte">${svgMoedas(t.n)}</div><span class="lj-c-nome">${fmtN(t.m * (pri ? 2 : 1))} moedas</span>
+        <button class="lj-c-bt bt pri peq" data-trocar="${i}">${precoTxt(t.g, true)}</button></div>`; }).join('');
+    return fita('', 'Molduras') + sec('mold') + fita('', 'Ícones') + sec('av') + fita('', 'Tabuleiros') + sec('tab')
+      + '<div id="lj-moedas"></div>' + fita('', 'Moedas', '<span class="sub">troque diamantes</span>') + `<div class="lj-grade">${this.cartaGratis()}${trocas}</div>`
+      + '<p class="lj-nota sub">Os diamantes vêm dos prêmios do ranking e do torneio. Eles podem virar moedas aqui.</p>';
   },
 
   /* ---------- cliques ---------- */
@@ -7046,7 +7138,7 @@ const Loja = {
     const ds = b.dataset;
     if (ds.ljAba) { this.aba = ds.ljAba; this.tela(); window.scrollTo(0, 0); }
     else if (ds.irLj) App.ir(ds.irLj);
-    else if (ds.ljMoedas) { this.aba = 'itens'; this.tela(); const m = $('#lj-moedas'); if (m) window.scrollTo({ top: m.getBoundingClientRect().top + window.scrollY - 130, behavior: 'smooth' }); }
+    else if (ds.ljMoedas) this.irMoedas();
     else if (ds.usar) this.usar(ds.usar);
     else if (ds.comprar) this.comprar(ds.comprar);
     else if (ds.abrir) this.abrirBau(ds.abrir, +(ds.n || 1), !!ds.gratis);
@@ -7067,7 +7159,7 @@ const Loja = {
   },
   async faltou(gemas, preco, saldo) {
     Som.tocar('erro');
-    await modal(gemas ? 'Gemas insuficientes' : 'Moedas insuficientes', gemas ? `Faltam ${fmtN(preco - saldo)} gemas. As gemas são prêmios do ranking da semana, do mês e do torneio.` : `Faltam ${fmtN(preco - saldo)} moedas. Jogue, estude, resolva desafios ou troque gemas por moedas.`, [{ txt: 'Ok', cls: 'pri', val: 1 }]);
+    await modal(gemas ? 'Diamantes insuficientes' : 'Moedas insuficientes', gemas ? `Faltam ${fmtN(preco - saldo)} diamantes. Os diamantes são prêmios do ranking da semana, do mês e do torneio.` : `Faltam ${fmtN(preco - saldo)} moedas. Jogue, estude, resolva desafios ou troque gemas por moedas.`, [{ txt: 'Ok', cls: 'pri', val: 1 }]);
   },
   gastar(preco, gemas) { return gemas ? Gemas.gastar(preco) : Moedas.gastar(preco); },
   async comprar(chave) {
@@ -7077,7 +7169,7 @@ const Loja = {
     const d = Dados.d, saldo = x.gemas ? d.gemas || 0 : d.moedas;
     if (saldo < x.preco) { await this.faltou(x.gemas, x.preco, saldo); return; }
     const ok = await modal(`Comprar ${x.nome}?`, `<div class="lj-conf c-${x.rar}">${arteItem(x, 72)}<span><em class="rc-${x.rar}">${RARIDADES[x.rar].nome}</em> ${TIPO_ITEM[x.tipo]}</span>
-      <p>Custa ${precoTxt(x.preco, x.gemas)}. Você ficará com ${fmtN(saldo - x.preco)} ${x.gemas ? 'gemas' : 'moedas'}.</p></div>`, [{ txt: 'Cancelar', val: false }, { txt: 'Comprar e usar', cls: 'pri', val: true }], true);
+      <p>Custa ${precoTxt(x.preco, x.gemas)}. Você ficará com ${fmtN(saldo - x.preco)} ${x.gemas ? 'diamantes' : 'moedas'}.</p></div>`, [{ txt: 'Cancelar', val: false }, { txt: 'Comprar e usar', cls: 'pri', val: true }], true);
     if (!ok || !this.gastar(x.preco, x.gemas)) return;
     d.itens[chave] = 1; Dados.salvar();
     Conquistas.pausa = true;
@@ -7093,7 +7185,7 @@ const Loja = {
     const t = TROCAS[i]; if (!t) return;
     const L = this.L(), d = Dados.d, bonus = L.troca[i] ? 0 : t.m;
     if ((d.gemas || 0) < t.g) { await this.faltou(true, t.g, d.gemas || 0); return; }
-    const ok = await modal(`Trocar ${t.g} gemas?`, `<div class="lj-conf c-moeda">${svgMoedas(t.n)}<p>Você recebe <b>${MOEDA} ${fmtN(t.m + bonus)}</b>${bonus ? ' (o dobro, por ser a 1ª vez!)' : ''}.</p></div>`, [{ txt: 'Cancelar', val: false }, { txt: 'Trocar', cls: 'pri', val: true }], true);
+    const ok = await modal(`Trocar ${t.g} diamantes?`, `<div class="lj-conf c-moeda">${svgMoedas(t.n)}<p>Você recebe <b>${MOEDA} ${fmtN(t.m + bonus)}</b>${bonus ? ' (o dobro, por ser a 1ª vez!)' : ''}.</p></div>`, [{ txt: 'Cancelar', val: false }, { txt: 'Trocar', cls: 'pri', val: true }], true);
     if (!ok || !Gemas.gastar(t.g)) return;
     L.troca[i] = 1; Moedas.ganhar(t.m + bonus, 'troca de gemas'); this.redesenhar();
   },
@@ -7186,6 +7278,7 @@ const Cena = {
         if (aberto) return; aberto = true; timers.forEach(clearTimeout);
         el.classList.add('aberto'); Som.tocar('abre'); vibrar(40);
         if (melhor >= 3) { setTimeout(() => Som.tocar('lendario'), 250); vibrar([60, 40, 90]); } else if (melhor >= 2) setTimeout(() => Som.tocar('epico'), 250);
+        if (melhor >= 2 && efeitosLigados()) { el.classList.add('tremor'); setTimeout(() => el.classList.remove('tremor'), 450); }
         if (melhor >= 2) { let fx = ''; for (let i = 0; i < 26; i++) fx += `<i style="--x:${(Math.random() * 2 - 1).toFixed(2)};--y:${(Math.random() * -1.2 - .2).toFixed(2)};--d:${(Math.random() * .6).toFixed(2)}s"></i>`; $('.bc-faiscas', el).innerHTML = fx; }
         setTimeout(mostrar, b ? 420 : 60);
       };
@@ -7207,7 +7300,7 @@ const Cena = {
         }
         if (!aberto) abrir();
       });
-      if (b) {
+      if (b && efeitosLigados()) {
         requestAnimationFrame(() => el.classList.add('entra'));
         const bauEl = $('.bc-bau', el);
         [700, 1150, 1600].forEach((t, i) => depois(t, () => { bauEl.classList.remove('treme'); void bauEl.offsetWidth; bauEl.style.setProperty('--forca', 1 + i * .5); bauEl.classList.add('treme'); Som.tocar('bau'); vibrar(20); }));
@@ -7222,7 +7315,7 @@ const Cena = {
     if (r.tipo === 'nome') return `<div class="bc-carta r-${r.rar}" style="--i:${i}"><span class="bc-rar">Especial</span><span class="bc-arte">${SVG_NOME}</span>
       <b>Mudar nome</b><small>${grande ? 'Use no seu perfil para trocar o nome de graça' : 'Item'}</small></div>`;
     const x = r.item;
-    return `<div class="bc-carta r-${r.rar}" style="--i:${i}"><span class="bc-rar">${R.nome}</span><i class="bc-novo">Novo!</i><span class="bc-arte">${arteItem(x, grande ? 110 : 52)}</span>
+    return `<div class="bc-carta r-${r.rar}" style="--i:${i}"><span class="bc-rar etq rar-${r.rar}">${R.nome}</span><i class="bc-novo">Novo!</i><span class="bc-arte">${arteItem(x, grande ? 110 : 52)}</span>
       <b>${esc(x.nome)}</b><small>${TIPO_ITEM[x.tipo]}</small></div>`;
   }
 };
@@ -7321,7 +7414,7 @@ const Sequencia = {
     s.ultimo = hoje; s.melhor = Math.max(s.melhor || 0, s.atual);
     Dados.salvar();
     const bonus = this.bonusXp(s.atual), marco = MARCOS_SEQ[s.atual] || 0;
-    if (s.atual >= 2) Conquistas.fila.push({ tipo: 'seq', c: { id: 'seq-' + hoje, nome: s.atual + ' dias seguidos', ic: '🔥', moedas: marco, sub: `+${bonus} XP${marco ? ' · +' + marco + ' moedas' : ''}` } });
+    if (s.atual >= 2) Conquistas.fila.push({ tipo: 'seq', c: { id: 'seq-' + hoje, nome: s.atual + ' dias seguidos', ic: ic('fogo', 'cor-fogo'), moedas: marco, sub: `+${bonus} XP${marco ? ' · +' + marco + ' moedas' : ''}` } });
     if (marco) { Livro.meu().g += marco; Livro.recalcular(); }
     XP.extra(bonus);
   },
@@ -7388,7 +7481,7 @@ const Missoes = {
       let ok = false; try { ok = x.ev(t, o); } catch (e) { ok = false; }
       if (!ok) return;
       m.prog[id] = n + 1; mudou = true;
-      if (n + 1 >= x.alvo) Conquistas.fila.push({ tipo: 'missao', c: { id: 'ms-' + id, nome: x.txt, ic: '🎯', moedas: 0, sub: 'Pegue o prêmio em Missões' } });
+      if (n + 1 >= x.alvo) Conquistas.fila.push({ tipo: 'missao', c: { id: 'ms-' + id, nome: x.txt, ic: ic('alvo', 'cor-verde'), moedas: 0, sub: 'Pegue o prêmio em Missões' } });
     });
     if (mudou) { Dados.salvar(); Conquistas.mostrar(); }
   },
@@ -7412,20 +7505,21 @@ const Missoes = {
     const a = new Date(), m = new Date(a.getFullYear(), a.getMonth(), a.getDate() + 1), min = Math.max(1, Math.round((m - a) / 60000));
     return min >= 60 ? Math.floor(min / 60) + 'h ' + String(min % 60).padStart(2, '0') + 'min' : min + ' min';
   },
-  /* linha de uma missão (usada na tela inicial e na tela de missões) */
+  /* linha de uma missão */
   html(x) {
-    const p = x.alvo > 1 ? `${x.n}/${x.alvo}` : x.feita ? '' : '0/1';
+    const moedas = MOEDAS_MISSAO[x.i] || MOEDAS_MISSAO[0], xp = XP.MISSAO[x.i] || XP.MISSAO[0];
     return `<div class="ms-it${x.feita ? ' feita' : ''}${x.pega ? ' pega' : ''}">
-      <span class="ms-ic" aria-hidden="true">${x.pega ? MS_IC.ok : x.feita ? MS_IC.premio : MS_IC.alvo}</span>
-      <span class="ms-tx"><b>${esc(x.txt)}</b><small>${x.pega ? 'Prêmio recebido' : `${MOEDA}${fmtN(MOEDAS_MISSAO[x.i] || MOEDAS_MISSAO[0])} · +${XP.MISSAO[x.i] || XP.MISSAO[0]} XP`}</small>
-        ${!x.feita ? `<span class="barrinha"><i style="width:${Math.round(x.n / x.alvo * 100)}%"></i></span>` : ''}</span>
-      ${x.feita && !x.pega ? `<button class="bt pri peq" data-pegar="${x.id}">Pegar</button>` : `<span class="ms-n">${p}</span>`}</div>`;
+      <span class="ic-quadro ms-ic" aria-hidden="true">${x.pega ? ic('ok', 'cor-verde') : x.feita ? ic('presente', 'cor-verm') : ic('alvo', 'cor-verde')}</span>
+      <span class="ms-tx"><b>${esc(x.txt)}</b>${x.pega ? '<span class="sub">Prêmio recebido</span>' : `<span class="ms-premio">${ic('moeda', 'cor-moeda')}${fmtN(moedas)}<span class="xp">+${xp} XP</span></span>`}
+        ${!x.feita ? `<span class="barra"><i style="width:${Math.round(x.n / x.alvo * 100)}%"></i></span>` : ''}</span>
+      ${x.feita && !x.pega ? `<button class="bt verde peq" data-pegar="${x.id}">Pegar</button>` : `<span class="ms-n">${x.pega ? '' : x.n + '/' + x.alvo}</span>`}</div>`;
   },
   htmlBau() {
     const m = this.hoje(), todas = this.itens().filter(x => x.pega).length, pode = this.podeBau();
-    return `<div class="ms-bau${pode ? ' pronto' : ''}${m.bau ? ' aberto' : ''}"><span class="bau-ic" aria-hidden="true">${MS_IC.bau}</span>
-      <span class="ms-tx"><b>${m.bau ? 'Baú do dia aberto' : 'Baú do dia'}</b><small>${m.bau ? 'Volte amanhã para novas missões' : pode ? 'Pronto para abrir!' : `Pegue os 3 prêmios para abrir (${todas}/3)`} · ${MOEDA}${MOEDAS_BAU} · +${XP.BAU} XP</small></span>
-      ${pode ? '<button class="bt pri peq" data-bau="1">Abrir</button>' : ''}</div>`;
+    return `<div class="ms-bau${pode ? ' pronto' : ''}${m.bau ? ' aberto' : ''}"><span class="ms-bau-ic" aria-hidden="true">${ic('bau', m.bau ? 'cor-cinza' : 'cor-bau')}</span>
+      <span class="ms-tx"><b>${m.bau ? 'Baú do dia aberto' : 'Baú do dia'}</b><span class="sub">${m.bau ? 'Volte amanhã para novas missões' : pode ? 'Pronto para abrir!' : `Pegue os 3 prêmios para abrir`}</span>
+        ${m.bau ? '' : `<span class="ms-premio">${ic('moeda', 'cor-moeda')}${MOEDAS_BAU}<span class="xp">+${XP.BAU} XP</span></span>`}</span>
+      ${pode ? '<button class="bt pri peq" data-bau="1">Abrir</button>' : m.bau ? '' : `<span class="ms-n">${todas}/3</span>`}</div>`;
   },
   /* trata os botões "Pegar" e "Abrir" em qualquer tela */
   clique(e, depois) {
@@ -7437,32 +7531,31 @@ const Missoes = {
 
   /* tela "Missões": nível, sequência e missões do dia */
   tela() {
-    App.cabecalho('Missões e nível', 'menu');
+    App.cabecalho('Missões', 'menu');
     const d = Dados.d, xp = XP.total(), nv = XP.nivel(xp), t = XP.titulo(nv.n), prox = XP.titulo(nv.n + 1);
     const seq = Sequencia.viva(), s = d.sequencia, marco = Sequencia.proximoMarco(seq), its = this.itens();
     const ini = Sequencia.hoje() ? 0 : 1, dias = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
-    let bolas = ''; for (let k = 6; k >= 0; k--) { const on = seq && k >= ini && k < ini + seq, dt = new Date(Date.now() - k * 864e5); bolas += `<i class="${on ? 'on' : ''}${k === 0 ? ' hj' : ''}"><small>${k === 0 ? 'hoje' : dias[dt.getDay()]}</small></i>`; }
-    $('#tela').innerHTML = `<div class="pilha estreito">
-      <div class="cartao nv-cartao" style="--nv:${t.cor}">${XP.selo(nv.n, 64)}
-        <div class="nv-tx"><small>Seu nível</small><b>Nível ${nv.n} · ${t.nome}</b>
-          <span class="barra-xp"><i style="width:${Math.round(nv.frac * 100)}%"></i></span>
-          <span class="sub">${nv.atual} de ${nv.prox} XP · ao subir: ${MOEDA}${XP.moedasNivel(nv.n + 1)}${prox.de === nv.n + 1 ? ' e o título ' + prox.nome : ''}</span></div></div>
-      <div class="cartao seq-cartao${seq ? ' viva' : ''}">
-        <div class="seq-cab"><span class="chama" aria-hidden="true">🔥</span><div><b>${seq} ${seq === 1 ? 'dia seguido' : 'dias seguidos'}</b>
-          <span class="sub">${Sequencia.hoje() ? 'Hoje já está garantido ✓' : seq ? 'Jogue hoje para não perder a sequência' : 'Jogue, faça uma fase ou um desafio para começar'}</span></div></div>
-        <div class="seq-bolas" aria-hidden="true">${bolas}</div>
-        <p class="sub">Recorde: ${Math.max(s.melhor || 0, seq)} ${(s.melhor || 0) === 1 ? 'dia' : 'dias'} · cada dia vale até +${Sequencia.bonusXp(7)} XP${marco ? ` · com ${marco} dias: ${MOEDA}${MARCOS_SEQ[marco]}` : ''}</p></div>
-      <div class="cartao"><div class="ms-cab"><h3>Missões do dia</h3><span class="sub">Novas em ${this.faltaTxt()}</span></div>
-        <div class="ms-lista">${its.map(x => this.html(x)).join('')}${this.htmlBau()}</div></div>
-      <div class="cartao"><h3>Como ganhar XP</h3><ul class="xp-lista">
-        <li><span>Vencer o computador</span><b>+${XP.PC_V[0]} a +${XP.PC_V[5]}</b></li>
-        <li><span>Vencer online</span><b>+${XP.ON.v}</b></li>
-        <li><span>Cada estrela nas fases</span><b>+${XP.ESTRELA}</b></li>
-        <li><span>Desafio de primeira</span><b>+${XP.DESAFIO[1]}</b></li>
-        <li><span>Missões do dia</span><b>+${XP.MISSAO[0]} a +${XP.MISSAO[2]}</b></li>
-        <li><span>Troféus</span><b>+${Math.min(...TROFEUS.map(t => t.xp || 1e9))} a +${Math.max(...TROFEUS.map(t => t.xp || 0))}</b></li>
-        <li><span>Dia de sequência</span><b>+${Sequencia.bonusXp(1)} a +${Sequencia.bonusXp(7)}</b></li></ul>
-        <p class="sub" style="margin-top:8px">Empates e derrotas também valem um pouco. Cada nível novo dá moedas.</p></div></div>`;
+    let bolas = ''; for (let k = 6; k >= 0; k--) { const on = seq && k >= ini && k < ini + seq, dt = new Date(Date.now() - k * 864e5);
+      bolas += `<span class="sq-dia${on ? ' on' : ''}${k === 0 ? ' hj' : ''}"><i>${on ? ic('fogo', 'cor-fogo') : ''}</i><small>${k === 0 ? 'Hoje' : dias[dt.getDay()]}</small></span>`; }
+    $('#tela').innerHTML = `<div class="ms-tela">
+      <section class="nv-cartao" style="--nv:${t.cor}"><span class="nv-escudo">${XP.selo(nv.n, 72)}</span>
+        <div class="nv-tx"><span class="cm-etq">Seu nível</span><b class="contorno">Nível ${nv.n} · ${esc(t.nome)}</b>
+          <span class="barra ouro barra-nv"><i style="width:${Math.round(nv.frac * 100)}%"></i></span>
+          <span class="nv-sub">${fmtN(nv.atual)} de ${fmtN(nv.prox)} XP · no nível ${nv.n + 1}: ${ic('moeda', 'cor-moeda')}${XP.moedasNivel(nv.n + 1)}${prox.de === nv.n + 1 ? ' e o título ' + esc(prox.nome) : ''}</span></div></section>
+      <section class="cartao seq-cartao${seq ? ' viva' : ''}">
+        <div class="seq-cab"><span class="seq-fogo">${ic('fogo', seq ? 'cor-fogo' : 'cor-cinza')}</span><div><b>${seq} ${seq === 1 ? 'dia seguido' : 'dias seguidos'}</b>
+          <span class="sub">${Sequencia.hoje() ? 'Hoje já está garantido' : seq ? 'Jogue hoje para não perder a sequência' : 'Jogue, faça uma fase ou um desafio para começar'}</span></div></div>
+        <div class="seq-dias">${bolas}</div>
+        <p class="sub">Recorde: ${Math.max(s.melhor || 0, seq)} ${Math.max(s.melhor || 0, seq) === 1 ? 'dia' : 'dias'} · cada dia vale até +${Sequencia.bonusXp(7)} XP${marco ? ` · com ${marco} dias: +${MARCOS_SEQ[marco]} moedas` : ''}</p></section>
+      <div class="secao"><h2>Missões do dia</h2><span class="sub">${ic('relogio', 'cor-cinza ic-mini')}novas em ${this.faltaTxt()}</span></div>
+      <div class="ms-lista">${its.map(x => this.html(x)).join('')}${this.htmlBau()}</div>
+      <div class="secao"><h2>Como ganhar XP</h2></div>
+      <div class="cartao xp-lista">
+        ${[['computador', 'cor-azul', 'Vencer o computador', `+${XP.PC_V[0]} a +${XP.PC_V[5]}`], ['globo', 'cor-verde', 'Vencer online', `+${XP.ON.v}`], ['estrela', 'cor-ouro', 'Cada estrela nas fases', `+${XP.ESTRELA}`],
+           ['raio', 'cor-roxo', 'Desafio de primeira', `+${XP.DESAFIO[1]}`], ['alvo', 'cor-verde', 'Missões do dia', `+${XP.MISSAO[0]} a +${XP.MISSAO[2]}`],
+           ['trofeu', 'cor-ouro', 'Troféus', `+${Math.min(...TROFEUS.map(x => x.xp || 1e9))} a +${Math.max(...TROFEUS.map(x => x.xp || 0))}`], ['fogo', 'cor-fogo', 'Dia de sequência', `+${Sequencia.bonusXp(1)} a +${Sequencia.bonusXp(7)}`]]
+          .map(([i, c, t, v]) => `<div class="xp-l">${ic(i, c)}<span>${t}</span><b>${v}</b></div>`).join('')}
+        <p class="sub">Empates e derrotas também valem um pouco. Cada nível novo dá moedas.</p></div></div>`;
     $('#tela').onclick = e => this.clique(e, () => this.tela());
   }
 };
@@ -7543,12 +7636,12 @@ const Ranking = {
     const abas = [['geral', 'Geral'], ['semana', 'Semana'], ['online', 'Online'], ['guildas', 'Guildas']];
     const expl = { geral: 'Quem tem mais XP no total. Quem está em 1º usa a moldura exclusiva e o selo Nº 1.', semana: `Quem ganhou mais XP desde segunda-feira. ${Premios.fimSemana()}`, online: 'Pontos das partidas online: sobem quando você vence e descem quando perde. Todo mundo começa com 1000.', guildas: 'Soma do XP de todos os membros de cada guilda.' };
     const u = Nuvem.usuario, d = Dados.d;
-    $('#tela').innerHTML = `<div class="pilha estreito">
+    $('#tela').innerHTML = `<div class="rk-tela">
       <div class="abas-rk" role="tablist">${abas.map(([id, n]) => `<button role="tab" aria-selected="${this.aba === id}" class="${this.aba === id ? 'on' : ''}" data-aba="${id}">${n}</button>`).join('')}</div>
       ${this.aba === 'guildas' ? `<div class="opcoes c2 rk-sub">${[['semana', 'Nesta semana'], ['geral', 'Total']].map(([v, n]) => `<button class="op${Guilda.abaRk === v ? ' on' : ''}" data-abag="${v}">${n}</button>`).join('')}</div>` : ''}
       <p class="sub rk-exp">${expl[this.aba]}</p>${Premios.quadro(this.aba)}
-      <div class="cartao rk-lista" id="rk-lista" aria-live="polite">${'<div class="rk-it esq"><span></span></div>'.repeat(5)}</div>
-      ${u ? '' : '<div class="cartao destaque"><b>Entre com uma conta para aparecer no ranking</b><p class="sub" style="margin:4px 0 10px">É grátis e também salva seu progresso.</p><button class="bt pri" data-ir-perfil="1">Entrar na conta</button></div>'}</div>`;
+      <div class="rk-lista" id="rk-lista" aria-live="polite">${'<div class="rk-it esq"><span></span></div>'.repeat(5)}</div>
+      ${u ? '' : `<div class="cartao destaque rk-entrar"><span class="ic-quadro">${ic('amigo', 'cor-roxo')}</span><span class="tx"><b>Entre com uma conta para aparecer no ranking</b><span class="sub">É grátis e também salva seu progresso.</span></span><button class="bt pri peq" data-ir-perfil="1">Entrar</button></div>`}</div>`;
     $('#tela').onclick = e => {
       const a = e.target.closest('[data-aba]'); if (a) { this.aba = a.dataset.aba; this.tela(); return; }
       const ag = e.target.closest('[data-abag]'); if (ag) { Guilda.abaRk = ag.dataset.abag; this.tela(); return; }
@@ -7573,7 +7666,9 @@ const Ranking = {
     if (App.atual !== 'ranking' || this.aba !== aba) return;
     if (aba === 'geral') { Premios.reiT = Date.now(); Premios.definirRei(l[0] ? l[0].uid : null); }
     const meu = u ? l.findIndex(x => x.uid === u.uid) : -1;
-    let html = l.map((x, i) => this.linha(x, i + 1, u && x.uid === u.uid)).join('');
+    const linhas = l.map((x, i) => this.linha(x, i + 1, u && x.uid === u.uid));
+    /* pódio: os 3 primeiros em destaque (a ordem na página continua 1º, 2º, 3º; a tela mostra 2º-1º-3º) */
+    let html = l.length >= 3 ? `<div class="rk-podio">${linhas.slice(0, 3).join('')}</div>` + linhas.slice(3).join('') : linhas.join('');
     if (!l.length) html = `<div class="rk-vazio"><b>${aba === 'semana' ? 'Ninguém pontuou nesta semana ainda' : aba === 'online' ? 'Ninguém jogou online ainda' : 'Ninguém no ranking ainda'}</b><span class="sub">Seja o primeiro!</span></div>`;
     if (u && Dev.ativo) html += '<p class="sub rk-sep">Sua conta de dev não aparece no ranking</p>';
     else if (u && meu < 0) {
@@ -7617,7 +7712,7 @@ const Premios = {
   },
   quadro(aba) {
     const n = v => v.toLocaleString('pt-BR');
-    const it = (pos, g, m, tr) => `<div class="pm-it p${pos}"><span class="pm-pos">${pos}º</span><span class="pm-tx">${g ? `<b>${GEMA}${n(g)}</b>` : ''}<b>${MOEDA}${n(m)}</b>${tr ? `<small>🏆 ${esc(tr)}</small>` : ''}</span></div>`;
+    const it = (pos, g, m, tr) => `<div class="pm-it p${pos}"><span class="pm-pos">${pos}º</span><span class="pm-tx">${g ? `<b>${ic('gema', 'cor-gema')}${n(g)}</b>` : ''}<b>${ic('moeda', 'cor-moeda')}${n(m)}</b>${tr ? `<small>${esc(tr)}</small>` : ''}</span></div>`;
     if (aba === 'semana') return `<div class="cartao pm-quadro"><b class="pm-tit">Prêmios da semana</b><div class="pm-lista">${it(1, 500, 1500, 'Daqui de cima enxergo melhor!')}${it(2, 100, 500, 'Não vou desistir!')}${it(3, 0, 250)}</div></div>`;
     if (aba === 'geral') return `<div class="cartao pm-quadro"><b class="pm-tit">Prêmio do mês</b><div class="pm-lista um">${it(1, PREMIO_MES.g, PREMIO_MES.m, 'Moldura e selo Nº 1 enquanto estiver no topo')}</div></div>`;
     return '';
@@ -7694,7 +7789,7 @@ const Premios = {
     const tr = g.tipo !== 'mes' && pr.tr ? TROFEUS.find(t => t.id === pr.tr) : null;
     Som.tocar('conquista'); vibrar([40, 60, 40]);
     await modal(g.tipo === 'mes' ? 'Campeão do mês!' : g.tipo === 'torneio' ? `${g.pos}º lugar no torneio!` : `${g.pos}º lugar na semana!`,
-      `<div class="pm-pop">${tr ? svgTrofeu(tr.id, true, 80) : `<span class="pm-medalha p${g.tipo === 'mes' ? 1 : g.pos}">${g.tipo === 'mes' ? '👑' : g.pos + 'º'}</span>`}
+      `<div class="pm-pop">${tr ? svgTrofeu(tr.id, true, 80) : `<span class="pm-medalha p${g.tipo === 'mes' ? 1 : g.pos}">${g.tipo === 'mes' ? ic('coroa', 'cor-ouro') : g.pos + 'º'}</span>`}
         <p>${g.tipo === 'mes' ? 'Você terminou o mês em <b>1º lugar no ranking geral</b>.' : g.tipo === 'torneio' ? `Você terminou o torneio da semana passada em <b>${g.pos}º lugar</b>.` : `Você terminou a semana passada em <b>${g.pos}º lugar</b> no ranking.`}</p>
         <div class="pm-ganhos">${pr.g ? `<b>${GEMA} +${n(pr.g)}</b>` : ''}<b>${MOEDA} +${n(pr.m)}</b></div>
         ${tr ? `<p class="sub">E o troféu <b>“${esc(tr.nome)}”</b>!</p>` : ''}</div>`,
@@ -11745,7 +11840,6 @@ const App = {
     if (Conquistas.pausa && !modalAberto()) Conquistas.retomar([]);   // segurança: nunca deixa os avisos presos
     nav.classList.toggle('oculto', !aba);
     document.body.classList.toggle('com-nav', !!aba);
-    document.body.classList.toggle('fixa', t === 'conquistas');   // troféus: tela sem rolagem até ser refeita
     $$('button', nav).forEach(b => { const on = b.dataset.ir === aba; b.classList.toggle('on', on); if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
     $('#topo-chips').classList.toggle('oculto', TELAS_FOCO.includes(t));
     const el = $('#tela'), anima = !['jogo', 'desafio', 'fase', 'resumo'].includes(t);
@@ -11756,8 +11850,8 @@ App.montarNav();
 $('#voltar').innerHTML = ic('voltar');
 $('#nav-inf').onclick = e => { const b = e.target.closest('button[data-ir]'); if (b && !modalAberto() && (b.dataset.ir !== App.atual)) App.ir(b.dataset.ir); };
 $('#voltar').onclick = () => App.voltar();
-$('#topo-moedas').onclick = () => { if (!modalAberto()) App.ir('loja'); };
-$('#topo-gemas').onclick = () => { if (!modalAberto()) App.ir('loja'); };
+$('#topo-moedas').onclick = () => { if (modalAberto()) return; if (App.atual === 'loja') Loja.irMoedas(); else App.ir('loja'); };
+$('#topo-gemas').onclick = () => { if (modalAberto()) return; if (App.atual === 'loja') Loja.irMoedas(); else App.ir('loja'); };
 $('#topo-perfil').onclick = () => { if (!modalAberto()) QuadroPerfil.abrir(); };
 window.addEventListener('popstate', () => {
   if (App.ignorarPop) { App.ignorarPop = false; return; }
