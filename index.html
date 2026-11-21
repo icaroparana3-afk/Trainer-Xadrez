@@ -2617,6 +2617,57 @@ html[data-tema="claro"] .rc-comum{color:#5d6b78}html[data-tema="claro"] .rc-raro
 /* dica do treino: no alto da partida, para não cobrir os botões de baixo */
 body[data-tela="jogo"] .toast-dica{top:calc(70px + env(safe-area-inset-top));bottom:auto}
 
+/* ===== Etapa 6: replay e aberturas ===== */
+.replay{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.replay .col-tab{display:flex;flex-direction:column;gap:8px}
+.rp-cab{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:20px;background:var(--sup);border:2.5px solid var(--borda);box-shadow:0 3px 0 var(--borda)}
+.rp-res{flex:none;width:40px;height:40px;border-radius:15px;display:grid;place-items:center;background:var(--sup2);border:2.5px solid var(--borda)}
+.rp-res .ic{width:26px;height:26px}
+.rp-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.rp-tx b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3);line-height:1.1;color:var(--txt)}
+.rp-tx small{font-size:var(--t1);font-weight:800;color:var(--txt2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rp-jog{min-height:50px;padding-top:4px;padding-bottom:4px}
+.rp-prog{display:flex;align-items:center;gap:10px;padding:0 4px}
+.rp-prog span{flex:none;min-width:58px;text-align:right;font-family:var(--f-tit);font-size:var(--t2);color:var(--txt2)}
+.rp-prog input[type=range]{flex:1;min-width:0;height:36px;margin:0;background:transparent;-webkit-appearance:none;appearance:none;--p:0%}
+.rp-prog input[type=range]::-webkit-slider-runnable-track{height:12px;border-radius:999px;border:2.5px solid var(--borda);background:linear-gradient(90deg,var(--ouro) var(--p),var(--chip) var(--p))}
+.rp-prog input[type=range]::-moz-range-track{height:8px;border-radius:999px;border:2.5px solid var(--borda);background:linear-gradient(90deg,var(--ouro) var(--p),var(--chip) var(--p))}
+.rp-prog input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-9px;border-radius:50%;background:linear-gradient(var(--ouro-alto),var(--ouro));border:3px solid var(--borda);box-shadow:0 2px 0 var(--borda)}
+.rp-prog input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--ouro);border:3px solid var(--borda)}
+.rp-ctrl{display:grid;grid-template-columns:1fr 1fr 1.5fr 1fr 1fr;gap:8px;align-items:center}
+.rp-ctrl .bt{min-height:48px;padding:0;justify-content:center}
+.rp-ctrl .bt .ic{width:22px;height:22px}
+.rp-ctrl .rp-play{min-height:60px;border-radius:20px}
+.rp-ctrl .rp-play .ic{width:30px;height:30px}
+.rp-vel{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.rp-acoes .bt{flex:1}
+.hist-linha{display:flex;gap:8px;align-items:stretch}
+.hist-linha .hist-item{flex:1;min-width:0}
+.hist-play{flex:none;width:52px;border-radius:16px;border:2.5px solid var(--borda);box-shadow:0 3px 0 var(--borda);background:var(--sup2);color:var(--ouro);display:grid;place-items:center}
+.hist-play .ic{width:22px;height:22px}
+.hist-play:active{transform:translateY(3px);box-shadow:0 0 0 var(--borda)}
+/* aberturas */
+.ab-grupo{display:flex;align-items:center;gap:8px;margin:14px 4px 8px;font-family:var(--f-tit);font-weight:400;font-size:var(--t3);color:var(--txt)}
+.ab-grupo .ic{width:22px;height:22px}
+.ab-lista{display:flex;flex-direction:column;gap:8px}
+.ab-item{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;padding:10px 14px;border-radius:18px;background:var(--sup);border:2.5px solid var(--borda);box-shadow:0 3px 0 var(--borda);text-align:left;color:var(--txt)}
+.ab-item:active{transform:translateY(3px);box-shadow:0 0 0 var(--borda)}
+.ab-item.feita{background:var(--sup2)}
+.ab-pc{flex:none;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:var(--chip);border:2.5px solid var(--borda)}
+.ab-pc svg{width:34px;height:34px;fill:var(--pf);stroke:var(--ps);stroke-width:3.6;stroke-linejoin:round}
+.ab-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.ab-tx b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3);line-height:1.1}
+.ab-tx small{font-size:var(--t1);font-weight:800;color:var(--txt2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ab-item .est-mini{display:flex;gap:1px;flex:none}.ab-item .est-mini .ic{width:18px;height:18px}
+.ab-item .etq{flex:none}
+.ab-linha{margin-top:10px;padding:10px 12px;border-radius:14px;background:var(--sup2);border:2px solid var(--borda);font-weight:900;font-size:var(--t2);line-height:1.5;color:var(--txt)}
+.ab-mini{max-width:300px;margin:0 auto;width:100%}
+.ab-erros{text-align:center}
+.licao-peca.pcb svg{fill:var(--pf);stroke:var(--ps)}
+.licao .bt.cheio{width:100%}
+.ab-pc.pcb{background:#efe3cc}
+#rp-lances .l{min-height:36px;min-width:36px;display:inline-flex;align-items:center;justify-content:center}
+
 </style>
 </head>
 <body>
@@ -5447,6 +5498,9 @@ const IC = {
   engrenagem: '<path class="a" d="M13.5 3.5h5l.8 3.6 2.6 1.1 3.1-2 3.5 3.5-2 3.1 1.1 2.6 3.6.8v5l-3.6.8-1.1 2.6 2 3.1-3.5 3.5-3.1-2-2.6 1.1-.8 3.6h-5l-.8-3.6-2.6-1.1-3.1 2-3.5-3.5 2-3.1-1.1-2.6-3.6-.8v-5l3.6-.8 1.1-2.6-2-3.1 3.5-3.5 3.1 2 2.6-1.1z"/><circle class="b" cx="16" cy="16" r="4.5"/>'
 };
 Object.assign(IC, {
+  pausa: '<path class="a" d="M8.5 6h5v20h-5zM18.5 6h5v20h-5z"/>',
+  compartilhar: '<circle class="a" cx="23" cy="8" r="3.6"/><circle class="a" cx="9" cy="16" r="3.6"/><circle class="a" cx="23" cy="24" r="3.6"/><path class="s" d="M12.2 14.2l7.6-4.4M12.2 17.8l7.6 4.4"/>',
+  livro: '<path class="a" d="M4 7c4-1.5 8-1.2 12 1.5V27c-4-2.7-8-3-12-1.5z"/><path class="b" d="M28 7c-4-1.5-8-1.2-12 1.5V27c4-2.7 8-3 12-1.5z"/>',
   escudo: '<path class="a" d="M16 3l11 4v8c0 7-5 12-11 14C10 27 5 22 5 15V7z"/><path class="b n" d="M16 6.5l8 3v5.5c0 5-3.4 8.6-8 10.2z" style="opacity:.35"/>',
   espadas: '<path class="b" d="M6 4l15 15-2.5 2.5L3.5 6.5 3 3.5z"/><path class="b" d="M26 4L11 19l2.5 2.5 15-15 .5-3z"/><path class="a" d="M8 20l4 4-3 3-2-2-2 1 1-2-2-2zM24 20l-4 4 3 3 2-2 2 1-1-2 2-2z"/>',
   lua: '<path class="a" d="M20 4a12 12 0 1 0 8 19A10 10 0 0 1 20 4z"/>',
@@ -8685,6 +8739,7 @@ const Analise = {
           : '<p class="sub">Nenhuma imprecisão ou erro encontrado. Partida muito bem jogada!</p>'}</div></div>
           <div class="cartao"><h3>3 dicas para a próxima partida</h3>${r.dicas.map((d, i) => `<div class="dica-item"><span class="num">${i + 1}</span><span>${esc(d)}</span></div>`).join('')}</div>
           <div class="cartao"><h3>Lances da partida</h3><div class="lances" id="lances"></div></div>
+          ${N ? `<button class="bt cheio" id="r-replay">${ic('tocar', 'ic-tx')}Assistir replay</button>` : ''}
           <div class="fila"><button class="bt" id="r-rever" style="flex:1">Rever lance a lance</button><button class="bt" id="r-pgn" style="flex:1">Copiar PGN</button></div>
           <div class="fila"><button class="bt pri" id="r-nova" style="flex:1">${p.modo === 'pc' ? 'Nova partida' : p.modo === 'local' ? 'Jogar de novo' : 'Jogar com amigos'}</button><button class="bt" id="r-menu" style="flex:1">Menu</button></div>
         </div>
@@ -8742,6 +8797,7 @@ const Analise = {
     $('#r-prox').onclick = () => mostra(idx + 1); $('#r-fim').onclick = () => mostra(N);
     $('#r-rever').onclick = () => { mostra(0); irTopo(); };
     $('#r-pgn').onclick = () => this.copiarPgn(p);
+    if ($('#r-replay')) $('#r-replay').onclick = () => Replay.abrir(Replay.deAnalise(p), () => App.ir('resumo', r));
     $('#r-nova').onclick = () => App.ir(p.modo === 'pc' ? 'config' : p.modo === 'local' ? 'jogo' : 'amigos', p.modo === 'local' ? { modo: 'local' } : p.modo === 'pc' && (p.treino || (p.registro && p.registro.treino)) ? 'treino' : undefined);
     $('#r-menu').onclick = () => App.ir('menu');
     $('#lista-erros').onclick = e => { const b = e.target.closest('.erro-item'); if (b) abreErro(+b.dataset.j); };
@@ -8821,10 +8877,11 @@ const Historico = {
   itemHtml(reg, i, cache) {
     const r = this.resultado(reg), q = this.rotulo(reg), pode = !!reg.san, temCache = cache && !!cache[reg.t];
     const cor = reg.modo === 'local' ? '' : ` · de ${corNome(reg.cor)}`;
-    return `<button class="hist-item res-${r.c}" ${i == null ? `data-t="${reg.t}"` : `data-i="${i}"`} ${pode ? '' : 'disabled'}>
+    return (i == null ? '<div class="hist-linha">' : '') + `<button class="hist-item res-${r.c}" ${i == null ? `data-t="${reg.t}"` : `data-i="${i}"`} ${pode ? '' : 'disabled'}>
       <span class="hist-ic"><svg viewBox="0 0 24 24" aria-hidden="true">${this.ICS[q.ic]}</svg></span>
       <span class="hist-tx"><b>${r.t}</b><span>${esc(q.quem)}${cor}</span><small>${this.dataTxt(reg.t)} · ${Math.ceil((reg.lances || 0) / 2)} lances${reg.motivo ? ' · ' + esc(reg.motivo) : ''}</small></span>
-      <span class="hist-dir">${reg.prec != null ? `<b>${reg.prec}%</b><small>precisão</small>` : pode ? `<small>${temCache ? 'ver análise' : 'analisar'}</small>` : '<small>sem lances</small>'}</span></button>`;
+      <span class="hist-dir">${reg.prec != null ? `<b>${reg.prec}%</b><small>precisão</small>` : pode ? `<small>${temCache ? 'ver análise' : 'analisar'}</small>` : '<small>sem lances</small>'}</span></button>`
+      + (i == null && pode ? `<button class="hist-play" data-play="${reg.t}" aria-label="Assistir replay">${ic('tocar', 'ic-tx')}</button>` : '') + (i == null ? '</div>' : '');
   },
   tela() {
     App.cabecalho('Histórico', 'perfil');
@@ -8843,6 +8900,7 @@ const Historico = {
     $('#tela').onclick = e => {
       const f = e.target.closest('[data-f]'); if (f) { this.filtro = f.dataset.f; this.tela(); return; }
       const ir = e.target.closest('[data-ir]'); if (ir) { App.ir(ir.dataset.ir); return; }
+      const pl = e.target.closest('[data-play]'); if (pl) { Replay.abrirRegistro(+pl.dataset.play); return; }
       const b = e.target.closest('.hist-item'); if (b && !b.disabled) this.abrir(+b.dataset.t);
     };
     App.aoSair = () => { $('#tela').onclick = null; };
@@ -9067,7 +9125,7 @@ const Aprender = {
   htmlEstrelas(n) { return [1, 2, 3].map(i => `<span class="${i <= n ? 'on' : ''}">${ic('estrela', i <= n ? 'cor-ouro' : 'cor-apagada')}</span>`).join(''); },
 
   modSel: null, modo: 'modulos', fxSel: null,
-  abas() { return `<div class="abas-rk abas-apr" role="tablist">${[['modulos', 'Módulos'], ['desafios', 'Desafios']].map(([id, n]) => `<button role="tab" aria-selected="${this.modo === id}" class="${this.modo === id ? 'on' : ''}" data-modo="${id}">${n}</button>`).join('')}</div>`; },
+  abas() { return `<div class="abas-rk abas-apr" role="tablist">${[['modulos', 'Módulos'], ['desafios', 'Desafios'], ['aberturas', 'Aberturas']].map(([id, n]) => `<button role="tab" aria-selected="${this.modo === id}" class="${this.modo === id ? 'on' : ''}" data-modo="${id}">${n}</button>`).join('')}</div>`; },
   /* caminho em zigue-zague (o mesmo desenho para módulos e desafios) */
   geometria(n) {
     const OFF = [0, 64, 0, -64], DY = 106, Y0 = 128, pts = Array.from({ length: n }, (_, k) => ({ x: OFF[k % 4], y: Y0 + k * DY }));
@@ -9113,6 +9171,7 @@ const Aprender = {
   /* trilha de fases de um módulo, com caminho em zigue-zague */
   telaLista(mod) {
     if (this.modo === 'desafios') return this.telaDesafios();
+    if (this.modo === 'aberturas') return Aberturas.telaLista();
     const r = this.resumo(), t = this.todas();
     App.cabecalho('Aprender', 'menu', `${r.estrelas}/${r.maxEstrelas} estrelas`);
     // módulo mostrado: o escolhido, ou o da primeira fase ainda não concluída
@@ -9339,6 +9398,340 @@ const Desafios = {
 };
 
 /* ==========================================================================
+   ABERTURAS — treino de memória das linhas principais, com estrelas
+   As estrelas ficam em Dados.d.extras.ab (id -> 1 a 3). "extras" é guardado
+   inteiro até pelas versões antigas do app, então nada se perde entre aparelhos.
+   ========================================================================== */
+const ABERTURAS = [
+  { id: 'italiana', nome: 'Italiana', cor: 'w', peca: 'b',
+    ideia: 'Centro com e4, cavalo em f3 e bispo em c4 mirando a casa fraca f7. Depois c3 e d3 preparam o centro, e o roque deixa o rei seguro.',
+    linha: 'e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d3 d6 O-O' },
+  { id: 'espanhola', nome: 'Espanhola (Ruy López)', cor: 'w', peca: 'b',
+    ideia: 'O bispo em b5 pressiona o cavalo que defende e5. As brancas rocam, colocam a torre em e1 e preparam d4 com c3 e h3.',
+    linha: 'e4 e5 Nf3 Nc6 Bb5 a6 Ba4 Nf6 O-O Be7 Re1 b5 Bb3 d6 c3 O-O h3' },
+  { id: 'escocesa', nome: 'Escocesa', cor: 'w', peca: 'n',
+    ideia: 'As brancas abrem o centro cedo com d4. Depois das trocas, avançam e5 para empurrar o cavalo preto e ganhar espaço.',
+    linha: 'e4 e5 Nf3 Nc6 d4 exd4 Nxd4 Nf6 Nxc6 bxc6 e5 Qe7 Qe2 Nd5 c4' },
+  { id: 'gambitodama', nome: 'Gambito da Dama', cor: 'w', peca: 'q',
+    ideia: 'O peão de c4 ataca o centro preto. As brancas desenvolvem o cavalo, cravam o cavalo de f6 com Bg5 e fecham com e3.',
+    linha: 'd4 d5 c4 e6 Nc3 Nf6 Bg5 Be7 e3 O-O Nf3' },
+  { id: 'londres', nome: 'Sistema Londres', cor: 'w', peca: 'b',
+    ideia: 'Um plano fácil de lembrar: d4, bispo em f4 antes de e3, cavalos em f3 e d2, peão em c3 e bispo em d3.',
+    linha: 'd4 d5 Bf4 Nf6 e3 e6 Nf3 c5 c3 Nc6 Nbd2 Bd6 Bg3 O-O Bd3' },
+  { id: 'inglesa', nome: 'Inglesa', cor: 'w', peca: 'p',
+    ideia: 'As brancas começam pelo lado com c4, colocam o bispo em g2 (fianqueto) e controlam o centro de longe.',
+    linha: 'c4 e5 Nc3 Nf6 g3 d5 cxd5 Nxd5 Bg2 Nb6 Nf3 Nc6 O-O' },
+  { id: 'siciliana', nome: 'Siciliana (Najdorf)', cor: 'b', peca: 'p',
+    ideia: 'Contra 1.e4, as pretas jogam c5. Depois de d4 trocam o peão de c pelo peão central e jogam a6 para controlar b5.',
+    linha: 'e4 c5 Nf3 d6 d4 cxd4 Nxd4 Nf6 Nc3 a6' },
+  { id: 'francesa', nome: 'Francesa', cor: 'b', peca: 'p',
+    ideia: 'O peão em e6 prepara d5, desafiando o centro branco. Quando as brancas avançam e5, o cavalo recua para d7 e as pretas trocam os bispos.',
+    linha: 'e4 e6 d4 d5 Nc3 Nf6 Bg5 Be7 e5 Nfd7 Bxe7 Qxe7' },
+  { id: 'carokann', nome: 'Caro-Kann', cor: 'b', peca: 'p',
+    ideia: 'O peão em c6 apoia d5. Depois da troca em e4, o bispo sai para f5 antes de e6, e as pretas ficam com uma posição muito sólida.',
+    linha: 'e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5 Ng3 Bg6 h4 h6 Nf3 Nd7' },
+  { id: 'escandinava', nome: 'Escandinava', cor: 'b', peca: 'q',
+    ideia: 'As pretas atacam e4 logo no primeiro lance. A dama recaptura e vai para a5, longe dos ataques, e o bispo sai para f5.',
+    linha: 'e4 d5 exd5 Qxd5 Nc3 Qa5 d4 Nf6 Nf3 c6 Bc4 Bf5' },
+  { id: 'indiarei', nome: 'Índia do Rei', cor: 'b', peca: 'k',
+    ideia: 'As pretas deixam as brancas ocuparem o centro, rocam rápido com o bispo em g7 e depois atacam o centro com e5.',
+    linha: 'd4 Nf6 c4 g6 Nc3 Bg7 e4 d6 Nf3 O-O Be2 e5' },
+  { id: 'eslava', nome: 'Eslava', cor: 'b', peca: 'p',
+    ideia: 'Contra o Gambito da Dama, o peão em c6 defende d5. As pretas tomam em c4 e desenvolvem o bispo para f5 antes de e6.',
+    linha: 'd4 d5 c4 c6 Nf3 Nf6 Nc3 dxc4 a4 Bf5' }
+];
+
+const Aberturas = {
+  estrelas(id) { const ab = Dados.d.extras.ab; return (ab && +ab[id]) || 0; },
+  resumo() { let est = 0, feitas = 0; ABERTURAS.forEach(a => { const e = this.estrelas(a.id); est += e; if (e) feitas++; }); return { est, feitas, max: ABERTURAS.length * 3, total: ABERTURAS.length }; },
+  lances(a) { return a.linha.split(' '); },
+  /* "1.e4 e5 2.Cf3 Cc6 …" em português */
+  textoLinha(a, ate) {
+    const l = this.lances(a).slice(0, ate || 99); let h = '';
+    l.forEach((s, i) => { if (i % 2 === 0) h += (i ? ' ' : '') + (i / 2 + 1) + '.'; else h += ' '; h += sanPt(s); });
+    return h;
+  },
+  /* exercício no formato do Aprender (sequência de lances) */
+  exercicio(a) {
+    const l = this.lances(a), preto = a.cor === 'b';
+    return { t: 'seq', fen: INICIO, pre: preto ? l[0] : undefined, line: preto ? l.slice(1) : l,
+      ok: `Linha completa! Essa é a ${a.nome}.`, err: 'Esse não é o lance desta abertura. Tente outro ou peça uma dica.' };
+  },
+
+  /* ---------- lista (aba "Aberturas" do Aprender) ---------- */
+  telaLista() {
+    const r = this.resumo();
+    App.cabecalho('Aprender', 'menu');
+    const est = n => `<span class="est-mini">${[1, 2, 3].map(k => ic('estrela', k <= n ? 'cor-ouro' : 'cor-apagada')).join('')}</span>`;
+    const item = a => { const e = this.estrelas(a.id);
+      return `<button class="ab-item${e ? ' feita' : ''}" data-ab="${a.id}"><span class="ab-pc pc${a.cor}">${pecaSvg(a.peca, a.cor)}</span>
+        <span class="ab-tx"><b>${esc(a.nome)}</b><small>${esc(this.textoLinha(a, 6))}…</small></span>${est(e)}</button>`; };
+    const grupo = (cor, nome) => `<h3 class="ab-grupo">${ic('escudo', cor === 'w' ? 'cor-branco' : 'cor-marrom')}${nome}</h3><div class="ab-lista">${ABERTURAS.filter(a => a.cor === cor).map(item).join('')}</div>`;
+    $('#tela').innerHTML = `<div class="aprender">${Aprender.abas()}
+      <section class="cab-mod cab-des"><div class="cm-tx"><span class="cm-etq">Treino de memória</span><h2 class="contorno">Aberturas</h2>
+        <span class="cm-desc">Jogue os lances da linha principal sem errar para ganhar 3 estrelas.</span>
+        <span class="barra ouro"><i style="width:${Math.round(r.est / r.max * 100)}%"></i></span></div>
+        <div class="num-g">${r.feitas}<small>/${r.total}</small></div></section>
+      ${grupo('w', 'Jogando de brancas')}${grupo('b', 'Jogando de pretas')}
+    </div>`;
+    $('#tela').onclick = e => {
+      const m = e.target.closest('[data-modo]'); if (m) { Aprender.modo = m.dataset.modo; Aprender.telaLista(); window.scrollTo(0, 0); return; }
+      const b = e.target.closest('[data-ab]'); if (b) App.ir('abertura', b.dataset.ab);
+    };
+    App.aoSair = () => { $('#tela').onclick = null; };
+  },
+
+  /* ---------- uma abertura: apresentação, treino e resultado ---------- */
+  tela(id) {
+    const pos = ABERTURAS.findIndex(x => x.id === id); if (pos < 0) { App.ir('aprender', 'aberturas'); return; }
+    const a = ABERTURAS[pos], e = this.estrelas(id), l = this.lances(a);
+    App.cabecalho(a.nome, () => App.ir('aprender', 'aberturas'), a.cor === 'w' ? 'Brancas' : 'Pretas');
+    const meus = l.filter((_, i) => (i % 2 === 0) === (a.cor === 'w')).length;
+    $('#tela').innerHTML = `<div class="licao">
+      <section class="licao-cab"><span class="licao-peca pc${a.cor}">${pecaSvg(a.peca, a.cor)}</span>
+        <div><span class="cm-etq">Abertura · você joga de ${a.cor === 'w' ? 'brancas' : 'pretas'}</span><h2 class="contorno">${esc(a.nome)}</h2>
+        ${e ? `<span class="est">${[1, 2, 3].map(k => ic('estrela', k <= e ? 'cor-ouro' : 'cor-apagada')).join('')}</span>` : ''}</div></section>
+      <div class="cartao"><p class="intro">${esc(a.ideia)}</p>
+        <p class="ab-linha" aria-label="Lances da abertura">${esc(this.textoLinha(a))}</p></div>
+      <button class="bt pri grande" id="ab-treinar">Treinar (${meus} lances seus)</button>
+      <button class="bt cheio" id="ab-ver">${ic('tocar', 'ic-tx')}Ver os lances</button></div>`;
+    $('#ab-treinar').onclick = () => this.treinar(id);
+    $('#ab-ver').onclick = () => Replay.abrir({ s: a.linha, w: a.cor === 'w' ? 'Você' : 'Adversário', b: a.cor === 'b' ? 'Você' : 'Adversário', r: null, mo: a.nome, t: 0, lado: a.cor, abertura: true }, () => App.ir('abertura', id));
+  },
+  treinar(id) {
+    const pos = ABERTURAS.findIndex(x => x.id === id), a = ABERTURAS[pos], ex = this.exercicio(a);
+    let erros = 0, exAtual = null;
+    App.cabecalho(a.nome, () => App.ir('abertura', id), 'Treino');
+    App.aoSair = () => { if (exAtual) exAtual.destruir(); };
+    $('#tela').innerHTML = `<div class="exercicio">
+      <div class="enunciado"><span class="en-num">${ic('livro', 'ic-tx')}</span><div><span>Jogue os lances da ${esc(a.nome)} de memória. ${a.cor === 'b' ? 'Você joga de pretas: as brancas começam.' : 'Você joga de brancas.'}</span><div class="passo-txt" id="passo-txt"></div></div></div>
+      <div id="ex-host"></div>
+      <div class="retorno info" id="retorno">Toque na peça e depois na casa de destino (ou arraste a peça).</div>
+      <div class="fila-ex"><button class="bt" id="b-dica">${ic('lampada', 'cor-teal')}Dica</button><button class="bt pri oculto" id="b-cont">Concluir</button></div>
+      <p class="sub ab-erros" id="ab-erros">Erros: 0</p></div>`;
+    const ret = $('#retorno'), cont = () => { const x = $('#ab-erros'); if (x) x.textContent = `Erros: ${erros}` + (erros ? ' · sem erros você ganha 3 estrelas' : ''); };
+    exAtual = criarExercicio(ex, $('#ex-host'), {
+      msg: (tipo, txt) => { ret.className = 'retorno ' + tipo; ret.textContent = txt; },
+      passo: () => {},
+      erro: () => { erros++; cont(); Som.tocar('erro'); vibrar(60); },
+      resolvido: () => { Som.tocar('acerto'); $('#b-cont').classList.remove('oculto'); $('#b-dica').classList.add('oculto'); }
+    });
+    $('#b-dica').onclick = () => { if (exAtual.dica()) { erros++; cont(); ret.className = 'retorno info'; ret.textContent = 'Dica: siga a seta azul (conta como um erro).'; } };
+    $('#b-cont').onclick = () => { if (exAtual) { exAtual.destruir(); exAtual = null; } this.fim(id, erros); };
+    window.scrollTo(0, 0);
+  },
+  /* guarda as estrelas e dá o prêmio (só quando melhora) */
+  premiar(id, erros) {
+    const est = erros === 0 ? 3 : erros <= 2 ? 2 : 1, antes = this.estrelas(id);
+    let moedas = 0, xp = 0;
+    if (est > antes) {
+      if (!Dados.d.extras.ab || typeof Dados.d.extras.ab !== 'object') Dados.d.extras.ab = {};
+      Dados.d.extras.ab[id] = est;
+      moedas = antes ? 5 * (est - antes) : 15 + 5 * est;
+      xp = XP.extra(10 * (est - antes));
+      Dados.salvar();
+    }
+    return { est, antes, moedas, xp };
+  },
+  fim(id, erros) {
+    const pos = ABERTURAS.findIndex(x => x.id === id), a = ABERTURAS[pos], prox = ABERTURAS[pos + 1];
+    const r = this.premiar(id, erros), xp = r.xp || 0;       // XP.extra já conta a semana e o nível
+    App.cabecalho(a.nome, () => App.ir('aprender', 'aberturas'));
+    $('#tela').innerHTML = `<div class="estreito"><div class="cartao final">
+      <h2 class="contorno">Abertura concluída!</h2><div class="est-g">${Aprender.htmlEstrelas(r.est)}</div>
+      ${r.moedas || xp ? `<p class="ganhos-fim">${r.moedas ? `<span class="ganho-chip">${ic('moeda', 'cor-moeda')}+${r.moedas}</span>` : ''}${xp ? `<span class="ganho-chip"><span class="xp">XP</span>+${xp}</span>` : ''}</p>` : ''}
+      <p class="sub" style="margin-bottom:16px">${r.est === 3 ? 'Linha inteira sem errar. Você já sabe essa abertura!' : r.est === 2 ? 'Quase! Treine de novo sem erros nem dicas para ganhar 3 estrelas.' : 'Linha completa. Veja os lances de novo e repita para fixar.'}</p>
+      <div class="pilha">${r.est < 3 ? '<button class="bt pri cheio" id="ab-rep">Treinar de novo</button>' : prox ? `<button class="bt pri cheio" id="ab-prox">Próxima: ${esc(prox.nome)}</button>` : ''}
+        ${r.est === 3 ? '<button class="bt cheio" id="ab-rep">Treinar de novo</button>' : prox ? `<button class="bt cheio" id="ab-prox">Próxima: ${esc(prox.nome)}</button>` : ''}
+        <button class="bt cheio" id="ab-lista">Voltar às aberturas</button></div></div></div>`;
+    $('#ab-rep').onclick = () => this.treinar(id);
+    const bp = $('#ab-prox'); if (bp) bp.onclick = () => App.ir('abertura', prox.id);
+    $('#ab-lista').onclick = () => App.ir('aprender', 'aberturas');
+    window.scrollTo(0, 0); Som.tocar('fim');
+    if (r.moedas) Moedas.ganhar(r.moedas, r.antes ? 'mais estrelas' : 'abertura treinada');
+    Conquistas.verificar();
+  }
+};
+
+/* ==========================================================================
+   REPLAY — assistir uma partida lance a lance, sozinha, e compartilhar por link
+   Replay.abrir(rep, volta)   rep: { s: 'e4 e5 …', w: nome, b: nome, r: 'w'|'b'|'e', mo, t, fw, fb }
+   O link leva tudo no próprio endereço (#replay=…): não usa a nuvem e funciona offline.
+   ========================================================================== */
+const Replay = {
+  VEL: [['Devagar', 1700], ['Normal', 1000], ['Rápido', 480]],
+  vel: 1,
+  rep: null, volta: null,
+  MAX: 400,                       // lances (meios-lances) aceitos num link
+
+  /* ---------- montar o replay a partir do histórico ---------- */
+  deRegistro(reg, dono) {
+    if (!reg || !reg.san) return null;
+    const p = Dados.d.perfil, eu = dono ? (dono.nome || 'Jogador') : nomeJogador();
+    const fotoEu = dono ? '' : htmlAvatar(p.avatar, p.moldura, 42);
+    let adv = 'Adversário', fotoAdv = '';
+    if (reg.modo === 'pc') { const nv = NIVEIS[reg.nivel] || NIVEIS[0]; adv = 'Computador (' + nv.nome + ')'; fotoAdv = `<span class="foto-pc" style="background:${COR_NIVEL[reg.nivel] || COR_NIVEL[0]}">${ic('computador', 'cor-branco')}</span>`; }
+    else if (reg.modo === 'online') adv = reg.adv || 'Amigo';
+    const local = reg.modo === 'local';
+    const w = local ? 'Brancas' : reg.cor === 'w' ? eu : adv, b = local ? 'Pretas' : reg.cor === 'b' ? eu : adv;
+    const r = local ? reg.res : reg.res === 'e' ? 'e' : reg.res === 'v' ? reg.cor : outraCor(reg.cor);
+    return { s: reg.san, w, b, r, mo: reg.motivo || '', t: reg.t, lado: local ? 'w' : reg.cor,
+      fw: local ? '' : reg.cor === 'w' ? fotoEu : fotoAdv, fb: local ? '' : reg.cor === 'b' ? fotoEu : fotoAdv };
+  },
+  /* a partir do resumo (análise) de uma partida */
+  deAnalise(p) {
+    const eu = p.alheio ? p.alheio.nome : nomeJogador();
+    const adv = p.modo === 'pc' ? 'Computador (' + (NIVEIS[p.nivel] || NIVEIS[0]).nome + ')' : p.modo === 'online' ? (p.nomeAdv || 'Amigo') : null;
+    const ambos = p.cor === 'ambos';
+    return { s: p.lances.map(m => m.san).join(' '), w: ambos ? 'Brancas' : p.cor === 'w' ? eu : adv, b: ambos ? 'Pretas' : p.cor === 'b' ? eu : adv,
+      r: p.vencedor == null ? 'e' : p.vencedor, mo: p.motivo || '', t: p.t || (p.registro && p.registro.t) || Date.now(), lado: ambos ? 'w' : p.cor };
+  },
+  abrir(rep, volta) { if (!rep || !rep.s) return; this.rep = rep; this.volta = volta || 'historico'; App.ir('replay', rep); },
+  abrirRegistro(t) { const reg = Dados.d.partidas.find(x => x.t === t); const r = this.deRegistro(reg); if (r) this.abrir(r, 'historico'); },
+
+  /* ---------- link ---------- */
+  codificar(rep) {
+    const o = { v: 1, s: rep.s, w: String(rep.w || '').slice(0, 30), b: String(rep.b || '').slice(0, 30), r: rep.r, t: rep.t || 0 };
+    if (rep.mo) o.mo = String(rep.mo).slice(0, 40);
+    const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(o))));
+    return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  },
+  /* o link vem de fora: tudo é conferido (lances válidos, textos curtos, nada de HTML) */
+  decodificar(txt) {
+    try {
+      const b64 = String(txt).replace(/-/g, '+').replace(/_/g, '/');
+      const o = JSON.parse(decodeURIComponent(escape(atob(b64 + '==='.slice((b64.length + 3) % 4)))));
+      if (!o || typeof o.s !== 'string') return null;
+      const g = new Chess(), ok = [];
+      for (const s of o.s.split(' ').slice(0, this.MAX)) { if (!s) continue; const m = g.move(s); if (!m) break; ok.push(m.san); }
+      if (!ok.length) return null;
+      const txt30 = (x, d) => (typeof x === 'string' && x.trim() ? x.trim().slice(0, 30) : d);
+      return { s: ok.join(' '), w: txt30(o.w, 'Brancas'), b: txt30(o.b, 'Pretas'), r: ['w', 'b', 'e'].includes(o.r) ? o.r : null,
+        mo: typeof o.mo === 'string' ? o.mo.slice(0, 40) : '', t: +o.t || 0, lado: 'w', deLink: true };
+    } catch (e) { return null; }
+  },
+  link(rep) { return location.origin + location.pathname + '#replay=' + this.codificar(rep); },
+  /* chamado na abertura do app: se o endereço tem #replay=…, abre o replay */
+  verificarLink() {
+    let h = ''; try { h = location.hash || ''; } catch (e) { return false; }
+    const m = /^#replay=([A-Za-z0-9_-]+)$/.exec(h); if (!m) return false;
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* ignora */ }
+    const rep = this.decodificar(m[1]);
+    if (!rep) { aviso('Esse link de replay está incompleto ou quebrado.', 3500); return false; }
+    this.abrir(rep, 'menu'); return true;
+  },
+  async compartilhar(rep) {
+    const url = this.link(rep), res = rep.r === 'e' ? 'empate' : rep.r === 'w' ? 'vitória das brancas' : rep.r === 'b' ? 'vitória das pretas' : '';
+    const texto = `Assista a minha partida de xadrez: ${rep.w} x ${rep.b}${res ? ' (' + res + ')' : ''}`;
+    if (navigator.share) {
+      try { await navigator.share({ title: 'Replay da partida', text: texto, url }); return 'share'; }
+      catch (e) { if (e && e.name === 'AbortError') return 'cancelou'; }
+    }
+    try { await navigator.clipboard.writeText(url); aviso('Link do replay copiado! Cole numa conversa para mandar.'); return 'copiou'; }
+    catch (e) {
+      await modal('Link do replay', `<p class="sub" style="margin-bottom:8px">Copie o link abaixo e mande para quem quiser assistir.</p><textarea class="campo" rows="4" readonly style="width:100%;font-size:13px">${esc(url)}</textarea>`, [{ txt: 'Fechar', val: 1 }], true);
+      return 'mostrou';
+    }
+  },
+
+  /* ---------- a tela ---------- */
+  tela(rep) {
+    rep = rep || this.rep; if (!rep) { App.ir('menu'); return; }
+    this.rep = rep;
+    const volta = this.volta;
+    App.cabecalho('Replay', typeof volta === 'function' ? volta : volta || 'menu');
+    const g = new Chess(), lances = [], fens = [g.fen()];
+    for (const s of rep.s.split(' ')) { const m = g.move(s); if (!m) break; lances.push(m); fens.push(g.fen()); }
+    const N = lances.length, sans = lances.map(m => m.san);
+    const resTxt = rep.r === 'e' ? 'Empate' : rep.r === 'w' ? 'Vitória das brancas' : rep.r === 'b' ? 'Vitória das pretas' : 'Partida';
+    const quando = rep.t ? Historico.dataTxt(rep.t) : '';
+    const jog = (id, cor) => `<div class="jogador rp-jog" id="${id}" data-cor="${cor}"><span class="foto">${(cor === 'w' ? rep.fw : rep.fb) || htmlAvatar(cor + 'k', '', 42)}</span>
+      <span class="nome">${esc(cor === 'w' ? rep.w : rep.b)} <small>${corNome(cor)}${rep.r === cor ? ' · venceu' : ''}</small></span></div>`;
+    $('#tela').innerHTML = `<div class="replay">
+      <div class="rp-cab"><span class="rp-res res-${rep.r === 'e' ? 'e' : rep.r ? 'v' : 'n'}">${ic(rep.r === 'e' ? 'empate' : 'trofeu', rep.r === 'e' ? 'cor-cinza' : 'cor-ouro')}</span>
+        <div class="rp-tx"><b>${resTxt}</b><small>${[rep.mo, Math.ceil(N / 2) + ' lances', quando].filter(Boolean).map(esc).join(' · ')}</small></div></div>
+      <div class="col-tab">
+        <div id="rp-cima"></div>
+        <div class="moldura-tab"><div class="tab-linha sem-barra" id="rp-tab"></div></div>
+        <div id="rp-baixo"></div>
+        <div class="rp-prog"><input type="range" id="rp-barra" min="0" max="${N}" value="0" step="1" aria-label="Posição no replay"><span id="rp-cont" aria-live="polite">0/${N}</span></div>
+        <div class="rp-ctrl">
+          <button class="bt" id="rp-ini" aria-label="Início">${ic('inicioLance', 'ic-tx')}</button>
+          <button class="bt" id="rp-ant" aria-label="Lance anterior">${ic('voltar', 'ic-tx')}</button>
+          <button class="bt pri rp-play" id="rp-play" aria-label="Assistir">${ic('tocar', 'ic-tx')}</button>
+          <button class="bt" id="rp-prox" aria-label="Próximo lance">${ic('seta', 'ic-tx')}</button>
+          <button class="bt" id="rp-fim" aria-label="Fim">${ic('fimLance', 'ic-tx')}</button>
+        </div>
+        <div class="rp-vel" role="radiogroup" aria-label="Velocidade">${this.VEL.map(([n], i) => `<button class="chip-mod${i === this.vel ? ' on' : ''}" role="radio" aria-checked="${i === this.vel}" data-vel="${i}">${n}</button>`).join('')}</div>
+        <div class="lances fila-lances" id="rp-lances" aria-label="Lances da partida"></div>
+        <div class="fila rp-acoes"><button class="bt" id="rp-share">${ic('compartilhar', 'ic-tx')}Compartilhar</button><button class="bt" id="rp-virar">${ic('virar', 'ic-tx')}Virar</button></div>
+        ${rep.deLink ? '<p class="sub" style="text-align:center">Replay recebido por link. Os lances vêm do próprio link: nada foi baixado da internet.</p>' : ''}
+      </div></div>`;
+    const tab = new Tabuleiro($('#rp-tab'), { estatico: true });
+    tab.orientar(rep.lado === 'b' ? 'b' : 'w');
+    let idx = 0, tocando = false, timer = null, vivo = true;
+    const pintarJog = () => {
+      const cima = outraCor(tab.ori), baixo = tab.ori, vez = idx < N ? (idx % 2 === 0 ? 'w' : 'b') : null;
+      $('#rp-cima').innerHTML = jog('rp-j-' + cima, cima); $('#rp-baixo').innerHTML = jog('rp-j-' + baixo, baixo);
+      $$('.rp-jog').forEach(e => e.classList.toggle('vez', e.dataset.cor === vez && tocando));
+    };
+    const mostra = (i, animar = true) => {
+      idx = limita(i, 0, N);
+      const gg = new Chess(fens[idx]), ult = idx > 0 ? lances[idx - 1] : null;
+      tab.posicionar(mapaDoJogo(gg), animar);
+      tab.marcar({ ult: ult ? [ult.from, ult.to] : [], xq: gg.in_check() ? casaDoRei(gg, gg.turn()) : null });
+      $('#rp-barra').value = idx; $('#rp-barra').style.setProperty('--p', (N ? idx / N * 100 : 0) + '%');
+      $('#rp-cont').textContent = `${idx}/${N}`;
+      $('#rp-lances').innerHTML = htmlLances(sans, idx - 1, true);
+      rolarLista($('#rp-lances'));
+      pintarJog();
+      return { gg, ult };
+    };
+    const pintarPlay = () => {
+      const b = $('#rp-play'); if (!b) return;
+      b.innerHTML = ic(tocando ? 'pausa' : 'tocar', 'ic-tx'); b.setAttribute('aria-label', tocando ? 'Pausar' : 'Assistir');
+      b.classList.toggle('tocando', tocando);
+    };
+    const parar = () => { tocando = false; clearTimeout(timer); timer = null; pintarPlay(); pintarJog(); };
+    const passo = () => {
+      if (!vivo || !tocando) return;
+      if (idx >= N) { parar(); return; }
+      const { gg, ult } = mostra(idx + 1);
+      if (ult) { Som.lance(ult, gg); if (gg.in_checkmate()) Som.tocar('fim'); }
+      if (idx >= N) { parar(); return; }
+      timer = setTimeout(passo, this.VEL[this.vel][1]);
+    };
+    const tocar = () => {
+      if (tocando) { parar(); return; }
+      if (idx >= N) mostra(0, false);
+      tocando = true; pintarPlay(); pintarJog();
+      timer = setTimeout(passo, idx === 0 ? 450 : 250);
+    };
+    const manual = i => { parar(); mostra(i); };
+    $('#rp-play').onclick = tocar;
+    $('#rp-ini').onclick = () => manual(0); $('#rp-fim').onclick = () => manual(N);
+    $('#rp-ant').onclick = () => manual(idx - 1); $('#rp-prox').onclick = () => manual(idx + 1);
+    $('#rp-barra').oninput = e => manual(+e.target.value);
+    $('#rp-lances').onclick = e => { const b = e.target.closest('button[data-ply]'); if (b) manual(+b.dataset.ply + 1); };
+    $('.rp-vel').onclick = e => {
+      const b = e.target.closest('[data-vel]'); if (!b) return;
+      this.vel = +b.dataset.vel;
+      $$('.rp-vel [data-vel]').forEach(x => { const on = +x.dataset.vel === this.vel; x.classList.toggle('on', on); x.setAttribute('aria-checked', on); });
+      if (tocando) { clearTimeout(timer); timer = setTimeout(passo, this.VEL[this.vel][1]); }
+    };
+    $('#rp-virar').onclick = () => { tab.orientar(outraCor(tab.ori)); pintarJog(); };
+    $('#rp-share').onclick = () => this.compartilhar(rep);
+    const tecla = e => { if (e.key === 'ArrowLeft') manual(idx - 1); else if (e.key === 'ArrowRight') manual(idx + 1); else if (e.key === ' ') { e.preventDefault(); tocar(); } };
+    document.addEventListener('keydown', tecla);
+    const oculto = () => { if (document.hidden && tocando) parar(); };
+    document.addEventListener('visibilitychange', oculto);
+    App.aoSair = () => { vivo = false; clearTimeout(timer); document.removeEventListener('keydown', tecla); document.removeEventListener('visibilitychange', oculto); };
+    mostra(0, false); pintarPlay();
+    this._ctl = { tocar, parar, mostra: i => manual(i), estado: () => ({ idx, N, tocando }) };   // usado pelos testes
+  }
+};
+
+/* ==========================================================================
    NUVEM (Firebase, plano gratuito): contas, progresso em qualquer aparelho
    e partidas online com amigos. Só funciona se o arquivo config.js tiver os
    dados do projeto Firebase. Sem isso, o resto do app funciona normalmente.
@@ -9458,6 +9851,8 @@ const Nuvem = {
     r.extras.flags = Object.assign({}, r.extras.flags || {}, a.extras.flags || {});
     Object.assign(r.extras.salas, a.extras.salas);
     r.extras.dicas = Math.max(r.extras.dicas || 0, a.extras.dicas || 0);
+    // estrelas das aberturas: vale a maior de cada uma
+    if (a.extras.ab || r.extras.ab) { const ab = Object.assign({}, r.extras.ab || {}); for (const k in a.extras.ab || {}) ab[k] = Math.max(+ab[k] || 0, +a.extras.ab[k] || 0); r.extras.ab = ab; }
     r.perfil = maisNovo.perfil; r.tabuleiro = maisNovo.tabuleiro;
     // sequência de dias: vale o lado que jogou por último
     const sa = a.sequencia, sn = r.sequencia;
@@ -11716,7 +12111,7 @@ const QuadroPerfil = {
    APP — navegação entre telas, Início, Jogar, estatísticas e inicialização
    ========================================================================== */
 /* telas sem moedas no topo (o jogador está concentrado) */
-const TELAS_FOCO = ['jogo', 'fase', 'desafio', 'resumo', 'diarioJogar', 'torneioJogar', 'ajustes', 'conta', 'dev', 'sala'];
+const TELAS_FOCO = ['jogo', 'fase', 'abertura', 'replay', 'desafio', 'resumo', 'diarioJogar', 'torneioJogar', 'ajustes', 'conta', 'dev', 'sala'];
 const App = {
   atual: null, aoSair: null, voltarPara: null, empilhado: false, ignorarPop: false,
 
@@ -11763,10 +12158,12 @@ const App = {
       case 'jogo': Partida.iniciar(param || { modo: 'pc' }); break;
       case 'resumo': Analise.telaResumo(param); break;
       case 'historico': Historico.tela(); break;
-      case 'aprender': if (param === 'modulos' || param === 'desafios') { Aprender.modo = param; Aprender.telaLista(); } else Aprender.telaLista(param); break;
+      case 'aprender': if (param === 'modulos' || param === 'desafios' || param === 'aberturas') { Aprender.modo = param; Aprender.telaLista(); } else Aprender.telaLista(param); break;
       case 'jogar': telaJogar(); break;
       case 'avisos': Avisos.tela(); break;
       case 'fase': Aprender.telaFase(param); break;
+      case 'abertura': Aberturas.tela(param); break;
+      case 'replay': Replay.tela(param); break;
       case 'desafios': Aprender.modo = 'desafios'; Aprender.telaLista(); break;
       case 'desafio': Desafios.telaDesafio(param); break;
       case 'stats': Estatisticas.tela(); break;
@@ -12067,6 +12464,7 @@ const Estatisticas = {
   Motor.iniciar();          // prepara o Stockfish em paralelo; enquanto isso o motor reserva responde
   Salas.verificarLink();
   App.ir('menu');
+  Replay.verificarLink();   // link de replay (#replay=…): abre a partida por cima do Início
   Conquistas.verificar();   // conquistas novas para quem já tinha progresso de versões anteriores
   Nuvem.iniciar();
   /* a abertura só some depois que a conta/nuvem terminou de carregar (no máximo 6 s) e as fontes estão prontas;
