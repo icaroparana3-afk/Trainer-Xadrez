@@ -1,16 +1,32 @@
 {
+  "id": "./",
   "name": "Trainer de Xadrez",
   "short_name": "Xadrez",
-  "description": "Jogue, aprenda e descubra onde você erra. Funciona sem internet.",
+  "description": "Jogue xadrez contra o computador ou com amigos, aprenda por fases, treine aberturas e desafios táticos e veja onde você erra. Grátis, sem anúncios e funciona sem internet.",
   "lang": "pt-BR",
+  "dir": "ltr",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#11141a",
-  "theme_color": "#11141a",
+  "orientation": "portrait",
+  "background_color": "#23160e",
+  "theme_color": "#23160e",
+  "categories": ["games", "education", "entertainment"],
   "icons": [
     { "src": "icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "icone-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    { "src": "telas/tela-1.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Tela inicial" },
+    { "src": "telas/tela-2.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Partida contra o computador" },
+    { "src": "telas/tela-3.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Aprender por fases" },
+    { "src": "telas/tela-4.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Replay animado das partidas" },
+    { "src": "telas/tela-larga.png", "sizes": "1280x800", "type": "image/png", "form_factor": "wide", "label": "Trainer de Xadrez no computador" }
+  ],
+  "shortcuts": [
+    { "name": "Jogar", "short_name": "Jogar", "url": "./#ir=jogar", "icons": [{ "src": "icone-192.png", "sizes": "192x192" }] },
+    { "name": "Desafio do dia", "short_name": "Desafio", "url": "./#ir=diario", "icons": [{ "src": "icone-192.png", "sizes": "192x192" }] },
+    { "name": "Aprender", "short_name": "Aprender", "url": "./#ir=aprender", "icons": [{ "src": "icone-192.png", "sizes": "192x192" }] }
   ]
 }
