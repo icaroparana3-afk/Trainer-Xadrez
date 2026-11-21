@@ -2668,6 +2668,14 @@ body[data-tela="jogo"] .toast-dica{top:calc(70px + env(safe-area-inset-top));bot
 .ab-pc.pcb{background:#efe3cc}
 #rp-lances .l{min-height:36px;min-width:36px;display:inline-flex;align-items:center;justify-content:center}
 
+/* ===== Etapa 7: telas baixas e estreitas (celular pequeno) ===== */
+/* o tabuleiro nunca fica menor que 260px (ou a largura da tela): em telas baixas a página rola um pouco */
+:root{--tab:max(min(calc(100vw - 58px), 260px), min(calc(100vw - 58px), calc(100vh - 330px), 560px))}
+@supports (height:100svh){ :root{ --tab:max(min(calc(100vw - 58px), 260px), min(calc(100vw - 58px), calc(100svh - 330px), 560px)) } }
+.jogo:has(.sem-barra){--tab:max(min(calc(100vw - 36px), 270px), min(calc(100vw - 36px), calc(100svh - 330px), 560px))}
+.exercicio{--tab:max(min(calc(100vw - 50px), 260px), min(calc(100vw - 50px), calc(100svh - 380px), 520px))}
+@media (max-width:359px){.trilha-des{grid-template-columns:repeat(3,1fr)}}
+
 </style>
 </head>
 <body>
@@ -6854,6 +6862,7 @@ const Ajustes = {
         ${chave('vibrar', 'Vibração', 'No celular, ao errar e ao ganhar conquistas')}
         ${chave('coords', 'Coordenadas', 'Letras e números nas bordas do tabuleiro')}
         ${chave('pontos', 'Mostrar lances possíveis', 'Pontinhos nas casas para onde a peça pode ir')}</div>
+      ${Notif.htmlAjuste()}
       <div class="cartao"><h3>Usar sem internet</h3><p class="sub" id="aj-inst-txt">${this.textoInstalar()}</p>
         <button class="bt pri cheio${pedidoInstalacao ? '' : ' oculto'}" id="aj-instalar" style="margin-top:10px">Instalar o aplicativo</button></div>
       ${Nuvem.configurada() ? `<div class="cartao" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
@@ -6872,6 +6881,7 @@ const Ajustes = {
       pedidoInstalacao = null; $('#aj-instalar').classList.add('oculto');
     };
     const sair = $('#aj-sair'); if (sair) sair.onclick = () => Nuvem.sair();
+    Notif.ligarAjuste();
   },
   textoInstalar() {
     const instalado = window.matchMedia && matchMedia('(display-mode: standalone)').matches;
@@ -9732,6 +9742,109 @@ const Replay = {
 };
 
 /* ==========================================================================
+   NOTIFICAÇÕES DO CELULAR — sem servidor (grátis)
+   - Com o app aberto em segundo plano: convite, pedido de amizade, "sua vez" no
+     online etc. viram notificação do aparelho (quando o app está na frente, o
+     aviso aparece dentro do jogo, como antes).
+   - Com o app fechado: só o lembrete diário, e só onde o navegador deixa
+     (Android com o app instalado). Quem decide a hora exata é o celular.
+   A escolha fica só neste aparelho ('trainer-xadrez-notif'). O service worker
+   não lê o localStorage, por isso o que ele precisa vai para o cache
+   'trainer-xadrez-estado'.
+   ========================================================================== */
+const Notif = {
+  CHAVE: 'trainer-xadrez-notif',
+  CACHE_ESTADO: 'trainer-xadrez-estado',
+  IR_OK: ['avisos', 'diario', 'social', 'menu', 'missoes'],
+  ler() { try { return JSON.parse(localStorage.getItem(this.CHAVE) || '{}') || {}; } catch (e) { return {}; } },
+  gravar(o) { try { localStorage.setItem(this.CHAVE, JSON.stringify(o)); } catch (e) { /* ignora */ } },
+  suportado() { return typeof Notification !== 'undefined' && 'serviceWorker' in navigator && /^https?:$/.test(location.protocol); },
+  /* 'nao' (aparelho não deixa) · 'bloqueado' (negado nas permissões) · 'ligado' · 'desligado' */
+  estado() {
+    if (!this.suportado()) return 'nao';
+    if (Notification.permission === 'denied') return 'bloqueado';
+    return Notification.permission === 'granted' && this.ler().on ? 'ligado' : 'desligado';
+  },
+  lembreteLigado() { return this.estado() === 'ligado' && this.ler().lembrete !== 0; },
+  async ligar() {
+    if (!this.suportado()) return false;
+    let p = Notification.permission;
+    try { if (p !== 'granted') p = await Notification.requestPermission(); } catch (e) { return false; }
+    if (p !== 'granted') return false;
+    this.gravar(Object.assign(this.ler(), { on: 1 }));
+    await this.salvarEstado(); await this.registrarLembrete();
+    return true;
+  },
+  desligar() { this.gravar(Object.assign(this.ler(), { on: 0 })); this.salvarEstado(); this.cancelarLembrete(); },
+  mudarLembrete(on) { this.gravar(Object.assign(this.ler(), { lembrete: on ? 1 : 0 })); this.salvarEstado(); if (on) this.registrarLembrete(); else this.cancelarLembrete(); },
+  async registro() {
+    if (!('serviceWorker' in navigator)) return null;
+    try { return await Promise.race([navigator.serviceWorker.ready, espera(4000).then(() => null)]); } catch (e) { return null; }
+  },
+  /* manda uma notificação do aparelho, só se o app não estiver na frente */
+  async mandar(titulo, corpo, o = {}) {
+    if (this.estado() !== 'ligado' || (!o.sempre && document.visibilityState === 'visible')) return false;
+    const reg = await this.registro(); if (!reg) return false;
+    try {
+      await reg.showNotification(titulo, { body: String(corpo || '').slice(0, 180), tag: o.tag || 'trainer', renotify: true, icon: 'icone-192.png', badge: 'icone-192.png', data: { ir: o.ir || null } });
+      return true;
+    } catch (e) { return false; }
+  },
+  /* tira o HTML de um aviso (os nomes já vêm escapados) */
+  texto(html) { try { return new DOMParser().parseFromString(String(html), 'text/html').body.textContent.replace(/\s+/g, ' ').trim(); } catch (e) { return ''; } },   // DOMParser não carrega imagens nem roda nada
+  /* lembrete diário: Periodic Background Sync (Chrome no Android, com o app instalado) */
+  async registrarLembrete() {
+    const reg = await this.registro();
+    if (!reg || !('periodicSync' in reg) || !this.lembreteLigado()) return false;
+    try {
+      const st = await navigator.permissions.query({ name: 'periodic-background-sync' });
+      if (st.state !== 'granted') return false;
+      await reg.periodicSync.register('lembrete', { minInterval: 12 * 3600e3 });
+      return true;
+    } catch (e) { return false; }
+  },
+  async cancelarLembrete() { const reg = await this.registro(); try { if (reg && 'periodicSync' in reg) await reg.periodicSync.unregister('lembrete'); } catch (e) { /* ignora */ } },
+  /* o que o service worker precisa para decidir o lembrete */
+  async salvarEstado() {
+    if (typeof caches === 'undefined' || !Dados.d) return;
+    const s = Dados.d.sequencia || {};
+    const o = { on: this.lembreteLigado() ? 1 : 0, ultimo: s.ultimo || '', atual: s.atual || 0, diario: typeof Diario !== 'undefined' && Diario.feito() ? diaTxt() : '' };
+    try { const c = await caches.open(this.CACHE_ESTADO); await c.put('estado.json', new Response(JSON.stringify(o), { headers: { 'content-type': 'application/json' } })); } catch (e) { /* ignora */ }
+  },
+  /* tocar numa notificação: o service worker manda para onde ir */
+  irPara(ir) { if (this.IR_OK.includes(ir)) App.ir(ir); },
+  iniciar() {
+    if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('message', e => { if (e.data && e.data.tipo === 'ir') this.irPara(e.data.ir); });
+    try { const m = /^#ir=([a-z]+)$/.exec(location.hash || ''); if (m) { history.replaceState(null, '', location.pathname + location.search); this.irPara(m[1]); } } catch (e) { /* ignora */ }
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') this.salvarEstado(); });
+    if (this.estado() === 'ligado') { this.salvarEstado(); this.registrarLembrete(); }
+  },
+  /* linha nas Configurações */
+  htmlAjuste() {
+    const e = this.estado(), lig = e === 'ligado';
+    const sub = e === 'nao' ? 'Este navegador não mostra notificações. No iPhone, instale o app na tela de início (iOS 16.4 ou mais novo).'
+      : e === 'bloqueado' ? 'As notificações estão bloqueadas para este site. Libere nas configurações do navegador (ícone de cadeado ao lado do endereço) e volte aqui.'
+      : 'Convites, pedidos de amizade e a sua vez no jogo online, quando o app está aberto em segundo plano.';
+    return `<div class="cartao pilha" style="gap:4px" id="aj-notif"><h3>Notificações</h3>
+      <label class="chave"><span><b>Notificações no celular</b><small>${sub}</small></span><input type="checkbox" id="aj-not" ${lig ? 'checked' : ''} ${e === 'nao' || e === 'bloqueado' ? 'disabled' : ''}><i></i></label>
+      ${lig ? `<label class="chave"><span><b>Lembrete diário</b><small>Avisa se você ainda não jogou hoje, para não perder a sequência. Funciona com o app fechado só no Android, com o app instalado.</small></span><input type="checkbox" id="aj-lemb" ${this.ler().lembrete !== 0 ? 'checked' : ''}><i></i></label>` : ''}
+    </div>`;
+  },
+  ligarAjuste() {
+    const c = $('#aj-not'); if (!c) return;
+    c.onchange = async () => {
+      if (c.checked) {
+        const ok = await this.ligar();
+        if (!ok) aviso(this.estado() === 'bloqueado' ? 'Notificações bloqueadas. Libere nas configurações do navegador.' : 'Não foi possível ligar as notificações.', 4000);
+        else aviso('Notificações ligadas!');
+      } else this.desligar();
+      if (App.atual === 'ajustes') Ajustes.tela();
+    };
+    const l = $('#aj-lemb'); if (l) l.onchange = () => this.mudarLembrete(l.checked);
+  }
+};
+
+/* ==========================================================================
    NUVEM (Firebase, plano gratuito): contas, progresso em qualquer aparelho
    e partidas online com amigos. Só funciona se o arquivo config.js tiver os
    dados do projeto Firebase. Sem isso, o resto do app funciona normalmente.
@@ -10178,6 +10291,7 @@ const Salas = {
   aoAtualizar(s) {
     const ant = this.sala;
     this.sala = s;
+    this.notificar(ant, s);
     if (ant && App.atual === 'jogo' && s.status === 'jogando') {      // avisos do "voltar jogada"
       if (s.volta && s.volta !== this.minhaCor && ant.volta !== s.volta) { aviso('Seu amigo pediu para voltar a jogada.', 3500); vibrar(40); }
       if (ant.volta === this.minhaCor && !s.volta) {
@@ -10199,6 +10313,15 @@ const Salas = {
           .then(ok => { if (ok) this.revanche(); });
       }
     }
+  },
+  /* app em segundo plano: avisa pelo celular o que mudou na sala */
+  notificar(ant, s) {
+    if (!ant || !s || ant.codigo !== s.codigo) return;
+    const eu = this.minhaCor, adv = (eu === 'w' ? s.pretas : s.brancas) || {}, nome = adv.nome || 'Seu amigo';
+    const la = (ant.lances || []).length, ln = (s.lances || []).length;
+    if (ant.status === 'esperando' && s.status === 'jogando') Notif.mandar('Seu amigo entrou!', `${nome} entrou na sala. A partida começou.`, { tag: 'sala' });
+    else if (s.status === 'jogando' && ln > la && (ln % 2 === 0 ? 'w' : 'b') === eu) Notif.mandar('Sua vez!', `${nome} jogou ${sanPt(s.lances[ln - 1])}.`, { tag: 'sala' });
+    else if (ant.status === 'jogando' && s.status === 'fim') Notif.mandar('Partida terminada', `A partida contra ${nome} terminou. Toque para ver o resultado.`, { tag: 'sala' });
   },
   /* aplica no tabuleiro o que chegou da nuvem */
   sincronizar(s, forcar) {
@@ -10689,7 +10812,8 @@ const Convites = {
   avisar(c) {
     Som.tocar('conquista'); vibrar([80, 60, 80]);
     const ocupado = (App.atual === 'jogo' && !Partida.fim) || modalAberto() || App.atual === 'sala';
-    if (ocupado) this.faixa(c); else this.abrir(c);
+    if (ocupado) this.faixa(c);
+    else { Notif.mandar('Convite para jogar', `${c.deNome || 'Um amigo'} te convidou para jogar`, { tag: 'convite' }); this.abrir(c); }
   },
   /* aviso discreto no alto da tela (quando está no meio de uma partida) */
   faixa(c) {
@@ -10861,6 +10985,7 @@ const Avisos = {
   },
   /* aviso que desce no alto da tela e some sozinho */
   faixa(o) {
+    Notif.mandar('Trainer de Xadrez', Notif.texto(o.html), { tag: o.tag || 'aviso', ir: o.ir || 'avisos' });
     let f = $('#faixa-conv'); if (!f) { f = document.createElement('div'); f.id = 'faixa-conv'; document.body.appendChild(f); }
     f.innerHTML = `${htmlAvatar(o.avatar || 'wn', o.moldura || '', 34)}<span>${o.html}</span>${o.botao ? `<button class="bt peq pri" data-ver>${esc(o.botao)}</button>` : ''}<button class="bt-x" data-fechar aria-label="Fechar">×</button>`;
     f.className = 'entra';
@@ -12464,7 +12589,8 @@ const Estatisticas = {
   Motor.iniciar();          // prepara o Stockfish em paralelo; enquanto isso o motor reserva responde
   Salas.verificarLink();
   App.ir('menu');
-  Replay.verificarLink();   // link de replay (#replay=…): abre a partida por cima do Início
+  Replay.verificarLink();
+  Notif.iniciar();          // notificações do celular (só se a pessoa ligou nas Configurações)   // link de replay (#replay=…): abre a partida por cima do Início
   Conquistas.verificar();   // conquistas novas para quem já tinha progresso de versões anteriores
   Nuvem.iniciar();
   /* a abertura só some depois que a conta/nuvem terminou de carregar (no máximo 6 s) e as fontes estão prontas;
