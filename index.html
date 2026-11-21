@@ -87,7 +87,7 @@ h1,h2,.tit{font-family:var(--tit);letter-spacing:-.01em}
 .oculto{display:none!important}
 #app{min-height:100%;display:flex;flex-direction:column}
 svg.moeda{width:1.25em;height:1.25em;vertical-align:-.28em;flex:none}
-.sup,.cartao,.item-menu,.bt,#topo,#nav-inf,.fase,.conq,.numero,.item-loja{transition:background-color .35s,border-color .35s,color .35s,transform .12s,filter .15s}
+.cartao,.bt,#topo,#nav-inf,.fase,.conq,.numero,.item-loja{transition:background-color .35s,border-color .35s,color .35s,transform .12s,filter .15s}
 
 /* ---------- barra superior ---------- */
 #topo{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:8px;height:62px;padding:0 12px;padding-top:env(safe-area-inset-top);box-sizing:content-box;
@@ -105,7 +105,6 @@ body[data-tela="menu"] #topo{display:none}
 .moedas-topo:active{transform:scale(.95)}
 @keyframes pulso{40%{transform:scale(1.15);border-color:var(--dest)}}
 .perfil-topo{position:relative;display:grid;place-items:center;width:44px;height:44px;flex:none}
-.perfil-topo .nuvem-ok{position:absolute;right:0;bottom:2px;font-size:.7rem;font-style:normal;background:var(--ok);color:#0b2a17;border-radius:50%;width:16px;height:16px;display:grid;place-items:center;line-height:1}
 @media(max-width:380px){#topo .lado{display:none}}
 #tela{flex:1;width:100%;max-width:1080px;margin:0 auto;padding:16px 14px calc(40px + env(safe-area-inset-bottom))}
 body.com-nav #tela{padding-bottom:calc(120px + env(safe-area-inset-bottom))}
@@ -136,7 +135,6 @@ body.com-nav #tela{padding-bottom:calc(120px + env(safe-area-inset-bottom))}
 .bt.peq{min-height:38px;padding:6px 12px;font-size:.88rem;border-radius:12px}
 .bt[disabled]{opacity:.45;pointer-events:none}
 .bt.cheio{width:100%}
-.bt.pulsa{animation:pulsoDest 2s infinite}
 .link{color:var(--info);text-decoration:underline;font-size:.9rem;padding:6px;align-self:center}
 .fila{display:flex;flex-wrap:wrap;gap:8px}
 .campo{width:100%;min-height:48px;padding:10px 14px;border-radius:14px;border:1px solid var(--linha);background:var(--fundo);color:var(--txt);outline:none}
@@ -160,7 +158,6 @@ body.com-nav #tela{padding-bottom:calc(120px + env(safe-area-inset-bottom))}
 .home-cab .quem{flex:1;min-width:0}
 .home-cab .quem p{font-size:.82rem;color:var(--txt2);display:flex;align-items:center;gap:5px;white-space:nowrap;min-width:0}
 .home-cab .quem p .selo-rei,.home-cab .quem p .selo-dev{margin:0;flex:none}
-.home-cab .quem p .saud{overflow:hidden;text-overflow:ellipsis;min-width:0}
 .home-cab .quem p [data-selo-rei]{display:flex;flex:none}
 .home-cab .quem p [data-selo-rei]:empty{display:none}
 .home-cab .quem h1{font-size:1.4rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -170,42 +167,11 @@ body.com-nav #tela{padding-bottom:calc(120px + env(safe-area-inset-bottom))}
 .bt-ic.girou svg{transform:rotate(180deg)}
 .home .tema-txt{margin-top:-10px;font-size:.78rem;color:var(--txt2)}
 .home .tema-txt b{color:var(--txt)}
-.hero{display:flex;gap:14px;align-items:center;padding:16px;border-radius:22px;background:var(--sup);border:1px solid var(--linha)}
-.hero .info{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;align-items:flex-start}
-.hero .etq{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--dest)}
-.hero .tit{font-size:1.15rem;font-weight:600;line-height:1.2}
-.hero .bt{margin-top:4px;white-space:nowrap;padding:10px 18px}
-.hero .bt svg{width:15px;height:15px;flex:none}
 .mini-jogo{width:116px;height:116px;flex:none;border-radius:10px;overflow:hidden;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);box-shadow:0 6px 18px var(--sombra)}
 .mini-jogo i{background:var(--cc);position:relative}
 .mini-jogo i.e{background:var(--ce)}
 .mini-jogo svg{position:absolute;inset:0;width:100%;height:100%;fill:var(--pf);stroke:var(--ps);stroke-width:5;stroke-linejoin:round}
-.aneis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.anel-c{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 6px 10px;border-radius:18px;background:var(--sup);border:1px solid var(--linha);text-align:center}
-.anel-c:active{transform:scale(.96)}
-.anel-c .roda2{position:relative;width:58px;height:58px}
-.anel-c .roda2 svg{width:58px;height:58px;transform:rotate(-90deg)}
-.anel-c .roda2 circle{fill:none;stroke-width:6}
-.anel-c .roda2 .f{stroke:var(--sup2)}
-.anel-c .roda2 .v{stroke-linecap:round;--c:138.2;stroke-dasharray:138.2;animation:anel 1.1s cubic-bezier(.2,.8,.2,1) .25s both}
-.anel-c .roda2 span{position:absolute;inset:0;display:grid;place-items:center;font-size:.82rem;font-weight:700}
-.anel-c b{font-size:.85rem}
-.anel-c small{font-size:.72rem;color:var(--txt2)}
 .secao{font-size:1.08rem;font-weight:600;margin:4px 0 -8px}
-.grade-jogar{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.cartao-jogar{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:20px;text-align:left;min-height:150px;padding:16px;border-radius:20px;background:var(--sup);border:1px solid var(--linha)}
-.cartao-jogar.forte{background:var(--dest);color:var(--dest-tinta);border-color:transparent}
-.cartao-jogar:active{transform:scale(.97)}
-.cartao-jogar>svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.cartao-jogar:not(.forte)>svg{stroke:var(--info)}
-.cartao-jogar .fundo-pc{position:absolute;right:-12px;top:-10px;width:96px;height:96px;opacity:.2;animation:flutua 3.2s ease-in-out infinite}
-.cartao-jogar:not(.forte) .fundo-pc{opacity:.1;animation-delay:1.2s}
-.cartao-jogar .fundo-pc svg{width:100%;height:100%;fill:currentColor;stroke:none}
-.cartao-jogar .fundo-pc svg .det{stroke:transparent}
-.cartao-jogar b{display:block;font-family:var(--tit);font-size:1.08rem;line-height:1.2}
-.cartao-jogar small{font-size:.76rem;opacity:.85}
-.cartao-jogar:not(.forte) small{color:var(--txt2);opacity:1}
-.linhas-menu{display:flex;flex-direction:column;gap:10px}
 .linha-menu{display:flex;align-items:center;gap:14px;padding:14px;border-radius:18px;background:var(--sup);border:1px solid var(--linha);text-align:left;width:100%}
 .linha-menu:active{transform:scale(.98)}
 .linha-menu .ic2{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;flex:none;background:var(--c-bg);color:var(--c)}
@@ -218,16 +184,10 @@ body.com-nav #tela{padding-bottom:calc(120px + env(safe-area-inset-bottom))}
 .linha-menu .tx b{font-size:.98rem}
 .linha-menu .tx small{font-size:.76rem;color:var(--txt2)}
 .linha-menu .seta{width:18px;height:18px;fill:none;stroke:var(--txt2);stroke-width:2.2;stroke-linecap:round;flex:none}
-.barrinha{display:block;height:6px;border-radius:3px;background:var(--sup2);overflow:hidden}
-.barrinha i{display:block;height:100%;border-radius:3px;background:var(--c);animation:barraCresce 1s cubic-bezier(.2,.8,.2,1) .35s both}
 .cor-ok{--c:var(--ok);--c-bg:var(--ok-bg2)}.cor-info{--c:var(--info);--c-bg:var(--info-bg)}.cor-dest{--c:var(--dest);--c-bg:var(--dest-bg)}.cor-neutra{--c:var(--txt);--c-bg:var(--sup2)}
-.duas-peq{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.duas-peq .linha-menu{padding:12px}
-.duas-peq .linha-menu .ic2{width:40px;height:40px;border-radius:12px}
 .rodape{margin-top:4px;text-align:center;color:var(--txt2);font-size:.78rem}
 .ponto{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--alerta);margin-right:6px;vertical-align:middle}
 .ponto.ok{background:var(--ok)}
-@media(min-width:700px){.grade-jogar .cartao-jogar{min-height:170px}}
 
 /* ============================ PEÇAS E AVATARES ============================ */
 .pc.w,.pcw{--pf:var(--pw-f);--ps:var(--pw-s);--pd:var(--pw-d)}
@@ -440,7 +400,6 @@ body.com-nav #tela{padding-bottom:calc(120px + env(safe-area-inset-bottom))}
 .final{text-align:center;padding:26px 16px}
 .final .est-g{font-size:2.6rem;letter-spacing:6px;color:var(--linha);margin:6px 0}
 .final .est-g .on{color:var(--dest)}
-.ganho-moedas{font-weight:700;color:var(--dest);margin-bottom:6px}
 
 /* ============================ DESAFIOS ============================ */
 .grade-des{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px}
@@ -460,11 +419,6 @@ body.com-nav #tela{padding-bottom:calc(120px + env(safe-area-inset-bottom))}
 .numero{background:var(--sup);border:1px solid var(--linha);border-radius:var(--raio);padding:14px;text-align:center}
 .numero b{display:block;font-size:1.7rem;line-height:1.1}
 .numero span{color:var(--txt2);font-size:.82rem}
-table.tb{width:100%;border-collapse:collapse;font-size:.93rem}
-.tb th{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--txt2);text-align:right;padding:6px 8px;font-weight:650}
-.tb th:first-child,.tb td:first-child{text-align:left}
-.tb td{padding:8px;border-top:1px solid var(--linha);text-align:right;font-variant-numeric:tabular-nums}
-@media(max-width:480px){.tb th{font-size:.6rem;padding:6px 4px;letter-spacing:.02em}.tb td{padding:8px 4px}}
 .barra-h{display:grid;grid-template-columns:minmax(110px,1fr) 2fr 34px;gap:10px;align-items:center;font-size:.9rem;padding:5px 0}
 .barra-h .tr{height:10px;border-radius:999px;background:var(--sup2);overflow:hidden}
 .barra-h .tr i{display:block;height:100%;background:var(--alerta);border-radius:999px}
@@ -472,27 +426,16 @@ table.tb{width:100%;border-collapse:collapse;font-size:.93rem}
 .grafico{width:100%;height:auto;display:block}
 .duas{display:grid;gap:12px}
 @media(min-width:800px){.duas{grid-template-columns:1fr 1fr}}
-
-/* ============================ CONQUISTAS E TROFÉUS ============================ */
-.trofeus{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .trofeu{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;padding:8px 4px;border-radius:12px;background:var(--sup2);opacity:.6}
 .trofeu.ok{opacity:1}
 .trofeu b{font-size:.9rem}
 .trofeu span{font-size:.72rem;color:var(--txt2);line-height:1.25}
 .trofeu small{font-size:.7rem;color:var(--dest);font-weight:700;margin-top:2px}
 @media(max-width:420px){.trofeu span{display:none}}
-.lista-conq{display:grid;gap:8px;grid-template-columns:1fr}
-@media(min-width:720px){.lista-conq{grid-template-columns:1fr 1fr}}
 .conq{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;background:var(--sup);border:1px solid var(--linha);opacity:.72}
 .conq.ok{opacity:1;border-color:color-mix(in srgb,var(--dest) 50%,var(--linha))}
 .conq .cq-ic{flex:none;width:44px;height:44px;border-radius:12px;background:var(--sup2);display:grid;place-items:center;font-size:1.5rem;filter:grayscale(1)}
 .conq.ok .cq-ic{filter:none;background:var(--op-on)}
-.conq .cq-tx{flex:1;min-width:0;display:grid}
-.conq .cq-tx b{font-size:.95rem;line-height:1.25}
-.conq .cq-tx span{font-size:.8rem;color:var(--txt2)}
-.conq .cq-tx small{font-size:.72rem;color:var(--txt2)}
-.conq .cq-pr{font-weight:800;color:var(--dest);font-size:.85rem;white-space:nowrap}
-.conq.ok .cq-pr{color:var(--ok);font-size:1.1rem}
 .mini-prog{display:block;height:5px;border-radius:999px;background:var(--sup2);overflow:hidden;margin-top:5px}
 .mini-prog i{display:block;height:100%;background:var(--dest)}
 #conquista-pop{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom));transform:translate(-50%,30px);opacity:0;z-index:70;display:flex;align-items:center;gap:12px;
@@ -506,7 +449,6 @@ table.tb{width:100%;border-collapse:collapse;font-size:.93rem}
 
 /* ============================ LOJA E PERFIL ============================ */
 .saldo{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.saldo .moeda-g{font-size:2.2rem}
 .saldo b{font-size:1.4rem}
 .abas{display:flex;gap:6px;background:var(--sup);border:1px solid var(--linha);border-radius:12px;padding:4px}
 .aba{flex:1;min-height:42px;border-radius:9px;font-weight:600;color:var(--txt2)}
@@ -516,7 +458,6 @@ table.tb{width:100%;border-collapse:collapse;font-size:.93rem}
 .item-loja{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 10px;border-radius:var(--raio);background:var(--sup);border:1px solid var(--linha);text-align:center}
 .item-loja.uso{border-color:var(--dest)}
 .item-loja b{font-size:.92rem}
-.tag-uso{font-size:.78rem;font-weight:700;color:var(--dest);min-height:38px;display:grid;place-items:center}
 .mini-tab{position:relative;display:grid;grid-template-columns:repeat(4,1fr);width:96px;height:96px;border-radius:8px;overflow:hidden;box-shadow:0 4px 12px var(--sombra)}
 .grade-loja.peq .mini-tab{width:72px;height:72px}
 .mini-tab i{display:block}
@@ -534,7 +475,6 @@ table.tb{width:100%;border-collapse:collapse;font-size:.93rem}
 .t-escuro{background:linear-gradient(135deg,#11141a 50%,#f0b441 50%)}
 .t-claro{background:linear-gradient(135deg,#f4f1ea 50%,#c9851a 50%)}
 .t-marrom{background:linear-gradient(135deg,#2c2017 50%,#e3a54d 50%)}
-.moeda-ic{font-size:1.8rem}
 
 /* ============================ AMIGOS ONLINE ============================ */
 .codigo-sala{display:flex;justify-content:center;gap:8px;margin:14px 0}
@@ -786,32 +726,18 @@ button.selo-dev:active{transform:scale(.92)}
 .barra-xp{display:block;height:8px;border-radius:4px;background:var(--sup2);overflow:hidden}
 .barra-xp i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--nv,var(--info)),color-mix(in srgb,var(--nv,var(--info)) 60%,#fff));animation:barraCresce 1s cubic-bezier(.2,.8,.2,1) .3s both}
 .xp-txt{color:var(--info);font-weight:700;white-space:nowrap}
-
-/* faixa de nível na tela inicial */
-.nivel-home{display:grid;grid-template-columns:1fr auto;grid-template-areas:"tx chama" "barra chama";column-gap:12px;row-gap:6px;align-items:center;
-  padding:10px 14px;border-radius:16px;background:var(--sup);border:1px solid var(--linha);text-align:left;margin-top:-6px}
-.nivel-home:active{transform:scale(.98)}
-.nivel-home .nh-tx{grid-area:tx;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
-.nivel-home .nh-tx b{font-size:.92rem}.nivel-home .nh-tx small{font-size:.76rem;color:var(--txt2)}
-.nivel-home .barra-xp{grid-area:barra}
 .chama-chip{grid-area:chama;display:flex;align-items:center;gap:3px;padding:6px 10px;border-radius:999px;background:var(--dest-bg);color:var(--dest);font-weight:700;font-size:.95rem;white-space:nowrap}
 .chama-chip.apagada{filter:grayscale(1);opacity:.6}
 .chama-chip.risco{box-shadow:0 0 0 2px var(--alerta);animation:pulsoDest 2s infinite}
-
-/* missões */
-.missoes-home{padding:14px}
 .ms-cab{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
 .ms-cab h3{margin:0}
-.link-ver{color:var(--dest);font-weight:600;font-size:.85rem;padding:4px 0}
 .ms-lista{display:flex;flex-direction:column;gap:8px}
 .ms-it,.ms-bau{display:flex;align-items:center;gap:12px;padding:10px;border-radius:14px;background:var(--sup2)}
-.ms-ic,.bau-ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none;background:var(--sup);font-size:1.2rem}
+.ms-ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none;background:var(--sup);font-size:1.2rem}
 .ms-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .ms-tx b{font-size:.9rem;line-height:1.25}
 .ms-tx small{font-size:.74rem;color:var(--txt2)}
 .ms-tx small svg.moeda,.nv-cartao .sub svg.moeda,.seq-cartao>p.sub svg.moeda{width:14px;height:14px;vertical-align:-2px;margin-right:2px}
-.ms-fim{color:var(--ok);font-size:.88rem;font-weight:600}
-.ms-tx .barrinha{--c:var(--info);margin-top:2px}
 .ms-n{font-weight:700;color:var(--txt2);font-size:.85rem;white-space:nowrap}
 .ms-it.feita{background:var(--dest-bg);box-shadow:inset 0 0 0 1px var(--dest)}
 .ms-it.feita .ms-ic{animation:bauPula 1.6s ease-in-out infinite}
@@ -820,7 +746,6 @@ button.selo-dev:active{transform:scale(.92)}
 .ms-it.pega b{color:var(--txt2);text-decoration:line-through;text-decoration-thickness:1px}
 .ms-bau{border:1px dashed var(--linha);background:transparent}
 .ms-bau.pronto{border:1px solid var(--dest);background:var(--dest-bg)}
-.ms-bau.pronto .bau-ic{animation:bauPula 1.2s ease-in-out infinite}
 .ms-bau.aberto{opacity:.7}
 
 /* cartão de nível (missões e perfil) */
@@ -838,13 +763,6 @@ button.selo-dev:active{transform:scale(.92)}
 .seq-cab b{display:block;font-family:var(--tit);font-size:1.3rem}
 .seq-cab .chama{font-size:2.4rem;line-height:1;filter:grayscale(1);opacity:.5}
 .seq-cartao.viva .chama{filter:none;opacity:1;animation:chamaDanca 1.8s ease-in-out infinite}
-.seq-bolas{display:flex;justify-content:space-between;gap:6px;margin-bottom:10px}
-.seq-bolas i{flex:1;max-width:40px;aspect-ratio:1;border-radius:50%;background:var(--sup2);display:grid;place-items:center;position:relative}
-.seq-bolas i.on{background:linear-gradient(160deg,#ffcf5a,#f07a3a)}
-.seq-bolas i.on::before{content:"🔥";font-size:1rem}
-.seq-bolas i.hj{box-shadow:0 0 0 2px var(--dest)}
-.seq-bolas small{position:absolute;bottom:-17px;font-size:.62rem;color:var(--txt2);font-style:normal}
-.seq-cartao .seq-bolas{margin-bottom:24px}
 .xp-lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
 .xp-lista li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--linha);font-size:.9rem}
 .xp-lista li:last-child{border-bottom:0}
@@ -943,53 +861,17 @@ button.selo-dev:active{transform:scale(.92)}
 .home-cab .moedas-topo{height:40px;padding:0 11px 0 7px}
 .sino .selo-conv{top:-6px;right:-6px}
 .sino .selo-conv.oculto{display:none}
-.home .hero{padding:12px 14px}
 .home .mini-jogo{width:100px;height:100px}
-.home .hero .tit{font-size:1.05rem}
-.missoes-home{padding:12px 12px 10px}
-.missoes-home .ms-cab{margin-bottom:6px}
-.missoes-home .ms-lista{gap:6px}
-.missoes-home .ms-it,.missoes-home .ms-bau{padding:7px 9px;gap:10px}
-.missoes-home .ms-ic,.missoes-home .bau-ic{width:32px;height:32px;border-radius:10px;font-size:1rem}
-.home .anel-c{padding:8px 6px 7px;gap:3px}
-.home .anel-c .roda2,.home .anel-c .roda2 svg{width:50px;height:50px}
 /* telas baixas (celulares menores): tudo um pouco mais compacto */
 @media (max-height:780px){
   .home{gap:9px}
   .home .mini-jogo{width:78px;height:78px}
-  .home .hero .sub{display:none}
-  .home .hero .bt{padding:8px 14px}
-  .home .anel-c small{display:none}
-  .home .anel-c .roda2,.home .anel-c .roda2 svg{width:42px;height:42px}
-  .nivel-home{padding:8px 12px}
-  .missoes-home .ms-tx small{display:none}
 }
 @media (max-height:690px){
   .home .mini-jogo{display:none}
-  .home .hero .tit{display:none}
-  .home .hero .etq{font-size:.95rem;letter-spacing:.02em;text-transform:none}
-  .home .hero .info{flex-direction:row;align-items:center;justify-content:space-between;width:100%}
-  .home .hero .bt{margin-top:0}
-  .home .aneis .anel-c b{font-size:.78rem}
 }
-
-/* tela Jogar */
-.modo-jogo{position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;text-align:left;min-height:118px;padding:18px;border-radius:22px;background:var(--sup);border:1px solid var(--linha);width:100%}
-.modo-jogo:active{transform:scale(.98)}
-.modo-jogo.forte{background:var(--dest);color:var(--dest-tinta);border-color:transparent}
-.modo-jogo .mj-ic{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;flex:none;background:rgba(255,255,255,.18)}
-.modo-jogo:not(.forte) .mj-ic{background:var(--info-bg);color:var(--info)}
-.modo-jogo .mj-ic svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.modo-jogo .mj-tx{position:relative;z-index:1;display:flex;flex-direction:column;gap:3px;padding-right:64px}
-.modo-jogo b{font-family:var(--tit);font-size:1.3rem;line-height:1.15}
-.modo-jogo small{font-size:.8rem;opacity:.85}
-.modo-jogo:not(.forte) small{color:var(--txt2);opacity:1}
-.modo-jogo .fundo-pc{position:absolute;right:-18px;bottom:-22px;width:110px;height:110px;opacity:.14;animation:flutua 3.4s ease-in-out infinite}
-.modo-jogo .fundo-pc svg{width:100%;height:100%;fill:currentColor;stroke:none}
-.modo-jogo .fundo-pc svg .det{stroke:transparent}
 .continuar-jg{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .continuar-jg b{display:block}
-.jogar-hub .duas-peq .linha-menu .tx small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* notificações */
 .av-lista{padding:6px;display:flex;flex-direction:column;gap:2px}
@@ -1006,24 +888,11 @@ button.selo-dev:active{transform:scale(.92)}
 .no .no-num{font-family:var(--tit);font-size:1.5rem;font-weight:700}
 .no.feita.meio>button{background:var(--info);border-color:var(--info)}
 .trilha-des .no.feita>button,.trilha-des .no.atual>button{color:var(--dest-tinta)}
-
-/* ===== telas sem rolagem (perfil e troféus) ===== */
-body.fixa #app{height:100vh;height:100dvh;min-height:0;overflow:hidden}
-body.fixa #tela{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;padding-top:10px;padding-bottom:calc(98px + env(safe-area-inset-bottom))}
-body.fixa #tela>.tela-fixa{flex:1;min-height:0;width:100%;display:flex;flex-direction:column;gap:10px}
-body.fixa #tela>.tela-fixa>*{flex:none}
 .cor-ruim{--c:var(--ruim);--c-bg:color-mix(in srgb,var(--ruim) 16%,var(--sup))}
-
-/* troféus */
-.cq-topo{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .cq-rk{display:flex;align-items:center;gap:10px;padding:10px 12px;text-align:left;color:inherit}
 .cq-rk .ic2{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none;background:var(--dest-bg);color:var(--dest)}
 .cq-rk .ic2 svg{width:20px;height:20px;fill:currentColor}
 .cq-rk b{display:block;font-size:.95rem;line-height:1.2}.cq-rk small{color:var(--txt2);font-size:.74rem;line-height:1.2;display:block}
-.cq-total{padding:10px 12px;display:grid;grid-template-columns:auto 1fr;align-items:baseline;column-gap:6px}
-.cq-total>span{font-size:.9rem;color:var(--txt2)}.cq-total>span b{font-family:var(--tit);font-size:1.25rem;color:var(--txt)}
-.cq-total small{color:var(--txt2);font-size:.78rem}
-.cq-total .progresso{grid-column:1/-1;margin-top:6px;height:7px}
 .cq-trofeus{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;padding:8px 6px}
 .tr-mini{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 2px;border-radius:12px;min-width:0}
 .tr-mini svg{width:clamp(30px,9vw,42px);height:auto}
@@ -1036,7 +905,6 @@ body.fixa #tela>.tela-fixa>*{flex:none}
 .cq-grupos button.cheio i{color:var(--ok)}
 .cq-grupos button.on{background:var(--dest);border-color:var(--dest);color:var(--dest-tinta)}
 .cq-grupos button.on i{color:inherit;opacity:.8}
-body.fixa #tela>.tela-fixa>.cq-box{flex:1;min-height:0;overflow:hidden}
 .cq-grade{display:grid;gap:8px}
 .cq-grade.vira{animation:surge .3s ease}
 .cq-tile{position:relative;height:var(--alt,86px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px 4px;border-radius:14px;background:var(--sup);border:1px solid var(--linha);min-width:0}
@@ -1045,21 +913,14 @@ body.fixa #tela>.tela-fixa>.cq-box{flex:1;min-height:0;overflow:hidden}
 .cq-tile.ok{border-color:color-mix(in srgb,var(--dest) 55%,var(--linha));background:color-mix(in srgb,var(--dest) 9%,var(--sup))}
 .cq-tile.ok .cq-ic{filter:none;opacity:1}.cq-tile.ok b{color:var(--txt)}
 .cq-tile .mini-prog{position:absolute;left:10px;right:10px;bottom:6px;height:3px;margin:0}
-.cq-tile .cq-ok{position:absolute;top:4px;right:6px;font-style:normal;font-size:.7rem;color:var(--ok);font-weight:800}
 .cq-tile:active{transform:scale(.95)}
-.cq-pag{display:none;align-items:center;justify-content:center;gap:8px;height:28px}
-.cq-pag.on{display:flex}
-.cq-pag button{width:30px;height:28px;border-radius:9px;background:var(--sup);border:1px solid var(--linha);font-size:1.1rem;line-height:1}
-.cq-pag button:disabled{opacity:.3}
-.cq-pag i{width:8px;height:8px;border-radius:50%;background:var(--sup3);cursor:pointer}
-.cq-pag i.on{background:var(--dest);width:18px;border-radius:4px}
 .cq-det{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
 .cq-det .cq-ic{font-size:3rem;line-height:1;filter:grayscale(1);opacity:.5}
 .cq-det.ok .cq-ic{filter:none;opacity:1}
 .cq-det .progresso{width:100%}
 .cq-det-pr{color:var(--dest)}.cq-det.ok .cq-det-pr{color:var(--ok)}
 .cq-det svg.moeda,.cq-det svg.gema,.pm-quadro svg.moeda,.pm-quadro svg.gema{width:18px;height:18px;vertical-align:-3px}
-@media (max-height:700px){.cq-rk,.cq-total{padding:8px 10px}.cq-trofeus{padding:4px}.cq-grupos button{padding:5px 8px}}
+@media (max-height:700px){.cq-rk{padding:8px 10px}.cq-trofeus{padding:4px}.cq-grupos button{padding:5px 8px}}
 
 /* perfil */
 .pf-tela .perfil-cab{display:flex;align-items:center;gap:14px;padding:14px}
@@ -1069,8 +930,6 @@ body.fixa #tela>.tela-fixa>.cq-box{flex:1;min-height:0;overflow:hidden}
 .pf-lapis svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linejoin:round}
 .pf-info{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px}
 .pf-info .selo-dev,.pf-info .selo-rei{margin:0}
-.pf-saldo{display:inline-flex;align-items:center;gap:4px;font-size:.85rem;font-weight:700;padding:2px 9px 2px 5px;border-radius:999px;background:var(--sup2)}
-.pf-saldo svg{width:18px;height:18px}
 svg.gema{fill:#7fd8ff;stroke:#1d6f99;stroke-width:1.4;stroke-linejoin:round}
 .pf-grade{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .pf-tile{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:12px 6px;border-radius:18px;background:var(--sup);border:1px solid var(--linha);text-align:center;min-width:0}
@@ -1114,24 +973,15 @@ svg.gema{fill:#7fd8ff;stroke:#1d6f99;stroke-width:1.4;stroke-linejoin:round}
 .pm-ganhos b{display:flex;align-items:center;gap:5px}
 .pm-medalha{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;font:800 1.8rem var(--tit);color:#2a1300;background:linear-gradient(135deg,#f0b787,#a8622d)}
 .pm-medalha.p1{background:linear-gradient(135deg,#ffe27a,#9b4dff)}
-.saldo-gema{display:flex;align-items:center;gap:4px;font-size:.88rem;font-weight:600;color:var(--txt2)}
-.saldo-gema svg{width:18px;height:18px}
 .rk-tx b .selo-rei{vertical-align:1px}
 
 /* ===== cabeçalho da tela inicial (menos apertado) ===== */
 .home-cab{align-items:center;gap:12px}
 .home-cab .perfil-topo{flex:none;margin:4px}
 .home-cab .quem{display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:0}
-.home-cab .quem p.saud{display:block;font-size:.8rem;color:var(--txt2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .home-cab .quem h1{max-width:100%;line-height:1.2}
 .selo-linha{display:flex;min-height:0;margin-top:3px;max-width:100%;padding:0}
 .selo-linha:empty{display:none}
-.cab-dir{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}
-.cab-bts{display:flex;gap:6px}
-.home-cab .cab-dir .bt-ic{width:38px;height:38px;border-radius:12px}
-.home-cab .cab-dir .bt-ic svg{width:18px;height:18px}
-.home-cab .cab-dir .moedas-topo{height:36px;padding:0 11px 0 6px;font-size:.9rem}
-.home-cab .cab-dir .moedas-topo svg.moeda{width:22px;height:22px}
 
 /* selos */
 .selo-x{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:7px;font:800 .66rem/1.45 Nunito,sans-serif;letter-spacing:.05em;white-space:nowrap;vertical-align:1px;color:#fff;background:linear-gradient(135deg,#5a6478,#3b4252);flex:none;animation:surge .35s ease}
@@ -1171,12 +1021,8 @@ svg.gema{fill:#7fd8ff;stroke:#1d6f99;stroke-width:1.4;stroke-linejoin:round}
 .sl-it.on .sl-marca.radio::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--dest-tinta)}
 .sl-it.trancado .sl-marca{visibility:hidden}
 .selo-x.selo-dev,.selo-x.selo-rei{margin-left:0}
-.home-cab .quem p.saud{font-size:.76rem;line-height:1.25}
 .home-cab .quem h1{font-size:1.25rem;line-height:1.15}
 .selo-linha{margin-top:4px}
-.cab-dir{gap:5px}
-.home-cab .cab-dir .moedas-topo{height:33px}
-.home-cab .cab-dir .bt-ic{width:35px;height:35px;border-radius:11px}
 body.com-nav[data-tela="menu"] #tela{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
 
 /* ===== guildas ===== */
@@ -1242,7 +1088,6 @@ body.com-nav[data-tela="menu"] #tela{padding-bottom:calc(84px + env(safe-area-in
 .dia-atalho .ic2{font-size:1.2rem}
 .dia-cab,.tn-cab{display:flex;align-items:center;gap:14px}
 .dia-cab>div,.tn-cab>div{display:flex;flex-direction:column;gap:2px;min-width:0}
-.dia-ic{font-size:2.3rem}
 .dia-cab small{text-transform:capitalize}
 .dia-cab b,.tn-cab>div>b{font-size:1.05rem}
 .dia-regras ul{margin:10px 0 14px 18px;display:grid;gap:6px;color:var(--txt2);font-size:.9rem}
@@ -1301,19 +1146,15 @@ body.com-nav[data-tela="menu"] #tela{padding-bottom:calc(84px + env(safe-area-in
 :root,[data-tema="claro"]{--lj-f1:#14315e;--lj-f2:#0c1d3a;--lj-luz:rgba(80,140,230,.28);--lj-barra:10,22,44;--lj-chip:#08111f;--lj-chipb:#23395e;--lj-aba1:#2c6fd6;--lj-aba2:#1d4fa6;--lj-abaon1:#5ab0ff;--lj-abaon2:#2a7de0;--lj-abaluz:#bfe3ff;--lj-abafundo:#0a1630;--lj-nota:#b9c9e6}
 [data-tema="escuro"]{--lj-f1:#2b3039;--lj-f2:#15181e;--lj-luz:rgba(190,200,215,.16);--lj-barra:17,20,26;--lj-chip:#0c0e12;--lj-chipb:#3a414d;--lj-aba1:#4a5262;--lj-aba2:#323845;--lj-abaon1:#8a94a8;--lj-abaon2:#5d6678;--lj-abaluz:#e3e8f0;--lj-abafundo:#111419;--lj-nota:#b3bac6}
 [data-tema="marrom"]{--lj-f1:#5a3a22;--lj-f2:#2a190d;--lj-luz:rgba(240,180,110,.22);--lj-barra:30,19,10;--lj-chip:#160d06;--lj-chipb:#5a3d26;--lj-aba1:#a5652f;--lj-aba2:#7a4519;--lj-abaon1:#e0a35c;--lj-abaon2:#b8742f;--lj-abaluz:#ffe3b8;--lj-abafundo:#1e130a;--lj-nota:#e2c7a6}
-/* texto "de jogo": branco com contorno escuro */
-.lj-txt,.lj-fita h2,.lj-c-topo,.lj-c-nome,.lj-c-bt,.lj-abrir,.lj-bau-tit,.lj-aba b,.lj-chip b,.lj-preco-bt,.lj-pac-tit,.lj-1vez,.lj-barra b,.bc-carta b,.bc-rar{
+.lj-fita h2,.lj-c-topo,.lj-c-nome,.lj-c-bt,.lj-abrir,.lj-bau-tit,.lj-preco-bt,.lj-1vez,.bc-carta b,.bc-rar{
   color:#fff;font-family:Nunito,Nunito,system-ui,sans-serif;font-weight:800;
   text-shadow:0 2px 0 rgba(0,0,0,.55),1px 1px 0 #1b2236,-1px -1px 0 #1b2236,1px -1px 0 #1b2236,-1px 1px 0 #1b2236}
-.lj-fita-ic .svg-bau{width:54px;height:50px}
 @media(min-width:560px){.lj-grade{gap:14px}}
 .lj-c-arte .svg-pilha{width:84%;height:64px}
 .lj-c-arte .svg-bau{width:80%;height:70px}
 .lj-mt .mini-tab{width:var(--mt,96px);height:var(--mt,96px);border-radius:6px}
 @keyframes bnGira{to{transform:rotate(360deg)}}
 @keyframes bnCai{from{transform:translateY(-4px)}to{transform:translateY(6px)}}
-.lj-cx .svg-bau,.lj-cx .svg-pilha{width:58px;height:46px}
-.lj-cx .lj-mt .mini-tab{width:46px;height:46px}
 .b-prata{--bc:#5b7db3;--bt:#7ea2d6;--bl:#e9f1fb}
 .b-real{--bc:#6b3fd1;--bt:#9b6ff5;--bl:#f1e9ff}
 .lj-bau-arte .svg-bau{width:100%;max-width:150px;height:auto;filter:drop-shadow(0 6px 6px rgba(0,0,0,.25))}
@@ -1610,7 +1451,6 @@ body:is([data-tela="menu"],[data-tela="aprender"],[data-tela="desafios"],[data-t
 .bt.peq{border-width:2.5px;border-radius:11px;font-size:.92rem;box-shadow:inset 0 -3px 0 rgba(0,0,0,.28)}
 .bt.pri.peq{box-shadow:inset 0 -3px 0 var(--dest-escuro),inset 0 2px 0 rgba(255,255,255,.45)}
 .bt.perigo{color:var(--ruim);border-color:var(--contorno)}
-.bt.pulsa{animation:none}
 .bt-ic{border:3px solid var(--contorno);border-radius:13px;background:var(--sup2);box-shadow:inset 0 -3px 0 rgba(0,0,0,.25),inset 0 2px 0 var(--brilho)}
 .bt-ic svg{stroke-width:2.4}
 .bt-ic:active{transform:translateY(2px)}
@@ -1651,63 +1491,14 @@ body.com-nav #tela{padding-bottom:calc(104px + env(safe-area-inset-bottom))}
 .home .perfil-topo .selo-nv{right:-9px;bottom:-9px}
 .home-cab .quem p{font-size:.8rem;font-weight:800;color:var(--txt2);text-transform:uppercase;letter-spacing:.06em}
 .home-cab .quem h1{font-size:1.5rem;line-height:1.1;text-shadow:0 2px 0 var(--contorno)}
-.faixa-home{display:flex;align-items:center;gap:6px;padding:5px;border-radius:16px;background:var(--contorno)}
-.faixa-home .nivel-home{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;margin:0;padding:3px 8px 4px;border:0;border-radius:11px;background:transparent;box-shadow:none}
-.faixa-home .nh-tx{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
-.faixa-home .nh-tx b{font-family:var(--tit);font-weight:400;font-size:.9rem;color:#fff4e2}
-.faixa-home .nh-tx small{font-size:.72rem;font-weight:800;color:#a58a6c}
-.faixa-home .barra-xp{height:10px;background:#000;background:color-mix(in srgb,#000 60%,var(--contorno))}
-.faixa-home .chama-chip{padding:0 6px;height:30px;background:transparent;color:#ff9a3c;font-family:var(--tit);font-weight:400;font-size:1rem;gap:2px}
-.faixa-home .chama-chip svg{width:20px;height:20px;fill:#ff8a2a;stroke:#7a2e00;stroke-width:1.6}
-.faixa-home .moedas-topo{height:30px;background:color-mix(in srgb,#fff 6%,var(--contorno));padding:0 9px 0 4px;font-size:.95rem}
-.faixa-home .moedas-topo svg.moeda{width:22px;height:22px}
-
-.home .hero{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;gap:0;padding:16px 16px 18px;border-radius:22px;
-  background:color-mix(in srgb,var(--dest) 14%,var(--sup2));border:3px solid var(--contorno);box-shadow:inset 0 3px 0 var(--brilho),0 5px 0 var(--contorno)}
-.home .hero-rei{position:absolute;right:-26px;top:-22px;width:170px;height:170px;opacity:.16;pointer-events:none}
-.home .hero-rei svg{width:100%;height:100%;fill:var(--txt);stroke:none}
-.home .hero-rei svg .det{stroke:none}.home .hero-rei svg .detf{fill:none}
-.home .hero .etq{position:relative;padding:3px 10px;border-radius:8px;background:var(--contorno);font-size:.72rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--dest)}
-.home .hero .tit{position:relative;margin:10px 0 16px;font-size:1.65rem;line-height:1.08;text-shadow:0 3px 0 var(--contorno)}
-.home .hero .bt-jogar{position:relative;width:100%;min-height:64px;margin:0;border-radius:16px;font-size:1.75rem;letter-spacing:1.5px;text-transform:uppercase;
-  box-shadow:inset 0 -7px 0 var(--dest-escuro),inset 0 3px 0 rgba(255,255,255,.45)}
-.home .hero .bt-jogar:active{box-shadow:inset 0 -3px 0 var(--dest-escuro)}
-.home .hero.h-cont{flex-direction:row;align-items:center;gap:14px}
-.home .hero.h-cont .info{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
-.home .hero.h-cont .tit{margin:4px 0 0;font-size:1.35rem}
-.home .hero.h-cont .sub{font-size:.84rem;color:var(--txt2)}
-.home .hero.h-cont .bt{margin-top:8px;padding:8px 22px}
-.home .hero .mini-jogo{border:3px solid var(--contorno);border-radius:12px;box-shadow:none}
-
-.modos-home{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.modo-h{--m:#3fa9f5;--me:#1f7cc0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:104px;padding:8px 4px;border-radius:18px;
-  background:var(--m);border:3px solid var(--contorno);box-shadow:inset 0 -6px 0 var(--me),inset 0 3px 0 rgba(255,255,255,.3),0 4px 0 var(--contorno);color:#fff}
-.modo-h:active{transform:translateY(3px);box-shadow:inset 0 -3px 0 var(--me),0 1px 0 var(--contorno)}
-.modo-h.m-roxo{--m:#a368f0;--me:#7440c0}.modo-h.m-verde{--m:#5fc93c;--me:#3a9a1c}
-.mh-ic{width:42px;height:42px;display:grid;place-items:center}
-.mh-ic svg{width:42px;height:42px;fill:#fff;stroke:var(--contorno);stroke-width:4;stroke-linejoin:round}
-.mh-ic svg .det{stroke:var(--me)}.mh-ic svg .detf{fill:var(--me)}
-.mh-ic svg[viewBox="0 0 24 24"]{width:34px;height:34px;stroke-width:1.8}
-.modo-h b{font-family:var(--tit);font-weight:400;font-size:1.05rem;line-height:1.1;text-shadow:0 2px 0 var(--me)}
-.modo-h small{font-size:.72rem;font-weight:800;opacity:.92;white-space:nowrap}
-
-/* missões (início e tela de missões) */
-.missoes-home{padding:12px}
-.missoes-home .ms-cab h3{font-size:1.15rem;margin:0}
-.link-ver{font-weight:800}
 .ms-it,.ms-bau{border-radius:13px;background:var(--sup2);box-shadow:inset 0 2px 0 var(--brilho)}
-.ms-ic,.bau-ic{background:var(--contorno);color:var(--txt2)}
-.ms-ic svg,.bau-ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.ms-ic{background:var(--contorno);color:var(--txt2)}
+.ms-ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .ms-it .ms-tx b{font-weight:800}
-.ms-tx .barrinha{height:10px;border-radius:5px;background:var(--contorno);padding:2px;box-sizing:border-box}
-.ms-tx .barrinha i{border-radius:3px;background:var(--dest)}
 .ms-it.feita{background:var(--dest-bg);box-shadow:inset 0 0 0 2px var(--dest)}
 .ms-it.feita .ms-ic{background:var(--dest);color:var(--dest-tinta)}
 .ms-it.pega .ms-ic{background:var(--ok);color:#0b2a17}
 .ms-n{font-family:var(--tit);font-weight:400;font-size:.95rem;color:var(--txt2)}
-.ms-bau.pronto .bau-ic{background:var(--dest);color:var(--dest-tinta)}
-.faixa-home .nivel-home{align-items:stretch;text-align:left}
-.faixa-home .barra-xp{background:#3a2618;background:color-mix(in srgb,#fff 10%,var(--contorno))}
 /* foto do perfil no Início: sem o quadrado atrás, só um aro escuro */
 .home .perfil-topo{width:58px;height:58px;border-radius:50%;background:none;border:0;box-shadow:none}
 .home .perfil-topo .avatar{box-shadow:0 0 0 3px var(--contorno),0 3px 0 3px var(--contorno)}
@@ -2662,6 +2453,169 @@ html[data-tema="claro"] .rc-comum{color:#5d6b78}html[data-tema="claro"] .rc-raro
 .lj-fita h2,.lj-c-nome,.lj-c-topo,.lj-bau-tit{text-shadow:none;color:var(--txt)}
 .lj-c-topo{color:var(--txt2)}
 .link{display:inline-flex;align-items:center;min-height:40px;padding:0 6px}
+
+/* =====================================================================
+   ENTREGA 4 — perfil, perfil flutuante, visual, conta, entrada, amigos,
+   guildas, avisos, configurações, estatísticas e histórico
+   ===================================================================== */
+.ic-final{width:64px;height:64px;margin:0 auto 6px}
+.cartao.final{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+.cartao.final b{font-family:var(--f-tit);font-weight:400;font-size:var(--t4)}
+.h-ic{display:flex;align-items:center;gap:10px}
+.h-ic .ic{width:30px;height:30px}
+.cartao h4{font-family:var(--f-tit);font-weight:400;font-size:var(--t3)}
+
+/* selos ao lado do nome */
+.selo-x{font-size:var(--t1);line-height:1.5;padding:2px 8px;border-radius:8px;border:2px solid var(--borda)}
+.selo-x i{display:inline-grid;place-items:center}
+.selo-x i .ic,.selo-x svg{width:14px;height:14px}
+.selo-x i .ic *{--ic-o:transparent}
+
+/* emblema das guildas: escudo com o desenho */
+.emblema i{margin-top:-6%;display:grid;place-items:center;width:58%;height:58%}
+.emblema .em-pc{width:100%;height:100%;fill:#fff;stroke:rgba(0,0,0,.45);stroke-width:5;stroke-linejoin:round}
+.emblema .em-pc .det{stroke:rgba(0,0,0,.45)}.emblema .em-pc .detf{fill:rgba(0,0,0,.45)}
+.emblema .em-ic{width:100%;height:100%;color:#fff;--ic-b:rgba(255,255,255,.7);--ic-o:rgba(0,0,0,.45)}
+.gd-ics{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.gd-ics button{display:grid;place-items:center;aspect-ratio:auto;min-height:52px;border-radius:14px;background:var(--sup2);border:2.5px solid var(--borda);box-shadow:0 3px 0 var(--borda)}
+.gd-ics button.on{border-color:var(--ouro);background:var(--sup);box-shadow:0 0 0 3px rgba(255,200,58,.3),0 3px 0 var(--borda)}
+.gd-ics .em-pc,.gd-ics .em-ic{width:32px;height:32px}
+.gd-ics .em-pc{fill:#fbfaf4;stroke:#2b2f36;stroke-width:5;stroke-linejoin:round}
+.gd-ics .em-ic{color:var(--ouro);--ic-b:#fff1b8}
+.gd-cores{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px}
+.gd-cores button{aspect-ratio:1;min-height:36px;border-radius:50%;background:var(--c);border:2.5px solid var(--borda)}
+.gd-cores button.on{box-shadow:0 0 0 3px #fff,0 0 0 6px var(--borda)}
+.gd-hero-ic .ic{width:48px;height:48px}
+
+/* perfil */
+.pf-tela{max-width:560px;margin:0 auto}
+.perfil-cab{display:flex;align-items:center;gap:14px}
+.pf-grade{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pf-tile{gap:4px;padding:14px 6px;border-radius:18px;background:var(--sup);border:2.5px solid var(--borda);box-shadow:0 3px 0 var(--borda);color:var(--txt)}
+.pf-tile .ic2{width:50px;height:50px;border-radius:15px;background:var(--sup2);border:2.5px solid var(--borda);box-shadow:inset 0 -4px 0 rgba(0,0,0,.22)}
+.pf-tile .ic2 .ic{width:32px;height:32px}
+.pf-tile b{font-family:var(--f-tit);font-weight:400;font-size:var(--t2)}
+.pf-tile small{font-size:var(--t1);font-weight:800}
+.pf-tile:active{transform:translateY(2px);box-shadow:0 1px 0 var(--borda)}
+.nome-linha .campo{font-family:var(--f-tit);font-weight:400;font-size:var(--t4)}
+.pf-info{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:6px}
+.nome-mudar .ic,.nome-mudar svg{width:18px;height:18px}
+.nv-cartao.peq{padding:12px 14px;text-align:left;width:100%}
+.nv-cartao.peq .nv-tx small{font-family:var(--f-tit);font-weight:400;font-size:var(--t3);color:#fff}
+.nv-cartao.peq .sub{color:rgba(255,255,255,.9)}
+.nv-cartao.peq .barra-xp{height:12px;background:rgba(0,0,0,.3)}
+.nv-cartao .seta{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:3}
+
+/* visual (ícones, molduras e selos) */
+.vs-tela{max-width:560px;margin:0 auto}
+.vs-prev{display:flex;align-items:center;gap:14px}
+.vs-prev b{font-family:var(--f-tit);font-weight:400;font-size:var(--t4)}
+.grade-av{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px}
+.op-av{gap:6px;padding:10px 4px;border-radius:16px;background:var(--sup2);border:2.5px solid var(--borda);box-shadow:0 3px 0 var(--borda)}
+.op-av.on{border-color:var(--ouro);box-shadow:0 0 0 3px rgba(255,200,58,.3),0 3px 0 var(--borda)}
+.op-av small,.grade-av .op-av small{display:flex;align-items:center;justify-content:center;gap:2px;font-size:var(--t1);font-weight:800;line-height:1.15;max-width:100%;white-space:normal;text-align:center}
+.vs-loja{display:flex;align-items:center;gap:10px;width:100%;margin-top:12px;padding:12px 14px;border-radius:14px;background:var(--sup2);border:2.5px solid var(--borda);font-family:var(--f-tit);font-size:var(--t3);color:var(--txt)}
+.vs-loja span{flex:1;text-align:left}
+.vs-loja svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2.4}
+.vs-sub{font-family:var(--f-tit);font-weight:400;font-size:var(--t3);margin:12px 0 8px}
+.sl-modos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sl-modos button{min-height:44px;border-radius:13px;background:var(--sup2);border:2.5px solid var(--borda);font-family:var(--f-tit);font-size:var(--t2);color:var(--txt)}
+.sl-modos button.on{background:linear-gradient(var(--ouro-alto),var(--ouro));color:var(--ouro-tinta)}
+.sl-it{min-height:52px;border-radius:14px;border:2.5px solid var(--borda);background:var(--sup2)}
+.sl-it small{font-size:var(--t1);display:flex;align-items:center;gap:3px}
+
+/* perfil flutuante: mesmo estilo das outras janelas (sem o bege) */
+#quadro{background:rgba(8,5,3,.66)}
+.qp{--qp-p:var(--bg);background:var(--bg);border:2.5px solid var(--borda);border-radius:26px;box-shadow:0 6px 0 var(--borda),0 20px 60px rgba(0,0,0,.5);color:var(--txt)}
+.qp-x{top:-14px;right:-12px;width:46px;height:46px;border-radius:14px;background:linear-gradient(#ff8a7e,var(--ruim));border:2.5px solid var(--borda);box-shadow:inset 0 -4px 0 var(--ruim-baixo),0 3px 0 var(--borda);color:#fff}
+.qp-x .ic{width:22px;height:22px}
+.qp-cab{background:var(--sup);border:2.5px solid var(--borda);box-shadow:0 3px 0 var(--borda)}
+.qp-conta{font-size:var(--t1);color:var(--txt2);text-transform:none;letter-spacing:0}
+.qp-nome{background:var(--chip);border:2px solid var(--borda);box-shadow:none}
+.qp-nome input{font-family:var(--f-tit);font-weight:400;font-size:var(--t4);color:#fff;text-shadow:none}
+.qp-lapis{background:linear-gradient(var(--ouro-alto),var(--ouro));border:2px solid var(--borda);box-shadow:inset 0 -3px 0 var(--ouro-baixo)}
+.qp-lapis svg{stroke:var(--ouro-tinta)}
+.qp-lapis i{font-size:var(--t1);border-color:var(--borda)}
+.qp-xp{height:20px;background:var(--chip);border:2px solid var(--borda);box-shadow:none}
+.qp-xp i{background:linear-gradient(var(--ouro-alto),var(--ouro-baixo))}
+.qp-xp b{font-family:var(--f-tit);font-weight:400;font-size:var(--t1);line-height:16px}
+.qp-fita b{font-family:var(--f-tit);font-weight:400;font-size:var(--t1)}
+.qp-abas{grid-template-columns:repeat(4,1fr);border:2.5px solid var(--borda);padding:5px}
+.qp-abas button{padding:0;min-height:40px;border-radius:13px;font-size:var(--t2);text-shadow:none;box-shadow:none;color:#d9c19f}
+.qp-abas button.on{background:linear-gradient(var(--ouro-alto),var(--ouro));color:var(--ouro-tinta);text-shadow:none;box-shadow:inset 0 -3px 0 var(--ouro-baixo)}
+.qp-abas button.on::after{display:none}
+.qp-grade{background:var(--sup);border:2.5px solid var(--borda);border-radius:18px;padding:10px}
+.qp-it{background:var(--sup2);border:2px solid var(--borda)}
+.qp-it.sel{background:var(--sup2);box-shadow:0 0 0 3px var(--ouro)}
+.qp-it .avatar{box-shadow:0 0 0 2.5px var(--borda)}
+.qp-ok{display:grid;place-items:center;background:var(--ok);border-color:var(--borda)}
+.qp-ok .ic{width:13px;height:13px;color:#fff}
+.qp-cad .ic{width:18px;height:18px}
+.qp-linha{background:var(--sup);border:2px solid var(--borda);box-shadow:none;color:var(--txt);font-family:var(--f-tit);font-weight:400;font-size:var(--t3)}
+.qp-como{font-family:Nunito,system-ui,sans-serif;font-weight:800;font-size:var(--t1);color:var(--txt2)}
+.qp-rar{font-family:var(--f-tit);font-weight:400;font-size:var(--t1);border:2px solid var(--borda)}
+.qp-rar.r-comum{background:#7d8d9c}.qp-rar.r-raro{background:#2f86e0}.qp-rar.r-epico{background:#9447ec}.qp-rar.r-lendario{background:#f09a00}.qp-rar.r-selo{background:#3fae55}
+.qp-usar{min-width:180px;font-size:var(--t4);border-radius:16px}
+.qp-uso{display:flex;align-items:center;gap:4px;font-family:var(--f-tit);font-weight:400;font-size:var(--t4);color:var(--txt2)}
+.qp-rodape{border-top:2px dashed var(--sup2)}
+.qp-rodape button{background:var(--sup2);border:2.5px solid var(--borda);color:var(--txt);font-family:var(--f-tit);font-weight:400;font-size:var(--t2);box-shadow:0 3px 0 var(--borda);min-height:44px}
+.qp-nada{font-family:var(--f-tit);font-size:var(--t1);color:var(--txt2);text-shadow:none}
+
+/* tela de entrada (criar conta, entrar, convidado) */
+#entrada{background:radial-gradient(120% 70% at 50% 0%,#5a3d12,var(--bg) 60%);color:var(--txt)}
+.en-cavalo{width:84px;height:84px;fill:#fff;stroke:#140b06;stroke-width:4.6;stroke-linejoin:round;filter:drop-shadow(0 6px 0 rgba(0,0,0,.25))}
+.en-cavalo .det{stroke:#140b06}.en-cavalo .detf{fill:#140b06}
+.en-topo h1{font-family:var(--f-tit);font-weight:400;font-size:40px;letter-spacing:1px;text-transform:none;margin:0;color:#fff;
+  text-shadow:0 3px 0 var(--borda),2px 0 0 var(--borda),-2px 0 0 var(--borda),0 -2px 0 var(--borda),0 5px 0 var(--borda)}
+.en-topo h1 span{color:var(--ouro)}
+.en-topo small{font-weight:900;font-size:var(--t1);letter-spacing:2px;color:var(--txt2)}
+.en-cartao{background:var(--sup);border:2.5px solid var(--borda);border-radius:24px;box-shadow:0 5px 0 var(--borda),0 18px 50px rgba(0,0,0,.4)}
+.en-boas{color:var(--txt);font-weight:800;font-size:var(--t2)}
+.en-abas{padding:5px}
+.en-abas button{font-family:var(--f-tit);font-weight:400;font-size:var(--t2);min-height:42px;border-radius:13px;color:#d9c19f}
+.en-abas button.on{background:linear-gradient(var(--ouro-alto),var(--ouro));color:var(--ouro-tinta)}
+#entrada .campo{background:var(--chip);border:2.5px solid var(--borda);color:#fff}
+#entrada .campo::placeholder{color:#a98c69}
+.en-google{background:#fff;color:#2a190c;--f:#fff;--f2:#fff;--fb:#d8d2c8}
+.en-nota,.en-ou{font-size:var(--t1);font-weight:800;color:var(--txt2)}
+.en-msg{font-size:var(--t2);font-weight:800;color:var(--txt)}
+
+/* chat rápido (partida online) */
+.bt-chat{width:42px;height:42px;border-radius:13px;background:var(--sup2);border:2.5px solid var(--borda);box-shadow:0 3px 0 var(--borda)}
+.bt-chat .ic{width:24px;height:24px}
+
+/* estatísticas e histórico */
+.numeros{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.numero{background:var(--sup);border:2.5px solid var(--borda);border-radius:18px;box-shadow:0 3px 0 var(--borda);padding:12px;text-align:center;color:var(--txt)}
+.numero b{display:block;font-family:var(--f-tit);font-weight:400;font-size:var(--t6);line-height:1.1}
+.numero span{font-weight:800;font-size:var(--t1);color:var(--txt2)}
+.tb{width:100%;border-collapse:collapse;font-size:var(--t2)}
+.tb th{font-size:var(--t1);color:var(--txt2);font-weight:900;text-align:right;padding:6px 4px;text-transform:none;letter-spacing:0}
+.tb th:first-child,.tb td:first-child{text-align:left}
+.tb td{padding:8px 4px;border-top:2px dashed var(--sup2);text-align:right;font-weight:800}
+.barra-h{display:grid;grid-template-columns:minmax(0,1fr) 1fr auto;gap:8px;align-items:center;font-weight:800;font-size:var(--t2);margin:6px 0}
+.barra-h .tr{height:12px;border-radius:999px;background:var(--chip);border:2px solid var(--borda);overflow:hidden}
+.barra-h .tr i{display:block;height:100%;background:var(--ouro)}
+.hist-item,.av-it,.jg-it{color:var(--txt)}
+.hist-ic{border:2px solid var(--borda)}
+.qp-abas button{background:none}
+.ved-lista{display:flex;flex-direction:column;gap:12px}
+.ved{display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:center}
+.ved-nome{display:flex;align-items:center;gap:8px;font-family:var(--f-tit);font-size:var(--t3)}
+.ved-nome i{width:12px;height:12px;border-radius:50%;border:2px solid var(--borda)}
+.ved-num{font-weight:900;font-size:var(--t1);color:var(--txt2)}
+.ved-barra{grid-column:1/-1;display:flex;height:12px;border-radius:999px;background:var(--chip);border:2px solid var(--borda);overflow:hidden}
+.ved-barra .v{background:var(--ok)}.ved-barra .e{background:#9aa6b5}.ved-barra .d{background:var(--ruim)}
+.nv-cartao.peq .nv-tx .sub{font-size:var(--t1)}
+.nome-n{font-size:13px;min-width:22px;height:22px;line-height:18px}
+.hist-item{border:2.5px solid var(--borda);box-shadow:0 3px 0 var(--borda)}
+.hist-tx b{font-family:var(--f-tit);font-weight:400;font-size:var(--t3)}
+.hist-tx span{font-size:var(--t2);font-weight:700}
+.hist-tx small,.hist-dir small{font-size:var(--t1);font-weight:800}
+.hist-dir b{font-family:var(--f-tit);font-weight:400;font-size:var(--t4)}
+.qp-lapis{width:40px;height:40px;border-radius:12px}
+/* dica do treino: no alto da partida, para não cobrir os botões de baixo */
+body[data-tela="jogo"] .toast-dica{top:calc(70px + env(safe-area-inset-top));bottom:auto}
 
 </style>
 </head>
@@ -5492,6 +5446,21 @@ const IC = {
   raio: '<path class="a" d="M18 2.5L6 18h8l-2 11.5L26 13h-8.5z"/>',
   engrenagem: '<path class="a" d="M13.5 3.5h5l.8 3.6 2.6 1.1 3.1-2 3.5 3.5-2 3.1 1.1 2.6 3.6.8v5l-3.6.8-1.1 2.6 2 3.1-3.5 3.5-3.1-2-2.6 1.1-.8 3.6h-5l-.8-3.6-2.6-1.1-3.1 2-3.5-3.5 2-3.1-1.1-2.6-3.6-.8v-5l3.6-.8 1.1-2.6-2-3.1 3.5-3.5 3.1 2 2.6-1.1z"/><circle class="b" cx="16" cy="16" r="4.5"/>'
 };
+Object.assign(IC, {
+  escudo: '<path class="a" d="M16 3l11 4v8c0 7-5 12-11 14C10 27 5 22 5 15V7z"/><path class="b n" d="M16 6.5l8 3v5.5c0 5-3.4 8.6-8 10.2z" style="opacity:.35"/>',
+  espadas: '<path class="b" d="M6 4l15 15-2.5 2.5L3.5 6.5 3 3.5z"/><path class="b" d="M26 4L11 19l2.5 2.5 15-15 .5-3z"/><path class="a" d="M8 20l4 4-3 3-2-2-2 1 1-2-2-2zM24 20l-4 4 3 3 2-2 2 1-1-2 2-2z"/>',
+  lua: '<path class="a" d="M20 4a12 12 0 1 0 8 19A10 10 0 0 1 20 4z"/>',
+  dragao: '<path class="a" d="M4 24c3-1 5-4 6-7l-3-1 5-3 1-5 4 3 6-6 1 6 4 1-3 3 2 4-5 1c-1 4-4 7-9 7H6z"/><circle class="b" cx="19" cy="12" r="1.8"/>',
+  leao: '<circle class="a" cx="16" cy="16" r="12.5"/><circle class="b" cx="16" cy="17" r="7.5" style="fill:#ffe2a6"/><circle class="a n" cx="13.3" cy="15.5" r="1.3" style="fill:#3a2616"/><circle class="a n" cx="18.7" cy="15.5" r="1.3" style="fill:#3a2616"/><path class="l" d="M14.5 19.5L16 21l1.5-1.5"/>',
+  aguia: '<path class="a" d="M2 12c5 0 9 2 11 5l3-6 3 6c2-3 6-5 11-5-2 5-6 9-11 10l-3 4-3-4C8 21 4 17 2 12z"/><circle class="b" cx="16" cy="12" r="2.4"/>',
+  lobo: '<path class="a" d="M6 4l5 7h10l5-7 1 12-5 9-6 3-6-3-5-9z"/><circle class="b" cx="12.5" cy="16" r="1.6"/><circle class="b" cx="19.5" cy="16" r="1.6"/><path class="b" d="M14 21h4l-2 3z"/>',
+  medalhaSelo: '<path class="a" d="M10 3h12l-3 9h-6z"/><circle class="a" cx="16" cy="20" r="8.5"/><circle class="b" cx="16" cy="20" r="4.5"/>'
+});
+/* emblemas das guildas: o símbolo salvo na guilda continua o mesmo (compatível); só o desenho mudou */
+const EMBLEMA_IC = { '♞': 'pc-n', '♜': 'pc-r', '♝': 'pc-b', '♛': 'pc-q', '♚': 'pc-k', '⚔️': 'espadas', '🛡️': 'escudo', '🔥': 'fogo', '⚡': 'raio', '🐉': 'dragao', '🦁': 'leao', '🦅': 'aguia', '🐺': 'lobo', '🌙': 'lua', '⭐': 'estrela', '👑': 'coroa' };
+const desenhoEmblema = s => { const k = EMBLEMA_IC[s] || 'pc-n'; return k.startsWith('pc-') ? `<svg class="em-pc" viewBox="0 0 100 100" aria-hidden="true"><use href="#${k}"/></svg>` : ic(k, 'em-ic'); };
+/* selos do perfil: ícone desenhado por selo */
+const SELO_IC = { mes: 'coroa', torneio: 'trofeu', sem1: 'medalhaSelo', sem2: 'medalhaSelo', platina: 'gema', mestre: 'computador', titulo: 'coroa', fogo: 'fogo', social: 'amigo' };
 const ic = (n, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 32 32" aria-hidden="true">${IC[n] || ''}</svg>`;
 /* peça grande do visual novo (usa as cores do avatar: av-w, av-b, av-g...) */
 const pecaGrande = (avatarId, cls = '') => {
@@ -6361,7 +6330,7 @@ const Selos = {
     if (c.modo === 'um') return g.includes(c.um) ? [c.um] : g.slice(0, 1);
     const l = (c.auto || []).filter(x => g.includes(x)); return l.length ? l : [];
   },
-  um(id) { const s = SELOS.find(x => x.id === id); if (!s) return ''; return `<span class="selo-x selo-${s.id}" title="${esc(s.desc)}">${s.ic ? `<i>${s.ic}</i>` : ''}${esc(s.txt)}</span>`; },
+  um(id) { const s = SELOS.find(x => x.id === id); if (!s) return ''; const d = SELO_IC[s.id] ? ic(SELO_IC[s.id], 'ic-tx') : s.ic; return `<span class="selo-x selo-${s.id}" title="${esc(s.desc)}">${d ? `<i>${d}</i>` : ''}${esc(s.txt)}</span>`; },
   /* lista de outro jogador: tira o "Nº 1" de quem não é mais o primeiro */
   de(lista, uid) { let l = (typeof lista === 'string' ? lista.split(',') : lista || []).filter(x => SELOS.some(s => s.id === x)); if (uid !== undefined) l = l.filter(x => x !== 'rei' || Premios.ehRei(uid)); return l.slice(0, 10); },
   dePerfil(x) { return x && x.sl != null ? this.de(x.sl, x.uid) : (x && Premios.ehRei(x.uid) ? ['rei'] : []); },
@@ -6659,7 +6628,7 @@ const Conquistas = {
 /* ---------- perfil ---------- */
 function opMold(m) {
   const ok = temMoldura(m.id), p = Dados.d.perfil, dica = m.rei ? 'Só o 1º do ranking geral' : m.nivel ? 'Vença o nível ' + NIVEIS[m.nivel].nome : m.nome;
-  return `<button class="op-av${p.moldura === m.id ? ' on' : ''}${ok ? '' : ' trancado'}${m.rei ? ' op-rei' : ''}" data-mold="${m.id}" ${ok ? '' : 'disabled'} title="${ok ? m.nome : dica}">${htmlAvatar(p.avatar, m.id, 54)}<small>${ok ? m.nome : '🔒 ' + (m.rei ? 'Só o nº 1' : m.nivel ? NIVEIS[m.nivel].nome : m.nome)}</small></button>`;
+  return `<button class="op-av${p.moldura === m.id ? ' on' : ''}${ok ? '' : ' trancado'}${m.rei ? ' op-rei' : ''}" data-mold="${m.id}" ${ok ? '' : 'disabled'} title="${ok ? m.nome : dica}">${htmlAvatar(p.avatar, m.id, 54)}<small>${ok ? m.nome : ic('cadeado', 'ic-mini cor-cinza') + (m.rei ? 'Só o nº 1' : m.nivel ? NIVEIS[m.nivel].nome : m.nome)}</small></button>`;
 }
 /* ---------- troca de nome: a 1ª escolha é grátis e dá 1 item de mudar nome; depois, item (Baú real) ou 200 diamantes ---------- */
 const Nome = {
@@ -6710,17 +6679,17 @@ const Perfil = {
         <div style="flex:1;min-width:0"><label class="sub" for="nome">Nome de usuário</label>
           <div class="nome-linha"><input id="nome" class="campo" maxlength="20" value="${esc(p.nome)}" placeholder="Escolha seu nome" autocomplete="nickname"${p.nome ? ' readonly' : ''}>
             ${p.nome ? `<button class="bt peq nome-mudar" id="nome-mudar" aria-label="Mudar nome">${SVG('<path d="M4 20h4L19 9l-4-4L4 16z"/>')}<span>Mudar</span>${Nome.itens() ? `<i class="nome-n">${Nome.itens()}</i>` : ''}</button>` : ''}</div>
-          <div class="pf-info"><span data-selo-rei>${Premios.selo()}</span>${Dev.ativo ? '<button class="pf-dev" data-dev-abrir="1">Painel DEV</button>' : ''}<span class="pf-saldo">${MOEDA}${d.moedas.toLocaleString('pt-BR')}</span><span class="pf-saldo">${GEMA}${(d.gemas || 0).toLocaleString('pt-BR')}</span></div></div></div>
+          <div class="pf-info"><span data-selo-rei>${Premios.selo()}</span>${Dev.ativo ? '<button class="pf-dev" data-dev-abrir="1">Painel DEV</button>' : ''}</div></div></div>
       <button class="cartao nv-cartao peq" data-ir-missoes="1" style="--nv:${t.cor}">${XP.selo(nv.n, 48)}
         <span class="nv-tx"><small>Nível ${nv.n} · ${t.nome}</small><span class="barra-xp"><i style="width:${Math.round(nv.frac * 100)}%"></i></span>
-        <span class="sub">${nv.atual}/${nv.prox} XP · 🔥 ${Sequencia.viva()} ${Sequencia.viva() === 1 ? 'dia' : 'dias'}${d.ranque.n ? ` · ${d.ranque.pts} pts` : ''}</span></span>${SETA}</button>
+        <span class="sub">${nv.atual}/${nv.prox} XP · ${Sequencia.viva()} ${Sequencia.viva() === 1 ? 'dia seguido' : 'dias seguidos'}${d.ranque.n ? ` · ${d.ranque.pts} pts` : ''}</span></span>${SETA}</button>
       <div class="pf-grade">
-        ${tile('data-ir-tela="social"', 'cor-ok', SVG('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.8"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/>') + '<i class="selo-n oculto" data-pedidos-n>0</i>', 'Amigos', u ? (na ? na + (na > 1 ? ' amigos' : ' amigo') : 'Buscar') : 'Precisa de conta')}
-        ${tile('data-ir-tela="historico"', 'cor-neutra', SVG('<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>'), 'Histórico', d.partidas.length ? d.partidas.length + ' partida' + (d.partidas.length > 1 ? 's' : '') : 'Nenhuma ainda')}
-        ${tile('data-ir-tela="stats"', 'cor-dest', SVG('<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>'), 'Estatísticas', e.vitorias + ' vitória' + (e.vitorias === 1 ? '' : 's'))}
-        ${tile('data-quadro="av"', 'cor-info', SVG('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.5a6.5 6.5 0 0 1 11 0"/>'), 'Visual', 'Ícone e selos')}
-        ${tile('data-ir-tela="guilda"', 'cor-dest', d.guilda && d.guilda.id ? htmlEmblema(d.guilda, 30) : SVG('<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>'), 'Guilda', d.guilda && d.guilda.id ? esc(d.guilda.nome) : d.guildaPedido ? 'Pedido enviado' : 'Jogue em equipe')}
-        ${tile('data-ir-tela="conta"', u ? 'cor-ok' : 'cor-ruim', SVG('<path d="M7 18a5 5 0 0 1-.7-9.95A6 6 0 0 1 18 9a4.5 4.5 0 0 1-.5 9z"/>'), 'Conta', u ? 'Conectada' : 'Entrar')}
+        ${tile('data-ir-tela="social"', 'cor-ok', ic('amigo', 'cor-roxo') + '<i class="selo-n oculto" data-pedidos-n>0</i>', 'Amigos', u ? (na ? na + (na > 1 ? ' amigos' : ' amigo') : 'Buscar') : 'Precisa de conta')}
+        ${tile('data-ir-tela="historico"', 'cor-neutra', ic('relogio', 'cor-branco'), 'Histórico', d.partidas.length ? d.partidas.length + ' partida' + (d.partidas.length > 1 ? 's' : '') : 'Nenhuma ainda')}
+        ${tile('data-ir-tela="stats"', 'cor-dest', ic('ranking', 'cor-azul'), 'Estatísticas', e.vitorias + ' vitória' + (e.vitorias === 1 ? '' : 's'))}
+        ${tile('data-quadro="av"', 'cor-info', ic('estrela', 'cor-ouro'), 'Visual', 'Ícone e selos')}
+        ${tile('data-ir-tela="guilda"', 'cor-dest', d.guilda && d.guilda.id ? htmlEmblema(d.guilda, 30) : ic('escudo', 'cor-azul'), 'Guilda', d.guilda && d.guilda.id ? esc(d.guilda.nome) : d.guildaPedido ? 'Pedido enviado' : 'Jogue em equipe')}
+        ${tile('data-ir-tela="conta"', u ? 'cor-ok' : 'cor-ruim', ic(u ? 'ok' : 'cadeado', u ? 'cor-verde' : 'cor-verm'), 'Conta', u ? 'Conectada' : 'Entrar')}
       </div></div>`;
     Avisos.selos();
     const nome = $('#nome');
@@ -6754,7 +6723,7 @@ const Perfil = {
     const grupoMold = (tit, lista, cls = '') => `<h3 class="vs-sub">${tit}</h3><div class="grade-av ${cls}">${lista.map(opMold).join('')}</div>`;
     $('#tela').innerHTML = `<div class="pilha estreito vs-tela">
       <div class="cartao vs-prev">${htmlAvatar(p.avatar, p.moldura, 76)}<span><b>${esc(nomeJogador())}</b><span class="vs-selo" data-selo-rei>${Premios.selo()}</span><small class="sub">${esc((AVATARES.find(a => a.id === p.avatar) || {}).nome || '')}${p.moldura ? ' · ' + esc((MOLDURAS.find(m => m.id === p.moldura) || {}).nome || '') : ''}</small></span></div>
-      <div class="abas"><button class="aba${this.aba === 'av' ? ' on' : ''}" data-aba="av">Ícones</button><button class="aba${this.aba === 'mold' ? ' on' : ''}" data-aba="mold">Molduras</button><button class="aba${this.aba === 'selo' ? ' on' : ''}" data-aba="selo">Selos</button></div>
+      <div class="abas-rk" role="tablist"><button role="tab" class="${this.aba === 'av' ? 'on' : ''}" data-aba="av">Ícones</button><button role="tab" class="${this.aba === 'mold' ? 'on' : ''}" data-aba="mold">Molduras</button><button role="tab" class="${this.aba === 'selo' ? 'on' : ''}" data-aba="selo">Selos</button></div>
       ${this.aba === 'selo' ? this.htmlSelos() : this.aba === 'av' ? `<div class="cartao"><div class="grade-av">
         ${avs.map(a => `<button class="op-av${p.avatar === a.id ? ' on' : ''}" data-av="${a.id}" title="${a.nome}">${htmlAvatar(a.id, '', 54)}<small>${esc(a.nome)}</small></button>`).join('')}</div>
         ${maisLoja('Mais ícones na loja')}</div>`
@@ -6787,7 +6756,7 @@ const Perfil = {
       <div class="sl-lista${c.modo === 'nenhum' ? ' apagada' : ''}">${SELOS.map(s => {
         const tem = g.includes(s.id), marcado = c.modo === 'um' ? c.um === s.id : c.modo === 'auto' && (c.auto || []).includes(s.id);
         return `<button class="sl-it${tem ? '' : ' trancado'}${marcado ? ' on' : ''}" data-sl="${s.id}" ${tem && c.modo !== 'nenhum' ? '' : 'disabled'}>
-          ${Selos.um(s.id)}<small>${tem ? esc(s.desc) : '🔒 ' + esc(s.desc)}</small><i class="sl-marca ${c.modo === 'um' ? 'radio' : 'caixa'}"></i></button>`;
+          ${Selos.um(s.id)}<small>${tem ? esc(s.desc) : ic('cadeado', 'ic-mini cor-cinza') + esc(s.desc)}</small><i class="sl-marca ${c.modo === 'um' ? 'radio' : 'caixa'}"></i></button>`;
       }).join('')}</div></div>`;
   },
   escolherSelo(modo, id) {
@@ -6837,7 +6806,7 @@ const Ajustes = {
         <div><b>Conta</b><div class="sub">${Nuvem.usuario ? (Nuvem.usuario.isAnonymous ? 'Jogando como convidado.' : 'Conectado como ' + esc(Nuvem.nomeConta()) + '.')
           : Entrada.convidadoPendente() ? 'Jogando como convidado. A conta é criada quando a internet voltar.' : 'Sua conta conecta sozinha quando a internet voltar.'}</div></div>
         ${Nuvem.usuario ? `<button class="bt perigo" id="aj-sair">${Nuvem.usuario.isAnonymous ? 'Sair do modo convidado' : 'Sair da conta'}</button>` : ''}</div>` : ''}
-      <p class="sub" style="text-align:center;font-size:.8rem">Motor Stockfish 10 (GPL-3) · regras chess.js (BSD) · ${Motor.rotulo().replace(/<[^>]+>/g, '')}</p></div>`;
+      <p class="sub" style="text-align:center">Motor Stockfish 10 (GPL-3) · regras chess.js (BSD) · ${Motor.rotulo().replace(/<[^>]+>/g, '')}</p></div>`;
     $('#aj-tema').onclick = e => { const b = e.target.closest('.op'); if (!b) return; a.tema = b.dataset.v; Dados.salvar(); aplicarVisual(); this.tela(); };
     $('#aj-tab').onclick = e => { const b = e.target.closest('[data-tab]'); if (!b) return; Dados.d.tabuleiro = b.dataset.tab; Dados.salvar(); aplicarVisual(); this.tela(); };
     $('#aj-loja').onclick = () => { Loja.aba = 'tab'; App.ir('loja'); };
@@ -6852,7 +6821,7 @@ const Ajustes = {
   },
   textoInstalar() {
     const instalado = window.matchMedia && matchMedia('(display-mode: standalone)').matches;
-    if (instalado) return 'O aplicativo já está instalado neste aparelho e funciona sem internet. ✓';
+    if (instalado) return 'O aplicativo já está instalado neste aparelho e funciona sem internet.';
     if (location.protocol === 'file:') return 'Você abriu o arquivo direto do computador: tudo funciona sem internet (só as contas e o jogo online precisam de conexão).';
     return 'O jogo funciona sem internet depois de aberto uma vez. Para ter um ícone na tela inicial: no Android (Chrome), toque em ⋮ e depois em “Instalar app” ou “Adicionar à tela inicial”; no iPhone (Safari), toque em Compartilhar e depois em “Adicionar à Tela de Início”.';
   }
@@ -9145,7 +9114,7 @@ const Aprender = {
   telaLista(mod) {
     if (this.modo === 'desafios') return this.telaDesafios();
     const r = this.resumo(), t = this.todas();
-    App.cabecalho('Aprender', 'menu', `${r.estrelas}/${r.maxEstrelas} ★`);
+    App.cabecalho('Aprender', 'menu', `${r.estrelas}/${r.maxEstrelas} estrelas`);
     // módulo mostrado: o escolhido, ou o da primeira fase ainda não concluída
     if (mod != null) this.modSel = mod;
     if (this.modSel == null) { const k = t.findIndex(x => !(Dados.d.fases[x.fase.id] >= 1)); this.modSel = k < 0 ? MODULOS.length - 1 : MODULOS.indexOf(t[k].mod); }
@@ -9592,11 +9561,11 @@ const Nuvem = {
   atualizarSync() { const el = $('#sync-txt'); if (el) el.innerHTML = this.textoSync(); },
   publicarPerfil() { this.agendar(); },
   textoSync() {
-    if (navigator.onLine === false) return '📴 Sem internet. Tudo o que você fizer fica salvo neste aparelho e vai para a conta sozinho quando a internet voltar.';
-    if (this.erroSync) return '<span style="color:var(--ruim)">⚠ Não foi possível salvar na nuvem agora. Tentaremos de novo.</span>';
+    if (navigator.onLine === false) return 'Sem internet. Tudo o que você fizer fica salvo neste aparelho e vai para a conta sozinho quando a internet voltar.';
+    if (this.erroSync) return '<span style="color:var(--ruim)">Não foi possível salvar na nuvem agora. Tentaremos de novo.</span>';
     if (!this.ultimaSync) return 'Sincronizando…';
     const h = new Date(this.ultimaSync);
-    return `✓ Progresso salvo na nuvem às ${String(h.getHours()).padStart(2, '0')}:${String(h.getMinutes()).padStart(2, '0')}`;
+    return `${ic('ok', 'cor-verde ic-mini')}Progresso salvo na nuvem às ${String(h.getHours()).padStart(2, '0')}:${String(h.getMinutes()).padStart(2, '0')}`;
   },
 
   /* ---------- cartão "Conta" do perfil ---------- */
@@ -9615,7 +9584,7 @@ const Nuvem = {
           ${esqueci ? '<button class="link" id="c-esqueci">Esqueci minha senha</button>' : ''}
           <p class="sub" id="c-msg" role="alert"></p></div>`;
     if (!this.configurada()) h += '<p class="sub">As contas e o jogo online ainda não foram ativados neste site. Enquanto isso, seu progresso fica salvo neste aparelho.</p>';
-    else if (this.estado === 'offline') h += `<p class="sub">📴 Sem internet agora. Pode jogar à vontade: tudo fica salvo neste aparelho${this.donoLocal() || Entrada.convidadoPendente() ? ' e vai para a sua conta sozinho quando a internet voltar' : ''}.</p>`;
+    else if (this.estado === 'offline') h += `<p class="sub">Sem internet agora. Pode jogar à vontade: tudo fica salvo neste aparelho${this.donoLocal() || Entrada.convidadoPendente() ? ' e vai para a sua conta sozinho quando a internet voltar' : ''}.</p>`;
     else if (this.estado === 'carregando') h += '<p class="sub">Conectando…</p>';
     else if (this.estado === 'erro') h += '<p class="sub">Não foi possível conectar à nuvem.</p><button class="bt" id="c-tentar">Tentar de novo</button>';
     else if (convidado) {
@@ -10040,11 +10009,11 @@ const Salas = {
       <h4 style="margin-top:18px">Entrar em uma sala</h4>
       <div class="fila"><input class="campo codigo" id="a-codigo" maxlength="5" placeholder="CÓDIGO" autocapitalize="characters" autocomplete="off" style="flex:1"><button class="bt" id="a-entrar">Entrar</button></div>`;
     $('#tela').innerHTML = `<div class="estreito pilha">
-      <div class="cartao"><h2>📱 No mesmo aparelho</h2><p class="sub" style="margin-bottom:10px">Vocês se revezam no mesmo celular ou computador. Funciona sem internet.</p>
+      <div class="cartao"><h2 class="h-ic">${ic('celular', 'cor-marrom')}No mesmo aparelho</h2><p class="sub" style="margin-bottom:10px">Vocês se revezam no mesmo celular ou computador. Funciona sem internet.</p>
         <div class="opcoes c3" id="a-tempo-loc">${tempos(ca.relogio, 'tempo')}</div>
         <label class="chave" style="margin-top:8px"><span><b>Girar o tabuleiro a cada lance</b><small>Cada jogador vê as próprias peças embaixo</small></span><input type="checkbox" id="a-girar" ${ca.girar ? 'checked' : ''}><i></i></label>
         <button class="bt pri cheio" id="a-local" style="margin-top:10px">Começar partida</button></div>
-      <div class="cartao"><h2>🌐 Pela internet</h2>${online}</div></div>`;
+      <div class="cartao"><h2 class="h-ic">${ic('globo', 'cor-verde')}Pela internet</h2>${online}</div></div>`;
     const grupo = (sel, fn) => { const el = $(sel); if (el) el.onclick = e => { const b = e.target.closest('.op'); if (!b) return; $$('.op', el).forEach(x => x.classList.toggle('on', x === b)); fn(b); Dados.salvar(); }; };
     grupo('#a-tempo-loc', b => { ca.relogio = +b.dataset.tempo; });
     grupo('#a-tempo-on', b => { co.relogio = +b.dataset.tempo; });
@@ -10107,7 +10076,7 @@ const Entrada = {
   },
 
   semInternet() { return navigator.onLine === false || Nuvem.estado === 'offline' || Nuvem.estado === 'erro'; },
-  txtSemInternet() { return '📴 Sem internet agora. Para criar conta ou entrar, conecte-se. Como convidado você já pode jogar.'; },
+  txtSemInternet() { return 'Sem internet agora. Para criar conta ou entrar, conecte-se. Como convidado você já pode jogar.'; },
   pintar() {
     const el = this.el; if (!el) return;
     const ant = $('#en-email', el); if (ant) this.email = ant.value;
@@ -10119,7 +10088,7 @@ const Entrada = {
       </header>
       <div class="en-cartao">
         <p class="en-boas">${criar ? 'Crie sua conta para guardar seu progresso e jogar com amigos em qualquer aparelho.' : 'Que bom te ver de novo! Entre para continuar de onde parou.'}</p>
-        <div class="en-abas" role="tablist">
+        <div class="en-abas abas-rk" role="tablist">
           <button type="button" role="tab" aria-selected="${criar}" class="${criar ? 'on' : ''}" data-aba="criar">Criar conta</button>
           <button type="button" role="tab" aria-selected="${!criar}" class="${criar ? '' : 'on'}" data-aba="entrar">Entrar</button>
         </div>
@@ -10546,7 +10515,7 @@ const Avisos = {
       : linha(x.avatar, x.moldura, `<b>${esc(x.nome)}</b> aceitou seu pedido de amizade`, qd(x.t), `<button class="bt peq" data-jogador="${esc(x.uid)}">Ver perfil</button>`, x.lido ? '' : 'novo') }));
     l.sort((a, b) => b.t - a.t);
     $('#tela').innerHTML = `<div class="pilha estreito">${!Nuvem.usuario ? '<div class="cartao final"><b>Entre na sua conta</b><p class="sub" style="margin:6px 0 12px">As notificações de amigos e convites precisam de uma conta.</p><button class="bt pri" data-ir-perfil>Entrar</button></div>'
-      : l.length ? `<div class="cartao av-lista">${l.map(x => x.h).join('')}</div>` : '<div class="cartao final"><span style="font-size:2.4rem">🔔</span><b>Nada por aqui</b><p class="sub">Pedidos de amizade, convites e avisos de amigos online aparecem aqui.</p></div>'}</div>`;
+      : l.length ? `<div class="cartao av-lista">${l.map(x => x.h).join('')}</div>` : `<div class="cartao final">${ic('sino', 'cor-branco ic-final')}<b>Nada por aqui</b><p class="sub">Pedidos de amizade, convites e avisos de amigos online aparecem aqui.</p></div>`}</div>`;
     this.itens.forEach(x => { x.lido = true; }); this.selos();
     $('#tela').onclick = e => {
       const q = (a) => e.target.closest('[' + a + ']'), b = q('data-pd-sim') || q('data-pd-nao') || q('data-cv-sim') || q('data-cv-nao');
@@ -10573,7 +10542,7 @@ const Social = {
     App.cabecalho('Amigos', this.volta || 'perfil');
     const u = Nuvem.usuario, p = Dados.d.perfil, conv = p.conv || 'todos';
     if (!u) {
-      $('#tela').innerHTML = `<div class="pilha estreito"><div class="cartao final"><h2>👋 Jogue com outras pessoas</h2>
+      $('#tela').innerHTML = `<div class="pilha estreito"><div class="cartao final">${ic('amigo', 'cor-roxo ic-final')}<h2>Jogue com outras pessoas</h2>
         <p class="sub" style="margin:6px 0 14px">Entre na sua conta para adicionar amigos, ver o perfil dos jogadores e mandar convites de partida. É grátis.</p>
         <button class="bt pri cheio" data-ir-perfil>Entrar ou criar conta</button></div></div>`;
       $('#tela').onclick = e => { if (e.target.closest('[data-ir-perfil]')) App.ir('conta'); };
@@ -10668,10 +10637,10 @@ const Social = {
       <div class="cartao jg-cab" style="--nv:${t.cor}">${htmlAvatar(p.avatar || 'wn', Premios.moldDe(Object.assign({ uid }, p)), 96)}
         <h2>${esc(p.nome || 'Jogador')}</h2>${(s => s ? `<span class="jg-selo">${s}</span>` : '')(Selos.html(Selos.dePerfil(Object.assign({}, p, { uid }))))}
         <span class="jg-nv">${XP.selo(nv, 26)} Nível ${nv} · ${t.nome}</span>
-        ${p.gid ? `<button class="jg-guilda" data-ver-guilda="${esc(p.gid)}">🛡️ ${esc(p.gn || 'Guilda')} ${tagG({ tag: p.gt })}</button>` : ''}
+        ${p.gid ? `<button class="jg-guilda" data-ver-guilda="${esc(p.gid)}">${ic('escudo', 'cor-azul ic-mini')}${esc(p.gn || 'Guilda')} ${tagG({ tag: p.gt })}</button>` : ''}
         <span class="sub ${estaOnline(p.visto) ? 'txt-on' : ''}">${eu ? 'Este é você' : vistoTxt(p.visto) || ''}</span></div>
       ${p.semDados ? '' : `<div class="cartao jg-est">${est((p.xp || 0).toLocaleString('pt-BR'), 'XP')}${est(p.pts || '—', 'Pontos online')}${est(p.on || 0, 'Partidas online')}
-        ${est(p.vit != null ? p.vit : '—', 'Vitórias')}${est(p.conq != null ? p.conq : '—', 'Conquistas')}${est(p.seq ? p.seq + ' 🔥' : '—', 'Melhor sequência')}</div>`}
+        ${est(p.vit != null ? p.vit : '—', 'Vitórias')}${est(p.conq != null ? p.conq : '—', 'Conquistas')}${est(p.seq ? p.seq + ' dias' : '—', 'Melhor sequência')}</div>`}
       ${eu ? '' : '<div class="pilha" style="gap:8px" id="jg-bts"></div>'}
       <div class="cartao"><h3>Últimas partidas</h3><div id="jg-hist" class="hist-lista"><p class="sub">Carregando…</p></div></div></div>`;
     this.jogadorAtual = p;
@@ -10712,7 +10681,7 @@ const Social = {
     el.innerHTML = (p.conv === 'ninguem' ? '<p class="sub" style="text-align:center">Este jogador não está recebendo convites.</p>' : b('convidar', 'Convidar para partida', 'pri'))
       + (amigo ? b('remover', 'Remover dos amigos')
         : rec ? `<div class="cartao destaque" style="text-align:center"><b>${esc(p.nome)} te enviou um pedido de amizade</b><div class="fila" style="margin-top:10px;justify-content:center">${b('recusar', 'Recusar')}${b('aceitar', 'Aceitar', 'pri')}</div></div>`
-          : env ? `<p class="sub" style="text-align:center">✓ Pedido de amizade enviado. Aguardando ${esc(p.nome)} aceitar.</p>${b('cancelar', 'Cancelar pedido')}`
+          : env ? `<p class="sub" style="text-align:center">Pedido de amizade enviado. Aguardando ${esc(p.nome)} aceitar.</p>${b('cancelar', 'Cancelar pedido')}`
             : b('pedir', '＋ Enviar pedido de amizade'));
   }
 };
@@ -10722,10 +10691,10 @@ const FRASES = ['Boa sorte! 🍀', 'Bom jogo! 🤝', 'Belo lance! 👏', 'Essa d
 const Chat = {
   vistos: new Set(), mudo: false, ultimo: 0,
   iniciar(sala) { this.vistos = new Set(((sala && sala.chat) || []).map(m => m.c + m.t)); this.mudo = false; },
-  botao() { return '<button class="bt-chat" id="b-chat" aria-label="Chat rápido" aria-expanded="false">💬</button>'; },
+  botao() { return `<button class="bt-chat" id="b-chat" aria-label="Chat rápido" aria-expanded="false">${ic('mais', 'cor-branco')}</button>`; },
   painel() {
     return `<div class="chat-painel oculto" id="chat-painel" role="menu">${FRASES.map((f, i) => `<button role="menuitem" data-frase="${i}" class="${f.length <= 2 ? 'emo' : ''}">${f}</button>`).join('')}
-      <button class="chat-mudo" data-mudo>${this.mudo ? '🔔 Mostrar mensagens' : '🔕 Silenciar o adversário'}</button></div>`;
+      <button class="chat-mudo" data-mudo>${this.mudo ? 'Mostrar mensagens' : 'Silenciar o adversário'}</button></div>`;
   },
   ligar() {
     const b = $('#b-chat'), pn = $('#chat-painel'); if (!b || !pn) return;
@@ -10734,7 +10703,7 @@ const Chat = {
     pn.onclick = e => {
       const f = e.target.closest('[data-frase]');
       if (f) { this.enviar(+f.dataset.frase); fechar(); return; }
-      if (e.target.closest('[data-mudo]')) { this.mudo = !this.mudo; e.target.closest('[data-mudo]').textContent = this.mudo ? '🔔 Mostrar mensagens' : '🔕 Silenciar o adversário'; aviso(this.mudo ? 'Mensagens do adversário escondidas' : 'Mensagens do adversário visíveis'); fechar(); }
+      if (e.target.closest('[data-mudo]')) { this.mudo = !this.mudo; e.target.closest('[data-mudo]').textContent = this.mudo ? 'Mostrar mensagens' : 'Silenciar o adversário'; aviso(this.mudo ? 'Mensagens do adversário escondidas' : 'Mensagens do adversário visíveis'); fechar(); }
     };
     if (!this.ouvindoFora) { this.ouvindoFora = true; document.addEventListener('click', e => { const p = $('#chat-painel'); if (p && !e.target.closest('#chat-painel') && !e.target.closest('#b-chat')) { p.classList.add('oculto'); const bb = $('#b-chat'); if (bb) bb.setAttribute('aria-expanded', 'false'); } }); }
   },
@@ -10770,7 +10739,7 @@ const EMBLEMAS = ['♞', '♜', '♝', '♛', '♚', '⚔️', '🛡️', '🔥'
 const CORES_G = ['#f2b544', '#e2442f', '#9b4dff', '#2f6fe0', '#3fb27f', '#e85d9e', '#1fb5c9', '#7a8699'];
 const GUILDA_MAX = 30, GUILDA_PRECO = 300;
 function htmlEmblema(g, tam = 44) {
-  return `<span class="emblema" style="--g:${esc((g && g.cor) || '#f2b544')};--t:${tam}px" aria-hidden="true"><i>${esc((g && g.ic) || '♞')}</i></span>`;
+  return `<span class="emblema" style="--g:${esc((g && g.cor) || '#f2b544')};--t:${tam}px" aria-hidden="true"><i>${desenhoEmblema((g && g.ic) || '♞')}</i></span>`;
 }
 const tagG = g => g && g.tag ? `<span class="tag-g">${esc(g.tag)}</span>` : '';
 const codigoGuilda = () => { const a = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c = ''; for (let i = 0; i < 6; i++) c += a[Math.floor(Math.random() * a.length)]; return c; };
@@ -11012,7 +10981,7 @@ const Guilda = {
       <span class="rk-tx"><b>${esc(g.nome)} ${tagG(g)}</b><small>${g.n || (g.ids || []).length}/${GUILDA_MAX} membros · ${g.aberta ? 'aberta' : 'com pedido'}</small></span>${extra}</div>`;
   },
   msg(tit, txt, bt) {
-    $('#tela').innerHTML = `<div class="pilha estreito"><div class="cartao final"><span style="font-size:2.4rem">🛡️</span><b>${tit}</b><p class="sub" style="margin:6px 0 12px">${txt}</p>${bt || ''}</div></div>`;
+    $('#tela').innerHTML = `<div class="pilha estreito"><div class="cartao final">${ic('escudo', 'cor-azul ic-final')}<b>${tit}</b><p class="sub" style="margin:6px 0 12px">${txt}</p>${bt || ''}</div></div>`;
   },
   async tela() {
     App.cabecalho('Guilda', 'perfil');
@@ -11027,7 +10996,7 @@ const Guilda = {
   async telaSem() {
     const d = Dados.d, p = d.guildaPedido;
     $('#tela').innerHTML = `<div class="pilha estreito">
-      <div class="cartao gd-hero"><span class="gd-hero-ic">🛡️</span><div><b>Jogue em equipe</b><p class="sub">Numa guilda, todo XP que você ganha soma pontos para o time no ranking de guildas. Até ${GUILDA_MAX} membros.</p></div></div>
+      <div class="cartao gd-hero"><span class="gd-hero-ic">${ic('escudo', 'cor-azul')}</span><div><b>Jogue em equipe</b><p class="sub">Numa guilda, todo XP que você ganha soma pontos para o time no ranking de guildas. Até ${GUILDA_MAX} membros.</p></div></div>
       ${p ? `<div class="cartao destaque gd-pend"><div><b>Pedido enviado</b><p class="sub">Aguardando o líder da guilda <b>${esc(p.nome)}</b> aceitar.</p></div><button class="bt peq" data-cancelar-pd>Cancelar</button></div>` : ''}
       <button class="linha-menu cor-dest" data-criar><span class="ic2">${SVG('<path d="M12 5v14M5 12h14"/>')}</span><span class="tx"><b>Criar guilda</b><small>Custa ${MOEDA} ${GUILDA_PRECO} · você vira o líder</small></span>${SETA}</button>
       <div class="cartao"><h3>Buscar guilda</h3>
@@ -11105,7 +11074,7 @@ const Guilda = {
     if (!lider && this.aba === 'pedidos') this.aba = 'mural';
     const abas = [['mural', 'Mural'], ['membros', 'Membros']].concat(lider ? [['pedidos', 'Pedidos' + (this.pedidos.length ? ` <i class="selo-n">${this.pedidos.length}</i>` : '')]] : []);
     $('#tela').innerHTML = `<div class="pilha estreito">${this.htmlCab(g, id)}
-      <div class="fila gd-acoes"><button class="bt peq" data-rk-g>🏆 Ranking</button><button class="bt peq" data-copiar>Código</button>${lider ? '<button class="bt peq" data-editar>Editar</button>' : ''}<button class="bt peq perigo" data-sair>Sair</button></div>
+      <div class="fila gd-acoes"><button class="bt peq" data-rk-g>${ic('trofeu', 'cor-ouro')}Ranking</button><button class="bt peq" data-copiar>Código</button>${lider ? '<button class="bt peq" data-editar>Editar</button>' : ''}<button class="bt peq perigo" data-sair>Sair</button></div>
       <div class="abas">${abas.map(([a, n]) => `<button class="aba${this.aba === a ? ' on' : ''}" data-aba="${a}">${n}</button>`).join('')}</div>
       <div id="gd-corpo"></div></div>`;
     this.pintarCorpo();
@@ -11193,7 +11162,7 @@ const Guilda = {
       <div class="cartao gd-form">
         <label class="sub" for="gd-nome">Nome da guilda</label><input class="campo" id="gd-nome" maxlength="24" value="${esc(f.nome)}" placeholder="Ex.: Cavaleiros da Bahia" autocomplete="off">
         <label class="sub" for="gd-tag">Sigla (2 a 4 letras ou números)</label><input class="campo" id="gd-tag" maxlength="4" value="${esc(f.tag)}" placeholder="Ex.: CAV" autocomplete="off" style="text-transform:uppercase">
-        <span class="sub">Emblema</span><div class="gd-ics">${EMBLEMAS.map(i => `<button class="${f.ic === i ? 'on' : ''}" data-ic="${i}">${i}</button>`).join('')}</div>
+        <span class="sub">Emblema</span><div class="gd-ics">${EMBLEMAS.map(i => `<button class="${f.ic === i ? 'on' : ''}" data-ic="${i}" aria-label="Emblema">${desenhoEmblema(i)}</button>`).join('')}</div>
         <span class="sub">Cor</span><div class="gd-cores">${CORES_G.map(c => `<button class="${f.cor === c ? 'on' : ''}" data-cor="${c}" style="--c:${c}" aria-label="Cor ${c}"></button>`).join('')}</div>
         <label class="sub" for="gd-desc">Descrição (opcional)</label><textarea class="campo" id="gd-desc" maxlength="120" rows="2" placeholder="Ex.: Partidas toda noite, todos os níveis são bem-vindos">${esc(f.desc)}</textarea>
         <span class="sub">Quem pode entrar</span><div class="opcoes c2" id="gd-ab"><button class="op${f.aberta ? ' on' : ''}" data-ab="1">Qualquer um</button><button class="op${f.aberta ? '' : ' on'}" data-ab="0">Só com pedido</button></div>
@@ -11672,11 +11641,11 @@ const QuadroPerfil = {
     const fotoPrev = aba === 'av' ? sel : p.avatar, moldPrev = aba === 'mold' && !inf.tranca ? sel : p.moldura;
     const u = Nuvem.usuario, conta = !u ? (Nuvem.configurada() ? 'Sem conta conectada' : '') : u.isAnonymous ? 'Convidado' : 'Conta conectada';
     let bt;
-    if (inf.tranca) bt = '<span class="qp-uso trancado">🔒 Só para o 1º do ranking</span>';
+    if (inf.tranca) bt = `<span class="qp-uso trancado">${ic('cadeado', 'ic-mini cor-cinza')}Só para o 1º do ranking</span>`;
     else if (uso) bt = '<span class="qp-uso">Em uso</span>';
-    else bt = `<button class="qp-usar" data-qp-usar="1">${aba === 'mold' && !sel ? 'Usar sem moldura' : aba === 'selo' && !sel ? 'Não usar selo' : 'Usar'}</button>`;
+    else bt = `<button class="qp-usar bt verde" data-qp-usar="1">${aba === 'mold' && !sel ? 'Usar sem moldura' : aba === 'selo' && !sel ? 'Não usar selo' : 'Usar'}</button>`;
     el.innerHTML = `<div class="qp">
-      <button class="qp-x" data-qp-fechar="1" aria-label="Fechar">${SVG('<path d="M6 6l12 12M18 6L6 18"/>')}</button>
+      <button class="qp-x" data-qp-fechar="1" aria-label="Fechar">${ic('fechar', 'ic-tx')}</button>
       <div class="qp-cab">
         <div class="qp-foto">${htmlAvatar(fotoPrev, moldPrev, 92)}</div>
         <div class="qp-quem">
@@ -11688,10 +11657,10 @@ const QuadroPerfil = {
         </div>
         <button class="qp-fita" data-qp-ir="missoes" style="--nv:${tit.cor}" aria-label="Nível ${nv.n}, ${tit.nome}">${XP.selo(nv.n, 44)}<b>${esc(tit.nome)}</b></button>
       </div>
-      <div class="qp-abas" role="tablist">${this.ABAS.map(([k, n]) => `<button role="tab" aria-selected="${k === aba}" class="${k === aba ? 'on' : ''}" data-qp-aba="${k}">${n}</button>`).join('')}</div>
+      <div class="qp-abas abas-rk" role="tablist">${this.ABAS.map(([k, n]) => `<button role="tab" aria-selected="${k === aba}" class="${k === aba ? 'on' : ''}" data-qp-aba="${k}">${n}</button>`).join('')}</div>
       <div class="qp-grade${aba === 'selo' ? ' selos' : ''}">${ids.map(id => {
         const i = this.info(aba, id);
-        return `<button class="qp-it${id === sel ? ' sel' : ''}${this.emUso(aba) === id ? ' uso' : ''}${i.tranca ? ' tranca' : ''}" data-qp-it="${esc(id)}" aria-label="${esc(i.nome || '')}">${this.arte(aba, id)}${this.emUso(aba) === id ? '<i class="qp-ok">✓</i>' : ''}${i.tranca ? '<i class="qp-cad">🔒</i>' : ''}</button>`;
+        return `<button class="qp-it${id === sel ? ' sel' : ''}${this.emUso(aba) === id ? ' uso' : ''}${i.tranca ? ' tranca' : ''}" data-qp-it="${esc(id)}" aria-label="${esc(i.nome || '')}">${this.arte(aba, id)}${this.emUso(aba) === id ? `<i class="qp-ok">${ic('ok', 'ic-tx')}</i>` : ''}${i.tranca ? `<i class="qp-cad">${ic('cadeado', 'cor-cinza')}</i>` : ''}</button>`;
       }).join('')}</div>
       <div class="qp-info">
         <div class="qp-linha">${inf.rar ? `<span class="qp-rar r-${inf.rar}">${inf.rar === 'selo' ? 'Selo' : RARIDADES[inf.rar].nome}</span>` : ''}<b>${esc(inf.nome || '')}</b></div>
@@ -12026,6 +11995,12 @@ function telaJogar() {
 }
 
 /* ---------- estatísticas ---------- */
+/* uma linha por adversário: vitórias, empates e derrotas numa barra */
+function linhaVED(nome, x, cor) {
+  const t = (x.v || 0) + (x.e || 0) + (x.d || 0), pc = n => t ? (n / t * 100).toFixed(1) : 0;
+  return `<div class="ved"><span class="ved-nome"><i style="background:${cor}"></i>${esc(nome)}</span><span class="ved-num">${x.v || 0}V · ${x.e || 0}E · ${x.d || 0}D</span>
+    <span class="ved-barra">${t ? `<i class="v" style="width:${pc(x.v || 0)}%"></i><i class="e" style="width:${pc(x.e || 0)}%"></i><i class="d" style="width:${pc(x.d || 0)}%"></i>` : ''}</span></div>`;
+}
 const Estatisticas = {
   grafico(vals) {
     if (vals.length < 2) return '<p class="sub">Jogue pelo menos duas partidas para ver o gráfico de evolução.</p>';
@@ -12055,9 +12030,8 @@ const Estatisticas = {
         <button class="numero" data-hist="1" style="cursor:pointer"><b style="color:var(--info)">${d.partidas.filter(r => r.san).length}</b><span>Ver histórico ›</span></button>
       </div>
       <div class="duas">
-        <div class="cartao" style="overflow-x:auto"><h3>Resultados por adversário</h3><table class="tb"><thead><tr><th>Contra</th><th>Partidas</th><th>Vitórias</th><th>Empates</th><th>Derrotas</th></tr></thead><tbody>
-          ${NIVEIS.map((n, i) => { const x = d.porNivel[i]; return `<tr><td>${n.nome}</td><td>${x.v + x.e + x.d}</td><td>${x.v}</td><td>${x.e}</td><td>${x.d}</td></tr>`; }).join('')}
-          <tr><td>Amigos online</td><td>${d.online.v + d.online.e + d.online.d}</td><td>${d.online.v}</td><td>${d.online.e}</td><td>${d.online.d}</td></tr></tbody></table>
+        <div class="cartao"><h3>Resultados por adversário</h3><div class="ved-lista">
+          ${NIVEIS.map((n, i) => linhaVED(n.nome, d.porNivel[i], COR_NIVEL[i])).join('')}${linhaVED('Amigos online', d.online, '#4fcf62')}</div>
           <p class="sub" style="margin-top:8px">Partidas com amigo no mesmo aparelho: ${d.local}</p></div>
         <div class="cartao"><h3>Precisão</h3>
           <p style="margin-bottom:8px">${media == null ? '<span class="sub">Ainda sem partidas analisadas.</span>' : `${ult10.length > 1 ? 'Média das últimas ' + ult10.length + ' partidas' : 'Precisão da sua partida'}: <b style="font-size:1.4rem;color:var(--dest)">${media}%</b>`}</p>
