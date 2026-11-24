@@ -84,6 +84,19 @@ service cloud.firestore {
         && request.resource.data.pts >= 0 && request.resource.data.pts <= 5000
         && (resource == null || request.resource.data.pts >= resource.data.pts);
     }
+    // denúncias: cada jogador cria (ou atualiza) a própria denúncia de outro jogador;
+    // ninguém lê pelo app — o dono do jogo vê no painel do Firebase
+    match /denuncias/{id} {
+      allow create, update: if request.auth != null
+        && request.resource.data.keys().hasOnly(['de', 'alvo', 'motivo', 'txt', 'nomeAlvo', 't'])
+        && request.resource.data.de == request.auth.uid
+        && request.resource.data.alvo is string && request.resource.data.alvo != request.auth.uid
+        && id == request.auth.uid + '_' + request.resource.data.alvo
+        && request.resource.data.motivo in ['nome', 'mensagens', 'trapaca', 'outro']
+        && (!('txt' in request.resource.data) || (request.resource.data.txt is string && request.resource.data.txt.size() <= 300))
+        && (!('nomeAlvo' in request.resource.data) || (request.resource.data.nomeAlvo is string && request.resource.data.nomeAlvo.size() <= 24));
+      allow read, delete: if false;
+    }
     // salas de partidas online: quem tem conta pode criar e entrar;
     // depois que a sala fecha, só os dois jogadores podem mexer nela
     match /salas/{codigo} {
