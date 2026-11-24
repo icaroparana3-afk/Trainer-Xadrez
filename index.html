@@ -2851,6 +2851,13 @@ html,body{overscroll-behavior-x:none}
 .op.op-motivo{text-align:left;justify-content:flex-start;padding:12px 14px;min-height:48px}
 #den-txt{width:100%;resize:vertical}
 
+/* ===== v44 ===== */
+/* sem barra de rolagem visível (a página continua rolando normalmente) */
+html,body,*{scrollbar-width:none}
+html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0;height:0;display:none;background:transparent}
+/* gesto lateral do navegador desligado em tudo (não só na página) */
+html,body,#app,#tela{overscroll-behavior-x:none}
+
 </style>
 </head>
 <body>
@@ -7119,7 +7126,7 @@ const Ajustes = {
   tela() {
     App.cabecalho('Configurações', 'menu');
     const a = Dados.d.ajustes;
-    const chave = (id, rot, sub) => `<label class="chave"><span><b>${rot}</b><small>${sub}</small></span><input type="checkbox" id="aj-${id}" ${a[id] ? 'checked' : ''}><i></i></label>`;
+    const chave = (id, rot) => `<label class="chave"><span><b>${rot}</b></span><input type="checkbox" id="aj-${id}" ${a[id] ? 'checked' : ''}><i></i></label>`;
     const tabs = TABULEIROS.filter(t => temTabuleiro(t.id));
     $('#tela').innerHTML = `<div class="pilha estreito">
       <div class="cartao"><h3>Tema do aplicativo</h3><div class="opcoes c3" id="aj-tema">
@@ -7926,7 +7933,7 @@ const Ranking = {
     const t = XP.titulo(x.nivel || 1), un = this.aba === 'online' ? 'pts' : 'XP';
     return `<div class="rk-it${eu ? ' eu' : ''}${pos && pos <= 3 ? ' top' + pos : ''}"${x.uid ? ` data-jogador="${esc(x.uid)}" role="button" tabindex="0"` : ''}><span class="rk-pos">${pos || '–'}</span>
       <span class="rk-av">${htmlAvatar(x.avatar || 'wn', Premios.moldDe(x), 40)}${XP.selo(x.nivel || 1, 20)}</span>
-      <span class="rk-tx"><b>${esc(x.nome || 'Jogador')}${x.gt ? ' ' + tagG({ tag: x.gt }) : ''}${Selos.html(Selos.dePerfil(x))}${eu ? ' <em>você</em>' : ''}</b><small>Nível ${x.nivel || 1} · ${t.nome}${this.aba === 'online' && x.on ? ' · ' + x.on + ' partidas' : ''}</small></span>
+      <span class="rk-tx"><b>${esc(x.nome || 'Jogador')}${x.gt ? ' ' + tagG({ tag: x.gt }) : ''}${eu ? ' <em>você</em>' : ''}</b><small>Nível ${x.nivel || 1} · ${t.nome}${this.aba === 'online' && x.on ? ' · ' + x.on + ' partidas' : ''}</small></span>
       <span class="rk-val">${(x.valor || 0).toLocaleString('pt-BR')}<small>${un}</small></span></div>`;
   },
   async telaGuildas(lista, msg) {
@@ -7946,7 +7953,7 @@ const Ranking = {
     $('#tela').innerHTML = `<div class="rk-tela">
       <div class="abas-rk" role="tablist">${abas.map(([id, n]) => `<button role="tab" aria-selected="${this.aba === id}" class="${this.aba === id ? 'on' : ''}" data-aba="${id}">${n}</button>`).join('')}</div>
       ${this.aba === 'guildas' ? `<div class="opcoes c2 rk-sub">${[['semana', 'Nesta semana'], ['geral', 'Total']].map(([v, n]) => `<button class="op${Guilda.abaRk === v ? ' on' : ''}" data-abag="${v}">${n}</button>`).join('')}</div>` : ''}
-      <p class="sub rk-exp">${expl[this.aba]}</p>${Premios.quadro(this.aba)}
+      ${this.aba === 'semana' ? `<p class="sub rk-exp">${Premios.fimSemana()}</p>` : ''}${Premios.quadro(this.aba)}
       <div class="rk-lista" id="rk-lista" aria-live="polite">${'<div class="rk-it esq"><span></span></div>'.repeat(5)}</div>
       ${u ? '' : `<div class="cartao destaque rk-entrar"><span class="ic-quadro">${ic('amigo', 'cor-roxo')}</span><span class="tx"><b>Entre com uma conta para aparecer no ranking</b><span class="sub">É grátis e também salva seu progresso.</span></span><button class="bt pri peq" data-ir-perfil="1">Entrar</button></div>`}</div>`;
     $('#tela').onclick = e => {
@@ -10143,12 +10150,12 @@ const Notif = {
   /* linha nas Configurações */
   htmlAjuste() {
     const e = this.estado(), lig = e === 'ligado';
+    // só explica quando há um problema (navegador sem suporte ou notificações bloqueadas)
     const sub = e === 'nao' ? 'Este navegador não mostra notificações. No iPhone, instale o app na tela de início (iOS 16.4 ou mais novo).'
-      : e === 'bloqueado' ? 'As notificações estão bloqueadas para este site. Libere nas configurações do navegador (ícone de cadeado ao lado do endereço) e volte aqui.'
-      : 'Convites, pedidos de amizade e a sua vez no jogo online, quando o app está aberto em segundo plano.';
+      : e === 'bloqueado' ? 'Bloqueadas no navegador. Libere no ícone de cadeado ao lado do endereço.' : '';
     return `<div class="cartao pilha" style="gap:4px" id="aj-notif"><h3>Notificações</h3>
-      <label class="chave"><span><b>Notificações no celular</b><small>${sub}</small></span><input type="checkbox" id="aj-not" ${lig ? 'checked' : ''} ${e === 'nao' || e === 'bloqueado' ? 'disabled' : ''}><i></i></label>
-      ${lig ? `<label class="chave"><span><b>Lembrete diário</b><small>Avisa se você ainda não jogou hoje, para não perder a sequência. Funciona com o app fechado só no Android, com o app instalado.</small></span><input type="checkbox" id="aj-lemb" ${this.ler().lembrete !== 0 ? 'checked' : ''}><i></i></label>` : ''}
+      <label class="chave"><span><b>Notificações no celular</b>${sub ? `<small>${sub}</small>` : ''}</span><input type="checkbox" id="aj-not" ${lig ? 'checked' : ''} ${e === 'nao' || e === 'bloqueado' ? 'disabled' : ''}><i></i></label>
+      ${lig ? `<label class="chave"><span><b>Lembrete diário</b></span><input type="checkbox" id="aj-lemb" ${this.ler().lembrete !== 0 ? 'checked' : ''}><i></i></label>` : ''}
     </div>`;
   },
   ligarAjuste() {
@@ -12635,7 +12642,6 @@ const PremioDiario = {
       <div class="pd-cab"><span class="pd-ic">${ic('presenteDia', 'cor-verm')}</span><div><h2>Prêmio diário</h2>
         <p class="sub">${pegou ? 'Prêmio de hoje recebido!' : 'Seu prêmio de hoje está pronto!'}</p></div></div>
       <div class="pd-grade">${PREMIOS_DIA.map(tile).join('')}</div>
-      <p class="sub pd-nota">Cada dia vale um prêmio melhor. Se faltar um dia, a trilha espera você voltar.${ciclo ? ` Trilha completa ${ciclo}×.` : ''}</p>
       ${bt}</div>`;
   },
   abrir() {
@@ -12856,6 +12862,28 @@ window.addEventListener('popstate', () => {
   else if (Folha.aberta()) Folha.fechar();
   travaHistorico();
 });
+/* deslizar de lado no touchpad ou na tela não pode virar "voltar página" (recarregava o jogo):
+   o navegador só faz isso quando nada na página usa o movimento lateral, então o jogo "segura" o
+   movimento — menos quando o dedo está sobre algo que rola de lado de verdade (abas, chips, lances). */
+function rolaDeLado(el, dx) {
+  for (let x = el; x && x !== document.body && x !== document.documentElement; x = x.parentElement) {
+    if (x.scrollWidth > x.clientWidth + 1 && /auto|scroll/.test(getComputedStyle(x).overflowX)) {
+      if (dx < 0 ? x.scrollLeft > 0 : x.scrollLeft + x.clientWidth < x.scrollWidth - 1) return true;
+    }
+  }
+  return false;
+}
+window.addEventListener('wheel', e => {
+  if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+  if (!rolaDeLado(e.target, e.deltaX)) e.preventDefault();
+}, { passive: false });
+let toqueX = null, toqueY = null;
+document.addEventListener('touchstart', e => { const t = e.touches[0]; toqueX = t ? t.clientX : null; toqueY = t ? t.clientY : null; }, { passive: true });
+document.addEventListener('touchmove', e => {
+  if (toqueX == null || e.touches.length !== 1 || !e.cancelable) return;
+  const t = e.touches[0], dx = t.clientX - toqueX, dy = t.clientY - toqueY;
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8 && !rolaDeLado(e.target, -dx) && !e.target.closest('.tabuleiro,input[type=range]')) e.preventDefault();
+}, { passive: false });
 // evita zoom com gesto de pinça no iPhone (o tabuleiro precisa de toques precisos)
 document.addEventListener('gesturestart', e => e.preventDefault());
 
