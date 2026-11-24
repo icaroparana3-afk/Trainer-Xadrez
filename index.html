@@ -2857,6 +2857,33 @@ html,body,*{scrollbar-width:none}
 html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0;height:0;display:none;background:transparent}
 /* gesto lateral do navegador desligado em tudo (não só na página) */
 html,body,#app,#tela{overscroll-behavior-x:none}
+/* ===== v45 ===== */
+/* a página nunca anda para o lado (nem com letras grandes no celular) e a barra de baixo não aceita arrasto
+   (só no html: no body isso criaria uma área de rolagem própria e o topo deixaria de ficar preso) */
+html{overflow-x:hidden}
+@supports (overflow-x:clip){html,body{overflow-x:clip}}
+#nav-inf{touch-action:none}
+#topo{touch-action:pan-y}
+/* janela aberta por cima: só ela rola, a tela de trás fica parada */
+html:has(#modal:not(.oculto)),html:has(#folha),html:has(#premio-dia),html:has(#quadro){overflow:hidden}
+#modal,#modal .cx,.folha,#premio-dia,#quadro{overscroll-behavior:contain}
+/* missão concluída: símbolo de "correto" */
+.ms-certo{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--ok);border:2px solid color-mix(in srgb,var(--ok) 60%,#000);animation:msCerto .45s cubic-bezier(.3,1.6,.5,1) both}
+.ms-certo svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}
+.ms-it.feita .ms-ic{animation:none}
+@keyframes msCerto{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+.ms-it.pega{opacity:1}.ms-it.pega>:not(.ms-certo){opacity:.72}
+.gd-oculta{font-style:italic;color:var(--txt2);opacity:.8}
+/* painel do dev para a conta de outro jogador */
+.adm-folha{display:flex;flex-direction:column;gap:10px;padding-bottom:6px}
+.adm-folha h3{display:flex;align-items:center;gap:8px}
+.adm-sit{line-height:1.6}
+.adm-linha{display:grid;grid-template-columns:78px 1fr auto auto;gap:6px;align-items:center}
+.adm-linha .campo{min-width:0}
+.adm-item{grid-template-columns:78px 1fr auto auto}
+.adm-lista{text-align:left;margin:8px 0 0 18px;line-height:1.6;font-weight:700}
+.dev-gerenciar{display:flex;align-items:center;justify-content:center;gap:8px}
+@media (max-width:380px){.adm-linha,.adm-item{grid-template-columns:1fr auto auto}.adm-linha>b{grid-column:1/-1}}
 
 </style>
 </head>
@@ -5140,7 +5167,7 @@ const Livro = {
     let g = 0, s = 0, lo = 0, gg = 0, gs = 0, xe = 0, xs = 0, xa = 0; const pn = this.vazio().pn, on = { v: 0, e: 0, d: 0 }, sem = typeof semanaTxt === 'function' ? semanaTxt() : '', ant = typeof semanaAnterior === 'function' ? semanaAnterior() : '';
     for (const k in d.livro) {
       const l = d.livro[k]; g += (l.g || 0) + (l.aj || 0); s += l.s || 0; lo += l.lo || 0; gg += l.gg || 0; gs += l.gs || 0;
-      xe += l.xe || 0; if (l.xs && l.xs.s === sem) xs += l.xs.v || 0;
+      xe += (l.xe || 0) - (l.xr || 0); if (l.xs && l.xs.s === sem) xs += l.xs.v || 0;
       if (l.xs && l.xs.s === ant) xa += l.xs.v || 0; else if (l.xa && l.xa.s === ant) xa += l.xa.v || 0;
       (l.pn || []).forEach((n, i) => { if (pn[i]) { pn[i].v += n.v || 0; pn[i].e += n.e || 0; pn[i].d += n.d || 0; } });
       if (l.on) { on.v += l.on.v || 0; on.e += l.on.e || 0; on.d += l.on.d || 0; }
@@ -5166,6 +5193,7 @@ const Livro = {
       if (y.gg || x.gg) y.gg = Math.max(y.gg || 0, x.gg || 0);
       if (y.gs || x.gs) y.gs = Math.max(y.gs || 0, x.gs || 0);
       if (y.xe || x.xe) y.xe = Math.max(y.xe || 0, x.xe || 0);
+      if (y.xr || x.xr) y.xr = Math.max(y.xr || 0, x.xr || 0);     // XP tirado pelo desenvolvedor (entrada "adm")
       const velhos = [y.xa, x.xa, y.xs, x.xs].filter(Boolean).map(c => ({ s: c.s, v: c.v || 0 }));
       if (x.xs && (!y.xs || x.xs.s > y.xs.s)) y.xs = Object.assign({}, x.xs);           // XP da semana: vale a semana mais nova
       else if (x.xs && y.xs && x.xs.s === y.xs.s) y.xs.v = Math.max(y.xs.v || 0, x.xs.v || 0);
@@ -5763,6 +5791,68 @@ const Folha = {
 /* botões que afundam também no toque rápido (o :active do iPhone some rápido demais) */
 document.addEventListener('pointerdown', e => { const b = e.target.closest && e.target.closest('.bt,.atalho,.ladrilho'); if (b) b.classList.add('apertado'); }, { passive: true });
 ['pointerup', 'pointercancel', 'pointerleave'].forEach(t => document.addEventListener(t, () => { $$('.apertado').forEach(b => b.classList.remove('apertado')); }, { passive: true }));
+
+/* =====================================================================
+   MODERAÇÃO (v45): xingamentos e ofensas não passam no chat livre
+   (mural da guilda), nos nomes de jogador e nos nomes de guilda.
+   O texto é "limpo" antes de comparar: sem acentos, sem letras repetidas
+   ("merdaaa"), com números no lugar de letras ("m3rd4") e com letras
+   separadas ("p u t a", "f.d.p") — assim os truques comuns não escapam.
+   ===================================================================== */
+const MOD_PALAVRAS = [
+  // siglas
+  'fdp', 'vsf', 'vtnc', 'vtmnc', 'tnc', 'tmnc', 'pqp', 'fds', 'krl', 'krlh', 'crl', 'pnc', 'fdc', 'vtc', 'vtf', 'pau no cu',
+  // termos pesados
+  'filho da puta', 'filha da puta', 'fi da puta', 'puta', 'puto', 'putinha', 'puta que pariu', 'puta merda', 'arrombado', 'arrombada',
+  'escroto', 'escrota', 'merda', 'bosta', 'porra', 'caralho', 'cacete', 'foder', 'fuder', 'foda', 'fodase', 'foda se', 'fodido', 'fodida',
+  'vai se foder', 'vai se fuder', 'vai tomar no cu', 'tomar no cu', 'toma no cu', 'cu', 'cuzao', 'cusao', 'buceta', 'boceta', 'piroca',
+  'caralhudo', 'desgracado', 'desgracada', 'desgraca', 'vagabundo', 'vagabunda', 'vadia', 'piranha', 'rapariga', 'corno', 'corna',
+  // xingamentos
+  'babaca', 'otario', 'otaria', 'mane', 'ze mane', 'chato', 'chata', 'sem vergonha', 'semvergonha', 'safado', 'safada', 'ze ruela', 'zeruela',
+  'idiota', 'burro', 'burra', 'imbecil', 'retardado', 'retardada', 'mongol', 'mongoloide', 'debil mental', 'trouxa', 'jumento', 'jumenta',
+  'lixo humano', 'verme', 'nojento', 'nojenta', 'cala a boca', 'cala boca',
+  // ofensas racistas e preconceituosas
+  'macaco', 'macaca', 'crioulo', 'crioula', 'senzala', 'viado', 'bixa', 'traveco', 'sapatao'
+];
+/* "você é ___" / "seu ___": palavras que sozinhas são normais (preto, gordo...) mas viram ofensa contra alguém */
+const MOD_ALVOS = ['preto', 'preta', 'negro', 'negra', 'neguinho', 'neguinha', 'gordo', 'gorda', 'feio', 'feia', 'lixo', 'anta', 'besta', 'ridiculo', 'ridicula',
+  'inutil', 'fracassado', 'fracassada', 'perdedor', 'horroroso', 'horrorosa', 'favelado', 'favelada', 'aleijado', 'aleijada',
+  'macaco', 'macaca', 'porco', 'porca', 'cachorro', 'cachorra', 'bicha', 'gay', 'pobre'];
+
+const Moderacao = {
+  /* texto -> forma simples para comparar */
+  limpar(txt) {
+    let t = String(txt || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    t = t.replace(/[0134578@$]/g, c => ({ 0: 'o', 1: 'i', 3: 'e', 4: 'a', 5: 's', 7: 't', 8: 'b', '@': 'a', $: 's' })[c]);
+    t = t.replace(/[^a-z\s]+/g, ' ').replace(/\s+/g, ' ').trim();
+    // letras soltas em sequência ("p u t a", "f d p") viram uma palavra só
+    const pal = t.split(' '), saida = [];
+    for (let i = 0; i < pal.length;) {
+      if (pal[i].length === 1) { let j = i; while (j < pal.length && pal[j].length === 1) j++; if (j - i >= 3) { saida.push(pal.slice(i, j).join('')); i = j; continue; } }
+      saida.push(pal[i]); i++;
+    }
+    return ' ' + saida.join(' ').replace(/(.)\1+/g, '$1') + ' ';   // "merdaaa" -> "merda", "porra" -> "pora"
+  },
+  regras: null,
+  montar() {
+    const forma = w => this.limpar(w).trim().replace(/ /g, ' ?');
+    const fim = '(?:s|es|zinho|zinha|zinhos|zinhas|inho|inha|inhos|inhas|ao|oes|ona|onas)?';
+    const pals = MOD_PALAVRAS.map(forma).sort((a, b) => b.length - a.length).join('|');
+    const alvos = MOD_ALVOS.map(forma).join('|');
+    this.regras = [
+      new RegExp(` (?:${pals})${fim}(?= )`),
+      new RegExp(` (?:voce|vc|vce|tu|seu|sua|teu|tua|esse|essa|ese|esa|ai) (?:(?:e|eh|ta|esta|eta|parece|virou|so|sendo) )?(?:(?:um|uma|mo|muito|mt|mto) )?(?:${alvos})${fim}(?= )`)
+    ];
+  },
+  /* true se o texto tem xingamento ou ofensa */
+  ofensivo(txt) {
+    if (!txt) return false;
+    if (!this.regras) this.montar();
+    const t = this.limpar(txt);
+    return this.regras.some(r => r.test(t));
+  },
+  MSG: 'Essa mensagem tem palavras ofensivas e não pode ser enviada. Xingamentos e ofensas são proibidos no chat.'
+};
 
 /* ==========================================================================
    ARTE v42 — ícones redesenhados (traço leve) e os robôs do computador
@@ -6979,6 +7069,7 @@ const Nome = {
   /* salva o nome seguindo as regras (1ª vez grátis; depois só com o pagamento escolhido em pedir()). Devolve true se mudou */
   salvar(novo) {
     const p = Dados.d.perfil; novo = (novo || '').trim().slice(0, 20);
+    if (novo && Moderacao.ofensivo(novo)) { aviso('Esse nome tem palavras ofensivas. Escolha outro.', 4000); return false; }
     if (!p.nome) {
       if (!novo) return false;
       p.nome = novo; Dados.salvar(); App.atualizarTopo(); Perfil.checarConquista(); Nuvem.publicarPerfil();
@@ -7191,8 +7282,9 @@ const BAUS = [
     tabela: [['moedas', 55], ['comum', 35], ['raro', 10]], piedade: { n: 10, rar: 'raro' },
     desc: 'Moedas ou um item <b class="rc-comum">Comum</b> ou <b class="rc-raro">Raro</b>' },
   { id: 'prata', nome: 'Baú de prata', preco: 500, x10: 4500, gratisH: 24, moedas: [150, 400],
-    tabela: [['moedas', 20], ['raro', 55], ['epico', 22], ['lendario', 3]], piedade: { n: 10, rar: 'epico' },
-    desc: 'Um item <b class="rc-raro">Raro</b> ou <b class="rc-epico">Épico</b>, às vezes <b class="rc-lendario">Lendário</b>' },
+    // v45: o baú de prata nunca dá item lendário, e o item raro sai em 10% das vezes
+    tabela: [['moedas', 68], ['raro', 10], ['epico', 22]], piedade: { n: 10, rar: 'epico' },
+    desc: 'Moedas ou um item <b class="rc-raro">Raro</b> ou <b class="rc-epico">Épico</b>' },
   { id: 'real', nome: 'Baú real', preco: 400, gemas: true, x10: 3500, moedas: [0, 0],
     tabela: [['epico', 70], ['lendario', 22], ['nome', 8]], piedade: { n: 8, rar: 'lendario' },
     desc: 'Um item <b class="rc-epico">Épico</b> ou <b class="rc-lendario">Lendário</b>. Tem itens que só saem nos baús, e pode sair o item de <b>mudar nome</b>!' }
@@ -7675,7 +7767,7 @@ const XP = {
     const f = (d.desafios && d.desafios.feitos) || {}; for (const k in f) x += this.DESAFIO[f[k]] || 0;
     return x;
   },
-  total(d = Dados.d) { return this.base(d) + (d.xpExtra || 0); },
+  total(d = Dados.d) { return Math.max(0, this.base(d) + (d.xpExtra || 0)); },
   passo(n) { return 400 + 150 * (n - 1); },                  // XP para ir do nível n ao n+1 (o 1º nível pede 400)
   passoVelho(n) { return 80 + 40 * (n - 1); },               // curva antiga (só para a migração abaixo)
   /* a curva ficou mais difícil: quem já tinha subido de nível não perde as moedas que os níveis deram.
@@ -7823,10 +7915,10 @@ const Missoes = {
   html(x) {
     const moedas = MOEDAS_MISSAO[x.i] || MOEDAS_MISSAO[0], xp = XP.MISSAO[x.i] || XP.MISSAO[0];
     return `<div class="ms-it${x.feita ? ' feita' : ''}${x.pega ? ' pega' : ''}">
-      <span class="ic-quadro ms-ic" aria-hidden="true">${x.pega ? ic('ok', 'cor-verde') : x.feita ? ic('presente', 'cor-verm') : ic('alvo', 'cor-verde')}</span>
+      <span class="ic-quadro ms-ic" aria-hidden="true">${x.feita ? ic('ok', 'cor-verde') : ic('alvo', 'cor-verde')}</span>
       <span class="ms-tx"><b>${esc(x.txt)}</b>${x.pega ? '<span class="sub">Prêmio recebido</span>' : `<span class="ms-premio">${ic('moeda', 'cor-moeda')}${fmtN(moedas)}<span class="xp">+${xp} XP</span></span>`}
         ${!x.feita ? `<span class="barra"><i style="width:${Math.round(x.n / x.alvo * 100)}%"></i></span>` : ''}</span>
-      ${x.feita && !x.pega ? `<button class="bt verde peq" data-pegar="${x.id}">Pegar</button>` : `<span class="ms-n">${x.pega ? '' : x.n + '/' + x.alvo}</span>`}</div>`;
+      ${x.feita && !x.pega ? `<button class="bt verde peq" data-pegar="${x.id}">Pegar</button>` : x.feita ? '<span class="ms-certo" role="img" aria-label="Missão concluída"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>' : `<span class="ms-n">${x.n + '/' + x.alvo}</span>`}</div>`;
   },
   htmlBau() {
     const m = this.hoje(), todas = this.itens().filter(x => x.pega).length, pode = this.podeBau();
@@ -10257,11 +10349,11 @@ const Nuvem = {
       try { await this.baixar(); } finally { this.liberarPrimeira(); Entrada.fechar(); }
       if (Conquistas.marcar('conta')) { Dados.salvar(); Conquistas.verificar(); }
       Salas.verificarPendente();
-      Convites.iniciar(); Pedidos.iniciar(); Perfis.pulso(); Avisos.vigiar();
+      Convites.iniciar(); Pedidos.iniciar(); Perfis.pulso(); Avisos.vigiar(); AjustesDev.vigiar(u.uid);
       setTimeout(() => { Premios.ultima = Date.now(); Premios.conferir(); }, 2500);
       setTimeout(() => { Guilda.ultCarga = Date.now(); Guilda.carregar(); }, 3500);
     } else {
-      Convites.encerrar(); Pedidos.encerrar(); Avisos.parar(); Guilda.dados = null; Guilda.id = null; Guilda.carregou = false; Guilda.pedidos = [];
+      Convites.encerrar(); Pedidos.encerrar(); Avisos.parar(); AjustesDev.encerrar(); Guilda.dados = null; Guilda.id = null; Guilda.carregou = false; Guilda.pedidos = [];
       if (this.saindo) { /* saindo da conta: a página vai recarregar */ }
       else if (Entrada.convidadoPendente() && navigator.onLine !== false) {
         // escolheu "convidado" sem internet: agora que conectou, cria a conta de convidado (o progresso do aparelho vai junto)
@@ -10287,7 +10379,12 @@ const Nuvem = {
     r.partidas.sort((x, y) => x.t - y.t); r.partidas = r.partidas.slice(-80);
     r.livro = Livro.juntar(r.livro, a.livro);                             // moedas e partidas: soma de todos os aparelhos
     for (const k in a.tags) r.tags[k] = Math.max(r.tags[k] || 0, a.tags[k]);
-    Object.assign(r.itens, a.itens);
+    // itens: junta os dois lados — menos um item que o desenvolvedor tirou e que o outro lado ainda não sabia (v45)
+    const ra = r.extras.adm || {}, aa = a.extras.adm || {};
+    for (const k in a.itens) if (!(ra[k] < 0 && aa[k] !== ra[k])) r.itens[k] = a.itens[k];
+    for (const k in r.itens) if (!(k in a.itens) && aa[k] < 0 && ra[k] !== aa[k]) delete r.itens[k];
+    if (Object.keys(ra).length || Object.keys(aa).length) { const j = Object.assign({}, ra); for (const k in aa) if (Math.abs(aa[k]) > Math.abs(j[k] || 0)) j[k] = aa[k]; r.extras.adm = j; }
+    r.extras.admVisto = Math.max(r.extras.admVisto || 0, a.extras.admVisto || 0);
     for (const k in a.conquistas) r.conquistas[k] = Math.min(r.conquistas[k] || Infinity, a.conquistas[k]);
     r.extras.flags = Object.assign({}, r.extras.flags || {}, a.extras.flags || {});
     Object.assign(r.extras.salas, a.extras.salas);
@@ -10321,6 +10418,7 @@ const Nuvem = {
     if (((a.guildaPedido && a.guildaPedido.t) || 0) > ((r.guildaPedido && r.guildaPedido.t) || 0)) r.guildaPedido = a.guildaPedido;
     r.ajustes = a.ajustes; r.cfg = a.cfg; r.cfgAmigo = a.cfgAmigo; r.cfgOnline = a.cfgOnline;   // preferências do aparelho
     r.atualizadoEm = Math.max(a.atualizadoEm, r.atualizadoEm);
+    if (typeof AjustesDev !== 'undefined') AjustesDev.aplicar(r);   // o que o desenvolvedor deu ou tirou desta conta
     Livro.recalcular(r);                     // por último: depende do livro e das conquistas já juntados
     return r;
   },
@@ -11502,6 +11600,7 @@ const Social = {
         const ac = b.dataset.acao;
         if (!u) { aviso('Entre na sua conta para isso.'); App.ir('conta'); return; }
         if (ac === 'denunciar') { Denuncia.abrir(Object.assign({}, p, { uid })); return; }
+        if (ac === 'dev') { DevAdm.abrir(Object.assign({}, p, { uid })); return; }
         if (ac === 'convidar') Convites.enviar(p);
         else if (ac === 'pedir') { b.disabled = true; await Pedidos.enviar(p); this.pintarBotoes(); }
         else if (ac === 'cancelar') { await Pedidos.cancelar(uid); aviso('Pedido cancelado'); this.pintarBotoes(); }
@@ -11534,6 +11633,7 @@ const Social = {
         : rec ? `<div class="cartao destaque" style="text-align:center"><b>${esc(p.nome)} te enviou um pedido de amizade</b><div class="fila" style="margin-top:10px;justify-content:center">${b('recusar', 'Recusar')}${b('aceitar', 'Aceitar', 'pri')}</div></div>`
           : env ? `<p class="sub" style="text-align:center">Pedido de amizade enviado. Aguardando ${esc(p.nome)} aceitar.</p>${b('cancelar', 'Cancelar pedido')}`
             : b('pedir', '＋ Enviar pedido de amizade'))
+      + (Dev.ativo && Nuvem.usuario && Nuvem.usuario.uid !== uid ? b('dev', '<span class="selo-dev">DEV</span> Gerenciar a conta deste jogador', 'dev-gerenciar') : '')
       + (Nuvem.usuario && Nuvem.usuario.uid !== uid ? '<button class="link denunciar" data-acao="denunciar">Denunciar jogador</button>' : '');
   }
 };
@@ -11960,10 +12060,11 @@ const Guilda = {
     el.innerHTML = `<div class="cartao gd-mural">
       <div class="gd-escrever"><input class="campo" id="gd-txt" maxlength="140" placeholder="Escreva para a guilda…" autocomplete="off" enterkeyhint="send"><button class="bt pri" id="gd-env" aria-label="Enviar">${SVG('<path d="M4 12l16-8-6 16-3-7z"/>')}</button></div>
       <div class="gd-posts">${posts.length ? posts.map(p => p.s ? `<p class="gd-sis">${esc(p.txt)} · ${qd(p.t)}</p>`
-        : `<div class="gd-post${p.u === u ? ' meu' : ''}">${htmlAvatar(p.a || 'wn', '', 34)}<div><span class="gd-quem"><b>${esc(p.n || 'Jogador')}</b><small>${qd(p.t)}</small>${p.u === u || lider ? `<button class="gd-apagar" data-apagar="${p.t}" aria-label="Apagar mensagem">×</button>` : ''}</span><p>${esc(p.txt)}</p></div></div>`).join('')
+        : `<div class="gd-post${p.u === u ? ' meu' : ''}">${htmlAvatar(p.a || 'wn', '', 34)}<div><span class="gd-quem"><b>${esc(p.n || 'Jogador')}</b><small>${qd(p.t)}</small>${p.u === u || lider ? `<button class="gd-apagar" data-apagar="${p.t}" aria-label="Apagar mensagem">×</button>` : ''}</span>${Moderacao.ofensivo(p.txt) ? '<p class="gd-oculta">Mensagem escondida (linguagem ofensiva)</p>' : `<p>${esc(p.txt)}</p>`}</div></div>`).join('')
         : '<p class="sub">Nenhuma mensagem ainda. Dê um oi para a guilda!</p>'}</div></div>`;
     const env = async () => {
       const i = $('#gd-txt'), txt = i.value.trim().slice(0, 140); if (!txt) return;
+      if (Moderacao.ofensivo(txt)) { aviso(Moderacao.MSG, 4500); Som.tocar('erro'); return; }
       if (Date.now() - (this.ultPost || 0) < 4000) { aviso('Espere um pouquinho para mandar outra.'); return; }
       this.ultPost = Date.now(); i.value = '';
       const e = this.minhaEntrada();
@@ -12048,6 +12149,7 @@ const Guilda = {
       f.nome = f.nome.trim().replace(/\s+/g, ' '); f.desc = f.desc.trim();
       if (f.nome.length < 3) return erro('O nome precisa ter pelo menos 3 letras.');
       if (!/^[A-Z0-9]{2,4}$/.test(f.tag)) return erro('A sigla precisa ter de 2 a 4 letras ou números.');
+      if (Moderacao.ofensivo(f.nome) || Moderacao.ofensivo(f.tag) || Moderacao.ofensivo(f.desc)) return erro('O nome, a sigla ou a descrição têm palavras ofensivas. Escolha outras.');
       const dados = { nome: f.nome, tag: f.tag, ic: f.ic, cor: f.cor, desc: f.desc, aberta: f.aberta };
       ok.disabled = true;
       try {
@@ -12368,6 +12470,10 @@ const Dev = {
     $('#tela').innerHTML = `<div class="pilha estreito">
       <div class="cartao dev-cab"><span class="selo-dev">DEV</span><div><b>Modo desenvolvedor ligado</b>
         <div class="sub">${esc((u && u.email) || 'sua conta')} · aparelho ${esc(Livro.id().slice(-6))}</div></div></div>
+      <div class="cartao pilha dev-jog"><h3>Contas dos jogadores</h3>
+        <p class="sub" style="margin-top:-6px">Procure um jogador para dar ou tirar moedas, diamantes, XP e itens. Também dá para abrir pelo perfil dele.</p>
+        <div class="dev-def"><input class="campo" id="dev-busca" type="search" placeholder="Nome do jogador" autocomplete="off" enterkeyhint="search" aria-label="Nome do jogador"><button class="bt pri" data-acao="buscar">Procurar</button></div>
+        <div id="dev-achados" class="pilha" style="gap:6px"></div></div>
       ${bloco('moedas', 'Moedas', MOEDA, d.moedas)}
       ${bloco('gemas', 'Gemas', '<svg class="gema" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M12 21L8 9l4-6 4 6z"/></svg>', d.gemas || 0, 'As gemas ainda não aparecem no jogo. Quando essa função existir, o saldo definido aqui já vale.')}
       ${bloco('xp', 'XP', XP.selo(XP.nivel(XP.total()).n, 30), XP.total(), 'Nível ' + XP.nivel(XP.total()).n + '. O XP só aumenta.')}
@@ -12383,7 +12489,10 @@ const Dev = {
       <p class="sub" style="text-align:center">Só a sua conta Google vê este painel.</p></div>`;
 
     $('#dev-tudo').onchange = e => { const x = this.op(); x.tudo = e.target.checked; this.salvarOp(x); aplicarVisual(); aviso(e.target.checked ? 'Tudo liberado' : 'Vendo como jogador comum'); };
+    $('#dev-busca').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); DevAdm.buscar(e.target.value); } });
     $('#tela').onclick = async e => {
+      if (e.target.closest('[data-acao="buscar"]')) { DevAdm.buscar($('#dev-busca').value); return; }
+      const ach = e.target.closest('[data-adm-i]'); if (ach) { DevAdm.abrir(DevAdm.achados[+ach.dataset.admI]); return; }
       const cx = e.target.closest('.dev-saldo'), tipo = cx && cx.dataset.tipo, atual = tipo === 'gemas' ? Dados.d.gemas || 0 : tipo === 'xp' ? XP.total() : Dados.d.moedas;
       if (e.target.closest('[data-acao="definir"]')) {
         const v = $('input', cx).value.trim();
@@ -12407,6 +12516,146 @@ const Dev = {
 };
 
 document.addEventListener('click', e => { if (e.target.closest('[data-dev-abrir]') && Dev.ativo && !modalAberto()) App.ir('dev'); });
+
+/* =====================================================================
+   v45: O DESENVOLVEDOR MEXE NA CONTA DE OUTROS JOGADORES
+   O site não tem servidor, então o desenvolvedor grava um documento
+   "ajustes/{uid do jogador}" (só a conta dele pode gravar — regra do Firestore).
+   O jogo do jogador lê esse documento e aplica:
+     - moedas, diamantes e XP entram no livro como um "aparelho" chamado adm
+       (os números só aumentam: dar soma em g/gg/xe, tirar soma em s/gs/xr);
+     - itens: it[chave] = +quando (deu) ou -quando (tirou).
+   ===================================================================== */
+const AjustesDev = {
+  doc: null, parar: null,
+  vigiar(uid) {
+    this.encerrar(); if (!Nuvem.db || !uid) return;
+    try {
+      this.parar = Nuvem.db.collection('ajustes').doc(uid).onSnapshot(s => {
+        this.doc = s.exists ? s.data() : null;
+        if (this.doc && this.aplicar(Dados.d)) {
+          Livro.recalcular(); Dados.salvar(); aplicarVisual(); App.atualizarTopo(true);
+          if (['menu', 'perfil', 'loja', 'visual'].includes(App.atual)) App.ir(App.atual);
+        }
+        this.avisar();
+      }, () => { /* sem permissão ou sem internet: tenta de novo na próxima entrada */ });
+    } catch (e) { /* ignora */ }
+  },
+  encerrar() { if (this.parar) try { this.parar(); } catch (e) { /* ignora */ } this.parar = null; this.doc = null; },
+  /* aplica o documento num conjunto de dados; devolve true se algo mudou */
+  aplicar(d, a = this.doc) {
+    if (!a || !d || !d.livro) return false;
+    let mudou = false;
+    const l = d.livro.adm || (d.livro.adm = Livro.vazio());
+    ['g', 's', 'gg', 'gs', 'xe', 'xr'].forEach(k => { const v = Math.max(0, Math.round(+a[k] || 0)); if (v > (l[k] || 0)) { l[k] = v; mudou = true; } });
+    const feito = d.extras.adm = d.extras.adm || {}, it = a.it || {};
+    for (const k in it) {
+      const v = +it[k]; if (!v || Math.abs(v) <= Math.abs(feito[k] || 0)) continue;
+      if (v > 0) d.itens[k] = 1; else delete d.itens[k];
+      feito[k] = v; mudou = true;
+    }
+    // item tirado que estava em uso: volta para o padrão
+    const p = d.perfil;
+    if (feito['av-' + p.avatar] < 0 && !d.itens['av-' + p.avatar]) { p.avatar = 'wn'; mudou = true; }
+    if (p.moldura && feito['mold-' + p.moldura] < 0 && !d.itens['mold-' + p.moldura]) { p.moldura = ''; mudou = true; }
+    if (feito['tab-' + d.tabuleiro] < 0 && !d.itens['tab-' + d.tabuleiro]) { d.tabuleiro = 'classico'; mudou = true; }
+    return mudou;
+  },
+  /* conta para o jogador o que mudou (uma vez só) */
+  mostrados: [],
+  avisar() {
+    const a = this.doc, x = Dados.d.extras; if (!a || !Array.isArray(a.log)) return;
+    const novos = a.log.filter(m => m.t > (x.admVisto || 0)); if (!novos.length) return;
+    const lista = $('#modal:not(.oculto) .adm-lista');
+    if (!lista && modalAberto()) { clearTimeout(this.tAviso); this.tAviso = setTimeout(() => this.avisar(), 2000); return; }   // outra janela aberta: espera
+    x.admVisto = Math.max(...novos.map(m => m.t)); Dados.salvar();
+    // várias mudanças seguidas: a mesma janela vai juntando a lista
+    this.mostrados = (lista ? this.mostrados : []).concat(novos).slice(-10);
+    const itens = this.mostrados.map(m => `<li>${esc(m.txt)}</li>`).join('');
+    if (lista) { lista.innerHTML = itens; return; }
+    modal('Sua conta foi ajustada', `<p>O suporte do jogo fez estas mudanças na sua conta:</p><ul class="adm-lista">${itens}</ul>`, [{ txt: 'Ok', cls: 'pri', val: 1 }], true);
+  }
+};
+
+/* painel do desenvolvedor para a conta de outro jogador */
+const DevAdm = {
+  p: null, conta: null,
+  async abrir(p) {
+    if (!Dev.ativo || !p || !p.uid) return;
+    this.p = p; this.conta = null;
+    this.pintar();
+    try {
+      const s = await Nuvem.db.collection('usuarios').doc(p.uid).get();
+      if (s.exists && s.data().json) {
+        const d = Dados.completar(JSON.parse(s.data().json));
+        try { const a = await Nuvem.db.collection('ajustes').doc(p.uid).get(); if (a.exists) AjustesDev.aplicar(d, a.data()); } catch (e) { /* ignora */ }
+        Livro.recalcular(d); this.conta = d;
+      } else this.conta = false;
+    } catch (e) { this.conta = 'erro'; }
+    if (this.p === p && Folha.aberta()) this.pintar();
+  },
+  pintar() {
+    const p = this.p, c = this.conta, cat = catalogo().filter(x => !x.gratis);
+    const tem = x => !!(c && c.itens && c.itens[x.chave]);
+    const sit = c === null ? 'Carregando a conta…' : c === false ? 'Este jogador ainda não salvou nada na nuvem.' : c === 'erro' ? 'Não consegui ler a conta (confira as regras do Firestore da versão 45).'
+      : `${ic('moeda', 'cor-moeda')} <b>${fmtN(c.moedas)}</b> &nbsp; ${ic('gema', 'cor-gema')} <b>${fmtN(c.gemas || 0)}</b> &nbsp; <b>${fmtN(XP.total(c))}</b> XP · nível ${XP.nivel(XP.total(c)).n} · ${Object.keys(c.itens).length} itens`;
+    const linha = (tipo, nome) => `<div class="adm-linha" data-tipo="${tipo}"><b>${nome}</b><input class="campo" type="number" inputmode="numeric" min="1" step="1" placeholder="Quantidade" aria-label="Quantidade de ${nome.toLowerCase()}">
+      <button class="bt peq verde" data-adm="dar">Dar</button><button class="bt peq perigo" data-adm="tirar">Tirar</button></div>`;
+    const html = `<div class="adm-folha"><h3><span class="selo-dev">DEV</span> ${esc(p.nome || 'Jogador')}</h3>
+      <p class="sub adm-sit">${sit}</p>
+      ${linha('moedas', 'Moedas')}${linha('gemas', 'Diamantes')}${linha('xp', 'XP')}
+      <div class="adm-linha adm-item"><b>Item</b><select class="campo" id="adm-item" aria-label="Item">${cat.map(x => `<option value="${esc(x.chave)}">${esc(TIPO_ITEM[x.tipo] + ': ' + x.nome)}${tem(x) ? ' ✓ (tem)' : ''}</option>`).join('')}</select>
+        <button class="bt peq verde" data-adm="dar-item">Dar</button><button class="bt peq perigo" data-adm="tirar-item">Tirar</button></div>
+      <p class="sub">Vale na hora se o jogador estiver com o jogo aberto; senão, quando ele abrir. Ele recebe um aviso do que mudou.</p></div>`;
+    const atual = Folha.aberta() && $('#folha .adm-folha');
+    if (atual) { const sel = $('#adm-item'), v = sel && sel.value; atual.outerHTML = html; if (v) $('#adm-item').value = v; }
+    else Folha.abrir(html);
+    $('#folha .adm-folha').onclick = e => this.clique(e);
+  },
+  async clique(e) {
+    const b = e.target.closest('[data-adm]'); if (!b) return;
+    const ac = b.dataset.adm, p = this.p, NOMES = { moedas: 'moedas', gemas: 'diamantes', xp: 'XP' };
+    let op;
+    if (ac === 'dar-item' || ac === 'tirar-item') {
+      const x = catalogo().find(i => i.chave === $('#adm-item').value); if (!x) return;
+      op = { item: x.chave, dar: ac === 'dar-item', txt: `${ac === 'dar-item' ? 'Ganhou' : 'Perdeu'} o item "${x.nome}" (${TIPO_ITEM[x.tipo].toLowerCase()})` };
+    } else {
+      const lin = b.closest('.adm-linha'), tipo = lin.dataset.tipo, n = Math.round(+$('input', lin).value || 0);
+      if (!(n > 0)) { aviso('Digite uma quantidade (1 ou mais).'); return; }
+      op = { tipo, n, dar: ac === 'dar', txt: `${ac === 'dar' ? '+' : '−'}${fmtN(n)} ${NOMES[tipo]}` };
+    }
+    const ok = await modal('Confirmar?', `${op.txt} para ${p.nome || 'este jogador'}.`, [{ txt: 'Cancelar', val: false }, { txt: 'Confirmar', cls: 'pri', val: true }]);
+    if (!ok) return;
+    b.disabled = true;
+    try { await this.gravar(p.uid, op); aviso('Feito: ' + op.txt); Som.tocar('acerto'); await this.abrir(p); }
+    catch (err) { b.disabled = false; aviso('Não consegui gravar: ' + msgErro(err), 4500); }
+  },
+  /* grava a mudança no documento de ajustes do jogador (os números só aumentam) */
+  gravar(uid, op) {
+    const ref = Nuvem.db.collection('ajustes').doc(uid);
+    return Nuvem.db.runTransaction(async t => {
+      const s = await t.get(ref), a = Object.assign({ g: 0, s: 0, gg: 0, gs: 0, xe: 0, xr: 0, it: {}, log: [] }, s.exists ? s.data() : {});
+      const now = Date.now();
+      if (op.item) { a.it = Object.assign({}, a.it); a.it[op.item] = op.dar ? now : -now; }
+      else { const k = { moedas: ['g', 's'], gemas: ['gg', 'gs'], xp: ['xe', 'xr'] }[op.tipo][op.dar ? 0 : 1]; a[k] = (a[k] || 0) + op.n; }
+      a.log = (a.log || []).concat([{ t: now, txt: op.txt }]).slice(-20); a.t = now;
+      t.set(ref, a);
+    });
+  },
+  /* busca de jogadores pelo nome (no ranking) */
+  async buscar(txt) {
+    const el = $('#dev-achados'); if (!el) return;
+    txt = (txt || '').trim().toLowerCase(); if (txt.length < 2) { el.innerHTML = '<p class="sub">Digite pelo menos 2 letras.</p>'; return; }
+    el.innerHTML = '<p class="sub">Procurando…</p>';
+    try {
+      const s = await Nuvem.db.collection('ranking').orderBy('xp', 'desc').limit(500).get();
+      const eu = Nuvem.usuario && Nuvem.usuario.uid;
+      const l = s.docs.map(d => Object.assign({ uid: d.id }, d.data())).filter(x => x.uid !== eu && ((x.nome || '').toLowerCase().includes(txt) || x.uid.toLowerCase() === txt)).slice(0, 20);
+      this.achados = l;
+      el.innerHTML = l.length ? l.map((x, i) => `<button class="linha-menu cor-neutra" data-adm-i="${i}">${htmlAvatar(x.avatar || 'wn', '', 34)}<span class="tx"><b>${esc(x.nome || 'Jogador')}</b><small>Nível ${x.nivel || 1} · ${fmtN(x.xp || 0)} XP</small></span>${SETA}</button>`).join('') : '<p class="sub">Ninguém com esse nome no ranking.</p>';
+    } catch (e) { el.innerHTML = '<p class="sub">Não consegui procurar: ' + esc(msgErro(e)) + '</p>'; }
+  }
+};
 
 /* ==========================================================================
    QUADRO DO PERFIL — abre por cima da tela ao tocar no ícone do jogador
@@ -12877,12 +13126,29 @@ window.addEventListener('wheel', e => {
   if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
   if (!rolaDeLado(e.target, e.deltaX)) e.preventDefault();
 }, { passive: false });
+/* v45: com uma janela aberta por cima (modal, folha, prêmio, perfil), deslizar para cima ou para baixo
+   só rola a própria janela — a tela de trás fica parada */
+function rolaVertical(el, dy) {
+  for (let x = el; x && x !== document.body && x !== document.documentElement; x = x.parentElement) {
+    if (x.scrollHeight > x.clientHeight + 1 && /auto|scroll/.test(getComputedStyle(x).overflowY)) {
+      if (dy < 0 ? x.scrollTop > 0 : x.scrollTop + x.clientHeight < x.scrollHeight - 1) return true;
+    }
+  }
+  return false;
+}
+const janelaPorCima = () => document.querySelector('#modal:not(.oculto),#folha,#premio-dia,#quadro');
 let toqueX = null, toqueY = null;
 document.addEventListener('touchstart', e => { const t = e.touches[0]; toqueX = t ? t.clientX : null; toqueY = t ? t.clientY : null; }, { passive: true });
 document.addEventListener('touchmove', e => {
   if (toqueX == null || e.touches.length !== 1 || !e.cancelable) return;
   const t = e.touches[0], dx = t.clientX - toqueX, dy = t.clientY - toqueY;
-  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8 && !rolaDeLado(e.target, -dx) && !e.target.closest('.tabuleiro,input[type=range]')) e.preventDefault();
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8 && !rolaDeLado(e.target, -dx) && !e.target.closest('.tabuleiro,input[type=range]')) { e.preventDefault(); return; }
+  if (Math.abs(dy) >= Math.abs(dx) && janelaPorCima() && !rolaVertical(e.target, -dy)) e.preventDefault();
+}, { passive: false });
+/* a roda do mouse / touchpad com uma janela aberta também não rola a tela de trás */
+window.addEventListener('wheel', e => {
+  if (Math.abs(e.deltaY) < Math.abs(e.deltaX) || !janelaPorCima()) return;
+  if (!rolaVertical(e.target, e.deltaY)) e.preventDefault();
 }, { passive: false });
 // evita zoom com gesto de pinça no iPhone (o tabuleiro precisa de toques precisos)
 document.addEventListener('gesturestart', e => e.preventDefault());
