@@ -2910,6 +2910,14 @@ html,body{touch-action:pan-y}
 .ms-trocar .nome-n{position:static}
 .ms-trocar-loja{display:block;margin:10px auto 0;text-align:center}
 .pm-pos.pm-txt{font-size:var(--t1);width:auto;padding:0 8px}
+/* ===== v47 ===== */
+/* topo sem a sombra embaçada: só uma linha fina e nítida separando o conteúdo */
+#topo{box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;border-bottom:1.5px solid var(--aro)}
+.lj-abas{box-shadow:none}
+/* bloquear jogador */
+.jg-links{display:flex;justify-content:center;gap:18px;flex-wrap:wrap}
+.bq-folha{display:flex;flex-direction:column;gap:8px}
+.bq-folha .jg-it .bt{margin-left:auto}
 
 </style>
 </head>
@@ -5101,7 +5109,7 @@ const Dados = {
       tabuleiro: 'classico',
       conquistas: {},                                        // id -> data em que foi desbloqueada
       ajustes: { tema: 'marrom', som: true, vibrar: true, coords: true, pontos: true, efeitos: true },
-      extras: { dicas: 0, viradas: 0, salas: {}, zeradoEm: 0, flags: { xp2: 1 } },
+      extras: { dicas: 0, viradas: 0, salas: {}, zeradoEm: 0, flags: { xp2: 1, xp3: 1 } },
       livro: {},                                             // contagens de cada aparelho (moedas e partidas) — ver Livro
       sequencia: { atual: 0, melhor: 0, ultimo: '' },         // dias seguidos jogando
       missoes: null,                                         // missões do dia: {dia, lista, prog, pegas, bau}
@@ -5128,6 +5136,7 @@ const Dados = {
     ['fases', 'tags', 'itens', 'conquistas', 'livro', 'amigos', 'premios', 'loja'].forEach(k => { if (!p[k] || typeof p[k] !== 'object') p[k] = {}; });
     if (!Object.keys(p.livro).length) Livro.migrar(p);
     if (!(o.extras && o.extras.flags && o.extras.flags.xp2)) { p.extras.flags = Object.assign({}, p.extras.flags); delete p.extras.flags.xp2; }   // dados de antes da curva nova
+    if (!(o.extras && o.extras.flags && o.extras.flags.xp3)) { p.extras.flags = Object.assign({}, p.extras.flags); delete p.extras.flags.xp3; }   // v47: curva mais longa
     if (typeof XP !== 'undefined') XP.migrar(p);                       // curva de níveis nova (mantém as moedas já ganhas)
     // o peão e o cavalo pretos eram grátis: quem já usa um deles continua com ele
     if (['bp', 'bn'].includes(p.perfil.avatar)) p.itens['av-' + p.perfil.avatar] = 1;
@@ -7266,6 +7275,7 @@ const Ajustes = {
         <div><b>Conta</b><div class="sub">${Nuvem.usuario ? (Nuvem.usuario.isAnonymous ? 'Jogando como convidado.' : 'Conectado como ' + esc(Nuvem.nomeConta()) + '.')
           : Entrada.convidadoPendente() ? 'Jogando como convidado. A conta é criada quando a internet voltar.' : 'Sua conta conecta sozinha quando a internet voltar.'}</div></div>
         ${Nuvem.usuario ? `<button class="bt perigo" id="aj-sair">${Nuvem.usuario.isAnonymous ? 'Sair do modo convidado' : 'Sair da conta'}</button>` : ''}</div>` : ''}
+      ${Nuvem.usuario ? `<button class="cartao linha-menu cor-neutra" id="aj-bloq"><span class="tx"><b>Jogadores bloqueados</b><small>${Bloqueio.lista().length || 'Nenhum'}</small></span>${SETA}</button>` : ''}
       <p class="sub" style="text-align:center"><a class="link" href="privacidade.html" target="_blank" rel="noopener">Política de privacidade</a></p>
       <p class="sub" style="text-align:center">Motor Stockfish 10 (GPL-3) · regras chess.js (BSD) · ${Motor.rotulo().replace(/<[^>]+>/g, '')}</p></div>`;
     $('#aj-tema').onclick = e => { const b = e.target.closest('.op'); if (!b) return; a.tema = b.dataset.v; Dados.salvar(); aplicarVisual(); this.tela(); };
@@ -7279,6 +7289,7 @@ const Ajustes = {
       pedidoInstalacao = null; $('#aj-instalar').classList.add('oculto');
     };
     const sair = $('#aj-sair'); if (sair) sair.onclick = () => Nuvem.sair();
+    const bq = $('#aj-bloq'); if (bq) bq.onclick = () => Bloqueio.abrirLista();
     Notif.ligarAjuste();
   },
   textoInstalar() {
@@ -7815,20 +7826,26 @@ const XP = {
     return x;
   },
   total(d = Dados.d) { return Math.max(0, this.base(d) + (d.xpExtra || 0)); },
-  passo(n) { return 400 + 150 * (n - 1); },                  // XP para ir do nível n ao n+1 (o 1º nível pede 400)
+  // v47: com o XP maior da v46 (vitórias de 100 a 400), cada nível pede mais: 1.500 no 1º e +500 a cada nível
+  passo(n) { return 1500 + 500 * (n - 1); },                 // XP para ir do nível n ao n+1
+  passoV2(n) { return 400 + 150 * (n - 1); },                // curva da v46 (só para a migração abaixo)
   passoVelho(n) { return 80 + 40 * (n - 1); },               // curva antiga (só para a migração abaixo)
   /* a curva ficou mais difícil: quem já tinha subido de nível não perde as moedas que os níveis deram.
      Roda uma vez por conta (marca extras.flags.xp2); dados novos já nascem marcados. */
   migrar(p) {
-    const f = p.extras.flags = p.extras.flags || {}; if (f.xp2) return; f.xp2 = 1;
-    const xp = Math.max(0, this.total(p));
-    const bonus = passo => { let n = 1, r = xp; while (n < 99 && r >= passo(n)) { r -= passo(n); n++; } let s = 0; for (let k = 2; k <= n; k++) s += this.moedasNivel(k); return s; };
-    const dif = bonus(n => this.passoVelho(n)) - bonus(n => this.passo(n));
-    if (dif > 0) p.livro.xp2 = Object.assign(Livro.vazio(), { aj: dif });
+    const f = p.extras.flags = p.extras.flags || {}; if (f.xp2 && f.xp3) return;
+    let xe = 0; for (const k in p.livro || {}) xe += (p.livro[k].xe || 0) - (p.livro[k].xr || 0);   // missões, sequência etc.
+    const xp = Math.max(0, this.base(p) + xe);
+    const bonus = passo => { let n = 1, r = xp; while (n < 199 && r >= passo(n)) { r -= passo(n); n++; } let s = 0; for (let k = 2; k <= n; k++) s += this.moedasNivel(k); return s; };
+    // v47: a curva ficou mais longa de novo. Quem já tinha subido guarda as moedas que os níveis deram
+    const antiga = f.xp2 ? n => this.passoV2(n) : n => this.passoVelho(n), chave = f.xp2 ? 'xp3' : 'xp2';
+    f.xp2 = 1; f.xp3 = 1;
+    const dif = bonus(antiga) - bonus(n => this.passo(n));
+    if (dif > 0) p.livro[chave] = Object.assign(Livro.vazio(), { aj: dif });
   },
   nivel(xp) {
     let n = 1, resto = Math.max(0, xp || 0);
-    while (n < 99 && resto >= this.passo(n)) { resto -= this.passo(n); n++; }
+    while (n < 199 && resto >= this.passo(n)) { resto -= this.passo(n); n++; }
     return { n, atual: resto, prox: this.passo(n), frac: Math.min(1, resto / this.passo(n)) };
   },
   titulo(n) { let t = TITULOS[0]; TITULOS.forEach(x => { if (n >= x.de) t = x; }); return t; },
@@ -10517,6 +10534,7 @@ const Nuvem = {
     Object.assign(r.extras.salas, a.extras.salas);
     r.extras.dicas = Math.max(r.extras.dicas || 0, a.extras.dicas || 0);
     r.extras.login = PremioDiario.juntar(r.extras.login, a.extras.login);                 // prêmio diário: quem pegou mais
+    if (a.extras.bloq || r.extras.bloq) r.extras.bloq = Amigos.juntar(r.extras.bloq || {}, a.extras.bloq || {});   // v47: jogadores bloqueados
     if (a.extras.dz || r.extras.dz) r.extras.dz = Object.assign({}, r.extras.dz || {}, a.extras.dz || {});   // baús dos desafios já abertos
     // estrelas das aberturas: vale a maior de cada uma
     if (a.extras.ab || r.extras.ab) { const ab = Object.assign({}, r.extras.ab || {}); for (const k in a.extras.ab || {}) ab[k] = Math.max(+ab[k] || 0, +a.extras.ab[k] || 0); r.extras.ab = ab; }
@@ -11292,6 +11310,33 @@ function vistoTxt(t) {
 const estaOnline = t => t && Date.now() - t < 4 * 60000;
 
 /* ---------- lista de amigos (fica no progresso e sincroniza entre aparelhos) ---------- */
+/* ---------- v47: bloquear jogador ----------
+   Quem está bloqueado não consegue mais te convidar nem te mandar pedido de amizade
+   (o jogo recusa sozinho), as mensagens dele no mural da guilda e no chat da partida ficam escondidas
+   e ele sai da sua lista de amigos. Fica salvo na conta (extras.bloq), em todos os aparelhos. */
+const Bloqueio = {
+  mapa() { const x = Dados.d.extras; if (!x.bloq || typeof x.bloq !== 'object') x.bloq = {}; return x.bloq; },
+  tem(uid) { const b = uid && this.mapa()[uid]; return !!b && !b.x; },
+  lista() { const m = this.mapa(); return Object.keys(m).filter(k => !m[k].x).map(uid => Object.assign({ uid }, m[uid])).sort((a, b) => b.t - a.t); },
+  bloquear(p) {
+    if (!p || !p.uid || (Nuvem.usuario && p.uid === Nuvem.usuario.uid)) return;
+    this.mapa()[p.uid] = { n: String(p.nome || 'Jogador').slice(0, 20), a: p.avatar || 'wn', t: Date.now() };
+    if (Amigos.tem(p.uid)) Amigos.remover(p.uid);
+    Dados.salvar();
+    Pedidos.recebidos.filter(r => r.de === p.uid).forEach(r => Pedidos.recusar(r).catch(() => {}));
+    if (Pedidos.enviados[p.uid]) Pedidos.cancelar(p.uid).catch(() => {});
+    Convites.lista.filter(c => c.de === p.uid).forEach(c => Convites.responder(c, false));
+  },
+  desbloquear(uid) { const b = this.mapa()[uid]; if (!b) return; b.x = 1; b.t = Date.now(); Dados.salvar(); },
+  /* lista para desbloquear (Configurações) */
+  abrirLista() {
+    const l = this.lista();
+    const html = `<div class="bq-folha"><h3>Jogadores bloqueados</h3>${l.length ? l.map(b => `<div class="jg-it"><span class="rk-av">${htmlAvatar(b.a || 'wn', '', 40)}</span><span class="rk-tx"><b>${esc(b.n || 'Jogador')}</b></span><button class="bt peq" data-desbloq="${esc(b.uid)}">Desbloquear</button></div>`).join('')
+      : '<p class="sub">Você não bloqueou ninguém.</p>'}</div>`;
+    const f = Folha.abrir(html);
+    f.onclick = e => { const b = e.target.closest('[data-desbloq]'); if (!b) return; this.desbloquear(b.dataset.desbloq); aviso('Jogador desbloqueado'); this.abrirLista(); if (App.atual === 'ajustes') Ajustes.tela(); };
+  }
+};
 const Amigos = {
   todos() { const a = Dados.d.amigos || {}; return Object.keys(a).filter(k => !a[k].x).map(uid => Object.assign({ uid }, a[uid])); },
   tem(uid) { const x = (Dados.d.amigos || {})[uid]; return !!x && !x.x; },
@@ -11362,7 +11407,7 @@ const Convites = {
     catch (e) { this.parar = null; }
   },
   encerrar() { if (this.parar) { try { this.parar(); } catch (e) { /* ignora */ } } this.parar = null; this.lista = []; this.selos(); },
-  aceita(c) { const q = Dados.d.perfil.conv || 'todos'; return q === 'todos' || (q === 'amigos' && Amigos.tem(c.de)); },
+  aceita(c) { if (Bloqueio.tem(c.de)) return false; const q = Dados.d.perfil.conv || 'todos'; return q === 'todos' || (q === 'amigos' && Amigos.tem(c.de)); },
   aoReceber(l) {
     const agora = Date.now();
     // convites velhos (mais de 1 dia) são apagados
@@ -11476,7 +11521,9 @@ const Pedidos = {
   },
   encerrar() { [this.pararR, this.pararE].forEach(f => { if (f) try { f(); } catch (e) { /* ignora */ } }); this.pararR = this.pararE = null; this.recebidos = []; this.enviados = {}; },
   aoReceber(l) {
-    const pend = l.filter(p => p.status === 'pendente');
+    const pend0 = l.filter(p => p.status === 'pendente');
+    pend0.filter(p => Bloqueio.tem(p.de)).forEach(p => this.recusar(p).catch(() => {}));
+    const pend = pend0.filter(p => !Bloqueio.tem(p.de));
     // quem já é amigo (ou a quem eu também pedi) é aceito na hora
     pend.filter(p => Amigos.tem(p.de) || this.enviados[p.de]).forEach(p => this.aceitar(p, true));
     const antes = new Set(this.recebidos.map(p => p.id));
@@ -11741,6 +11788,12 @@ const Social = {
         if (!u) { aviso('Entre na sua conta para isso.'); App.ir('conta'); return; }
         if (ac === 'denunciar') { Denuncia.abrir(Object.assign({}, p, { uid })); return; }
         if (ac === 'dev') { DevAdm.abrir(Object.assign({}, p, { uid })); return; }
+        if (ac === 'bloquear') {
+          const ok = await modal('Bloquear jogador?', `${p.nome || 'Este jogador'} não vai mais conseguir te convidar nem te mandar pedido de amizade, e as mensagens dele ficam escondidas.${Amigos.tem(uid) ? ' Ele também sai da sua lista de amigos.' : ''}`, [{ txt: 'Cancelar', val: false }, { txt: 'Bloquear', cls: 'perigo', val: true }]);
+          if (ok) { Bloqueio.bloquear(Object.assign({}, p, { uid })); aviso('Jogador bloqueado'); this.pintarBotoes(); }
+          return;
+        }
+        if (ac === 'desbloquear') { Bloqueio.desbloquear(uid); aviso('Jogador desbloqueado'); this.pintarBotoes(); return; }
         if (ac === 'convidar') Convites.enviar(p);
         else if (ac === 'pedir') { b.disabled = true; await Pedidos.enviar(p); this.pintarBotoes(); }
         else if (ac === 'cancelar') { await Pedidos.cancelar(uid); aviso('Pedido cancelado'); this.pintarBotoes(); }
@@ -11766,7 +11819,8 @@ const Social = {
   /* botões de amizade e convite no perfil de outro jogador */
   pintarBotoes() {
     const el = $('#jg-bts'), p = this.jogadorAtual; if (!el || !p || App.atual !== 'jogador') return;
-    const uid = p.uid, amigo = Amigos.tem(uid), rec = Pedidos.recebidos.find(x => x.de === uid), env = Pedidos.enviados[uid];
+    const uid = p.uid, amigo = Amigos.tem(uid), rec = Pedidos.recebidos.find(x => x.de === uid), env = Pedidos.enviados[uid], outro = Nuvem.usuario && Nuvem.usuario.uid !== uid;
+    if (Bloqueio.tem(uid)) { el.innerHTML = `<p class="sub" style="text-align:center">Você bloqueou este jogador. Ele não consegue te convidar nem te mandar pedido de amizade.</p><button class="bt cheio" data-acao="desbloquear">Desbloquear</button>`; return; }
     const b = (ac, txt, cls = '') => `<button class="bt cheio ${cls}" data-acao="${ac}">${txt}</button>`;
     el.innerHTML = (p.conv === 'ninguem' ? '<p class="sub" style="text-align:center">Este jogador não está recebendo convites.</p>' : b('convidar', 'Convidar para partida', 'pri'))
       + (amigo ? b('remover', 'Remover dos amigos')
@@ -11774,7 +11828,7 @@ const Social = {
           : env ? `<p class="sub" style="text-align:center">Pedido de amizade enviado. Aguardando ${esc(p.nome)} aceitar.</p>${b('cancelar', 'Cancelar pedido')}`
             : b('pedir', '＋ Enviar pedido de amizade'))
       + (Dev.ativo && Nuvem.usuario && Nuvem.usuario.uid !== uid ? b('dev', '<span class="selo-dev">DEV</span> Gerenciar a conta deste jogador', 'dev-gerenciar') : '')
-      + (Nuvem.usuario && Nuvem.usuario.uid !== uid ? '<button class="link denunciar" data-acao="denunciar">Denunciar jogador</button>' : '');
+      + (outro ? '<div class="jg-links"><button class="link denunciar" data-acao="bloquear">Bloquear jogador</button><button class="link denunciar" data-acao="denunciar">Denunciar jogador</button></div>' : '');
   }
 };
 
@@ -11811,6 +11865,7 @@ const Chat = {
     (s.chat || []).forEach(m => {
       const k = m.c + m.t; if (this.vistos.has(k)) return; this.vistos.add(k);
       if (m.c === Salas.minhaCor || this.mudo || Date.now() - m.t > 60000) return;
+      if (Bloqueio.tem(Salas.minhaCor === 'w' ? s.pretasUid : s.brancasUid)) return;     // jogador bloqueado: não aparece
       this.mostrar(m); vibrar(25);
     });
   },
@@ -11938,7 +11993,7 @@ const Guilda = {
     if (!this.id) return;
     try {
       const s = await this.col('guildaPedidos').where('g', '==', this.id).get();
-      this.pedidos = s.docs.map(x => Object.assign({ id: x.id }, x.data())).sort((a, b) => a.t - b.t);
+      this.pedidos = s.docs.map(x => Object.assign({ id: x.id }, x.data())).filter(p => !Bloqueio.tem(p.uid)).sort((a, b) => a.t - b.t);
     } catch (e) { this.pedidos = []; }
     if (avisar) this.avisarPedidos();
   },
@@ -11989,7 +12044,7 @@ const Guilda = {
         }, () => {}));
         this.vigias.push(this.col('guildaPedidos').where('g', '==', id).onSnapshot(s => {
           if (!this.dados || this.dados.lider !== u) return;
-          this.pedidos = s.docs.map(x => Object.assign({ id: x.id }, x.data())).sort((a, b) => a.t - b.t);
+          this.pedidos = s.docs.map(x => Object.assign({ id: x.id }, x.data())).filter(p => !Bloqueio.tem(p.uid)).sort((a, b) => a.t - b.t);
           this.avisarPedidos(); this.repintar(false);
         }, () => {}));
       } else {
@@ -12249,7 +12304,7 @@ const Guilda = {
     el.innerHTML = `<div class="cartao gd-mural">
       <div class="gd-escrever"><input class="campo" id="gd-txt" maxlength="140" placeholder="Escreva para a guilda…" autocomplete="off" enterkeyhint="send"><button class="bt pri" id="gd-env" aria-label="Enviar">${SVG('<path d="M4 12l16-8-6 16-3-7z"/>')}</button></div>
       <div class="gd-posts">${posts.length ? posts.map(p => p.s ? `<p class="gd-sis">${esc(p.txt)} · ${qd(p.t)}</p>`
-        : `<div class="gd-post${p.u === u ? ' meu' : ''}">${htmlAvatar(p.a || 'wn', '', 34)}<div><span class="gd-quem"><b>${esc(p.n || 'Jogador')}</b><small>${qd(p.t)}</small>${p.u === u || lider ? `<button class="gd-apagar" data-apagar="${p.t}" aria-label="Apagar mensagem">×</button>` : ''}</span>${Moderacao.ofensivo(p.txt) ? '<p class="gd-oculta">Mensagem escondida (linguagem ofensiva)</p>' : `<p>${esc(p.txt)}</p>`}</div></div>`).join('')
+        : `<div class="gd-post${p.u === u ? ' meu' : ''}">${htmlAvatar(p.a || 'wn', '', 34)}<div><span class="gd-quem"><b>${esc(p.n || 'Jogador')}</b><small>${qd(p.t)}</small>${p.u === u || lider ? `<button class="gd-apagar" data-apagar="${p.t}" aria-label="Apagar mensagem">×</button>` : ''}</span>${Bloqueio.tem(p.u) ? '<p class="gd-oculta">Mensagem de um jogador bloqueado</p>' : Moderacao.ofensivo(p.txt) ? '<p class="gd-oculta">Mensagem escondida (linguagem ofensiva)</p>' : `<p>${esc(p.txt)}</p>`}</div></div>`).join('')
         : '<p class="sub">Nenhuma mensagem ainda. Dê um oi para a guilda!</p>'}</div></div>`;
     const env = async () => {
       const i = $('#gd-txt'), txt = i.value.trim().slice(0, 140); if (!txt) return;
