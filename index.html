@@ -2884,6 +2884,32 @@ html:has(#modal:not(.oculto)),html:has(#folha),html:has(#premio-dia),html:has(#q
 .adm-lista{text-align:left;margin:8px 0 0 18px;line-height:1.6;font-weight:700}
 .dev-gerenciar{display:flex;align-items:center;justify-content:center;gap:8px}
 @media (max-width:380px){.adm-linha,.adm-item{grid-template-columns:1fr auto auto}.adm-linha>b{grid-column:1/-1}}
+/* ===== v46 ===== */
+/* a página só pode ser arrastada para cima e para baixo: arrastar para o lado não mexe nem "volta página"
+   (as fileiras que rolam de lado — abas, chips, lances — são áreas de rolagem próprias e continuam funcionando) */
+html,body{touch-action:pan-y}
+/* Missões no Início: todas concluídas = símbolo de correto */
+.atalho .bolinha.certo{background:var(--ok);padding:0;width:24px}
+.atalho .bolinha.certo svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:3.6;stroke-linecap:round;stroke-linejoin:round}
+/* preços do jogo (tela do dev) */
+.pc-sec{gap:6px}
+.pc-l{display:grid;grid-template-columns:1fr 110px 22px;gap:8px;align-items:center;padding:6px 0;border-top:1px solid var(--aro)}
+.pc-l:first-of-type{border-top:0}
+.pc-l>span{font-weight:700;line-height:1.2}
+.pc-l small{display:block;color:var(--txt2);font-weight:600}
+.pc-l .campo{min-width:0;text-align:right}
+.pc-l.mudou .campo{border-color:var(--dest);box-shadow:0 0 0 2px color-mix(in srgb,var(--dest) 35%,transparent)}
+.pc-bts{display:flex;gap:10px;position:sticky;bottom:calc(10px + env(safe-area-inset-bottom));z-index:3}
+.pc-bts .bt{flex:1}
+/* itens especiais da loja e botão de trocar missões */
+.lj-c-tem{display:block;color:var(--txt2);font-weight:700;font-size:var(--t1);text-align:center;margin:-2px 0 4px}
+.lj-c-arte .svg-nome,.lj-c-arte .svg-missoes{width:64px;height:64px}
+.lj-conf .svg-missoes,.bc-arte .svg-missoes{width:72px;height:72px}
+.ms-trocar{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;position:relative}
+.ms-trocar .svg-missoes{width:30px;height:30px}
+.ms-trocar .nome-n{position:static}
+.ms-trocar-loja{display:block;margin:10px auto 0;text-align:center}
+.pm-pos.pm-txt{font-size:var(--t1);width:auto;padding:0 8px}
 
 </style>
 </head>
@@ -5164,15 +5190,15 @@ const Livro = {
   meu(d = Dados.d) { const id = this.id(); if (!d.livro[id]) d.livro[id] = this.vazio(); return d.livro[id]; },
   /* refaz os totais (moedas, partidas por nível, online, local) somando todos os aparelhos */
   recalcular(d = Dados.d) {
-    let g = 0, s = 0, lo = 0, gg = 0, gs = 0, xe = 0, xs = 0, xa = 0; const pn = this.vazio().pn, on = { v: 0, e: 0, d: 0 }, sem = typeof semanaTxt === 'function' ? semanaTxt() : '', ant = typeof semanaAnterior === 'function' ? semanaAnterior() : '';
+    let g = 0, s = 0, lo = 0, gg = 0, gs = 0, xe = 0, xs = 0, xa = 0, tm = 0, tu = 0; const pn = this.vazio().pn, on = { v: 0, e: 0, d: 0 }, sem = typeof semanaTxt === 'function' ? semanaTxt() : '', ant = typeof semanaAnterior === 'function' ? semanaAnterior() : '';
     for (const k in d.livro) {
       const l = d.livro[k]; g += (l.g || 0) + (l.aj || 0); s += l.s || 0; lo += l.lo || 0; gg += l.gg || 0; gs += l.gs || 0;
-      xe += (l.xe || 0) - (l.xr || 0); if (l.xs && l.xs.s === sem) xs += l.xs.v || 0;
+      tm += l.tm || 0; tu += l.tu || 0; xe += (l.xe || 0) - (l.xr || 0); if (l.xs && l.xs.s === sem) xs += l.xs.v || 0;
       if (l.xs && l.xs.s === ant) xa += l.xs.v || 0; else if (l.xa && l.xa.s === ant) xa += l.xa.v || 0;
       (l.pn || []).forEach((n, i) => { if (pn[i]) { pn[i].v += n.v || 0; pn[i].e += n.e || 0; pn[i].d += n.d || 0; } });
       if (l.on) { on.v += l.on.v || 0; on.e += l.on.e || 0; on.d += l.on.d || 0; }
     }
-    d.porNivel = pn; d.online = on; d.local = lo; d.gemas = Math.max(0, gg + (typeof Premios !== 'undefined' ? Premios.soma(d).g : 0) - gs); d.xpExtra = xe; d.xpSemana = xs; d.xpSemanaAnt = xa;   // antes do bônus: o XP depende deles
+    d.porNivel = pn; d.online = on; d.local = lo; d.gemas = Math.max(0, gg + (typeof Premios !== 'undefined' ? Premios.soma(d).g : 0) - gs); d.xpExtra = xe; d.trocaMs = Math.max(0, tm - tu); d.xpSemana = xs; d.xpSemanaAnt = xa;   // antes do bônus: o XP depende deles
     const b = this.bonus(d);
     let saldo = MOEDAS_INICIAIS + g + b - s;
     /* o saldo nunca fica negativo. Isso acontecia quando dois aparelhos gastavam o mesmo saldo
@@ -5193,7 +5219,9 @@ const Livro = {
       if (y.gg || x.gg) y.gg = Math.max(y.gg || 0, x.gg || 0);
       if (y.gs || x.gs) y.gs = Math.max(y.gs || 0, x.gs || 0);
       if (y.xe || x.xe) y.xe = Math.max(y.xe || 0, x.xe || 0);
-      if (y.xr || x.xr) y.xr = Math.max(y.xr || 0, x.xr || 0);     // XP tirado pelo desenvolvedor (entrada "adm")
+      if (y.xr || x.xr) y.xr = Math.max(y.xr || 0, x.xr || 0);
+      if (y.tm || x.tm) y.tm = Math.max(y.tm || 0, x.tm || 0);     // itens de trocar missões: ganhos e usados
+      if (y.tu || x.tu) y.tu = Math.max(y.tu || 0, x.tu || 0);     // XP tirado pelo desenvolvedor (entrada "adm")
       const velhos = [y.xa, x.xa, y.xs, x.xs].filter(Boolean).map(c => ({ s: c.s, v: c.v || 0 }));
       if (x.xs && (!y.xs || x.xs.s > y.xs.s)) y.xs = Object.assign({}, x.xs);           // XP da semana: vale a semana mais nova
       else if (x.xs && y.xs && x.xs.s === y.xs.s) y.xs.v = Math.max(y.xs.v || 0, x.xs.v || 0);
@@ -7282,20 +7310,20 @@ const BAUS = [
     tabela: [['moedas', 55], ['comum', 35], ['raro', 10]], piedade: { n: 10, rar: 'raro' },
     desc: 'Moedas ou um item <b class="rc-comum">Comum</b> ou <b class="rc-raro">Raro</b>' },
   { id: 'prata', nome: 'Baú de prata', preco: 500, x10: 4500, gratisH: 24, moedas: [150, 400],
-    // v45: o baú de prata nunca dá item lendário, e o item raro sai em 10% das vezes
-    tabela: [['moedas', 68], ['raro', 10], ['epico', 22]], piedade: { n: 10, rar: 'epico' },
+    // v46: o baú de prata nunca dá item lendário; raro 22% e épico 8%
+    tabela: [['moedas', 70], ['raro', 22], ['epico', 8]], piedade: { n: 10, rar: 'epico' },
     desc: 'Moedas ou um item <b class="rc-raro">Raro</b> ou <b class="rc-epico">Épico</b>' },
   { id: 'real', nome: 'Baú real', preco: 400, gemas: true, x10: 3500, moedas: [0, 0],
-    tabela: [['epico', 70], ['lendario', 22], ['nome', 8]], piedade: { n: 8, rar: 'lendario' },
-    desc: 'Um item <b class="rc-epico">Épico</b> ou <b class="rc-lendario">Lendário</b>. Tem itens que só saem nos baús, e pode sair o item de <b>mudar nome</b>!' }
+    tabela: [['epico', 62], ['lendario', 22], ['nome', 8], ['missoes', 8]], piedade: { n: 8, rar: 'lendario' },
+    desc: 'Um item <b class="rc-epico">Épico</b> ou <b class="rc-lendario">Lendário</b>. Tem itens que só saem nos baús, e podem sair os itens de <b>mudar nome</b> e de <b>trocar missões</b>!' }
 ];
 /* troca de gemas por moedas (a 1ª vez de cada uma vale o dobro) */
 const TROCAS = [
-  { g: 10, m: 500, nome: 'Pilha de moedas', n: 1 },
-  { g: 30, m: 1600, nome: 'Saco de moedas', n: 2 },
-  { g: 75, m: 4200, nome: 'Monte de moedas', n: 3 },
-  { g: 350, m: 9000, nome: 'Baú de moedas', n: 4 },
-  { g: 700, m: 19000, nome: 'Carreta de moedas', n: 5 }
+  { g: 50, m: 500, nome: 'Pilha de moedas', n: 1 },          // v46: novos valores
+  { g: 80, m: 1600, nome: 'Saco de moedas', n: 2 },
+  { g: 125, m: 4200, nome: 'Monte de moedas', n: 3 },
+  { g: 500, m: 9000, nome: 'Baú de moedas', n: 4 },
+  { g: 1200, m: 19000, nome: 'Carreta de moedas', n: 5 }
 ];
 const GRATIS_MOEDAS = 250, GRATIS_H = 5;
 const BOAS_VINDAS = { preco: 250, moedas: 500, moldura: 'carvalho', bau: 'prata' };          // em diamantes
@@ -7530,7 +7558,10 @@ const Loja = {
     const trocas = TROCAS.map((t, i) => { const pri = !L.troca[i];
       return `<div class="lj-carta c-moeda">${pri ? '<span class="etq verm lj-1vez">1ª vez: dobro</span>' : '<span class="lj-c-topo">Moedas</span>'}<div class="lj-c-arte">${svgMoedas(t.n)}</div><span class="lj-c-nome">${fmtN(t.m * (pri ? 2 : 1))} moedas</span>
         <button class="lj-c-bt bt pri peq" data-trocar="${i}">${precoTxt(t.g, true)}</button></div>`; }).join('');
-    return fita('', 'Molduras') + sec('mold') + fita('', 'Ícones') + sec('av') + fita('', 'Tabuleiros') + sec('tab')
+    const esp = (id, nome, arte, preco, tem, txt) => `<div class="lj-carta c-epico"><span class="etq rar-epico">Épico</span><div class="lj-c-arte">${arte}</div><span class="lj-c-nome">${nome}</span>
+      <small class="lj-c-tem">${txt} · você tem ${tem}</small><button class="lj-c-bt bt pri peq" data-especial="${id}">${precoTxt(preco, true)}</button></div>`;
+    return fita('', 'Especiais') + `<div class="lj-grade">${esp('nome', 'Mudar nome', SVG_NOME, Nome.PRECO, Nome.itens(), 'Troca o seu nome')}${esp('missoes', 'Trocar missões', SVG_MISSOES, TROCA_MS.PRECO, TrocaMissoes.itens(), 'Novas missões do dia')}</div>`
+      + fita('', 'Molduras') + sec('mold') + fita('', 'Ícones') + sec('av') + fita('', 'Tabuleiros') + sec('tab')
       + '<div id="lj-moedas"></div>' + fita('', 'Moedas') + `<div class="lj-grade">${this.cartaGratis()}${trocas}</div>`
       + '<p class="lj-nota sub">Diamantes vêm do prêmio diário, do desafio do dia, do baú das missões, do torneio, dos baús dos desafios, de subir de nível e do ranking. Eles podem virar moedas aqui.</p>';
   },
@@ -7551,6 +7582,7 @@ const Loja = {
     else if (ds.oferta) this.comprarOferta();
     else if (ds.boas) this.comprarBoas();
     else if (ds.chances) this.chances();
+    else if (ds.especial) this.comprarEspecial(ds.especial);
   },
   usar(chave) {
     const x = catalogo().find(c => c.chave === chave); if (!x || !x.tem()) return;
@@ -7614,6 +7646,17 @@ const Loja = {
     this.darMoedas(B.moedas);
     await this.abrirBau(B.bau, 1, false, extra);
   },
+  /* v46: itens especiais (mudar nome e trocar missões), comprados com diamantes */
+  async comprarEspecial(id) {
+    const nome = id === 'nome', preco = nome ? Nome.PRECO : TROCA_MS.PRECO, d = Dados.d;
+    if ((d.gemas || 0) < preco) { await this.faltou(true, preco, d.gemas || 0); return; }
+    const ok = await modal(`Comprar ${nome ? 'Mudar nome' : 'Trocar missões'}?`, `<div class="lj-conf c-epico">${nome ? SVG_NOME : SVG_MISSOES}<p>${nome ? 'Com ele você troca o seu nome no perfil.' : 'Com ele você troca as missões do dia que ainda não concluiu.'} Custa ${precoTxt(preco, true)}.</p></div>`, [{ txt: 'Cancelar', val: false }, { txt: 'Comprar', cls: 'pri', val: true }], true);
+    if (!ok || !Gemas.gastar(preco)) return;
+    if (nome) { Nome.ganhar(); Dados.salvar(); } else TrocaMissoes.ganhar();
+    Conquistas.pausa = true;
+    await Cena.revelar([{ tipo: nome ? 'nome' : 'missoes', rar: 'epico' }], null);
+    Conquistas.retomar(); App.atualizarTopo(true); this.redesenhar();
+  },
   darMoedas(n) { if (n > 0) { Livro.meu().g += n; Livro.recalcular(); Dados.salvar(); } },
 
   /* ---------- baús ---------- */
@@ -7625,6 +7668,7 @@ const Loja = {
     let r;
     if (rar === 'moedas') { const [a, z] = b.moedas; r = { tipo: 'moedas', n: Math.round((a + Math.random() * (z - a)) / 5) * 5, rar: 'comum' }; }
     else if (rar === 'nome') { Nome.ganhar(); r = { tipo: 'nome', rar: 'epico' }; }
+    else if (rar === 'missoes') { TrocaMissoes.ganhar(); r = { tipo: 'missoes', rar: 'epico' }; }
     else {
       const pool = catalogo().filter(x => x.rar === rar && !possui(x));
       if (pool.length) { const x = pool[Math.floor(Math.random() * pool.length)]; d.itens[x.chave] = 1; r = { tipo: 'item', item: x, rar }; }
@@ -7658,7 +7702,7 @@ const Loja = {
   },
   chances() {
     const linha = b => { const tot = b.tabela.reduce((s, x) => s + x[1], 0);
-      return `<div class="lj-ch"><div class="lj-ch-cab">${svgBau(b.id)}<b>${b.nome}</b></div>${b.tabela.map(([k, p]) => `<div class="lj-ch-l"><span class="${RARIDADES[k] ? 'rc-' + k : ''}">${k === 'moedas' ? `Moedas (${b.moedas[0]} a ${b.moedas[1]})` : k === 'nome' ? 'Item de mudar nome' : 'Item ' + RARIDADES[k].nome}</span><b>${Math.round(p / tot * 100)}%</b></div>`).join('')}
+      return `<div class="lj-ch"><div class="lj-ch-cab">${svgBau(b.id)}<b>${b.nome}</b></div>${b.tabela.map(([k, p]) => `<div class="lj-ch-l"><span class="${RARIDADES[k] ? 'rc-' + k : ''}">${k === 'moedas' ? `Moedas (${b.moedas[0]} a ${b.moedas[1]})` : k === 'nome' ? 'Item de mudar nome' : k === 'missoes' ? 'Item de trocar missões' : 'Item ' + RARIDADES[k].nome}</span><b>${Math.round(p / tot * 100)}%</b></div>`).join('')}
         <small>${RARIDADES[b.piedade.rar].nome} garantido a cada ${b.piedade.n} aberturas${b.gratisH ? ` · grátis a cada ${b.gratisH}h` : ''}</small></div>`; };
     const cat = catalogo(), falta = r => cat.filter(x => x.rar === r && !possui(x)).length;
     modal('Chances dos baús', BAUS.map(linha).join('') + `<p class="sub" style="margin-top:10px">Itens que você ainda não tem: ${ORDEM_RAR.map(r => `<b class="rc-${r}">${RARIDADES[r].nome}</b> ${falta(r)}`).join(' · ')}</p>`, [{ txt: 'Fechar', cls: 'pri', val: 1 }], true);
@@ -7717,6 +7761,8 @@ const Cena = {
     if (r.tipo === 'moedas') return `<div class="bc-carta r-${r.rar}" style="--i:${i}"><span class="bc-rar">${r.repetido ? 'Repetido' : 'Moedas'}</span><span class="bc-arte">${svgMoedas(r.n >= 400 ? 4 : r.n >= 150 ? 3 : 2)}</span>
       <b>+${fmtN(r.n)} moedas</b>${grande && r.repetido ? `<small>Você já tem todos os itens ${R.nome.toLowerCase()}s: virou moedas!</small>` : ''}</div>`;
     if (r.tipo === 'gemas') return `<div class="bc-carta r-${r.rar}" style="--i:${i}"><span class="bc-rar">Diamantes</span><span class="bc-arte">${svgGemas(r.n >= 25 ? 3 : 2)}</span><b>+${fmtN(r.n)} diamantes</b></div>`;
+    if (r.tipo === 'missoes') return `<div class="bc-carta r-${r.rar}" style="--i:${i}"><span class="bc-rar">Especial</span><span class="bc-arte">${SVG_MISSOES}</span>
+      <b>Trocar missões</b><small>${grande ? 'Use em Missões para trocar as missões do dia' : 'Item'}</small></div>`;
     if (r.tipo === 'nome') return `<div class="bc-carta r-${r.rar}" style="--i:${i}"><span class="bc-rar">Especial</span><span class="bc-arte">${SVG_NOME}</span>
       <b>Mudar nome</b><small>${grande ? 'Use no seu perfil para trocar o nome de graça' : 'Item'}</small></div>`;
     const x = r.item;
@@ -7756,8 +7802,9 @@ const TITULOS = [
   { de: 20, nome: 'Dama', p: 'q', cor: '#f07a7a' }, { de: 30, nome: 'Rei', p: 'k', cor: '#f2b544' }
 ];
 const XP = {
-  PC_V: [15, 25, 35, 50, 70, 100], PC_E: 10, PC_D: 5, ON: { v: 40, e: 20, d: 10 }, LOCAL: 5, ESTRELA: 10, DESAFIO: [0, 15, 5],
-  MISSAO: [40, 100, 150], BAU: 80,                         // XP da 1ª, 2ª e 3ª missão do dia
+  // v46: iniciante 100 XP até o mais difícil 400 XP; online 450; estrela 25; desafio de primeira 150
+  PC_V: [100, 160, 220, 280, 340, 400], PC_E: 10, PC_D: 5, ON: { v: 450, e: 20, d: 10 }, LOCAL: 5, ESTRELA: 25, DESAFIO: [0, 150, 5],
+  MISSAO: [100, 300, 500], BAU: 200,                       // XP da 1ª, 2ª e 3ª missão do dia e do baú do dia
   base(d) {
     let x = 0;
     (d.porNivel || []).forEach((n, i) => { x += (n.v || 0) * this.PC_V[i] + (n.e || 0) * this.PC_E + (n.d || 0) * this.PC_D; });
@@ -7824,7 +7871,7 @@ const Sequencia = {
     if (marco) { Livro.meu().g += marco; Livro.recalcular(); }
     XP.extra(bonus);
   },
-  bonusXp(n) { return 10 + 5 * Math.min(Math.max(n, 1) - 1, 6); },
+  bonusXp(n) { return 100 * Math.min(Math.max(n, 1), 10); },   // v46: 1 dia = 100 XP, 2 dias = 200... a partir de 10 dias, 1.000 XP por dia
   /* dias seguidos que ainda valem (ontem ou hoje) */
   viva() { const s = Dados.d.sequencia, h = diaTxt(); return s.ultimo === h || s.ultimo === diaAntes(h) ? s.atual || 0 : 0; },
   hoje() { return Dados.d.sequencia.ultimo === diaTxt(); },
@@ -7838,7 +7885,7 @@ const MS_IC = {
   ok: '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
   bau: '<svg viewBox="0 0 24 24"><path d="M3 10a6 6 0 0 1 6-6h6a6 6 0 0 1 6 6v10H3z"/><path d="M3 11h18M10.5 9.5h3v4h-3z"/></svg>'
 };
-const MOEDAS_MISSAO = [200, 500, 1000], MOEDAS_BAU = 60;   // 1ª, 2ª e 3ª missão do dia
+const MOEDAS_MISSAO = [200, 500, 1000], MOEDAS_BAU = 500;   // 1ª, 2ª e 3ª missão do dia
 const venceu = o => o.res === 'v' && o.modo !== 'local';
 const MISSOES = [
   { id: 'jogar3', g: 'jogo', txt: 'Termine 3 partidas', alvo: 3, ev: t => t === 'partida' },
@@ -7887,7 +7934,7 @@ const Missoes = {
       let ok = false; try { ok = x.ev(t, o); } catch (e) { ok = false; }
       if (!ok) return;
       m.prog[id] = n + 1; mudou = true;
-      if (n + 1 >= x.alvo) Conquistas.fila.push({ tipo: 'missao', c: { id: 'ms-' + id, nome: x.txt, ic: ic('alvo', 'cor-verde'), moedas: 0, sub: 'Pegue o prêmio em Missões' } });
+      if (n + 1 >= x.alvo) Conquistas.fila.push({ tipo: 'missao', c: { id: 'ms-' + id, nome: x.txt, ic: ic('ok', 'cor-verde'), moedas: 0, sub: 'Pegue o prêmio em Missões' } });
     });
     if (mudou) { Dados.salvar(); Conquistas.mostrar(); }
   },
@@ -7897,6 +7944,21 @@ const Missoes = {
     m.pegas[id] = 1; Dados.salvar();
     const i = Math.max(0, m.lista.indexOf(id));
     Moedas.ganhar(MOEDAS_MISSAO[i] || MOEDAS_MISSAO[0], 'missão cumprida'); XP.extra(XP.MISSAO[i] || XP.MISSAO[0]);
+    return true;
+  },
+  /* v46: troca as missões de hoje que ainda não foram concluídas (gasta 1 item de trocar missões) */
+  trocar() {
+    const m = this.hoje(), its = this.itens(), abertas = its.filter(x => !x.feita);
+    if (!abertas.length || TrocaMissoes.itens() < 1) return false;
+    const usadas = new Set((m.usadas || []).concat(m.lista));
+    let pode = MISSOES.filter(x => (!x.conta || (typeof Nuvem !== 'undefined' && Nuvem.usuario)) && (!x.hist || Dados.d.partidas.length) && !usadas.has(x.id));
+    if (pode.length < abertas.length) pode = MISSOES.filter(x => !m.lista.includes(x.id) && (!x.conta || (typeof Nuvem !== 'undefined' && Nuvem.usuario)) && (!x.hist || Dados.d.partidas.length));
+    if (!pode.length) return false;
+    const tirar = new Set(abertas.map(x => x.id));
+    m.usadas = Array.from(new Set((m.usadas || []).concat([...tirar])));
+    m.lista = m.lista.map(id => { if (!tirar.has(id)) return id; const k = Math.floor(Math.random() * pode.length), n = pode.splice(k, 1)[0]; delete m.prog[id]; return n ? n.id : id; });
+    m.tr = (m.tr || 0) + 1;
+    TrocaMissoes.usar(); Dados.salvar();
     return true;
   },
   podeBau() { const m = this.hoje(); return !m.bau && m.lista.length > 0 && m.lista.every(id => m.pegas[id]); },
@@ -7952,19 +8014,39 @@ const Missoes = {
         <div class="seq-cab"><span class="seq-fogo">${ic('fogo', seq ? 'cor-fogo' : 'cor-cinza')}</span><div><b>${seq} ${seq === 1 ? 'dia seguido' : 'dias seguidos'}</b>
           <span class="sub">${Sequencia.hoje() ? 'Hoje já está garantido' : seq ? 'Jogue hoje para não perder a sequência' : 'Jogue, faça uma fase ou um desafio para começar'}</span></div></div>
         <div class="seq-dias">${bolas}</div>
-        <p class="sub">Recorde: ${Math.max(s.melhor || 0, seq)} ${Math.max(s.melhor || 0, seq) === 1 ? 'dia' : 'dias'} · cada dia vale até +${Sequencia.bonusXp(7)} XP${marco ? ` · com ${marco} dias: +${MARCOS_SEQ[marco]} moedas` : ''}</p></section>
+        <p class="sub">Recorde: ${Math.max(s.melhor || 0, seq)} ${Math.max(s.melhor || 0, seq) === 1 ? 'dia' : 'dias'} · cada dia vale até +${fmtN(Sequencia.bonusXp(10))} XP${marco ? ` · com ${marco} dias: +${MARCOS_SEQ[marco]} moedas` : ''}</p></section>
       <div class="secao"><h2>Missões do dia</h2><span class="sub">${ic('relogio', 'cor-cinza ic-mini')}novas em ${this.faltaTxt()}</span></div>
       <div class="ms-lista">${its.map(x => this.html(x)).join('')}${this.htmlBau()}</div>
+      ${its.some(x => !x.feita) ? (TrocaMissoes.itens() ? `<button class="bt cheio ms-trocar" data-trocar-ms="1">${SVG_MISSOES}<span>Trocar as missões não concluídas</span><i class="nome-n">${TrocaMissoes.itens()}</i></button>`
+        : `<button class="link ms-trocar-loja" data-loja-ms="1">Não gostou das missões? Compre o item de trocar missões na loja</button>`) : ''}
       <div class="secao"><h2>Como ganhar XP</h2></div>
       <div class="cartao xp-lista">
         ${[['computador', 'cor-azul', 'Vencer o computador', `+${XP.PC_V[0]} a +${XP.PC_V[5]}`], ['globo', 'cor-verde', 'Vencer online', `+${XP.ON.v}`], ['estrela', 'cor-ouro', 'Cada estrela nas fases', `+${XP.ESTRELA}`],
            ['raio', 'cor-roxo', 'Desafio de primeira', `+${XP.DESAFIO[1]}`], ['alvo', 'cor-verde', 'Missões do dia', `+${XP.MISSAO[0]} a +${XP.MISSAO[2]}`],
-           ['trofeu', 'cor-ouro', 'Troféus', `+${Math.min(...TROFEUS.map(x => x.xp || 1e9))} a +${Math.max(...TROFEUS.map(x => x.xp || 0))}`], ['fogo', 'cor-fogo', 'Dia de sequência', `+${Sequencia.bonusXp(1)} a +${Sequencia.bonusXp(7)}`]]
+           ['trofeu', 'cor-ouro', 'Troféus', `+${Math.min(...TROFEUS.map(x => x.xp || 1e9))} a +${Math.max(...TROFEUS.map(x => x.xp || 0))}`], ['fogo', 'cor-fogo', 'Dia de sequência', `+${Sequencia.bonusXp(1)} a +${fmtN(Sequencia.bonusXp(10))}`]]
           .map(([i, c, t, v]) => `<div class="xp-l">${ic(i, c)}<span>${t}</span><b>${v}</b></div>`).join('')}
         <p class="sub">Empates e derrotas também valem um pouco. Cada nível novo dá moedas.</p></div></div>`;
-    $('#tela').onclick = e => this.clique(e, () => this.tela());
+    $('#tela').onclick = async e => {
+      if (e.target.closest('[data-loja-ms]')) { Loja.aba = 'itens'; App.ir('loja'); return; }
+      if (e.target.closest('[data-trocar-ms]')) {
+        const n = TrocaMissoes.itens();
+        const ok = await modal('Trocar missões?', `<div class="lj-conf c-epico">${SVG_MISSOES}<p>As missões que você ainda não concluiu viram missões novas. Gasta 1 item (você tem ${n}).</p></div>`, [{ txt: 'Cancelar', val: false }, { txt: 'Trocar', cls: 'pri', val: true }], true);
+        if (ok && this.trocar()) { Som.tocar('acerto'); aviso('Missões trocadas!'); this.tela(); }
+        return;
+      }
+      this.clique(e, () => this.tela());
+    };
   }
 };
+
+/* ---------- v46: item épico de trocar missões (vem da loja e do baú real) ---------- */
+const TROCA_MS = { PRECO: 150 };          // em diamantes (o desenvolvedor pode mudar)
+const TrocaMissoes = {
+  itens(d = Dados.d) { return Math.max(0, d.trocaMs || 0); },
+  ganhar(n = 1) { const l = Livro.meu(); l.tm = (l.tm || 0) + n; Livro.recalcular(); Dados.salvar(); },
+  usar() { const l = Livro.meu(); l.tu = (l.tu || 0) + 1; Livro.recalcular(); }
+};
+const SVG_MISSOES = '<svg class="svg-missoes" viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="8" width="44" height="50" rx="7" fill="#f5ebe0" stroke="#7a5410" stroke-width="2.5"/><path d="M19 22l3 3 6-6M19 34l3 3 6-6" fill="none" stroke="#3fb27f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 23h12M32 35h10" stroke="#a38b7d" stroke-width="3" stroke-linecap="round"/><circle cx="46" cy="47" r="12" fill="#9b4dff" stroke="#4b1f99" stroke-width="2.2"/><path d="M40.5 46a6 6 0 0 1 10.4-3.4M51.5 48a6 6 0 0 1-10.4 3.4" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M51.4 39.6v3.6h-3.6M40.6 54.4v-3.6h3.6" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 /* ---------- pontos do online (estilo Elo) ---------- */
 const Ranque = {
@@ -8090,17 +8172,23 @@ const Ranking = {
    sozinho, na primeira vez que abre o app na semana seguinte). Mês: o 1º do ranking geral
    na virada do mês ganha o prêmio grande; quem abrir o app primeiro no mês novo grava
    quem era o 1º em "campeoes/{mês}". Cada prêmio fica em Dados.d.premios e paga uma vez só. */
-const PREMIOS_SEMANA = [{ g: 500, m: 1500, tr: 'topo1' }, { g: 100, m: 500, tr: 'topo2' }, { g: 0, m: 250 }];
-const PREMIO_MES = { g: 1500, m: 50000 };
-const INICIO_SEMANA = '2026-W46', INICIO_MES = '2026-11';      // primeiras semana e mês que valem prêmio
+const PREMIOS_SEMANA_V1 = [{ g: 500, m: 1500, tr: 'topo1' }, { g: 100, m: 500, tr: 'topo2' }, { g: 0, m: 250 }];   // semanas até 2026-W47 (já pagas)
+const PREMIOS_SEMANA = [{ g: 250, m: 1500, tr: 'topo1' }, { g: 30, m: 500, tr: 'topo2' }, { g: 0, m: 250 }];          // v46
+const SEMANA_V46 = '2026-W48';
+const premiosSemana = sem => (sem || '') >= SEMANA_V46 ? PREMIOS_SEMANA : PREMIOS_SEMANA_V1;
+const PREMIOS_MES = [{ g: 1000, m: 25000 }, { g: 300, m: 5000 }];                                                   // 1º e 2º do ranking geral no mês
+const PREMIO_MES = PREMIOS_MES[0];
+const PREMIOS_GUILDA = [{ g: 500, m: 3000 }, { g: 250, m: 1500 }];       // guilda em 1º na semana: líder, membro
+const INICIO_SEMANA = '2026-W46', INICIO_MES = '2026-11', INICIO_GUILDA = '2026-W48', INICIO_ONLINE = '2026-11-24';   // primeiros que valem prêmio
 const Premios = {
   reiUid: (() => { try { return localStorage.getItem('trainer-xadrez-rei') || null; } catch (e) { return null; } })(), reiT: 0,
   soma(d) {
     let g = 0, m = 0;
     for (const k in d.premios || {}) {
       const v = d.premios[k];
-      if (k[0] === 'w' && v >= 1 && v <= 3) { g += PREMIOS_SEMANA[v - 1].g; m += PREMIOS_SEMANA[v - 1].m; }
-      else if (k[0] === 'm' && v === 1) { g += PREMIO_MES.g; m += PREMIO_MES.m; }
+      if (k[0] === 'w' && v >= 1 && v <= 3) { const t = premiosSemana(k.slice(1)); g += t[v - 1].g; m += t[v - 1].m; }
+      else if (k[0] === 'm' && (v === 1 || v === 2)) { g += PREMIOS_MES[v - 1].g; m += PREMIOS_MES[v - 1].m; }
+      else if (k[0] === 'g' && (v === 1 || v === 2)) { g += PREMIOS_GUILDA[v - 1].g; m += PREMIOS_GUILDA[v - 1].m; }
       else if (k[0] === 't' && v >= 1 && v <= 3) m += TORNEIO_PREMIOS[v - 1];
     }
     return { g, m };
@@ -8118,9 +8206,12 @@ const Premios = {
   },
   quadro(aba) {
     const n = v => v.toLocaleString('pt-BR');
-    const it = (pos, g, m, tr) => `<div class="pm-it p${pos}"><span class="pm-pos">${pos}º</span><span class="pm-tx">${g ? `<b>${ic('gema', 'cor-gema')}${n(g)}</b>` : ''}<b>${ic('moeda', 'cor-moeda')}${n(m)}</b>${tr ? `<small>${esc(tr)}</small>` : ''}</span></div>`;
-    if (aba === 'semana') return `<div class="cartao pm-quadro"><b class="pm-tit">Prêmios da semana</b><div class="pm-lista">${it(1, 500, 1500, 'Daqui de cima enxergo melhor!')}${it(2, 100, 500, 'Não vou desistir!')}${it(3, 0, 250)}</div></div>`;
-    if (aba === 'geral') return `<div class="cartao pm-quadro"><b class="pm-tit">Prêmio do mês</b><div class="pm-lista um">${it(1, PREMIO_MES.g, PREMIO_MES.m, 'Moldura e selo Nº 1 enquanto estiver no topo')}</div></div>`;
+    const it = (pos, g, m, tr) => `<div class="pm-it p${typeof pos === 'number' ? pos : 1}"><span class="pm-pos${typeof pos === 'number' ? '' : ' pm-txt'}">${typeof pos === 'number' ? pos + 'º' : pos}</span><span class="pm-tx">${g ? `<b>${ic('gema', 'cor-gema')}${n(g)}</b>` : ''}<b>${ic('moeda', 'cor-moeda')}${n(m)}</b>${tr ? `<small>${esc(tr)}</small>` : ''}</span></div>`;
+    const S = PREMIOS_SEMANA, M = PREMIOS_MES, G = PREMIOS_GUILDA;
+    if (aba === 'semana') return `<div class="cartao pm-quadro"><b class="pm-tit">Prêmios da semana</b><div class="pm-lista">${it(1, S[0].g, S[0].m, 'Daqui de cima enxergo melhor!')}${it(2, S[1].g, S[1].m, 'Não vou desistir!')}${it(3, S[2].g, S[2].m)}</div></div>`;
+    if (aba === 'geral') return `<div class="cartao pm-quadro"><b class="pm-tit">Prêmios do mês</b><div class="pm-lista">${it(1, M[0].g, M[0].m, 'Moldura e selo Nº 1 enquanto estiver no topo')}${it(2, M[1].g, M[1].m)}</div></div>`;
+    if (aba === 'online') return `<div class="cartao pm-quadro"><b class="pm-tit">Prêmio de todo dia</b><div class="pm-lista um"><div class="pm-it p1"><span class="pm-pos">1º</span><span class="pm-tx"><b>${ic('bau', 'cor-bau')}Baú real grátis</b><small>Para quem terminar o dia em 1º no online</small></span></div></div></div>`;
+    if (aba === 'guildas') return `<div class="cartao pm-quadro"><b class="pm-tit">Guilda campeã da semana</b><div class="pm-lista">${it('Líder', G[0].g, G[0].m)}${it('Membro', G[1].g, G[1].m)}</div></div>`;
     return '';
   },
   /* quem é o 1º do ranking geral agora (consulta no máximo a cada 5 minutos) */
@@ -8175,11 +8266,40 @@ const Premios = {
         const ref = Nuvem.db.collection('campeoes').doc(mes);
         let doc = await ref.get();
         if (!doc.exists) {
-          const top = await Nuvem.db.collection('ranking').orderBy('xp', 'desc').limit(1).get(), t = top.docs[0];
-          if (t) { try { await ref.set({ uid: t.id, nome: String(t.data().nome || '').slice(0, 24), xp: t.data().xp || 0, t: Date.now() }); } catch (e) { /* outro jogador gravou antes */ } doc = await ref.get(); }
+          const top = await Nuvem.db.collection('ranking').orderBy('xp', 'desc').limit(2).get(), t = top.docs[0], t2 = top.docs[1];
+          if (t) {
+            const o = { uid: t.id, nome: String(t.data().nome || '').slice(0, 24), xp: t.data().xp || 0, t: Date.now() };
+            if (t2) Object.assign(o, { uid2: t2.id, nome2: String(t2.data().nome || '').slice(0, 24), xp2: t2.data().xp || 0 });   // v46: o 2º também ganha
+            try { await ref.set(o); } catch (e) { /* outro jogador gravou antes */ } doc = await ref.get();
+          }
         }
         this.mesVisto = mes;
-        if (doc.exists && doc.data().uid === uid && !(km in d.premios)) { d.premios[km] = 1; ganhos.push({ tipo: 'mes' }); }
+        const pos = doc.exists ? (doc.data().uid === uid ? 1 : doc.data().uid2 === uid ? 2 : 0) : 0;
+        if (pos && !(km in d.premios)) { d.premios[km] = pos; ganhos.push({ tipo: 'mes', pos }); }
+      }
+      // v46: guilda em 1º lugar na semana que acabou — cada membro ganha (o líder ganha o dobro)
+      const kg = 'g' + sem;
+      if (sem >= INICIO_GUILDA && !(kg in d.premios) && this.guildaVista !== sem) {
+        const ref = Nuvem.db.collection('campeoesGuilda').doc(sem);
+        let doc = await ref.get();
+        if (!doc.exists) {
+          const c = campoSemana(sem), top = await Nuvem.db.collection('guildas').orderBy(c, 'desc').limit(1).get(), t = top.docs[0];
+          if (t && (t.data()[c] || 0) > 0) { try { await ref.set({ gid: t.id, nome: String(t.data().nome || '').slice(0, 24), lider: t.data().lider || '', ids: (t.data().ids || []).slice(0, 30), pts: t.data()[c] || 0, t: Date.now() }); } catch (e) { /* outro jogador gravou antes */ } doc = await ref.get(); }
+        }
+        this.guildaVista = sem;
+        if (doc.exists && (doc.data().ids || []).includes(uid) && !(kg in d.premios)) { const v = doc.data().lider === uid ? 1 : 2; d.premios[kg] = v; ganhos.push({ tipo: 'guilda', pos: v, nome: doc.data().nome }); }
+      }
+      // v46: 1º do ranking online no dia que acabou ganha um baú real grátis
+      const ontem = diaAntes(diaTxt()), ko = 'o' + ontem;
+      if (ontem >= INICIO_ONLINE && !(ko in d.premios) && this.onlineVisto !== ontem) {
+        const ref = Nuvem.db.collection('campeoesOnline').doc(ontem);
+        let doc = await ref.get();
+        if (!doc.exists) {
+          const top = await Nuvem.db.collection('ranking').orderBy('pts', 'desc').limit(1).get(), t = top.docs[0];
+          if (t && t.data().pts > 0) { try { await ref.set({ uid: t.id, nome: String(t.data().nome || '').slice(0, 24), pts: t.data().pts, t: Date.now() }); } catch (e) { /* outro jogador gravou antes */ } doc = await ref.get(); }
+        }
+        this.onlineVisto = ontem;
+        if (doc.exists && doc.data().uid === uid && !(ko in d.premios)) { d.premios[ko] = 1; ganhos.push({ tipo: 'online' }); }
       }
       if (ganhos.length) {
         Livro.recalcular(); Dados.salvar(); App.atualizarTopo(true); Ranking.publicar();
@@ -8191,12 +8311,18 @@ const Premios = {
   },
   async mostrar(g) {
     for (let k = 0; k < 40 && modalAberto(); k++) await espera(500);
-    const n = v => v.toLocaleString('pt-BR'), pr = g.tipo === 'mes' ? PREMIO_MES : g.tipo === 'torneio' ? { g: 0, m: TORNEIO_PREMIOS[g.pos - 1], tr: g.pos === 1 ? 'torneio' : '' } : PREMIOS_SEMANA[g.pos - 1];
-    const tr = g.tipo !== 'mes' && pr.tr ? TROFEUS.find(t => t.id === pr.tr) : null;
+    if (g.tipo === 'online') {             // baú real grátis: mostra e já abre
+      Som.tocar('conquista'); vibrar([40, 60, 40]);
+      await modal('1º lugar no online!', `<div class="pm-pop">${svgBau('real')}<p>Você terminou o dia em <b>1º lugar no ranking online</b> e ganhou um <b>Baú real grátis</b>!</p></div>`, [{ txt: 'Abrir o baú', cls: 'pri', val: 1 }], true);
+      await Loja.abrirBau('real', 1, false, []);
+      return;
+    }
+    const n = v => v.toLocaleString('pt-BR'), pr = g.tipo === 'mes' ? PREMIOS_MES[(g.pos || 1) - 1] : g.tipo === 'guilda' ? PREMIOS_GUILDA[g.pos - 1] : g.tipo === 'torneio' ? { g: 0, m: TORNEIO_PREMIOS[g.pos - 1], tr: g.pos === 1 ? 'torneio' : '' } : premiosSemana(semanaAnterior())[g.pos - 1];
+    const tr = g.tipo !== 'mes' && g.tipo !== 'guilda' && pr.tr ? TROFEUS.find(t => t.id === pr.tr) : null;
     Som.tocar('conquista'); vibrar([40, 60, 40]);
-    await modal(g.tipo === 'mes' ? 'Campeão do mês!' : g.tipo === 'torneio' ? `${g.pos}º lugar no torneio!` : `${g.pos}º lugar na semana!`,
-      `<div class="pm-pop">${tr ? svgTrofeu(tr.id, true, 80) : `<span class="pm-medalha p${g.tipo === 'mes' ? 1 : g.pos}">${g.tipo === 'mes' ? ic('coroa', 'cor-ouro') : g.pos + 'º'}</span>`}
-        <p>${g.tipo === 'mes' ? 'Você terminou o mês em <b>1º lugar no ranking geral</b>.' : g.tipo === 'torneio' ? `Você terminou o torneio da semana passada em <b>${g.pos}º lugar</b>.` : `Você terminou a semana passada em <b>${g.pos}º lugar</b> no ranking.`}</p>
+    await modal(g.tipo === 'mes' ? (g.pos === 2 ? '2º lugar no mês!' : 'Campeão do mês!') : g.tipo === 'guilda' ? 'Guilda campeã da semana!' : g.tipo === 'torneio' ? `${g.pos}º lugar no torneio!` : `${g.pos}º lugar na semana!`,
+      `<div class="pm-pop">${tr ? svgTrofeu(tr.id, true, 80) : `<span class="pm-medalha p${g.tipo === 'mes' || g.tipo === 'guilda' ? 1 : g.pos}">${g.tipo === 'mes' && g.pos !== 2 ? ic('coroa', 'cor-ouro') : g.tipo === 'guilda' ? ic('escudo', 'cor-ouro') : (g.pos || 1) + 'º'}</span>`}
+        <p>${g.tipo === 'mes' ? `Você terminou o mês em <b>${g.pos === 2 ? '2º' : '1º'} lugar no ranking geral</b>.` : g.tipo === 'guilda' ? `Sua guilda <b>${esc(g.nome || '')}</b> terminou a semana passada em <b>1º lugar</b>${g.pos === 1 ? '. Como líder, você ganha o prêmio dobrado' : ''}.` : g.tipo === 'torneio' ? `Você terminou o torneio da semana passada em <b>${g.pos}º lugar</b>.` : `Você terminou a semana passada em <b>${g.pos}º lugar</b> no ranking.`}</p>
         <div class="pm-ganhos">${pr.g ? `<b>${GEMA} +${n(pr.g)}</b>` : ''}<b>${MOEDA} +${n(pr.m)}</b></div>
         ${tr ? `<p class="sub">E o troféu <b>“${esc(tr.nome)}”</b>!</p>` : ''}</div>`,
       [{ txt: 'Oba!', cls: 'pri', val: 1 }], true);
@@ -10319,6 +10445,7 @@ const Nuvem = {
       this.db = firebase.firestore();
     } catch (e) { this.estado = 'erro'; this.repintar(); this.liberarPrimeira(); return; }
     this.estado = 'pronta';
+    Precos.vigiar();
     this.auth.onAuthStateChanged(u => this.aoMudarUsuario(u));
     try { await this.auth.getRedirectResult(); } catch (e) { if (e && e.code) aviso(msgErro(e), 4000); }
   },
@@ -10349,11 +10476,11 @@ const Nuvem = {
       try { await this.baixar(); } finally { this.liberarPrimeira(); Entrada.fechar(); }
       if (Conquistas.marcar('conta')) { Dados.salvar(); Conquistas.verificar(); }
       Salas.verificarPendente();
-      Convites.iniciar(); Pedidos.iniciar(); Perfis.pulso(); Avisos.vigiar(); AjustesDev.vigiar(u.uid);
+      Convites.iniciar(); Pedidos.iniciar(); Perfis.pulso(); Avisos.vigiar(); AjustesDev.vigiar(u.uid); this.vigiarConta();
       setTimeout(() => { Premios.ultima = Date.now(); Premios.conferir(); }, 2500);
       setTimeout(() => { Guilda.ultCarga = Date.now(); Guilda.carregar(); }, 3500);
     } else {
-      Convites.encerrar(); Pedidos.encerrar(); Avisos.parar(); AjustesDev.encerrar(); Guilda.dados = null; Guilda.id = null; Guilda.carregou = false; Guilda.pedidos = [];
+      Convites.encerrar(); Pedidos.encerrar(); Avisos.parar(); AjustesDev.encerrar(); Guilda.pararVigia(); if (this.pararConta) { this.pararConta(); this.pararConta = null; } Guilda.dados = null; Guilda.id = null; Guilda.carregou = false; Guilda.pedidos = [];
       if (this.saindo) { /* saindo da conta: a página vai recarregar */ }
       else if (Entrada.convidadoPendente() && navigator.onLine !== false) {
         // escolheu "convidado" sem internet: agora que conectou, cria a conta de convidado (o progresso do aparelho vai junto)
@@ -10402,6 +10529,7 @@ const Nuvem = {
     const ma = a.missoes, mn = r.missoes;
     if (ma && (!mn || ma.dia > mn.dia)) r.missoes = ma;
     else if (ma && mn && ma.dia === mn.dia) {
+      if ((ma.tr || 0) > (mn.tr || 0)) { mn.lista = ma.lista; mn.tr = ma.tr; mn.usadas = ma.usadas; }   // v46: vale a lista trocada por último
       for (const k in ma.prog) mn.prog[k] = Math.max(mn.prog[k] || 0, ma.prog[k]);
       Object.assign(mn.pegas, ma.pegas); mn.bau = Math.max(mn.bau || 0, ma.bau || 0);
     }
@@ -10451,6 +10579,17 @@ const Nuvem = {
       await this.subir();
     } catch (e) { this.erroSync = true; aviso('Não consegui baixar seu progresso da nuvem: ' + msgErro(e), 4500); }
   },
+  /* v46: outro aparelho da mesma conta salvou algo: junta na hora (sem precisar fechar e abrir o jogo) */
+  vigiarConta() {
+    if (this.pararConta) this.pararConta();
+    try {
+      this.pararConta = this.ref().onSnapshot(s => {
+        if (!s.exists || this.subindo || this.saindo || (s.metadata && s.metadata.hasPendingWrites)) return;
+        // só reage a gravações de OUTRO aparelho (a nossa própria gravação volta com o mesmo carimbo; relógios diferentes não viram um laço)
+        const t = s.data().atualizadoEm || 0; if (t && t !== this.ultimoNuvem) this.subir();
+      }, () => {});
+    } catch (e) { this.pararConta = null; }
+  },
   /* envia o progresso para a nuvem (alguns segundos depois da última mudança) */
   agendar() { this.pendente = true; if (!this.usuario || this.saindo) return; clearTimeout(this.timer); this.timer = setTimeout(() => { this.timer = null; this.subir(); }, 2500); },
   /* adota o resultado da junção sem trocar os objetos que as telas abertas estão usando */
@@ -10477,6 +10616,7 @@ const Nuvem = {
         const substituir = !!final.substituir; delete final.substituir; final._substituir = substituir;
         const p = final.perfil;
         const gravar = Object.assign({}, final); delete gravar._substituir;
+        this.ultimoNuvem = final.atualizadoEm;
         t.set(ref, { json: JSON.stringify(gravar), atualizadoEm: final.atualizadoEm, nome: (p.nome || '').trim() || 'Jogador', avatar: p.avatar, moldura: p.moldura || '' });
       });
       const substituir = final._substituir; delete final._substituir;
@@ -11689,7 +11829,8 @@ const Chat = {
    ========================================================================== */
 const EMBLEMAS = ['♞', '♜', '♝', '♛', '♚', '⚔️', '🛡️', '🔥', '⚡', '🐉', '🦁', '🦅', '🐺', '🌙', '⭐', '👑'];
 const CORES_G = ['#f2b544', '#e2442f', '#9b4dff', '#2f6fe0', '#3fb27f', '#e85d9e', '#1fb5c9', '#7a8699'];
-const GUILDA_MAX = 30, GUILDA_PRECO = 300;
+const GUILDA_MAX = 30;
+let GUILDA_PRECO = 300;          // o desenvolvedor pode mudar (ver Precos)
 /* brasão da guilda: escudo com degradê na cor da guilda, aro claro e o símbolo em creme (sem contorno preto) */
 let idEm = 0;
 function htmlEmblema(g, tam = 44) {
@@ -11730,7 +11871,7 @@ const Guilda = {
   guardarLocal(g, id) {
     const d = Dados.d;
     d.guilda = g ? { id, nome: g.nome, tag: g.tag, ic: g.ic, cor: g.cor, t: Date.now() } : { id: null, t: Date.now() };
-    Dados.salvar(); Ranking.publicar();
+    Dados.salvar(); Ranking.publicar(); this.vigiar();
   },
   /* uma transação no documento da guilda: fn recebe os dados e devolve os novos (ou null para não gravar) */
   async mexer(id, fn) {
@@ -11790,6 +11931,7 @@ const Guilda = {
         if (g.lider === u) await this.lerPedidos(true);
         this.sincronizar();
       }
+      this.vigiar();
     } catch (e) { /* sem internet ou regras antigas */ }
   },
   async lerPedidos(avisar) {
@@ -11798,7 +11940,10 @@ const Guilda = {
       const s = await this.col('guildaPedidos').where('g', '==', this.id).get();
       this.pedidos = s.docs.map(x => Object.assign({ id: x.id }, x.data())).sort((a, b) => a.t - b.t);
     } catch (e) { this.pedidos = []; }
-    if (avisar) {
+    if (avisar) this.avisarPedidos();
+  },
+  avisarPedidos() {
+    {
       const novos = this.pedidos.filter(p => !this.vistosPedidos.has(p.id));
       novos.forEach(p => { this.vistosPedidos.add(p.id); Avisos.add({ id: 'g-pd-' + p.id, tipo: 'guilda', g: this.dados, avatar: p.a, moldura: p.mo, html: `<b>${esc(p.n)}</b> quer entrar na sua guilda` }); });
       if (novos.length && App.atual !== 'guilda') Avisos.faixa({ avatar: novos[0].a, moldura: novos[0].mo, html: novos.length > 1 ? `${novos.length} pedidos para entrar na guilda` : `<b>${esc(novos[0].n)}</b> quer entrar na sua guilda`, botao: 'Ver', acao: () => { this.aba = 'pedidos'; App.ir('guilda'); } });
@@ -11819,6 +11964,50 @@ const Guilda = {
       if (g) { this.dados = g; this.enviado = chave; }
     } catch (err) { /* tenta de novo depois */ }
     this.sincronizando = false;
+  },
+
+  /* ---------- v46: tudo em tempo real ----------
+     Membro: a guilda (membros, pontos, ser removido) e, para o líder, os pedidos novos.
+     Com pedido enviado: a guilda pedida — quando o líder aceita, o jogador entra na hora. */
+  vigias: [], vigiaAlvo: '',
+  pararVigia() { this.vigias.forEach(f => { try { f(); } catch (e) { /* ignora */ } }); this.vigias = []; this.vigiaAlvo = ''; },
+  vigiar() {
+    const u = this.uid(); if (!u || !Nuvem.db) { this.pararVigia(); return; }
+    const d = Dados.d, id = this.meuId(), ped = d.guildaPedido, alvo = id ? 'g:' + id : ped && ped.g ? 'p:' + ped.g : '';
+    if (alvo === this.vigiaAlvo) return;
+    this.pararVigia(); this.vigiaAlvo = alvo; if (!alvo) return;
+    const recarregar = forte => { clearTimeout(this.tRecarga); this.tRecarga = setTimeout(() => this.carregar().then(() => this.repintar(forte)), 300); };
+    try {
+      if (id) {
+        this.vigias.push(this.col().doc(id).onSnapshot(s => {
+          const g = s.exists ? s.data() : null;
+          if (!g || !(g.ids || []).includes(u)) { recarregar(true); return; }          // removido ou guilda desfeita
+          this.dados = g; this.id = id;
+          const loc = d.guilda || {};
+          if (loc.nome !== g.nome || loc.tag !== g.tag || loc.ic !== g.ic || loc.cor !== g.cor) this.guardarLocal(g, id);
+          this.repintar(false);
+        }, () => {}));
+        this.vigias.push(this.col('guildaPedidos').where('g', '==', id).onSnapshot(s => {
+          if (!this.dados || this.dados.lider !== u) return;
+          this.pedidos = s.docs.map(x => Object.assign({ id: x.id }, x.data())).sort((a, b) => a.t - b.t);
+          this.avisarPedidos(); this.repintar(false);
+        }, () => {}));
+      } else {
+        this.vigias.push(this.col().doc(ped.g).onSnapshot(s => { const g = s.exists ? s.data() : null; if (g && (g.ids || []).includes(u)) recarregar(true); }, () => {}));
+        this.vigias.push(this.col('guildaPedidos').doc(ped.g + '_' + u).onSnapshot(s => { if (!s.exists) recarregar(true); }, () => {}));
+      }
+    } catch (e) { /* sem internet */ }
+  },
+  /* redesenha o que estiver na tela (sem atrapalhar quem está escrevendo no mural) */
+  repintar(forte) {
+    if (modalAberto() || Folha.aberta()) return;
+    const t = App.atual;
+    if (t === 'guilda') {
+      if (forte || (this.id && this.dados && !$('#gd-corpo'))) { this.carregou = true; if (this.id && this.dados) this.telaMinha(); else this.telaSem(); return; }
+      const bp = $('[data-aba=pedidos]'); if (bp) bp.innerHTML = 'Pedidos' + (this.pedidos.length ? ` <i class="selo-n">${this.pedidos.length}</i>` : '');
+      if (this.aba !== 'mural') this.pintarCorpo();
+    } else if (forte && ['menu', 'perfil'].includes(t)) App.ir(t);
+    else if (t === 'menu') { const b = $('.home [data-ir="guilda"] .bolinha'); if (!b && this.pedidos.length) App.ir('menu'); }
   },
 
   /* ---------- ações ---------- */
@@ -11848,7 +12037,7 @@ const Guilda = {
     if (!info.aberta) {
       const e = this.minhaEntrada();
       await this.col('guildaPedidos').doc(id + '_' + u).set({ g: id, uid: u, n: e.n, a: e.a, mo: e.mo, nv: e.nv, xp: e.xp, sl: e.sl, t: Date.now() });
-      d.guildaPedido = { g: id, nome: info.nome, t: Date.now() }; Dados.salvar();
+      d.guildaPedido = { g: id, nome: info.nome, t: Date.now() }; Dados.salvar(); this.vigiar();
       return 'pedido';
     }
     const g = await this.mexer(id, g => {
@@ -11866,7 +12055,7 @@ const Guilda = {
   async cancelarPedido() {
     const d = Dados.d, p = d.guildaPedido; if (!p) return;
     await this.col('guildaPedidos').doc(p.g + '_' + this.uid()).delete().catch(() => {});
-    d.guildaPedido = null; Dados.salvar();
+    d.guildaPedido = null; Dados.salvar(); this.vigiar();
   },
   async responderPedido(p, sim) {
     if (sim) {
@@ -12474,6 +12663,7 @@ const Dev = {
         <p class="sub" style="margin-top:-6px">Procure um jogador para dar ou tirar moedas, diamantes, XP e itens. Também dá para abrir pelo perfil dele.</p>
         <div class="dev-def"><input class="campo" id="dev-busca" type="search" placeholder="Nome do jogador" autocomplete="off" enterkeyhint="search" aria-label="Nome do jogador"><button class="bt pri" data-acao="buscar">Procurar</button></div>
         <div id="dev-achados" class="pilha" style="gap:6px"></div></div>
+      <button class="linha-menu cor-neutra cartao" data-ir-precos="1"><span class="tx"><b>Preços do jogo</b><small>Baús, itens, especiais, trocas e guilda</small></span>${SETA}</button>
       ${bloco('moedas', 'Moedas', MOEDA, d.moedas)}
       ${bloco('gemas', 'Gemas', '<svg class="gema" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M12 21L8 9l4-6 4 6z"/></svg>', d.gemas || 0, 'As gemas ainda não aparecem no jogo. Quando essa função existir, o saldo definido aqui já vale.')}
       ${bloco('xp', 'XP', XP.selo(XP.nivel(XP.total()).n, 30), XP.total(), 'Nível ' + XP.nivel(XP.total()).n + '. O XP só aumenta.')}
@@ -12492,6 +12682,7 @@ const Dev = {
     $('#dev-busca').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); DevAdm.buscar(e.target.value); } });
     $('#tela').onclick = async e => {
       if (e.target.closest('[data-acao="buscar"]')) { DevAdm.buscar($('#dev-busca').value); return; }
+      if (e.target.closest('[data-ir-precos]')) { App.ir('devPrecos'); return; }
       const ach = e.target.closest('[data-adm-i]'); if (ach) { DevAdm.abrir(DevAdm.achados[+ach.dataset.admI]); return; }
       const cx = e.target.closest('.dev-saldo'), tipo = cx && cx.dataset.tipo, atual = tipo === 'gemas' ? Dados.d.gemas || 0 : tipo === 'xp' ? XP.total() : Dados.d.moedas;
       if (e.target.closest('[data-acao="definir"]')) {
@@ -12654,6 +12845,109 @@ const DevAdm = {
       this.achados = l;
       el.innerHTML = l.length ? l.map((x, i) => `<button class="linha-menu cor-neutra" data-adm-i="${i}">${htmlAvatar(x.avatar || 'wn', '', 34)}<span class="tx"><b>${esc(x.nome || 'Jogador')}</b><small>Nível ${x.nivel || 1} · ${fmtN(x.xp || 0)} XP</small></span>${SETA}</button>`).join('') : '<p class="sub">Ninguém com esse nome no ranking.</p>';
     } catch (e) { el.innerHTML = '<p class="sub">Não consegui procurar: ' + esc(msgErro(e)) + '</p>'; }
+  }
+};
+
+/* =====================================================================
+   v46: PREÇOS DO JOGO DEFINIDOS PELO DESENVOLVEDOR
+   O desenvolvedor grava "config/precos" (só a conta dele pode gravar — regra do
+   Firestore). Todos os jogos leem esse documento (e guardam uma cópia no aparelho
+   para funcionar sem internet). Só os preços que o dev mudou ficam no documento;
+   o resto continua com o preço original do jogo.
+   ===================================================================== */
+const Precos = {
+  CHAVE: 'trainer-xadrez-precos', base: null, doc: null, parar: null,
+  /* itens que podem ter o preço mudado (os grátis e os que só saem em baús ficam de fora) */
+  fontes() {
+    return [].concat(AVATARES.filter(a => !a.trofeu).map(a => ['av-' + a.id, a]), TABULEIROS.map(t => ['tab-' + t.id, t]), MOLDURAS.filter(m => m.loja).map(m => ['mold-' + m.id, m]));
+  },
+  /* preços originais (antes de qualquer mudança). A raridade fica presa à do preço original. */
+  guardarBase() {
+    if (this.base) return;
+    const b = { it: {}, bau: {}, troca: TROCAS.map(t => t.g), nome: Nome.PRECO, missoes: TROCA_MS.PRECO, guilda: GUILDA_PRECO, boas: BOAS_VINDAS.preco };
+    this.fontes().forEach(([k, o]) => { if (!o.rar) o.rar = rarPorPreco(o.preco || 0); b.it[k] = o.preco || 0; });
+    BAUS.forEach(x => { b.bau[x.id] = { p: x.preco, x10: x.x10 }; });
+    this.base = b;
+  },
+  aplicar(doc) {
+    this.guardarBase();
+    const b = this.base, x = doc || {}, num = v => (typeof v === 'number' && v > 0 ? Math.round(v) : 0);
+    this.fontes().forEach(([k, o]) => { const v = num((x.it || {})[k]); o.preco = b.it[k] > 0 && v ? v : b.it[k]; });
+    BAUS.forEach(bb => { const v = (x.bau || {})[bb.id] || {}; bb.preco = num(v.p) || b.bau[bb.id].p; bb.x10 = num(v.x10) || b.bau[bb.id].x10; });
+    TROCAS.forEach((t, i) => { t.g = num((x.troca || [])[i]) || b.troca[i]; });
+    Nome.PRECO = num(x.nome) || b.nome; TROCA_MS.PRECO = num(x.missoes) || b.missoes;
+    GUILDA_PRECO = num(x.guilda) || b.guilda; BOAS_VINDAS.preco = num(x.boas) || b.boas;
+    this.doc = x;
+  },
+  /* começo do app: usa a cópia guardada neste aparelho */
+  iniciar() { let x = null; try { x = JSON.parse(localStorage.getItem(this.CHAVE) || 'null'); } catch (e) { x = null; } this.aplicar(x); },
+  /* com a nuvem pronta: fica de olho nos preços (mudou, a loja já mostra o preço novo) */
+  vigiar() {
+    if (this.parar || !Nuvem.db) return;
+    try {
+      this.parar = Nuvem.db.collection('config').doc('precos').onSnapshot(s => {
+        const x = s.exists ? s.data() : null;
+        this.aplicar(x);
+        try { if (x) localStorage.setItem(this.CHAVE, JSON.stringify(x)); else localStorage.removeItem(this.CHAVE); } catch (e) { /* ignora */ }
+        if (App.atual === 'loja' && !modalAberto() && !$('#bau-cena')) Loja.redesenhar();
+      }, () => { this.parar = null; });
+    } catch (e) { /* ignora */ }
+  }
+};
+
+/* tela do desenvolvedor: muda os preços */
+const DevPrecos = {
+  tela() {
+    if (!Dev.ativo) { App.ir('menu'); return; }
+    App.cabecalho('Preços do jogo', 'dev');
+    Precos.guardarBase();
+    const b = Precos.base, M = ic('moeda', 'cor-moeda'), G = ic('gema', 'cor-gema');
+    const campo = (chave, nome, atual, base, gemas) => `<label class="pc-l${atual !== base ? ' mudou' : ''}"><span>${esc(nome)}${atual !== base ? `<small>original: ${fmtN(base)}</small>` : ''}</span>
+      <input class="campo" type="number" inputmode="numeric" min="1" step="1" data-pc="${chave}" value="${atual}" data-base="${base}" aria-label="Preço de ${esc(nome)}">${gemas ? G : M}</label>`;
+    const sec = (tit, html) => `<div class="cartao pilha pc-sec"><h3>${tit}</h3>${html}</div>`;
+    const cat = catalogo().filter(x => !x.gratis && !x.bau);
+    const grupo = tipo => cat.filter(x => x.tipo === tipo).sort((x, y) => x.nome.localeCompare(y.nome)).map(x => campo('it:' + x.chave, x.nome, x.preco, b.it[x.chave], x.gemas)).join('');
+    $('#tela').innerHTML = `<div class="pilha estreito pc-tela">
+      <div class="cartao dev-cab"><span class="selo-dev">DEV</span><div><b>Preços do jogo</b><div class="sub">Mude o número e toque em Salvar. Vale na hora para todos os jogadores.</div></div></div>
+      ${sec('Baús', BAUS.map(x => campo(`bau:${x.id}:p`, x.nome + ' (1)', x.preco, b.bau[x.id].p, x.gemas) + campo(`bau:${x.id}:x10`, x.nome + ' (10)', x.x10, b.bau[x.id].x10, x.gemas)).join(''))}
+      ${sec('Especiais', campo('nome', 'Mudar nome', Nome.PRECO, b.nome, true) + campo('missoes', 'Trocar missões', TROCA_MS.PRECO, b.missoes, true) + campo('boas', 'Pacote de boas-vindas', BOAS_VINDAS.preco, b.boas, true) + campo('guilda', 'Criar guilda', GUILDA_PRECO, b.guilda, false))}
+      ${sec('Diamantes por moedas', TROCAS.map((t, i) => campo('troca:' + i, fmtN(t.m) + ' moedas', t.g, b.troca[i], true)).join(''))}
+      ${sec('Molduras', grupo('mold'))}${sec('Ícones', grupo('av'))}${sec('Tabuleiros', grupo('tab'))}
+      <div class="pc-bts"><button class="bt perigo" data-pc-volta="1">Voltar tudo ao original</button><button class="bt pri" data-pc-salvar="1">Salvar preços</button></div></div>`;
+    $('#tela').onclick = async e => {
+      if (e.target.closest('[data-pc-salvar]')) return this.salvar(false);
+      if (e.target.closest('[data-pc-volta]')) return this.salvar(true);
+    };
+    $('#tela').oninput = e => { const i = e.target.closest('[data-pc]'); if (i) i.closest('.pc-l').classList.toggle('mudou', +i.value !== +i.dataset.base); };
+    App.aoSair = () => { $('#tela').onclick = null; $('#tela').oninput = null; };
+  },
+  /* junta o que está nos campos num documento (só o que é diferente do original) */
+  montar() {
+    const doc = { it: {}, bau: {}, troca: [] };
+    let erro = null;
+    $$('[data-pc]').forEach(i => {
+      const v = Math.round(+i.value), base = +i.dataset.base, k = i.dataset.pc;
+      if (!(v > 0)) { erro = 'Todos os preços precisam ser 1 ou mais.'; return; }
+      if (v === base) return;
+      const [a, b, c] = k.split(':');
+      if (a === 'it') doc.it[k.slice(3)] = v;
+      else if (a === 'bau') { doc.bau[b] = doc.bau[b] || {}; doc.bau[b][c] = v; }
+      else if (a === 'troca') doc.troca[+b] = v;
+      else doc[a] = v;
+    });
+    doc.troca = Array.from({ length: TROCAS.length }, (_, i) => doc.troca[i] || 0);
+    return erro ? { erro } : { doc };
+  },
+  async salvar(original) {
+    const r = original ? { doc: { it: {}, bau: {}, troca: [] } } : this.montar();
+    if (r.erro) { aviso(r.erro); return; }
+    const ok = await modal(original ? 'Voltar aos preços originais?' : 'Salvar os preços?', original ? 'Todos os preços voltam a ser os originais do jogo, para todos os jogadores.' : 'Os preços novos valem na hora para todos os jogadores.', [{ txt: 'Cancelar', val: false }, { txt: original ? 'Voltar' : 'Salvar', cls: 'pri', val: true }]);
+    if (!ok) return;
+    try {
+      await Nuvem.db.collection('config').doc('precos').set(Object.assign(r.doc, { t: Date.now() }));
+      Precos.aplicar(r.doc); try { localStorage.setItem(Precos.CHAVE, JSON.stringify(r.doc)); } catch (e) { /* ignora */ }
+      Som.tocar('acerto'); aviso(original ? 'Preços originais de volta' : 'Preços salvos!'); this.tela();
+    } catch (e) { aviso('Não consegui salvar: ' + msgErro(e), 4500); }
   }
 };
 
@@ -12841,7 +13135,7 @@ const PREMIOS_DIA = [
   { item: 'epico', gemas: 30 }                 // o melhor: item épico garantido (nunca lendário)
 ];
 /* diamantes fora do ranking (todos pequenos de propósito) */
-const GEMAS_DIARIO = 5, GEMAS_BAU_DIA = 10, GEMAS_TORNEIO = 20, GEMAS_NIVEL = 10, GEMAS_MARCO = 15;
+const GEMAS_DIARIO = 5, GEMAS_BAU_DIA = 50, GEMAS_TORNEIO = 20, GEMAS_NIVEL = 10, GEMAS_MARCO = 15;
 
 const PremioDiario = {
   el: null,
@@ -12993,14 +13287,17 @@ const Denuncia = {
    APP — navegação entre telas, Início, Jogar, estatísticas e inicialização
    ========================================================================== */
 /* telas sem moedas no topo (o jogador está concentrado) */
-const TELAS_FOCO = ['jogo', 'fase', 'abertura', 'replay', 'desafio', 'resumo', 'diarioJogar', 'torneioJogar', 'ajustes', 'conta', 'dev', 'sala'];
+const TELAS_FOCO = ['jogo', 'fase', 'abertura', 'replay', 'desafio', 'resumo', 'diarioJogar', 'torneioJogar', 'ajustes', 'conta', 'dev', 'devPrecos', 'sala'];
 const App = {
-  atual: null, aoSair: null, voltarPara: null, empilhado: false, ignorarPop: false, ultima: null, paramAtual: undefined,
+  atual: null, aoSair: null, voltarPara: null, origem: {}, voltando: false, empilhado: false, ignorarPop: false, ultima: null, paramAtual: undefined,
   /* telas que podem ser reabertas pelo gesto de "avançar" sem perder nada */
   TELA_SEGURA: ['jogar', 'aprender', 'desafios', 'conquistas', 'loja', 'perfil', 'visual', 'conta', 'guilda', 'diario', 'torneio', 'stats', 'historico', 'ajustes', 'missoes', 'ranking', 'social', 'amigos', 'avisos', 'config', 'abertura', 'fase'],
 
   cabecalho(titulo, voltar, lado) {
     $('#titulo').textContent = titulo;
+    // v46: a seta de voltar leva para a tela de onde o jogador veio (ex.: Início > Desafio do dia > voltar = Início)
+    const o = this.origem[this.atual];
+    if (typeof voltar === 'string' && o && o.tela !== this.atual) voltar = () => this.ir(o.tela, o.param);
     this.voltarPara = voltar || null;
     $('#voltar').classList.toggle('oculto', !voltar);
     $('#topo-lado').textContent = lado || '';
@@ -13021,7 +13318,8 @@ const App = {
     if (modalAberto()) return;
     if (Folha.aberta()) { Folha.fechar(); return; }
     const v = this.voltarPara;
-    if (typeof v === 'function') v(); else if (v) this.ir(v);
+    this.voltando = true;
+    try { if (typeof v === 'function') v(); else if (v) this.ir(v); } finally { this.voltando = false; }
   },
   /* troca de tela */
   ir(tela, param) {
@@ -13029,7 +13327,10 @@ const App = {
     if (this.aoSair) { const f = this.aoSair; this.aoSair = null; try { f(); } catch (e) { /* ignora */ } }
     Motor.aoMudar = null;
     $('#tela').onclick = null;
-    const antes = this.atual;
+    const antes = this.atual, pAntes = this.paramAtual;
+    // guarda de onde veio (só quando avança a partir de uma tela "de lista"; voltar ou sair de uma partida não conta)
+    if (!this.voltando && antes && antes !== tela && (this.TELA_SEGURA.includes(antes) || ['menu', 'jogador', 'guildaVer'].includes(antes))
+      && !(this.origem[antes] && this.origem[antes].tela === tela)) this.origem[tela] = { tela: antes, param: pAntes };
     if (tela === 'menu' && antes && antes !== 'menu') this.ultima = this.TELA_SEGURA.includes(antes) ? { tela: antes, param: this.paramAtual } : { tela: this.ABAS[antes] && this.ABAS[antes] !== 'menu' ? this.ABAS[antes] : null };
     this.atual = tela; this.paramAtual = typeof param === 'object' ? undefined : param;
     window.scrollTo(0, 0);
@@ -13063,6 +13364,7 @@ const App = {
       case 'loja': Loja.tela(); break;
       case 'ajustes': Ajustes.tela(); break;
       case 'dev': Dev.tela(); break;
+      case 'devPrecos': DevPrecos.tela(); break;
       case 'missoes': Missoes.tela(); break;
       case 'ranking': if (['perfil', 'conquistas', 'jogar', 'menu'].includes(antes)) Ranking.volta = antes; Ranking.tela(); break;
       case 'social': Social.tela(param); break;
@@ -13073,7 +13375,7 @@ const App = {
   },
   /* barra de navegação inferior e animação de entrada da tela */
   ABAS: { menu: 'menu', aprender: 'aprender', desafios: 'aprender', jogar: 'jogar', config: 'jogar', amigos: 'jogar', ranking: 'jogar', conquistas: 'conquistas', loja: 'loja',
-    diario: 'jogar', torneio: 'jogar', perfil: 'perfil', visual: 'perfil', conta: 'perfil', guilda: 'perfil', guildaVer: 'perfil', guildaCriar: 'perfil', stats: 'perfil', historico: 'perfil', dev: 'perfil', social: 'perfil', jogador: 'perfil', ajustes: 'ajustes', missoes: 'menu', avisos: 'menu' },
+    diario: 'jogar', torneio: 'jogar', perfil: 'perfil', visual: 'perfil', conta: 'perfil', guilda: 'perfil', guildaVer: 'perfil', guildaCriar: 'perfil', stats: 'perfil', historico: 'perfil', dev: 'perfil', devPrecos: 'perfil', social: 'perfil', jogador: 'perfil', ajustes: 'ajustes', missoes: 'menu', avisos: 'menu' },
   montarNav() {
     const b = (id, nome, i) => `<button data-ir="${id}">${ic(i)}${nome}</button>`;
     $('#nav-inf').innerHTML = b('menu', 'Início', 'inicio') + b('aprender', 'Aprender', 'aprender') +
@@ -13228,7 +13530,7 @@ function telaMenu() {
       </div>
       <div class="lado-at dir">
         ${guilda}
-        ${atalho('data-ir="missoes"', ic('alvo', 'cor-verde'), 'Missões', prontas || podeBau ? `<span class="bolinha">${prontas || 1}</span>` : '')}
+        ${atalho('data-ir="missoes"', ic('alvo', 'cor-verde'), 'Missões', prontas || podeBau ? `<span class="bolinha">${prontas || 1}</span>` : its.length && pegas === its.length ? '<span class="bolinha certo" aria-label="Missões concluídas"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>' : '')}
         ${atalho('data-ir="avisos"', ic('sino', 'cor-branco'), 'Avisos', '<span class="bolinha oculto" data-avisos-n>0</span>', 'sino')}
       </div>
     </div>
@@ -13381,6 +13683,7 @@ const Estatisticas = {
 /* ---------- inicialização ---------- */
 (function iniciarApp() {
   Dados.carregar();
+  Precos.iniciar();         // preços definidos pelo desenvolvedor (cópia guardada no aparelho)
   Dev.lembrar();            // conta de desenvolvedor já reconhecida neste aparelho
   aplicarVisual();
   if (typeof Chess !== 'function') {

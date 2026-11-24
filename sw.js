@@ -1,7 +1,7 @@
 /* Service worker do Trainer de Xadrez: guarda o app no aparelho para funcionar sem internet.
    Estratégia: tenta a internet primeiro (para pegar atualizações) e, se não houver conexão,
    usa a cópia guardada. Também mostra as notificações e o lembrete diário (sem servidor). */
-const CACHE = 'trainer-xadrez-v45';
+const CACHE = 'trainer-xadrez-v46';
 const ESTADO = 'trainer-xadrez-estado';          // o que o app deixa para o lembrete (não é apagado nas atualizações)
 const ARQUIVOS = ['./', './index.html', './manifest.json', './icone-192.png', './icone-512.png', './icone-maskable-512.png', './apple-touch-icon.png', './privacidade.html', './config.js'];
 
