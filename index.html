@@ -13490,6 +13490,7 @@ const LICENCAS = { 'CC BY 3.0': 'https://creativecommons.org/licenses/by/3.0/', 
 const Radio = {
   CHAVE: 'trainer-xadrez-radio',
   audio: null, el: null, empilhou: false,
+  PASTAS: ['musicas/', ''], tentativa: 0,     // onde procurar os arquivos (na ordem)
   st: { faixa: 0, vol: 6, ligada: false },          // vol de 0 a 10
   tocando: false, carregando: false, erro: '',
   init() {
@@ -13517,12 +13518,22 @@ const Radio = {
   criarAudio() {
     if (this.audio) return this.audio;
     const a = this.audio = new Audio(); a.preload = 'none';
-    a.addEventListener('playing', () => { this.tocando = true; this.carregando = false; this.erro = ''; this.falhas = 0; this.atualizar(); });
+    a.addEventListener('playing', () => {
+      // lembra em que pasta as músicas estão (as próximas já vão direto para lá)
+      if (this.tentativa) { this.PASTAS.unshift(this.PASTAS.splice(this.tentativa, 1)[0]); this.tentativa = 0; }
+      this.tocando = true; this.carregando = false; this.erro = ''; this.falhas = 0; this.atualizar(); });
     a.addEventListener('pause', () => { this.tocando = false; this.atualizar(); });
     a.addEventListener('waiting', () => { this.carregando = true; this.atualizar(); });
     a.addEventListener('ended', () => this.pular(1));
     a.addEventListener('error', () => {
       if (!a.getAttribute('src')) return;
+      // v49.1: o arquivo pode estar na pasta musicas/ ou solto na pasta principal do site
+      // (o envio pelo navegador do GitHub às vezes "achata" as pastas): tenta o outro lugar antes de desistir
+      if (this.tentativa < this.PASTAS.length - 1) {
+        this.tentativa++; a.src = this.PASTAS[this.tentativa] + MUSICAS[this.st.faixa].arq; a.volume = this.vol();
+        if (this.st.ligada) { const p = a.play(); if (p && p.catch) p.catch(() => {}); }
+        return;
+      }
       this.tocando = false; this.carregando = false; this.falhas = (this.falhas || 0) + 1;
       if (this.falhas < MUSICAS.length && this.st.ligada) this.pular(1);        // arquivo com problema: tenta a próxima
       else { this.erro = 'Não deu para tocar agora. Confira a internet e tente de novo.'; this.st.ligada = false; this.salvar(); this.atualizar(); }
@@ -13540,7 +13551,7 @@ const Radio = {
   vol() { return Math.pow(this.st.vol / 10, 2); },   // o ouvido percebe melhor assim (curva suave)
   carregar(i) {
     const a = this.criarAudio(); this.st.faixa = i; this.salvar();
-    a.src = 'musicas/' + MUSICAS[i].arq; a.volume = this.vol();
+    this.tentativa = 0; a.src = this.PASTAS[0] + MUSICAS[i].arq; a.volume = this.vol();
     if ('mediaSession' in navigator && window.MediaMetadata) {
       try { navigator.mediaSession.metadata = new MediaMetadata({ title: MUSICAS[i].nome, artist: MUSICAS[i].autor, album: 'Rádio · Trainer de Xadrez' }); } catch (e) { /* ignora */ }
     }
