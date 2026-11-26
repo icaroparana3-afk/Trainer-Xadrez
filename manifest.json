@@ -18,11 +18,11 @@
     { "src": "icone-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "screenshots": [
-    { "src": "telas/tela-1.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Tela inicial" },
-    { "src": "telas/tela-2.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Partida contra o computador" },
-    { "src": "telas/tela-3.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Aprender por fases" },
-    { "src": "telas/tela-4.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Replay animado das partidas" },
-    { "src": "telas/tela-larga.png", "sizes": "1280x800", "type": "image/png", "form_factor": "wide", "label": "Trainer de Xadrez no computador" }
+    { "src": "tela-1.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Tela inicial" },
+    { "src": "tela-2.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Partida contra o computador" },
+    { "src": "tela-3.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Aprender por fases" },
+    { "src": "tela-4.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Replay animado das partidas" },
+    { "src": "tela-larga.png", "sizes": "1280x800", "type": "image/png", "form_factor": "wide", "label": "Trainer de Xadrez no computador" }
   ],
   "shortcuts": [
     { "name": "Jogar", "short_name": "Jogar", "url": "./#ir=jogar", "icons": [{ "src": "icone-192.png", "sizes": "192x192" }] },

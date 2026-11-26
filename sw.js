@@ -1,9 +1,12 @@
 /* Service worker do Trainer de Xadrez: guarda o app no aparelho para funcionar sem internet.
    Estratégia: tenta a internet primeiro (para pegar atualizações) e, se não houver conexão,
    usa a cópia guardada. Também mostra as notificações e o lembrete diário (sem servidor). */
-const CACHE = 'trainer-xadrez-v50-1';
+const CACHE = 'trainer-xadrez-v52';
 const ESTADO = 'trainer-xadrez-estado';          // o que o app deixa para o lembrete (não é apagado nas atualizações)
-const ARQUIVOS = ['./', './index.html', './manifest.json', './icone-192.png', './icone-512.png', './icone-maskable-512.png', './apple-touch-icon.png', './privacidade.html', './config.js'];
+const ARQUIVOS = ['./', './index.html', './manifest.json', './icone-192.png', './icone-512.png', './icone-maskable-512.png', './apple-touch-icon.png', './privacidade.html', './config.js',
+  // v51: motor e baús saíram do index.html; são guardados aqui para o jogo continuar funcionando sem internet
+  './motor.js', './stockfish.js', './stockfish.wasm',
+  ...['madeira', 'prata', 'real'].flatMap(b => [`./bau-${b}-fechado.webp`, `./bau-${b}-aberto.webp`])];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => Promise.all(ARQUIVOS.map(a => c.add(a).catch(() => null)))).then(() => self.skipWaiting()));
