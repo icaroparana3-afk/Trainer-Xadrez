@@ -8,21 +8,21 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Xadrez">
+<meta name="apple-mobile-web-app-title" content="TrainerX">
 <meta name="format-detection" content="telephone=no">
-<title>Trainer de Xadrez</title>
+<title>TrainerX</title>
 <meta name="description" content="Trainer de xadrez gratuito: jogue contra o computador ou com amigos, aprenda por fases, resolva desafios táticos e veja a análise dos seus erros. Funciona sem internet.">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Trainer de Xadrez">
-<meta property="og:title" content="Trainer de Xadrez">
+<meta property="og:site_name" content="TrainerX">
+<meta property="og:title" content="TrainerX">
 <meta property="og:description" content="Jogue, aprenda e descubra onde você erra. Grátis, sem anúncios e funciona sem internet.">
 <meta property="og:url" content="https://icaroparana3-afk.github.io/Trainer-Xadrez/">
 <meta property="og:image" content="https://icaroparana3-afk.github.io/Trainer-Xadrez/icone-512.png">
 <meta property="og:image:width" content="512">
 <meta property="og:image:height" content="512">
-<meta property="og:image:alt" content="Cavalo dourado do Trainer de Xadrez">
+<meta property="og:image:alt" content="Cavalo dourado do TrainerX">
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2311141a'/%3E%3Cpath d='M34 80c0-14 12-20 10-32-4 4-10 10-16 10-4 2-9-1-10-6-1-4 2-7 4-10l12-16c1-4 1-8 2-12l8 6c16-2 34 12 34 38v22z' fill='%23f0b441'/%3E%3C/svg%3E">
@@ -2823,7 +2823,7 @@ html:has(#radio-flut){overflow:hidden}
 <div id="app">
   <header id="topo">
     <button id="voltar" aria-label="Voltar" class="oculto"></button>
-    <h1 id="titulo">Trainer de Xadrez</h1>
+    <h1 id="titulo">TrainerX</h1>
     <span class="lado" id="topo-lado"></span>
     <div class="moedas" id="topo-chips"><button id="topo-moedas" class="moedas-topo" aria-label="Moedas — abrir loja"></button><button id="topo-gemas" class="moedas-topo gemas-topo" aria-label="Diamantes — abrir loja"></button></div>
     <button id="topo-radio" class="oculto" aria-label="Rádio"></button>
@@ -8968,7 +8968,7 @@ const Analise = {
     const g = new Chess();
     const dt = new Date(), dd = `${dt.getFullYear()}.${String(dt.getMonth() + 1).padStart(2, '0')}.${String(dt.getDate()).padStart(2, '0')}`;
     const nomeEu = nomeJogador(), nomeAdv = p.modo === 'pc' ? 'Computador (' + NIVEIS[p.nivel].nome + ')' : p.modo === 'online' ? (p.nomeAdv || 'Amigo') : null;
-    g.header('Event', p.modo === 'pc' ? 'Partida contra o computador' : p.modo === 'online' ? 'Partida online' : 'Partida entre amigos', 'Site', 'Trainer de Xadrez', 'Date', dd,
+    g.header('Event', p.modo === 'pc' ? 'Partida contra o computador' : p.modo === 'online' ? 'Partida online' : 'Partida entre amigos', 'Site', 'TrainerX', 'Date', dd,
       'White', p.cor === 'ambos' ? 'Brancas' : p.cor === 'w' ? nomeEu : nomeAdv, 'Black', p.cor === 'ambos' ? 'Pretas' : p.cor === 'b' ? nomeEu : nomeAdv,
       'Result', p.vencedor == null ? '1/2-1/2' : p.vencedor === 'w' ? '1-0' : '0-1');
     p.lances.forEach(m => g.move(m.san));
@@ -11226,7 +11226,7 @@ const Avisos = {
   },
   /* aviso que desce no alto da tela e some sozinho */
   faixa(o) {
-    Notif.mandar('Trainer de Xadrez', Notif.texto(o.html), { tag: o.tag || 'aviso', ir: o.ir || 'avisos' });
+    Notif.mandar('TrainerX', Notif.texto(o.html), { tag: o.tag || 'aviso', ir: o.ir || 'avisos' });
     let f = $('#faixa-conv'); if (!f) { f = document.createElement('div'); f.id = 'faixa-conv'; document.body.appendChild(f); }
     f.innerHTML = `${htmlAvatar(o.avatar || 'wn', o.moldura || '', 34)}<span>${o.html}</span>${o.botao ? `<button class="bt peq pri" data-ver>${esc(o.botao)}</button>` : ''}<button class="bt-x" data-fechar aria-label="Fechar">×</button>`;
     f.className = 'entra';
@@ -13103,7 +13103,7 @@ const Radio = {
     const a = this.criarAudio(); this.st.faixa = i; this.salvar();
     this.tentativa = 0; a.src = this.PASTAS[0] + MUSICAS[i].arq; this.aplicarVol();
     if ('mediaSession' in navigator && window.MediaMetadata) {
-      try { navigator.mediaSession.metadata = new MediaMetadata({ title: MUSICAS[i].nome, artist: MUSICAS[i].autor, album: 'Rádio · Trainer de Xadrez' }); } catch (e) { /* ignora */ }
+      try { navigator.mediaSession.metadata = new MediaMetadata({ title: MUSICAS[i].nome, artist: MUSICAS[i].autor, album: 'Rádio · TrainerX' }); } catch (e) { /* ignora */ }
     }
   },
   tocar(i) {
@@ -13484,7 +13484,7 @@ function proximaFase() {
 const jogoSalvoTxt = s => `${s.treino ? 'Treino' : 'Partida'} · ${NIVEIS[s.nivel].nome} · lance ${Math.floor(s.lances.length / 2) + 1}`;
 const fimDoDia = () => { const a = new Date(); a.setHours(24, 0, 0, 0); return a - Date.now(); };
 function telaMenu() {
-  App.cabecalho('Trainer de Xadrez', null);
+  App.cabecalho('TrainerX', null);
   const d = Dados.d, salva = Dados.lerPartida(), c = d.cfg;
   const xp = XP.total(), nv = XP.nivel(xp), tit = XP.titulo(nv.n), seq = Sequencia.viva(), its = Missoes.itens(), m = Missoes.hoje();
   const prontas = its.filter(x => x.feita && !x.pega).length, pegas = its.filter(x => x.pega).length, podeBau = Missoes.podeBau();

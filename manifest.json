@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Trainer de Xadrez",
-  "short_name": "Xadrez",
+  "name": "TrainerX",
+  "short_name": "TrainerX",
   "description": "Jogue xadrez contra o computador ou com amigos, aprenda por fases, treine aberturas e desafios táticos e veja onde você erra. Grátis, sem anúncios e funciona sem internet.",
   "lang": "pt-BR",
   "dir": "ltr",
@@ -22,7 +22,7 @@
     { "src": "tela-2.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Partida contra o computador" },
     { "src": "tela-3.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Aprender por fases" },
     { "src": "tela-4.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Replay animado das partidas" },
-    { "src": "tela-larga.png", "sizes": "1280x800", "type": "image/png", "form_factor": "wide", "label": "Trainer de Xadrez no computador" }
+    { "src": "tela-larga.png", "sizes": "1280x800", "type": "image/png", "form_factor": "wide", "label": "TrainerX no computador" }
   ],
   "shortcuts": [
     { "name": "Jogar", "short_name": "Jogar", "url": "./#ir=jogar", "icons": [{ "src": "icone-192.png", "sizes": "192x192" }] },

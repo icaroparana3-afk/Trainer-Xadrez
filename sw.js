@@ -1,7 +1,7 @@
-/* Service worker do Trainer de Xadrez: guarda o app no aparelho para funcionar sem internet.
+/* Service worker do TrainerX: guarda o app no aparelho para funcionar sem internet.
    Estratégia: tenta a internet primeiro (para pegar atualizações) e, se não houver conexão,
    usa a cópia guardada. Também mostra as notificações e o lembrete diário (sem servidor). */
-const CACHE = 'trainer-xadrez-v52';
+const CACHE = 'trainer-xadrez-v54';
 const ESTADO = 'trainer-xadrez-estado';          // o que o app deixa para o lembrete (não é apagado nas atualizações)
 const ARQUIVOS = ['./', './index.html', './manifest.json', './icone-192.png', './icone-512.png', './icone-maskable-512.png', './apple-touch-icon.png', './privacidade.html', './config.js',
   // v51: motor e baús saíram do index.html; são guardados aqui para o jogo continuar funcionando sem internet
@@ -55,7 +55,7 @@ function decidir(st, agora) {
   if (st.ultimo === hoje || st.avisado === hoje) return null;     // já jogou hoje ou já foi lembrado
   if (agora.getHours() < 9 || agora.getHours() >= 21) return null; // não incomoda de madrugada
   const emRisco = st.ultimo === ontem && st.atual >= 2;
-  return { titulo: emRisco ? `Sua sequência de ${st.atual} dias` : 'Trainer de Xadrez',
+  return { titulo: emRisco ? `Sua sequência de ${st.atual} dias` : 'TrainerX',
     corpo: emRisco ? 'Jogue hoje para não perder a sequência!' : 'O desafio do dia já está esperando por você.', ir: 'diario' };
 }
 async function lembrar(soDecidir, hora) {
