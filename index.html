@@ -2485,7 +2485,48 @@ html[data-tema="escuro"]{--traco:var(--borda)}
 .cartao,html[data-tema="claro"] .cartao{border:2px solid var(--traco);border-radius:20px}
 .op{border:2px solid var(--traco)}
 .status-cx,.abas-rk,.lj-carta{border-width:2px;border-style:solid;border-color:var(--traco)}
-.jogador{border-width:2px}
+.jogador{border-width:2px}  
+.pecas-acab .pc svg,.pecas-acab .promo svg{stroke-width:3;filter:drop-shadow(0 2.5px 1.5px rgba(0,0,0,.35))}
+.pecas-acab .pc.w svg,.pecas-acab .promo svg.pcw{fill:url(#pg-w);stroke:#3a2a1c}
+.pecas-acab .pc.b svg,.pecas-acab .promo svg.pcb{fill:url(#pg-b);stroke:#0d0a08}
+.pecas-acab .pc.w .det{stroke:#5a4630}
+.pecas-acab .pc.b .det{stroke:#d9c6a5}
+.pecas-acab .pc.b .detf{fill:#d9c6a5}
+.moldura-tab{background:linear-gradient(135deg,#6b4221,#4a2c14 60%,#5e391b)}
+.status-cx:has(+ .lances-partida){border-bottom:0;border-bottom-left-radius:0;border-bottom-right-radius:0}
+.lances.lances-partida{display:flex;flex-wrap:wrap;align-content:flex-start;gap:2px 8px;max-height:104px;overflow-x:hidden;overflow-y:auto;margin-top:-8px;padding:6px 10px 8px;
+border-radius:0 0 14px 14px;background:var(--sup);border:2px solid var(--traco);border-top:1px solid rgba(127,127,127,.18);scrollbar-width:thin}
+.lances-partida .par{display:inline-flex;align-items:center;white-space:nowrap}
+.lances-partida .n{color:var(--txt2);font-weight:800;font-size:var(--t2);padding:4px 3px 4px 0}
+.lances-partida .l{padding:4px 6px;border-radius:8px;font-weight:900;font-size:var(--t2);color:var(--txt)}
+.lances-partida .l.atual{background:var(--ouro);color:var(--ouro-tinta)}
+.lances-partida .vazio{color:var(--txt2);font-size:var(--t1);padding:2px 0}
+.capt{height:22px}
+.capt svg{width:22px;height:22px;margin-right:-6px}
+.capt svg~em{background:var(--ouro);color:var(--ouro-tinta);border-radius:8px;padding:1px 7px;margin-left:10px}
+.moldura-tab .barra-av{background:#2b2724;border-color:#1a0f07}
+.moldura-tab .barra-av i{background:#fbf6ea}
+.moldura-tab .barra-av span{font-size:10px;font-weight:900}
+.jogador .relogio{font-size:24px}
+@media (min-width: 1000px) {
+.jogo,.jogo:has(.sem-barra){--tab:min(calc(100vh - 230px), calc(100vw - 520px), 760px)}
+.jogo .col-tab,.jogo:has(.sem-barra) .col-tab{width:auto;display:grid;grid-template-columns:calc(var(--tab) + 41px) 360px;grid-template-rows:auto 1fr auto;
+grid-template-areas:"cima status" "tab lances" "baixo controles";gap:10px 20px;align-items:stretch}
+.jogo:has(.sem-barra) .col-tab{grid-template-columns:calc(var(--tab) + 19px) 360px}
+.jogo #j-cima{grid-area:cima}
+.jogo .moldura-tab{grid-area:tab;align-self:start}
+.jogo #j-baixo{grid-area:baixo}
+.jogo .status-cx{grid-area:status;align-self:center;border-bottom:2px solid var(--traco);border-radius:14px}
+.jogo .lances.lances-partida{grid-area:lances;display:grid;grid-template-columns:38px 1fr 1fr;align-content:start;gap:2px 4px;max-height:none;margin-top:0;
+border-radius:14px;border-top:2px solid var(--traco);padding:10px;font-size:var(--t3)}
+.jogo .lances-partida .par{display:contents}
+.jogo .lances-partida .n{text-align:right;padding-right:6px}
+.jogo .lances-partida .vazio{grid-column:1/-1}
+.jogo .chat-painel{grid-area:lances;align-self:end;z-index:3;margin:0 8px 8px}
+.jogo .controles{grid-area:controles;margin-top:0;align-self:center}
+.jogo .controles .bt{max-width:none}
+}
+@media (max-width: 999px) and (max-height: 720px) { .lances.lances-partida{max-height:70px} }
 </style>
 </head>
 <body>
@@ -2781,6 +2822,9 @@ html[data-tema="escuro"]{--traco:var(--borda)}
       <path class="det" d="M50 35V60M33 68H67"/>
       <path d="M21 89Q21 78 32 78H68Q79 78 79 89Z"/>
     </symbol>
+    <!-- v60 (B6): luz e sombra das peças (brilho em cima à esquerda, sombra embaixo à direita) -->
+    <linearGradient id="pg-w" x1="0" y1="0" x2=".85" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#f6efe0"/><stop offset="1" stop-color="#cdbb9c"/></linearGradient>
+    <linearGradient id="pg-b" x1="0" y1="0" x2=".85" y2="1"><stop offset="0" stop-color="#6a5a4c"/><stop offset=".45" stop-color="#3a2f27"/><stop offset="1" stop-color="#1a1410"/></linearGradient>
     <!-- peças do estilo "Ícones" (tabuleiro da loja) -->
     <symbol id="pi-k" viewBox="0 0 100 100"><path d="M46 38.4Q46 38.2 46.1 38.1Q44.1 35.6 41.2 34Q37 31.6 32.5 31.6Q28 31.6 23.8 34Q19.5 36.3 17.1 40.6Q14.7 44.8 14.7 49.4Q14.7 54.1 17.1 58.3Q19.4 62.5 23.7 64.8Q24.9 65.6 26.3 66.1H46ZM54.1 66.1H73.7Q75.1 65.6 76.4 64.8Q80.6 62.5 83 58.3Q85.3 54.1 85.3 49.4Q85.3 44.8 82.9 40.6Q80.5 36.3 76.3 34Q72.1 31.6 67.5 31.6Q63.1 31.6 58.9 34Q55.9 35.6 53.9 38.1Q54 38.2 54.1 38.4ZM28.3 72V89.4H71.8V72ZM23.6 94V72Q21.1 71.2 19 70Q15 66.9 11.9 61.2Q8.8 55.6 8.8 49.4Q8.8 43.2 11.9 37.6Q15.1 31.9 20.8 28.9Q26.5 25.8 32.5 25.8Q37.1 25.8 41.4 27.6V27.5Q41.4 25.4 42.5 23.6Q43.5 21.8 45.3 20.8Q46.1 20.4 47 20.1V17H40.8V13H47V8H53V13H59.3V17H53V20.1Q54 20.4 54.7 20.8Q56.5 21.8 57.6 23.6Q58.6 25.4 58.6 27.5V27.6Q63 25.8 67.5 25.8Q73.5 25.8 79.2 28.9Q84.9 31.9 88.1 37.6Q91.2 43.2 91.2 49.4Q91.2 55.6 88.1 61.2Q85 66.9 81.1 70Q78.9 71.2 76.5 72V94ZM44.7 27.9Q44.7 29.4 45.4 30.6Q46.1 31.9 47.4 32.6Q48.7 33.3 50 33.3Q51.4 33.3 52.7 32.6Q54 31.9 54.7 30.6Q55.3 29.4 55.3 27.9Q55.3 26.6 54.7 25.3Q54 24 52.7 23.3Q51.4 22.7 50 22.7Q48.7 22.7 47.4 23.3Q46.1 24 45.4 25.3Q44.7 26.6 44.7 27.9ZM68.8 75V86.5H31.3V75ZM43.1 63.1H27Q26 62.7 25 62Q21.5 60.1 19.6 56.7Q17.7 53.2 17.7 49.3Q17.7 45.5 19.6 42Q21.6 38.5 25 36.5Q28.4 34.6 32.1 34.6Q35.7 34.6 39.2 36.5Q41.5 37.8 43.2 39.9Q43.1 40.1 43.1 40.2ZM57 40.2Q57 40.1 56.8 39.9Q58.5 37.8 60.9 36.5Q64.4 34.6 67.9 34.6Q71.6 34.6 75 36.5Q78.5 38.5 80.4 42Q82.4 45.5 82.4 49.3Q82.4 53.2 80.5 56.7Q78.6 60.1 75.1 62Q74 62.7 73 63.1H57Z"/></symbol>
     <symbol id="pi-q" viewBox="0 0 100 100"><path d="M16.4 35.4Q10.9 35.3 10.2 29.8Q10.2 28.2 11.1 26.8Q11.9 25.3 13.4 24.5Q15 23.7 16.7 23.7Q18.3 23.7 19.8 24.5Q21.4 25.3 22.2 26.8Q23 28.2 23 29.8Q22.8 33.5 19.5 34.8L33.2 63.9L30.2 23.5Q25.5 23.5 24.4 18.2Q24.4 16.6 25.3 15.1Q26.1 13.7 27.6 12.9Q29.1 12.1 30.9 12.1Q32.5 12.1 34 12.9Q35.6 13.7 36.4 15.1Q37.2 16.6 37.2 18.2Q37.1 20.8 34.5 22.7L45.3 65.7L47.8 18.6Q44 16.9 43.8 14.1Q43.8 12.5 44.7 11Q45.6 9.5 47.1 8.7Q48.6 8 50.2 8Q51.8 8 53.4 8.7Q54.9 9.5 55.7 11Q56.6 12.5 56.6 14.1Q56.4 17.2 52.6 18.6L54.8 65.8L65.4 23.3Q62.8 20.6 62.8 18.2Q62.8 16.6 63.6 15.2Q64.4 13.7 66 12.9Q67.5 12.1 69.1 12.1Q70.8 12.1 72.4 12.9Q73.9 13.7 74.7 15.2Q75.6 16.6 75.6 18.2Q74.9 23.1 70 24L64.7 63.9L79.5 34.3Q77 32.3 77 29.8Q77 28.2 77.9 26.8Q78.7 25.3 80.2 24.5Q81.7 23.8 83.3 23.8Q85.1 23.8 86.6 24.5Q88.1 25.3 88.9 26.8Q89.8 28.2 89.8 29.8Q89 35.2 83.3 35.2L74.1 61.9V94H24.6V61.9ZM70.9 73.5V69.1H29.1V73.5ZM70.9 90.7V86.1H29.1V90.7Z"/></symbol>
@@ -4668,10 +4712,10 @@ const Dados = {
       perfil: { nome: '', avatar: 'wn', moldura: '', conv: 'todos' },   // conv: quem pode convidar (todos, amigos, ninguem)
       moedas: 50, moedasTotal: 50,
       itens: {},                                             // itens comprados na loja: id -> 1
-      tabuleiro: 'classico',
+      tabuleiro: 'clube',                                    // v60: madeira clara é o padrão
       conquistas: {},                                        // id -> data em que foi desbloqueada
-      ajustes: { tema: 'marrom', som: true, vibrar: true, coords: true, pontos: true, efeitos: true },
-      extras: { dicas: 0, viradas: 0, salas: {}, zeradoEm: 0, flags: { xp2: 1, xp3: 1 } },
+      ajustes: { tema: 'marrom', som: true, vibrar: true, coords: true, pontos: true, efeitos: true, barra: true },   // barra: v61, barra de avaliação na partida
+      extras: { dicas: 0, viradas: 0, salas: {}, zeradoEm: 0, flags: { xp2: 1, xp3: 1, tab60: 1 } },
       livro: {},                                             // contagens de cada aparelho (moedas e partidas) — ver Livro
       sequencia: { atual: 0, melhor: 0, ultimo: '' },         // dias seguidos jogando
       missoes: null,                                         // missões do dia: {dia, lista, prog, pegas, bau}
@@ -4699,6 +4743,8 @@ const Dados = {
     if (!Object.keys(p.livro).length) Livro.migrar(p);
     if (!(o.extras && o.extras.flags && o.extras.flags.xp2)) { p.extras.flags = Object.assign({}, p.extras.flags); delete p.extras.flags.xp2; }   // dados de antes da curva nova
     if (!(o.extras && o.extras.flags && o.extras.flags.xp3)) { p.extras.flags = Object.assign({}, p.extras.flags); delete p.extras.flags.xp3; }   // v47: curva mais longa
+    // v60: o tabuleiro padrão passou a ser o "Clube" (madeira clara); quem estava no padrão antigo vai para o novo, uma vez só
+    if (!(o.extras && o.extras.flags && o.extras.flags.tab60)) { if (p.tabuleiro === 'classico') p.tabuleiro = 'clube'; p.extras.flags = Object.assign({}, p.extras.flags, { tab60: 1 }); }
     if (typeof XP !== 'undefined') XP.migrar(p);                       // curva de níveis nova (mantém as moedas já ganhas)
     // o peão e o cavalo pretos eram grátis: quem já usa um deles continua com ele
     if (['bp', 'bn'].includes(p.perfil.avatar)) p.itens['av-' + p.perfil.avatar] = 1;
@@ -4951,40 +4997,79 @@ const notaUnica = av => av.mate != null ? (av.mate > 0 ? 10000 - av.mate * 10 : 
 /* ==========================================================================
    SONS (sintetizados com Web Audio, sem arquivos) e vibração
    ========================================================================== */
+/* B8 (v62): sons próprios do TrainerX, feitos na hora (sem arquivos de áudio), em dois "materiais":
+   MADEIRA (peça batendo no tabuleiro) e OURO (sininhos e moedas). c = AudioContext, saida = nó de destino */
+function somNovo(c, tipo, saida) {
+  const agora = c.currentTime + 0.005;
+  const mestre = c.createGain(); mestre.gain.value = 0.9; mestre.connect(saida);
+  let ruidoBuf = null;
+  const ruido = () => {
+    if (ruidoBuf) return ruidoBuf;
+    const n = Math.floor(c.sampleRate * 0.25), b = c.createBuffer(1, n, c.sampleRate), d = b.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+    return (ruidoBuf = b);
+  };
+  // um senoide que some aos poucos (um "modo" de vibração do material)
+  const modo = (f, t, dec, vol, dest = mestre) => {
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = 'sine'; o.frequency.setValueAtTime(f, t);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.003); g.gain.exponentialRampToValueAtTime(0.0001, t + dec);
+    o.connect(g); g.connect(dest); o.start(t); o.stop(t + dec + 0.05);
+  };
+  // MADEIRA: estalo curto (ruído filtrado) + corpo da peça + "tum" do tabuleiro
+  const madeira = (t, esc = 1, vol = 0.5) => {
+    const s = c.createBufferSource(), bp = c.createBiquadFilter(), g = c.createGain();
+    s.buffer = ruido(); bp.type = 'bandpass'; bp.frequency.value = 2200 * esc; bp.Q.value = 1.2;
+    g.gain.setValueAtTime(vol * 0.9, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.018);
+    s.connect(bp); bp.connect(g); g.connect(mestre); s.start(t); s.stop(t + 0.03);
+    modo(610 * esc, t, 0.07, vol * 0.55); modo(1420 * esc, t, 0.045, vol * 0.28); modo(2360 * esc, t, 0.03, vol * 0.14);
+    modo(150 * esc, t, 0.09, vol * 0.45);
+  };
+  // OURO: sininho com parciais de metal (não harmônicos), que soa por mais tempo
+  const ouro = (t, f, dur = 0.9, vol = 0.16) => {
+    [[1, 1, 1], [2.01, 0.42, 0.62], [2.76, 0.3, 0.45], [4.07, 0.16, 0.3], [5.43, 0.09, 0.2]]
+      .forEach(([r, gv, dv]) => modo(f * r, t, dur * dv, vol * gv));
+  };
+  // brilho (chiado suave e agudo, como poeira de ouro)
+  const brilho = (t, dur = 0.6, vol = 0.05) => {
+    const s = c.createBufferSource(), hp = c.createBiquadFilter(), g = c.createGain();
+    s.buffer = ruido(); s.loop = true; hp.type = 'highpass'; hp.frequency.value = 7000;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.08); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    s.connect(hp); hp.connect(g); g.connect(mestre); s.start(t); s.stop(t + dur + 0.05);
+  };
+  const t = agora;
+  switch (tipo) {
+    case 'lance': madeira(t, 1, 0.5); break;
+    case 'captura': madeira(t, 0.82, 0.62); madeira(t + 0.06, 1.18, 0.3); break;
+    case 'roque': madeira(t, 1, 0.45); madeira(t + 0.12, 0.92, 0.45); break;
+    case 'xeque': madeira(t, 1, 0.5); ouro(t + 0.04, 1319, 0.7, 0.13); break;
+    case 'vitoria': case 'fim': [784, 988, 1175, 1568].forEach((f, i) => ouro(t + i * 0.1, f, 1.3, 0.13)); brilho(t + 0.3, 1.0, 0.04); break;
+    case 'derrota': madeira(t, 0.6, 0.45); madeira(t + 0.22, 0.5, 0.4); ouro(t + 0.42, 392, 1.1, 0.1); ouro(t + 0.42, 466, 1.1, 0.06); break;
+    case 'empate': madeira(t, 0.8, 0.4); ouro(t + 0.1, 659, 0.9, 0.1); ouro(t + 0.1, 988, 0.9, 0.07); break;
+    case 'erro': madeira(t, 0.5, 0.42); madeira(t + 0.11, 0.45, 0.32); break;
+    case 'acerto': ouro(t, 1175, 0.5, 0.13); ouro(t + 0.09, 1568, 0.7, 0.13); break;
+    case 'moeda': ouro(t, 2093, 0.28, 0.1); ouro(t + 0.06, 2637, 0.4, 0.1); break;
+    case 'bau': madeira(t, 0.42, 0.55); madeira(t + 0.05, 0.6, 0.2); break;                       // baú tremendo
+    case 'abre': madeira(t, 0.38, 0.5); [784, 1046, 1319, 1568].forEach((f, i) => ouro(t + 0.08 + i * 0.05, f, 0.8, 0.1)); brilho(t + 0.1, 0.7, 0.04); break;
+    case 'epico': [659, 784, 1046, 1319, 1568].forEach((f, i) => ouro(t + i * 0.07, f, 1.0, 0.11)); brilho(t + 0.1, 1.0, 0.05); break;
+    case 'lendario': [523, 659, 784, 1046, 1319, 1568].forEach((f, i) => ouro(t + i * 0.08, f, 1.2, 0.11)); [1046, 1319, 1568].forEach(f => ouro(t + 0.56, f, 1.8, 0.07)); brilho(t + 0.1, 1.6, 0.06); break;
+    case 'conquista': [1046, 1319, 1568, 2093].forEach((f, i) => ouro(t + i * 0.1, f, 1.0, 0.11)); brilho(t + 0.25, 0.8, 0.035); break;
+  }
+}
 const Som = {
-  ctx: null,
+  ctx: null, saida: null,
   desbloquear() {
     try {
-      if (!this.ctx) { const C = window.AudioContext || window.webkitAudioContext; if (C) this.ctx = new C(); }
+      if (!this.ctx) { const C = window.AudioContext || window.webkitAudioContext; if (C) { this.ctx = new C(); this.saida = this.ctx.destination; } }
       if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
     } catch (e) { this.ctx = null; }
   },
-  nota(freq, ini, dur, tipo = 'sine', vol = 0.18) {
-    const c = this.ctx, t = c.currentTime + ini, o = c.createOscillator(), g = c.createGain();
-    o.type = tipo; o.frequency.setValueAtTime(freq, t);
-    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.008); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + 0.02);
-  },
+  /* tipos: lance, captura, roque, xeque, vitoria (ou fim), empate, derrota, erro, acerto, moeda, conquista, bau, abre, epico, lendario */
   tocar(tipo) {
     if (!Dados.d || !Dados.d.ajustes.som) return;
     try {
       this.desbloquear(); if (!this.ctx) return;
-      const n = (f, i, d, t, v) => this.nota(f, i, d, t, v);
-      switch (tipo) {
-        case 'lance': n(420, 0, .07, 'triangle', .22); n(210, 0, .05, 'sine', .12); break;
-        case 'captura': n(300, 0, .1, 'triangle', .26); n(150, .01, .12, 'sine', .2); break;
-        case 'xeque': n(660, 0, .1, 'triangle', .16); n(880, .09, .14, 'triangle', .16); break;
-        case 'roque': n(420, 0, .06, 'triangle', .2); n(420, .09, .06, 'triangle', .2); break;
-        case 'fim': [523, 659, 784].forEach((f, i) => n(f, i * .12, .3, 'sine', .16)); break;
-        case 'erro': n(180, 0, .16, 'square', .07); break;
-        case 'acerto': n(784, 0, .12, 'sine', .16); n(1046, .1, .2, 'sine', .16); break;
-        case 'moeda': n(988, 0, .07, 'square', .06); n(1319, .07, .16, 'square', .06); break;
-        case 'bau': n(95, 0, .16, 'triangle', .3); n(140, .02, .1, 'sine', .14); break;            // baú tremendo
-        case 'abre': [392, 523, 659, 784].forEach((f, i) => n(f, i * .05, .22, 'triangle', .12)); n(1568, .22, .4, 'sine', .07); break;
-        case 'epico': [523, 659, 784, 1046, 1319].forEach((f, i) => n(f, i * .07, .4, 'sine', .12)); break;
-        case 'lendario': [523, 659, 784, 1046, 1319, 1568].forEach((f, i) => n(f, i * .08, .6, 'triangle', .12)); [1046, 1319, 1568].forEach(f => n(f, .55, .9, 'sine', .07)); break;
-        case 'conquista': [523, 659, 784, 1046].forEach((f, i) => n(f, i * .1, .28, 'triangle', .14)); break;
-      }
+      somNovo(this.ctx, tipo, this.saida || this.ctx.destination);
     } catch (e) { /* sem som neste aparelho */ }
   },
   /* som de acordo com o lance feito */
@@ -5013,7 +5098,12 @@ const TEMAS = [
   { id: 'marrom', nome: 'Marrom', cor: '#1e150e' }
 ];
 /* clara/escura aceitam cores ou gradientes; pecas (opcional) muda as cores das peças */
+/* v60 (B6): veio de madeira desenhado por um filtro SVG (sem imagem externa); fx/fy = direção do veio */
+const veioMadeira = (fx, fy, a, seed) => `url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27160%27 height=%27160%27%3E%3Cfilter id=%27f%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27${fx} ${fy}%27 numOctaves=%273%27 seed=%27${seed}%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.22 0 0 0 0 0.11 0 0 0 0 0.03 0 0 0 ${a} 0%27/%3E%3C/filter%3E%3Crect width=%27160%27 height=%27160%27 filter=%27url(%23f)%27/%3E%3C/svg%3E')`;
 const TABULEIROS = [
+  { id: 'clube', nome: 'Clube', preco: 0,
+    clara: `${veioMadeira(.012, .3, .5, 3)},linear-gradient(135deg,#f1d6a8,#e3bf8a)`,
+    escura: `${veioMadeira(.3, .012, .6, 7)},linear-gradient(135deg,#b67a45,#94602f)`, coordClara: '#94602f', coordEscura: '#f1d6a8' },
   { id: 'classico', nome: 'Clássico', preco: 0, clara: '#ebe6d6', escura: '#6b8f71' },
   { id: 'torneio', nome: 'Torneio', preco: 250, rar: 'comum', clara: '#dee3e6', escura: '#8ca2ad' },
   { id: 'madeira', nome: 'Madeira', preco: 250, rar: 'comum',
@@ -5059,6 +5149,7 @@ function aplicarVisual() {
   raiz.style.setProperty('--pw-f', p.wf || '#fbfaf4'); raiz.style.setProperty('--pw-s', p.ws || '#33363d'); raiz.style.setProperty('--pw-d', p.wd || '#33363d');
   raiz.style.setProperty('--pb-f', p.bf || '#3a3e47'); raiz.style.setProperty('--pb-s', p.bs || '#121418'); raiz.style.setProperty('--pb-d', p.bd || '#c7cdd8');
   trocarPecas(t.estilo === 'icones' ? 'pi' : 'pb');
+  raiz.classList.toggle('pecas-acab', !t.pecas);          // v60: luz e sombra nas peças com as cores normais
   raiz.classList.toggle('sem-coords', !a.coords);
   raiz.classList.toggle('sem-pontos', !a.pontos);
 }
@@ -6842,7 +6933,8 @@ const Ajustes = {
         ${chave('efeitos', 'Animações da partida', 'Peças explodindo nas capturas e balões de xeque, roque e mate')}
         ${chave('vibrar', 'Vibração', 'No celular, ao errar e ao ganhar conquistas')}
         ${chave('coords', 'Coordenadas', 'Letras e números nas bordas do tabuleiro')}
-        ${chave('pontos', 'Mostrar lances possíveis', 'Pontinhos nas casas para onde a peça pode ir')}</div>
+        ${chave('pontos', 'Mostrar lances possíveis', 'Pontinhos nas casas para onde a peça pode ir')}
+        ${chave('barra', 'Barra de avaliação', 'Na partida contra o computador, a barra ao lado do tabuleiro mostra quem está melhor')}</div>
       ${Notif.htmlAjuste()}
       <div class="cartao"><h3>Usar sem internet</h3><p class="sub" id="aj-inst-txt">${this.textoInstalar()}</p>
         <button class="bt pri cheio${pedidoInstalacao ? '' : ' oculto'}" id="aj-instalar" style="margin-top:10px">Instalar o aplicativo</button></div>
@@ -6856,7 +6948,7 @@ const Ajustes = {
     $('#aj-tema').onclick = e => { const b = e.target.closest('.op'); if (!b) return; a.tema = b.dataset.v; Dados.salvar(); aplicarVisual(); this.tela(); };
     $('#aj-tab').onclick = e => { const b = e.target.closest('[data-tab]'); if (!b) return; Dados.d.tabuleiro = b.dataset.tab; Dados.salvar(); aplicarVisual(); this.tela(); };
     $('#aj-loja').onclick = () => { Loja.aba = 'tab'; App.ir('loja'); };
-    ['som', 'vibrar', 'coords', 'pontos', 'efeitos'].forEach(k => { $('#aj-' + k).onchange = ev => { a[k] = ev.target.checked; Dados.salvar(); aplicarVisual(); if (k === 'som' && a.som) Som.tocar('acerto'); }; });
+    ['som', 'vibrar', 'coords', 'pontos', 'efeitos', 'barra'].forEach(k => { $('#aj-' + k).onchange = ev => { a[k] = ev.target.checked; Dados.salvar(); aplicarVisual(); if (k === 'som' && a.som) Som.tocar('acerto'); }; });
     $('#aj-instalar').onclick = async () => {
       if (!pedidoInstalacao) return;
       pedidoInstalacao.prompt();
@@ -8043,9 +8135,21 @@ function htmlLances(hist, atual, clicavel, classes) {
   }
   return h;
 }
+/* v61 (B7): lista de lances da partida em linhas que quebram, com o número e os dois lances sempre juntos */
+function htmlLancesPartida(hist) {
+  if (!hist.length) return '<div class="vazio">Os lances aparecem aqui.</div>';
+  let h = '';
+  for (let i = 0; i < hist.length; i += 2) {
+    h += `<span class="par"><span class="n">${i / 2 + 1}.</span>`;
+    for (let k = i; k < Math.min(i + 2, hist.length); k++) h += `<span class="l${k === hist.length - 1 ? ' atual' : ''}">${sanPt(hist[k])}</span>`;
+    h += '</span>';
+  }
+  return h;
+}
 /* rola só a caixa da lista de lances (e não a página inteira — isso fazia a tela "pular" no celular) */
 function rolarLista(cx) {
   if (!cx) return; const at = $('.atual', cx);
+  if (cx.classList.contains('lances-partida')) { cx.scrollTop = cx.scrollHeight; return; }   // o último lance fica sempre à vista
   if (cx.classList.contains('fila-lances')) {          // lista deitada (na partida): rola para o lado
     if (!at) { cx.scrollLeft = cx.scrollWidth; return; }
     cx.scrollLeft = at.offsetLeft - cx.offsetLeft - cx.clientWidth / 2 + at.offsetWidth / 2; return;
@@ -8226,17 +8330,18 @@ const Partida = {
       : this.modo === 'local'
         ? btn('b-desfazer', 'desfazer', 'Desfazer') + btn('b-virar', 'virar', 'Virar') + btn('b-empate', 'empate', 'Empate') + btn('b-desistir', 'desistir', 'Desistir') + btn('b-nova', 'nova', 'Nova')
         : btn('b-voltar', 'desfazer', 'Voltar') + btn('b-virar', 'virar', 'Virar') + btn('b-empate', 'empate', 'Empate') + btn('b-desistir', 'desistir', 'Desistir') + btn('b-sair', 'sair', 'Sair');
+    const comBarra = this.modo === 'pc' && d.ajustes.barra !== false;   // v61: a barra de avaliação pode ser desligada nos Ajustes
     $('#tela').innerHTML = `<div class="jogo">
       <div class="col-tab">
         <div class="jogador" id="j-cima"><span class="foto"></span><span class="nome"></span><span class="relogio${this.relogio ? '' : ' oculto'}"></span></div>
-        <div class="moldura-tab"><div class="tab-linha" id="tab-linha">${this.modo === 'pc' ? '<div class="barra-av" id="barra"><i></i><span></span></div>' : ''}</div></div>
+        <div class="moldura-tab"><div class="tab-linha" id="tab-linha">${comBarra ? '<div class="barra-av" id="barra"><i></i><span></span></div>' : ''}</div></div>
         <div class="jogador" id="j-baixo"><span class="foto"></span><span class="nome"></span>${this.modo === 'online' ? Chat.botao() : ''}<span class="relogio${this.relogio ? '' : ' oculto'}"></span></div>
         ${this.modo === 'online' ? Chat.painel() : ''}
         <div class="status-cx"><div class="status" id="status"></div><div class="sub" id="motor-rot"></div></div>
-        <div class="lances fila-lances" id="lances" aria-label="Lances da partida"></div>
+        <div class="lances lances-partida" id="lances" aria-label="Lances da partida"></div>
         <div class="controles${this.treino || this.modo !== 'pc' ? '' : ' c4'}">${controles}</div>
       </div></div>`;
-    $('#tab-linha').classList.toggle('sem-barra', this.modo !== 'pc');
+    $('#tab-linha').classList.toggle('sem-barra', !comBarra);
     this.tab = new Tabuleiro($('#tab-linha'), {
       alvos: casa => this.alvos(casa),
       promocao: (de, para) => { const p = this.g.get(de); return !!p && p.type === 'p' && (para[1] === '8' || para[1] === '1'); },
@@ -8301,7 +8406,7 @@ const Partida = {
   },
   pintar() {
     const g = this.g, hist = g.history();
-    $('#lances').innerHTML = htmlLances(hist, hist.length - 1, false);
+    $('#lances').innerHTML = htmlLancesPartida(hist);
     rolarLista($('#lances'));
     const cima = outraCor(this.tab.ori), baixo = this.tab.ori, n = this.nomes(), cap = capturas(g);
     const vez = this.modo === 'online' && this.sala ? ((this.sala.lances || []).length % 2 ? 'b' : 'w') : g.turn();
@@ -8423,7 +8528,7 @@ const Partida = {
     if (!this.fim) { this.salvarAndamento(); this.pedirAvaliacao(); }
   },
   async pedirAvaliacao() {
-    if (this.modo !== 'pc') return;
+    if (this.modo !== 'pc' || !$('#barra')) return;      // sem a barra (desligada nos Ajustes) o motor não precisa avaliar
     const ficha = this.ficha, vez = this.g.turn();
     const r = await Motor.analisar(this.g.fen(), { depth: 11, movetime: 350, profSimples: 2 });
     if (!r || ficha !== this.ficha) return;
@@ -8535,7 +8640,8 @@ const Partida = {
     else titulo = vencedor == null ? 'Empate' : vencedor === this.cor ? 'Você venceu!' : 'Você perdeu';
     this.textoFim = `<b>${titulo}</b> — ${motivo}.`;
     this.tab.limparSelecao(); this.pintar();
-    Som.tocar('fim'); vibrar(80);
+    // v62 (B8): um som para cada resultado (no jogo com amigo no mesmo aparelho, quem ganhou comemora)
+    Som.tocar(vencedor == null ? 'empate' : this.modo === 'local' || vencedor === this.cor ? 'vitoria' : 'derrota'); vibrar(80);
     fecharDica();
     const base = { lances, cor: this.cor, nivel: this.nivel, vencedor, motivo, titulo, modo: this.modo, treino: this.treino, foto: Conquistas.foto() };
     Conquistas.pausa = true;                       // os avisos de conquista aparecem juntos na tela de fim
@@ -12522,7 +12628,7 @@ const AjustesDev = {
     const p = d.perfil;
     if (feito['av-' + p.avatar] < 0 && !d.itens['av-' + p.avatar]) { p.avatar = 'wn'; mudou = true; }
     if (p.moldura && feito['mold-' + p.moldura] < 0 && !d.itens['mold-' + p.moldura]) { p.moldura = ''; mudou = true; }
-    if (feito['tab-' + d.tabuleiro] < 0 && !d.itens['tab-' + d.tabuleiro]) { d.tabuleiro = 'classico'; mudou = true; }
+    if (feito['tab-' + d.tabuleiro] < 0 && !d.itens['tab-' + d.tabuleiro]) { d.tabuleiro = 'clube'; mudou = true; }
     return mudou;
   },
   /* conta para o jogador o que mudou (uma vez só) */
