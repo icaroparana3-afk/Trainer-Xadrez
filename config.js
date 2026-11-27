@@ -1,6 +1,6 @@
 // Configuração do Firebase (contas e partidas online)
-// v52: endereço do servidor do TrainerX (Cloudflare). Vazio = o jogo funciona como antes.
-window.SERVIDOR_URL = '';
+// v55: endereço do servidor do TrainerX (Cloudflare). Vazio = o jogo funciona como antes.
+window.SERVIDOR_URL = 'https://trainerx-servidor.icaroparana3.workers.dev';
 
 window.FIREBASE_CONFIG = {
   apiKey: "AIzaSyAE2wk3RQAVuy9cIkMiQZpwCJhK2k_n2Uw",
